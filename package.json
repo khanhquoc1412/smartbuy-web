@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "pinia": "2.0",
+    "vue": "3.2",
+    "vue-router": "4.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "eslint": "8.5",
+    "postcss": "^8.5.6",
+    "prettier": "2.5",
+    "tailwindcss": "3.1",
+    "vite-svg-loader": "^5.1.0"
+  }
+}
