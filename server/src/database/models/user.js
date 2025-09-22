@@ -1,83 +1,76 @@
-'use strict';
-const { Model } = require('sequelize');
-const { hashPassword } = require('../../utils');
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      this.hasMany(models.Cart, {
-        foreignKey: 'userId',
-        as: 'carts'
-      })
-    }
-  }
-  User.init({
-    id: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-    },
+const mongoose = require("mongoose");
+const { hashPassword } = require("../../utils"); // vẫn dùng hàm hashPassword của bạn
+
+const UserSchema = new mongoose.Schema(
+  {
     userName: {
-      type: DataTypes.STRING,
-      defaultValue: "username",
+      type: String,
+      default: "username",
     },
     email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isEmail: true,
-      },
+      type: String,
+      required: true,
+      unique: true,
+      match: [/^\S+@\S+\.\S+$/, "Email không hợp lệ"],
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      min: 6,
+      type: String,
+      required: true,
+      minlength: 6,
     },
     avatarUrl: {
-      type: DataTypes.STRING,
-      defaultValue: null,
+      type: String,
+      default: null,
     },
     isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      type: Boolean,
+      default: false,
     },
     isVerified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      type: Boolean,
+      default: false,
     },
     isBlocked: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      type: Boolean,
+      default: false,
     },
     refreshToken: {
-      type: DataTypes.STRING,
-      defaultValue: null,
+      type: String,
+      default: null,
     },
     verifiedDate: {
-      type: DataTypes.DATE,
-      defaultValue: null,
+      type: Date,
+      default: null,
     },
     verificationToken: {
-      type: DataTypes.STRING,
-      defaultValue: null,
+      type: String,
+      default: null,
     },
     passwordToken: {
-      type: DataTypes.STRING,
-      defaultValue: null,
+      type: String,
+      default: null,
     },
     passwordTokenExpire: {
-      type: DataTypes.DATE,
-      defaultValue: null,
+      type: Date,
+      default: null,
     },
-  }, {
-    hooks: {
-      beforeCreate: async (user, options) => {
-        user.password = await hashPassword(user.password);
-      },
-    },
-    sequelize,
-    timestamps: true,
-    modelName: 'User',
-  });
-  return User;
-};
+  },
+  { timestamps: true } // tự động thêm createdAt & updatedAt
+);
+
+// 🔹 Hash password trước khi lưu
+UserSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await hashPassword(this.password);
+  }
+  next();
+});
+
+// 🔹 Quan hệ với Cart (1 user có nhiều cart)
+UserSchema.virtual("carts", {
+  ref: "Cart",
+  localField: "_id",
+  foreignField: "userId",
+});
+
+module.exports = mongoose.model("User", UserSchema);

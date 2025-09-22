@@ -1,28 +1,27 @@
 require("dotenv").config();
+
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'mysql',
-    logging: false
+    url: process.env.DB_URL || "mongodb://localhost:27017/smartbuy_db",
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
   },
   test: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'mysql',
+    url: process.env.DB_TEST_URL || "mongodb://localhost:27017/smartbuy_db_test",
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
   },
   production: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'mysql',
+    url:
+      process.env.DB_PROD_URL ||
+      "mongodb+srv://user:pass@cluster.mongodb.net/smartbuy_db?retryWrites=true&w=majority",
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
   },
 };
