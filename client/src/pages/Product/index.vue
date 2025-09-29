@@ -113,8 +113,8 @@ const categoryList: ICategory[] = [
     },
     {
         id: 2,
-        title: 'Laptop',
-        pathName: 'laptop'
+        title: 'Phụ Kiện',
+        pathName: 'headphone'
     },
 ]
 const route = useRoute()

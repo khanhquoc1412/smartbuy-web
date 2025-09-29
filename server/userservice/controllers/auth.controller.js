@@ -1,6 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const User = require("../models/user");
- // Đúng path
+// Đúng path
 const {
   comparePassword,
   jwtCreate,
@@ -116,18 +116,60 @@ const login = async (req, res) => {
   }
 };
 
+// const loginSuccess = async (req, res) => {
+//   // Cho social login
+//   try {
+//     const { userId } = req.body; // userId từ params hoặc body sau redirect
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       throw new NotFoundError("Tài khoản chưa được đăng ký");
+//     }
+
+//     const { accessToken, refreshToken } = jwtCreate(user._id);
+
+//     // Update refreshToken
+//     user.refreshToken = refreshToken;
+//     await user.save();
+
+//     res.status(StatusCodes.OK).json({
+//       accessToken,
+//       refreshToken,
+//       user: {
+//         id: user._id,
+//         username: user.userName,
+//         email: user.email,
+//         isBlocked: user.isBlocked,
+//         avatarUrl: user.avatarUrl,
+//         isVerified: user.isVerified,
+//         isAdmin: user.isAdmin,
+//       },
+//       message: ReasonPhrases.OK,
+//       status: StatusCodes.OK,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     if (error instanceof NotFoundError) {
+//       return res.status(StatusCodes.NOT_FOUND).json({
+//         message: error.message,
+//         status: error.statusCode,
+//       });
+//     }
+//     return res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Lỗi server",
+//       status: StatusCodes.BAD_REQUEST,
+//     });
+//   }
+// };
 const loginSuccess = async (req, res) => {
-  // Cho social login
   try {
-    const { userId } = req.body; // userId từ params hoặc body sau redirect
-    const user = await User.findById(userId);
+    const { userId } = req.body; // ✅ lấy từ body
+    const user = await User.findById(userId); // ✅ lấy từ params// ✅ Passport gắn user vào đây
     if (!user) {
-      throw new NotFoundError("Tài khoản chưa được đăng ký");
+      throw new NotFoundError("Không tìm thấy tài khoản sau khi đăng nhập");
     }
 
     const { accessToken, refreshToken } = jwtCreate(user._id);
 
-    // Update refreshToken
     user.refreshToken = refreshToken;
     await user.save();
 

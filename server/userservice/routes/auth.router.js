@@ -17,7 +17,6 @@ router.post("/login", authValidation.login, authController.login);
 console.log("registerValidation:", authValidation.register);
 console.log("authController.register:", authController.register);
 
-
 // Refresh token
 router.post("/refresh-token", authController.refreshToken);
 

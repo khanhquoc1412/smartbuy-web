@@ -5,6 +5,7 @@ import { storeToRefs } from "pinia";
 import { useStorage } from "@vueuse/core";
 import { ILoginBody, IRegisterBody } from "@/types/auth.types";
 
+
 export const useAuth = () => {
     const router = useRouter();
     const { start, finish } = useLoading();
@@ -91,11 +92,12 @@ export const useAuth = () => {
         }
     }
 
-    const signOut = () => {
-        accessToken.value = null;
-        userId.value = null;
-        router.push("/login");
-    };
+  const signOut = () => {
+    accessToken.value = null;
+    userId.value = null;
+    router.push("/login");
+};
+
 
     const {
         data: forgotPasswordData,

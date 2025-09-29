@@ -45,58 +45,66 @@ interface ICategories {
   name: string;
   image: string;
 }
-
 const categories: ICategories[] = [
   {
-    name: "Phones",
+    name: "Điện thoại",
     image: cellPhoneSvg,
-  },
-  {
-    name: "Computer",
-    image: computerSvg,
-  },
-  {
-    name: "SmartWatch",
-    image: watchSvg,
-  },
-  {
-    name: "Camera",
-    image: cameraSvg,
-  },
-  {
+  },{
     name: "HeadPhones",
     image: headPhoneSvg,
-  },
-  {
-    name: "Gaming",
-    image: gamePadSvg,
-  },
-  {
-    name: "Phones",
-    image: cellPhoneSvg,
-  },
-  {
-    name: "Computer",
-    image: computerSvg,
-  },
-  {
-    name: "SmartWatch",
-    image: watchSvg,
-  },
-  {
-    name: "Camera",
-    image: cameraSvg,
-  },
-  {
-    name: "HeadPhones",
-    image: headPhoneSvg,
-  },
-  {
-    name: "Gaming",
-    image: gamePadSvg,
   },
 ];
-</script>
+// const categories: ICategories[] = [
+//   {
+//     name: "Phones",
+//     image: cellPhoneSvg,
+//   },
+//   {
+//     name: "Computer",
+//     image: computerSvg,
+//   },
+//   {
+//     name: "SmartWatch",
+//     image: watchSvg,
+//   },
+//   {
+//     name: "Camera",
+//     image: cameraSvg,
+//   },
+//   {
+//     name: "HeadPhones",
+//     image: headPhoneSvg,
+//   },
+//   {
+//     name: "Gaming",
+//     image: gamePadSvg,
+//   },
+//   {
+//     name: "Phones",
+//     image: cellPhoneSvg,
+//   },
+//   {
+//     name: "Computer",
+//     image: computerSvg,
+//   },
+//   {
+//     name: "SmartWatch",
+//     image: watchSvg,
+//   },
+//   {
+//     name: "Camera",
+//     image: cameraSvg,
+//   },
+//   {
+//     name: "HeadPhones",
+//     image: headPhoneSvg,
+//   },
+//   {
+//     name: "Gaming",
+//     image: gamePadSvg,
+//   },
+// ];
+// </script>
 
 <script lang="ts">
 import { defineComponent } from "vue";

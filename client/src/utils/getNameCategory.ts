@@ -7,8 +7,8 @@ export const getNameCategory = (value?: string): string => {
         case 'laptop':
             name = 'Laptop'
             break
-        case 'smartwatch':
-            name = 'Đồng hồ'
+        case 'headphone':
+            name = 'Phụ kiện'
             break
         case 'camera':
             name = 'Máy ảnh'

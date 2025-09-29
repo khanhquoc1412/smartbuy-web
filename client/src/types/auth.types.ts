@@ -8,7 +8,7 @@ export interface ILoginBody {
 export interface ILoginResponse {
   accessToken: string,
   refreshToken: string,
-  user: IUser
+  user: IUser 
   message: string,
   status: number
 }

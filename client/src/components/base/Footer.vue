@@ -1,5 +1,7 @@
 <template>
-  <footer class="app-footer tw-bg-black tw-py-10 lg:tw-pt-20  lg:tw-pb-6 tw-text-gray-400">
+  <footer
+    class="app-footer tw-bg-black tw-py-10 lg:tw-pt-20 lg:tw-pb-6 tw-text-gray-400"
+  >
     <Container>
       <div
         class="footer-main tw-border-b tw-border-gray-500 tw-pb-3 tw-flex tw-flex-col tw-gap-5 lg:tw-flex-row tw-justify-between"
@@ -15,13 +17,17 @@
               placeholder="Nhập email của bạn"
               class="tw-border tw-p-2 tw-outline-none tw-border-gray-300 tw-rounded-sm tw-bg-white tw-text-black"
             />
-            <input type="submit" class="tw-cursor-pointer tw-underline tw-self-start tw-p-2 tw-text-white tw-font-bold" value="Send">
-          </form> 
+            <input
+              type="submit"
+              class="tw-cursor-pointer tw-underline tw-self-start tw-p-2 tw-text-white tw-font-bold"
+              value="Send"
+            />
+          </form>
         </div>
         <div class="footer-col tw-flex tw-flex-col tw-gap-4">
           <div class="item title tw-font-bold">Hỗ trợ</div>
           <div class="item text">x2-Giao Long - Giao Thuy - Nam Dinh.</div>
-          <div class="item text">dinhtranuty@gmail.com</div>
+          <div class="item text">khanhquoc1412@gmail.com</div>
           <div class="item text">+8436-999-9999</div>
         </div>
         <div class="footer-col tw-flex tw-flex-col tw-gap-4">
@@ -42,16 +48,16 @@
         <div class="footer-col tw-flex tw-flex-col tw-gap-4">
           <div class="item title tw-font-bold">Thông tin thanh toán</div>
           <div class="box-payment tw-flex tw-gap-3">
-            <img :src="masterCardPng" class="tw-h-8" alt="">
-            <img :src="paypalPng" class="tw-h-8" alt="">
-            <img :src="visaPng" class="tw-h-8" alt="">
+            <img :src="masterCardPng" class="tw-h-8" alt="" />
+            <img :src="paypalPng" class="tw-h-8" alt="" />
+            <img :src="visaPng" class="tw-h-8" alt="" />
           </div>
           <div class="item tw-font-bold">Liên hệ</div>
-          <div class="box-social">Email: dinhtranuty@gmail.com</div>
+          <div class="box-social">Email: khanhquoc1412@gmail.com</div>
         </div>
       </div>
       <div class="footer-bottom tw-flex tw-justify-center tw-pt-2 tw-text-sm">
-        <span> C. Copyright Dinhuty2023 </span>
+        <span> C. Copyright 2023 </span>
       </div>
     </Container>
   </footer>
@@ -59,17 +65,16 @@
 
 <script lang="ts" setup>
 import Container from "./Container.vue";
-import logo from "@/assets/svg/logo.svg";
-import paypalPng from "@/assets/images/payments/paypal.png"
-import visaPng from "@/assets/images/payments/visa.png"
-import masterCardPng from "@/assets/images/payments/master_card.png"
-
+import logo from "@/assets/svg/logo7.svg";
+import paypalPng from "@/assets/images/payments/paypal.png";
+import visaPng from "@/assets/images/payments/visa.png";
+import masterCardPng from "@/assets/images/payments/master_card.png";
 </script>
 
 <script lang="ts">
 export default {
-  name: "Footer"
-}
+  name: "Footer",
+};
 </script>
 
 <style lang="scss" scoped>

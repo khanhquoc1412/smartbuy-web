@@ -1,7 +1,10 @@
 <template>
   <div class="app-product-detail tw-flex tw-flex-col tw-gap-3 tw-pb-5">
-    <BreadScrumb v-if="product" :name-page="(product?.name as string)"
-      :sub-navs="[{ name: getNameCategory(product?.categoryName) as string, path: `/category/${product?.categoryName?.toLowerCase()}` }]" />
+    <BreadScrumb
+      v-if="product"
+      :name-page="(product?.name as string)"
+      :sub-navs="[{ name: getNameCategory(product?.categoryName) as string, path: `/category/${product?.categoryName?.toLowerCase()}` }]"
+    />
     <Container class="tw-flex tw-gap-4 tw-flex-col">
       <div class="product-title">
         <p>
@@ -11,14 +14,28 @@
       </div>
       <div class="product-main">
         <div class="product-swiper">
-          <swiper :spaceBetween="10" :pagination="true" :navigation="true" :thumbs="{ swiper: thumbsSwiper }"
-            :modules="modules" class="swiper-view">
+          <swiper
+            :spaceBetween="10"
+            :pagination="true"
+            :navigation="true"
+            :thumbs="{ swiper: thumbsSwiper }"
+            :modules="modules"
+            class="swiper-view"
+          >
             <swiper-slide class="swiper-img" v-for="image in product?.images">
               <img :src="image.imageUrl" :alt="image.name" />
             </swiper-slide>
           </swiper>
-          <swiper @swiper="setThumbsSwiper" :navigation="true" :spaceBetween="10" :slidesPerView="8" :freeMode="true"
-            :watchSlidesProgress="true" :modules="modules" class="swiper-slider">
+          <swiper
+            @swiper="setThumbsSwiper"
+            :navigation="true"
+            :spaceBetween="10"
+            :slidesPerView="8"
+            :freeMode="true"
+            :watchSlidesProgress="true"
+            :modules="modules"
+            class="swiper-slider"
+          >
             <swiper-slide class="swiper-img" v-for="image in product?.images">
               <img :src="image.imageUrl" :alt="image.name" />
             </swiper-slide>
@@ -49,19 +66,29 @@
           <div class="product-options">
             <div class="option-specs">
               <div class="title">Cấu hình:</div>
-              <div v-for="memory in getListVariant(product?.productVariants as IProductVariant[]).memoriesArray"
-                :key="memory.id" :class="[
-                  productSelected?.memoryId === memory.id ? 'active' : '', 'spec hover:tw-opacity-60 tw-transition-all',
-                ]" @click="handleUpdateProductSelected(0, memory.id)">
+              <div
+                v-for="memory in getListVariant(product?.productVariants as IProductVariant[]).memoriesArray"
+                :key="memory.id"
+                :class="[
+                  productSelected?.memoryId === memory.id ? 'active' : '',
+                  'spec hover:tw-opacity-60 tw-transition-all',
+                ]"
+                @click="handleUpdateProductSelected(0, memory.id)"
+              >
                 {{ memory.ram }}/{{ memory.rom }}
               </div>
             </div>
             <div class="option-colors">
               <h3 class="title">Màu sắc:</h3>
-              <div v-for="color in getListVariant(product?.productVariants as IProductVariant[]).colorsArray"
-                :key="color.id" :class="[
-                  productSelected?.colorId === color.id ? 'active' : '', 'color hover:tw-opacity-60  tw-transition-all',
-                ]" @click="handleUpdateProductSelected(color.id)">
+              <div
+                v-for="color in getListVariant(product?.productVariants as IProductVariant[]).colorsArray"
+                :key="color.id"
+                :class="[
+                  productSelected?.colorId === color.id ? 'active' : '',
+                  'color hover:tw-opacity-60  tw-transition-all',
+                ]"
+                @click="handleUpdateProductSelected(color.id)"
+              >
                 {{ color.name }}
               </div>
             </div>
@@ -69,7 +96,8 @@
               {{
                 getStockByVariant(productSelected?.colorId as number, productSelected.memoryId as number,
                   product?.productVariants)
-              }} sản phẩm có sẵn
+              }}
+              sản phẩm có sẵn
             </span>
           </div>
           <div class="product-benefit">
@@ -79,31 +107,29 @@
             <div class="desc-coupon">
               <ul>
                 <li>
-                  <img :src="checkIcon" alt="">
+                  <img :src="checkIcon" alt="" />
+                  <span> Tặng phiếu mua hàng trị giá 500k </span>
+                </li>
+                <li>
+                  <img :src="checkIcon" alt="" />
                   <span>
-                    Tặng phiếu mua hàng trị giá 500k
+                    Trả góp tới 12 tháng không lãi suất, trả trước 0 đồng với
+                    VNPay.
                   </span>
                 </li>
                 <li>
-                  <img :src="checkIcon" alt="">
-                  <span>
-                    Trả góp tới 12 tháng không lãi suất, trả trước 0 đồng với VNPay.
-                  </span>
-                </li>
-                <li>
-                  <img :src="checkIcon" alt="">
+                  <img :src="checkIcon" alt="" />
                   <img
                     src="https://cdn2.cellphones.com.vn/insecure/rs:fill:70:0/q:80/plain/https://cellphones.com.vn/media/wysiwyg/momo_1.png"
-                    alt="">
+                    alt=""
+                  />
                   <span>
                     Giảm thêm 2% tối đa 800.000đ khi thanh toán qua MoMo
                   </span>
                 </li>
                 <li>
-                  <img :src="checkIcon" alt="">
-                  <span>
-                    Tặng phiếu mua hàng trị giá 500k
-                  </span>
+                  <img :src="checkIcon" alt="" />
+                  <span> Tặng phiếu mua hàng trị giá 500k </span>
                 </li>
               </ul>
             </div>
@@ -113,10 +139,8 @@
               Mua ngay
             </div>
             <div class="btn-add" v-if="!isAddLoading" @click="handleAddToCart">
-              <img :src="cartColorIcon" alt="">
-              <span>
-                Thêm vào giỏ hàng
-              </span>
+              <img :src="cartColorIcon" alt="" />
+              <span> Thêm vào giỏ hàng </span>
             </div>
             <div class="btn-add disable" v-else>
               <!-- <img :src="cartColorIcon" alt="">
@@ -130,16 +154,17 @@
             <h3 class="title">Thanh toán:</h3>
             <ul>
               <li>
-                <img :src="payIcon" alt="">
+                <img :src="payIcon" alt="" />
                 <span>
-                  Ưu đãi Youtube Premium dành cho chủ sở hữu Samsung Galaxy (Áp dụng một số sản phẩm)
+                  Ưu đãi Youtube Premium dành cho chủ sở hữu Samsung Galaxy (Áp
+                  dụng một số sản phẩm)
                 </span>
               </li>
               <li>
-                <img :src="payIcon" alt="">
+                <img :src="payIcon" alt="" />
                 <span>
-                  Giảm ngay 150.000đ khi mua kèm SIM số đẹp Vinaphone Happy - Ưu đãi 2GB Data/ngày - Miễn phí 1000 phút
-                  nội mạng.
+                  Giảm ngay 150.000đ khi mua kèm SIM số đẹp Vinaphone Happy - Ưu
+                  đãi 2GB Data/ngày - Miễn phí 1000 phút nội mạng.
                 </span>
               </li>
             </ul>
@@ -164,53 +189,73 @@
         </div>
       </div>
       <div class="product-similar tw-flex tw-gap-5 tw-flex-col">
-        <Heading toptitle="Sản phẩm" title="Sản phẩm tương tự" :allowViewAll="true" />
+        <Heading
+          toptitle="Sản phẩm"
+          title="Sản phẩm tương tự"
+          :allowViewAll="true"
+        />
         <div class="list-product">
-          <swiper :modules="modules" :slides-per-view="4.5" :navigation="true" :space-between="24" id="swiper-slider"
-            :breakpoints="breakpoints">
-            <swiper-slide class="swiper-item" v-for="product in products" :key="product.id">
+          <swiper
+            :modules="modules"
+            :slides-per-view="4.5"
+            :navigation="true"
+            :space-between="24"
+            id="swiper-slider"
+            :breakpoints="breakpoints"
+          >
+            <swiper-slide
+              class="swiper-item"
+              v-for="product in products"
+              :key="product.id"
+            >
               <ProductItem :product="product" :path="product.slug" />
             </swiper-slide>
           </swiper>
         </div>
       </div>
     </Container>
-
   </div>
 </template>
-  
+
 <script lang="ts" setup>
 import Container from "@components/base/Container.vue";
 import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import checkIcon from "@assets/svg/check.svg"
-import payIcon from "@assets/svg/payIcon.svg"
-import cartColorIcon from "@assets/svg/cart-color.svg"
-import LoadIcon from "@components/common/LoadIcon.vue"
+import checkIcon from "@assets/svg/check.svg";
+import payIcon from "@assets/svg/payIcon.svg";
+import cartColorIcon from "@assets/svg/cart-color.svg";
+import LoadIcon from "@components/common/LoadIcon.vue";
 import { FreeMode, Navigation, Thumbs, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { SwiperModule, SwiperOptions, Swiper as SwiperClass } from "swiper/types";
-import { breakpoints } from "@utils/breackpoints"
+import {
+  SwiperModule,
+  SwiperOptions,
+  Swiper as SwiperClass,
+} from "swiper/types";
+import { breakpoints } from "@utils/breackpoints";
 import ProductItem from "@/components/product/ProductItem.vue";
 import Heading from "@/components/base/Heading.vue";
 import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";
 import { formatMoney } from "@/utils/formatMoney";
 import { getNameCategory } from "@/utils/getNameCategory";
-import { getListVariant } from "@/utils/product/getListVariant"
-import { getPriceByVariant, getStockByVariant } from "@/utils/product/getPriceByVariant"
+import { getListVariant } from "@/utils/product/getListVariant";
+import {
+  getPriceByVariant,
+  getStockByVariant,
+} from "@/utils/product/getPriceByVariant";
 import { IProductVariant } from "@/types/product.types";
 import { useAuth } from "@/composables/useAuth";
-import { useCart } from "@/composables/useCart"
+import { useCart } from "@/composables/useCart";
 import { useStorage } from "@vueuse/core";
 import { PRODUCT_GUEST } from "@/utils/constants";
 interface IProductSelected {
-  id: string | null,
-  variantId?: number | null
-  colorId?: number | null,
-  memoryId?: number | null
+  id: string | null;
+  variantId?: number | null;
+  colorId?: number | null;
+  memoryId?: number | null;
 }
 const thumbsSwiper = ref<any>(null);
 
@@ -222,16 +267,16 @@ const modules: SwiperModule[] = [FreeMode, Navigation, Thumbs, Pagination];
 const {
   params: { slug },
 } = useRoute();
-const router = useRouter()
-const { userId, loggedIn } = useAuth()
-const { addToCart, isAddLoading, isAddError } = useCart()
-const { data: product, isFetching } = useGetProductDetails(slug as string)
-const { data: products } = useListProductsSale(10)
+const router = useRouter();
+const { userId, loggedIn } = useAuth();
+const { addToCart, isAddLoading, isAddError } = useCart();
+const { data: product, isFetching } = useGetProductDetails(slug as string);
+const { data: products } = useListProductsSale(10);
 const productSelected = reactive<IProductSelected>({
   id: null,
   colorId: null,
-  memoryId: null
-})
+  memoryId: null,
+});
 
 const setProductSelectedValues = () => {
   if (product.value?.productVariants) {
@@ -242,51 +287,52 @@ const setProductSelectedValues = () => {
 };
 const handleUpdateProductSelected = (colorId?: number, memoryId?: number) => {
   if (colorId) {
-    productSelected.colorId = colorId
+    productSelected.colorId = colorId;
   }
   if (memoryId) {
-    productSelected.memoryId = memoryId
+    productSelected.memoryId = memoryId;
   }
-}
+};
 const handleAddToCart = async () => {
   if (!loggedIn.value) {
-    router.push("/login")
+    router.push("/login");
   }
   if (product.value?.productVariants) {
     const variant = product.value?.productVariants?.find((variant) => {
-      return (variant.color?.id === productSelected.colorId &&
+      return (
+        variant.color?.id === productSelected.colorId &&
         variant.memory?.id === productSelected.memoryId
-      )
-    })
+      );
+    });
     if (variant?.id) {
-      await addToCart({ userId: userId.value, productVariantId: variant?.id })
+      await addToCart({ userId: userId.value, productVariantId: variant?.id });
     }
   } else {
-    alert("Error ..")
+    alert("Error ..");
   }
-}
+};
 const handleBuyNow = async () => {
   if (userId) {
-    await handleAddToCart()
-    router.push("/cart")
-
+    await handleAddToCart();
+    router.push("/cart");
   } else {
     const productForBuy = useStorage(PRODUCT_GUEST, "");
     if (product.value?.productVariants) {
       const variant = product.value?.productVariants?.find((variant) => {
-        return (variant.color?.id === productSelected.colorId &&
+        return (
+          variant.color?.id === productSelected.colorId &&
           variant.memory?.id === productSelected.memoryId
-        )
-      })
+        );
+      });
       if (variant?.id) {
-        productForBuy.value = (variant?.id).toString()
-        router.push('/cart/checkout')
+        productForBuy.value = (variant?.id).toString();
+        router.push("/cart/checkout");
       }
     } else {
-      alert("Error ..")
+      alert("Error ..");
     }
   }
-}
+};
 onMounted(() => {
   setProductSelectedValues();
 });
@@ -294,16 +340,14 @@ onMounted(() => {
 watch(product, () => {
   setProductSelectedValues();
 });
-
 </script>
 <route lang="yaml">
-  name: iPhone 15 Pro Max
-  meta:
-    layout: "default"
+name: iPhone 15 Pro Max
+meta:
+  layout: "default"
 </route>
 <style lang="scss">
 .app-product-detail {
-
   .product-title {
     font-size: 20px;
     font-weight: 600;
@@ -357,7 +401,6 @@ watch(product, () => {
         &:hover {
           color: red !important;
           background-color: rgba(255, 255, 255, 0.326);
-
         }
       }
 
@@ -381,7 +424,6 @@ watch(product, () => {
 
         .swiper-slide {
           background-color: $white;
-
         }
 
         // width: 100%;
@@ -390,7 +432,6 @@ watch(product, () => {
         //     display: flex;
         //     justify-content: center !important;
         // }
-
 
         .swiper-img {
           cursor: pointer;
@@ -410,7 +451,6 @@ watch(product, () => {
 
         .swiper-slide-thumb-active {
           border: 1px solid $red;
-
         }
       }
     }
@@ -500,7 +540,6 @@ watch(product, () => {
           &.active {
             border: 2px solid $red;
             background-color: rgba(255, 0, 0, 0.035);
-
           }
         }
       }
@@ -527,7 +566,6 @@ watch(product, () => {
           &.active {
             border: 2px solid $red;
             background-color: rgba(255, 0, 0, 0.035);
-
           }
 
           // &.active::after {
@@ -582,7 +620,6 @@ watch(product, () => {
             align-items: center;
 
             img {
-
               height: 13px;
               width: 13px;
 
@@ -614,7 +651,6 @@ watch(product, () => {
           font-size: 14px;
 
           img {
-
             height: 13px;
             width: 13px;
 
@@ -653,7 +689,7 @@ watch(product, () => {
         cursor: pointer;
         padding: 5px;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        background-color: rgba(254, 1, 1, 0.060);
+        background-color: rgba(254, 1, 1, 0.06);
         border-radius: 4px;
         display: flex;
         flex-direction: column;
@@ -663,17 +699,16 @@ watch(product, () => {
         gap: 5px;
         width: 140px;
         height: 58px;
-        transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+        transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
         &.disable {
-          opacity: .5;
+          opacity: 0.5;
         }
 
         span {
           color: red;
           font-size: 13px;
           font-weight: 500;
-
         }
 
         img {
@@ -741,7 +776,6 @@ watch(product, () => {
               display: inline-block;
               width: 140px;
               white-space: normal;
-
             }
 
             div {
@@ -780,7 +814,6 @@ watch(product, () => {
       }
     }
   }
-
 
   .product-similar {
     .swiper {

@@ -1,47 +1,60 @@
 <template>
-  <div class="app-header tw-bg-red  tw-fixed tw-w-full" :class="{ 'app-header-scrolled': isScrolled }">
+  <div
+    class="app-header tw-bg-red tw-fixed tw-w-full"
+    :class="{ 'app-header-scrolled': isScrolled }"
+  >
     <Container class="container tw-transition-all tw-h-20">
-      <header class="tw-w-full tw-flex tw-justify-between tw-h-full tw-items-center tw-gap-9">
-        <div class="header-left tw-h-full tw-transition-all tw-flex tw-justify-center tw-items-center">
-          <router-link to="/" class="header-logo tw-transition-all tw-h-12 tw-w-auto">
+      <header
+        class="tw-w-full tw-flex tw-justify-between tw-h-full tw-items-center tw-gap-9"
+      >
+        <div
+          class="header-left tw-h-full tw-transition-all tw-flex tw-justify-center tw-items-center"
+        >
+          <router-link
+            to="/"
+            class="header-logo tw-transition-all tw-h-12 tw-w-auto"
+          >
             <img :src="Logo" alt="" class="tw-w-auto tw-h-full" />
           </router-link>
         </div>
         <form class="header-search tw-flex-1" @submit.prevent="handleSearch">
-          <input type="text" placeholder="Tìm kiếm sản phẩm" v-model="keyword"
-            class="tw-h-11 tw-rounded tw-transition-all tw-w-full tw-px-3 focus:tw-border-none" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm sản phẩm"
+            v-model="keyword"
+            class="tw-h-11 tw-rounded tw-transition-all tw-w-full tw-px-3 focus:tw-border-none"
+          />
         </form>
         <div class="header-right">
           <div class="header-item tw-h-full tw-flex tw-gap-2">
-            <div class="header-right-box tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white">
+            <div
+              class="header-right-box tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white"
+            >
               <div class="box-icon">
                 <font-awesome-icon icon="headset" />
               </div>
               <div class="box-text tw-flex tw-flex-col tw-font-normal">
-                <span>
-                  Hotline
-                </span>
-                <span>
-                  1900.9999
-                </span>
+                <span> Hotline </span>
+                <span> 1900.9999 </span>
               </div>
             </div>
-            <router-link to="/cart"
-              class="header-right-box tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white">
+            <router-link
+              to="/cart"
+              class="header-right-box tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white"
+            >
               <div class="box-icon">
                 <font-awesome-icon icon="cart-plus" />
               </div>
               <div class="box-text tw-flex tw-flex-col tw-font-normal">
-                <span>
-                  Giỏ
-                </span>
-                <span>
-                  hàng
-                </span>
+                <span> Giỏ </span>
+                <span> hàng </span>
               </div>
             </router-link>
-            <router-link v-if="loggedIn" to="/account"
-              class="header-right-box header-right-box__login tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white">
+            <router-link
+              v-if="loggedIn"
+              to="/account"
+              class="header-right-box header-right-box__login tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white"
+            >
               <div class="box-icon">
                 <font-awesome-icon icon="fa-regular fa-user" />
               </div>
@@ -50,8 +63,11 @@
                 <span> khoản </span>
               </div>
             </router-link>
-            <router-link v-else to="/login"
-              class="header-right-box header-right-box__login tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white">
+            <router-link
+              v-else
+              to="/login"
+              class="header-right-box header-right-box__login tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white"
+            >
               <div class="box-icon">
                 <font-awesome-icon icon="fa-regular fa-user" />
               </div>
@@ -66,25 +82,25 @@
     </Container>
   </div>
 </template>
-  
+
 <script lang="ts" setup>
 import Container from "@components/base/Container.vue";
-import Logo from "@assets/svg/logo.svg";
+import Logo from "@assets/svg/logo6.svg";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { ICategory, IHeaderItem } from "@/types/category.types";
-import { useAuth } from '@composables/useAuth'
-import { useCart } from '@composables/useCart'
+import { useAuth } from "@composables/useAuth";
+import { useCart } from "@composables/useCart";
 
 const { loggedIn, user } = useAuth();
-const { totalItem } = useCart()
-const router = useRouter()
-const keyword = ref<string>('')
+const { totalItem } = useCart();
+const router = useRouter();
+const keyword = ref<string>("");
 const isScrolled = ref(false);
 const handleSearch = () => {
-  router.push(`/search/${keyword.value}`)
-}
+  router.push(`/search/${keyword.value}`);
+};
 </script>
-  
+
 <style scoped lang="scss">
 .app-header {
   z-index: 9999;
@@ -116,7 +132,7 @@ const handleSearch = () => {
 
       &:hover,
       &__login {
-        background-color: hsla(0, 0%, 100%, .2);
+        background-color: hsla(0, 0%, 100%, 0.2);
         border-radius: 8px;
       }
     }
@@ -150,7 +166,7 @@ const handleSearch = () => {
 
           &:hover,
           &__login {
-            background-color: hsla(0, 0%, 100%, .2);
+            background-color: hsla(0, 0%, 100%, 0.2);
             border-radius: 8px;
           }
         }

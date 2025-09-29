@@ -16,7 +16,7 @@ router.beforeEach(async (from, to, next) => {
 });
 
 router.afterEach((to) => {
-  const defaultDocumentTitle = "DSHOP";
+  const defaultDocumentTitle = "SMARTBUY";
   if (to.name) {
     document.title = `${String(to.name)} | ${defaultDocumentTitle}`;
   } else {
