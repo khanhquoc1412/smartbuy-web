@@ -50,7 +50,7 @@
             </div>
             <div class="sold">Đã bán: 125</div>
           </div>
-          <div class="product-price tw-flex tw-gap-4 tw-items-center">
+          <!-- <div class="product-price tw-flex tw-gap-4 tw-items-center">
             <span class="base-price">
               {{ formatMoney(getPriceByVariant(productSelected?.colorId as number, productSelected.memoryId as number,
                 product?.productVariants, product?.basePrice)) }}
@@ -62,7 +62,33 @@
               {{ formatMoney(getPriceByVariant(productSelected?.colorId as number, productSelected.memoryId as number,
                 product?.productVariants, product?.basePrice) * (100 + (product?.discountPercentage as number)) / 100) }}
             </span>
+          </div> -->
+          <div class="product-price tw-flex tw-gap-4 tw-items-center">
+            <!-- Giá gốc (bị gạch ngang) -->
+            <span class="disc-price tw-text-gray-500 tw-line-through">
+              {{ formatMoney(
+      getPriceByVariant(
+        productSelected?.colorId as number,
+        productSelected?.memoryId as number,
+        product?.productVariants,
+        product?.basePrice
+      )
+    ) }}
+            </span>
+
+            <!-- Giá sau giảm (màu đỏ) -->
+            <span class="base-price tw-text-red tw-font-medium">
+              {{ formatMoney(
+      getPriceByVariant(
+        productSelected?.colorId as number,
+        productSelected?.memoryId as number,
+        product?.productVariants,
+        product?.basePrice
+      ) * (1 - (product?.discountPercentage as number) / 100)
+    ) }}
+            </span>
           </div>
+
           <div class="product-options">
             <div class="option-specs">
               <div class="title">Cấu hình:</div>
@@ -238,7 +264,10 @@ import {
 import { breakpoints } from "@utils/breackpoints";
 import ProductItem from "@/components/product/ProductItem.vue";
 import Heading from "@/components/base/Heading.vue";
-import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";
+// // Thay dòng này
+// import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";
+import { useGetProductDetails, useListProductsSale } from "@/api/product/query";
+import { useAddProductToCartMutation } from "@/api/cart/query";
 import { formatMoney } from "@/utils/formatMoney";
 import { getNameCategory } from "@/utils/getNameCategory";
 import { getListVariant } from "@/utils/product/getListVariant";
@@ -284,6 +313,11 @@ const setProductSelectedValues = () => {
     productSelected.colorId = product.value.productVariants[0]?.color?.id;
     productSelected.memoryId = product.value.productVariants[0]?.memory?.id;
   }
+};
+const swiperRef = ref<any>(null);
+
+const onSwiperInit = (swiper: any) => {
+  swiperRef.value = swiper;
 };
 const handleUpdateProductSelected = (colorId?: number, memoryId?: number) => {
   if (colorId) {
@@ -833,3 +867,5 @@ meta:
   }
 }
 </style>
+
+
