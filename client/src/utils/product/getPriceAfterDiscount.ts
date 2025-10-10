@@ -6,6 +6,6 @@ export const getRealPrice = (price: number, discountPercentage: number): number 
     const discountPercentagePrice =
         (price * discountPercentage) / 100;
 
-    return price + discountPercentagePrice
+    return price - discountPercentagePrice
 }
 

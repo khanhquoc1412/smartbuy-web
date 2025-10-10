@@ -50,35 +50,6 @@ const seed = async () => {
     const samsung = await Brand.create({ name: "Samsung" });
     const dell = await Brand.create({ name: "Dell" });
 
-    // Tạo colors
-    const colors = await Color.insertMany([
-      { name: "Đen", code: "den" },
-      { name: "Trắng", code: "trang" },
-      { name: "Xanh dương", code: "xanh-duong" },
-      { name: "Hồng", code: "hong" },
-      { name: "Tím", code: "tim" },
-    ]);
-
-    // Tạo memories
-    const memories = await Memory.insertMany([
-      { ram: "4GB", rom: "64GB", chipset: "Snapdragon 680" },
-      { ram: "6GB", rom: "128GB", chipset: "Snapdragon 778G" },
-      { ram: "8GB", rom: "256GB", chipset: "Snapdragon 8 Gen 1" },
-      { ram: "12GB", rom: "512GB", chipset: "Apple A16 Bionic" },
-      { ram: "16GB", rom: "1TB", chipset: "Apple A17 Pro" },
-    ]);
-
-    // Tạo sản phẩm iPhone 15
-    const iphone15 = await Product.create({
-      name: "iPhone 15",
-      description: "Điện thoại iPhone 15 mới nhất",
-      thumbUrl: "/src/assets/images/ip15.jpg",
-      discountPercentage: 5,
-      slug: slugify("iPhone 15", { lower: true }),
-      basePrice: 25000000,
-      brand: apple._id,
-      category: phoneCategory._id,
-    });
 
     // Tạo sản phẩm Galaxy S24
     const galaxyS24 = await Product.create({
@@ -91,6 +62,8 @@ const seed = async () => {
       brand: samsung._id,
       category: phoneCategory._id,
     });
+
+    
 
     // Tạo sản phẩm Dell XPS 13
     const dellXPS = await Product.create({
@@ -220,71 +193,178 @@ const seed = async () => {
       },
     ]);
 
-    // Gán specification cho Galaxy S24
-    await ProductSpecification.insertMany([
+    // Tạo màu sắc
+    const colors = await Color.insertMany([
+      { name: "Đen", code: "#000000" },
+      { name: "Trắng", code: "#FFFFFF" },
+      { name: "Xanh", code: "#0000FF" },
+      { name: "Hồng", code: "#FFC0CB" },
+    ]);
+
+    // Tạo bộ nhớ
+    const memories = await Memory.insertMany([
+      { ram: "6GB", rom: "128GB", chipset: "Apple A16 Bionic" },
+      { ram: "6GB", rom: "256GB", chipset: "Apple A16 Bionic" },
+      { ram: "8GB", rom: "512GB", chipset: "Apple A16 Bionic" },
+    ]);
+
+    // Tạo biến thể sản phẩm
+    const variants = await ProductVariant.insertMany([
       {
-        productId: galaxyS24._id,
-        specsId: specs[0]._id,
-        specValue: "6.2 inch Dynamic AMOLED",
+        productId: iphone15._id,
+        colorId: colors[0]._id, // Đen
+        memoryId: memories[0]._id, // 6GB/128GB
+        price: 25000000,
+        stock: 50,
       },
       {
-        productId: galaxyS24._id,
-        specsId: specs[1]._id,
-        specValue: "50MP + 12MP + 10MP",
+        productId: iphone15._id,
+        colorId: colors[0]._id, // Đen
+        memoryId: memories[1]._id, // 6GB/256GB
+        price: 28000000,
+        stock: 30,
       },
       {
-        productId: galaxyS24._id,
-        specsId: specs[2]._id,
-        specValue: "Snapdragon 8 Gen 3",
+        productId: iphone15._id,
+        colorId: colors[1]._id, // Trắng
+        memoryId: memories[0]._id, // 6GB/128GB
+        price: 25000000,
+        stock: 45,
       },
       {
-        productId: galaxyS24._id,
-        specsId: specs[3]._id,
-        specValue: "8GB RAM + 256GB",
+        productId: iphone15._id,
+        colorId: colors[1]._id, // Trắng
+        memoryId: memories[1]._id, // 6GB/256GB
+        price: 28000000,
+        stock: 35,
       },
       {
-        productId: galaxyS24._id,
-        specsId: specs[4]._id,
-        specValue: "4000 mAh",
+        productId: iphone15._id,
+        colorId: colors[2]._id, // Xanh
+        memoryId: memories[0]._id, // 6GB/128GB
+        price: 25000000,
+        stock: 40,
       },
       {
-        productId: galaxyS24._id,
-        specsId: specs[5]._id,
-        specValue: "Android 14",
+        productId: iphone15._id,
+        colorId: colors[3]._id, // Hồng
+        memoryId: memories[0]._id, // 6GB/128GB
+        price: 25000000,
+        stock: 25,
+      },
+      {
+        productId: iphone15._id,
+        colorId: colors[3]._id, // Hồng
+        memoryId: memories[1]._id, // 6GB/256GB
+        price: 28000000,
+        stock: 20,
       },
     ]);
 
-    // Gán specification cho Dell XPS 13
-    await ProductSpecification.insertMany([
+    // Tạo hình ảnh sản phẩm với đường dẫn local và liên kết với màu sắc
+    await ProductImage.insertMany([
+      // Ảnh iPhone màu đen
       {
-        productId: dellXPS._id,
-        specsId: specs[0]._id,
-        specValue: "13.4 inch FHD+",
+        productId: iphone15._id,
+        colorId: colors[0]._id, // Đen
+        name: "iPhone 15 Đen - Mặt trước",
+        imageUrl: "/src/assets/images/ip15.jpg",
+        originalName: "iphone15.jpg",
+        fileSize: 1024,
       },
       {
-        productId: dellXPS._id,
-        specsId: specs[2]._id,
-        specValue: "Intel Core i7-1355U",
+        productId: iphone15._id,
+        colorId: colors[0]._id, // Đen
+        name: "iPhone 15 Đen - Mặt sau",
+        imageUrl: "/src/assets/images/ip15_back.jpg",
+        originalName: "iphone15_back.jpg",
+        fileSize: 1024,
       },
       {
-        productId: dellXPS._id,
-        specsId: specs[3]._id,
-        specValue: "16GB RAM + 512GB SSD",
+        productId: iphone15._id,
+        colorId: colors[0]._id, // Đen
+        name: "iPhone 15 Đen - Cạnh bên",
+        imageUrl: "/src/assets/images/ip15_ben.jpg",
+        originalName: "iphone15_ben.jpg",
+        fileSize: 1024,
+      },
+      
+      // Ảnh iPhone màu trắng
+      {
+        productId: iphone15._id,
+        colorId: colors[1]._id, // Trắng
+        name: "iPhone 15 Trắng - Mặt trước",
+        imageUrl: "/src/assets/images/ip15_trang_truoc1.jpg",
+        originalName: "ip15_trang_truoc1.jpg",
+        fileSize: 1024,
       },
       {
-        productId: dellXPS._id,
-        specsId: specs[6]._id,
-        specValue: "1.2kg",
+        productId: iphone15._id,
+        colorId: colors[1]._id, // Trắng
+        name: "iPhone 15 Trắng - Mặt sau",
+        imageUrl: "/src/assets/images/ip15_trang_sau.jpg",
+        originalName: "ip15_trang_sau.jpg",
+        fileSize: 1024,
       },
       {
-        productId: dellXPS._id,
-        specsId: specs[7]._id,
-        specValue: "Intel Iris Xe",
+        productId: iphone15._id,
+        colorId: colors[1]._id, // Trắng
+        name: "iPhone 15 Trắng - Cạnh bên",
+        imageUrl: "/src/assets/images/ip15_trang_ben.jpg",
+        originalName: "ip15_trang_ben.jpg",
+        fileSize: 1024,
+      },
+      
+      // Ảnh iPhone màu xanh
+      {
+        productId: iphone15._id,
+        colorId: colors[2]._id, // Xanh
+        name: "iPhone 15 Xanh - Mặt trước",
+        imageUrl: "/src/assets/images/ip15_xanh_truoc.jpg",
+        originalName: "ip15_xanh_truoc.jpg",
+        fileSize: 1024,
       },
       {
-        productId: dellXPS._id,
-        specsId: specs[5]._id,
-        specValue: "Windows 11",
+        productId: iphone15._id,
+        colorId: colors[2]._id, // Xanh
+        name: "iPhone 15 Xanh - Mặt sau",
+        imageUrl: "/src/assets/images/ip15_xanh_sau.jpg",
+        originalName: "ip15_xanh_sau.jpg",
+        fileSize: 1024,
+      },
+      {
+        productId: iphone15._id,
+        colorId: colors[2]._id, // Xanh
+        name: "iPhone 15 Xanh - Cạnh bên",
+        imageUrl: "/src/assets/images/ip15_xanh_ben.jpg",
+        originalName: "ip15_xanh_ben.jpg",
+        fileSize: 1024,
+      },
+      
+      // Ảnh iPhone màu hồng
+      {
+        productId: iphone15._id,
+        colorId: colors[3]._id, // Hồng
+        name: "iPhone 15 Hồng - Mặt trước",
+        imageUrl: "/src/assets/images/ip15_hong_truoc.jpg",
+        originalName: "ip15_hong_truoc.jpg",
+        fileSize: 1024,
+      },
+      {
+        productId: iphone15._id,
+        colorId: colors[3]._id, // Hồng
+        name: "iPhone 15 Hồng - Mặt sau",
+        imageUrl: "/src/assets/images/ip15_hong_sau1.jpg",
+        originalName: "ip15_hong_sau1.jpg",
+        fileSize: 1024,
+      },
+      {
+        productId: iphone15._id,
+        colorId: colors[3]._id, // Hồng
+        name: "iPhone 15 Hồng - Cạnh bên",
+        imageUrl: "/src/assets/images/ip15_hong_ben.jpg",
+        originalName: "ip15_hong_ben.jpg",
+        fileSize: 1024,
       },
     ]);
 

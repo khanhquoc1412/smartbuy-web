@@ -21,7 +21,7 @@ app.use('/api/colors', require('./routes/colors'));
 app.get('/', (req, res) => res.json({ success: true, message: 'Product Service OK' }));
 
 const PORT = process.env.PORT || 5002;
-connectDB(process.env.MONGODB_URI || 'mongodb://localhost:27017/products_phone_shop').then(() => {
+connectDB(process.env.MONGODB_URI || 'mongodb://localhost:27017/smartbuy_db_product').then(() => {
   app.listen(PORT, () => console.log(`🚀 product-service listening on ${PORT}`));
 });
 
