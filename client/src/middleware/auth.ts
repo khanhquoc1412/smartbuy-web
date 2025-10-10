@@ -11,16 +11,25 @@ export const auth = async (
 ) => {
     const { getUserInfo } = useAuthStore();
 
-    if (from.meta.requiresAuth) {
+    const requiresAuth = Boolean(from.meta.requiresAuth)
+    const adminOnly = Boolean(from.meta.adminOnly)
+
+    if (requiresAuth) {
         const access_token = localStorage.getItem(ACCESS_TOKEN_KEY);
         const userId = localStorage.getItem(USER_ID);
         if (access_token && userId) {
             try {
                 const user = await getUserInfo(userId);
 
-                if (user) {
-                    next();
+                if (!user) return next(`/login?redirect=${to.path}`)
+
+                if (adminOnly) {
+                    // accept both boolean and string flags
+                    const isAdmin = (user as any).isAdmin === true || (user as any).isAdmin === 'true' || (user as any).role === 'admin'
+                    if (!isAdmin) return next('/')
                 }
+
+                return next();
             } catch (error) {
                 localStorage.removeItem(ACCESS_TOKEN_KEY);
                 console.log("Lỗi get")

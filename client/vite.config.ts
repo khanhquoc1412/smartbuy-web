@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from "unplugin-auto-import/vite";
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
+import vuetify from 'vite-plugin-vuetify'
 
 
 // https://vitejs.dev/config/
@@ -24,6 +25,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vuetify({ autoImport: true }),
     Pages(),
     Layouts({
       defaultLayout: 'default'

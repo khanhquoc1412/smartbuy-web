@@ -23,7 +23,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <router-link class="sidebar-item tw-flex tw-gap-1" :to="item.path" v-for="item in sidebarItems"
+                            <router-link class="sidebar-item tw-flex tw-gap-1" :to="item.path" v-for="item in sidebarItemsWithAdmin"
                                 :key="item.value">
                                 <img class="tw-h-6 tw-w-6" :src="item.icon" :alt="item.value">
                                 <span>{{ item.title }}</span>
@@ -109,6 +109,19 @@ const sidebarItems = ref<ISideBarItem[]>([
     },
 ]);
 const { user } = useAuth()
+const isAdmin = computed(() => (user.value as any)?.isAdmin === true || (user.value as any)?.isAdmin === 'true' || (user.value as any)?.role === 'admin')
+const sidebarItemsWithAdmin = computed<ISideBarItem[]>(() => {
+    const base = [...sidebarItems.value]
+    if (isAdmin.value) {
+        base.push({
+            value: 'admin-page',
+            icon: bagSvg,
+            title: 'Trang quản lý',
+            path: '/admin'
+        })
+    }
+    return base
+})
 const router = useRouter();
 const activeModalSignOut = ref<boolean>(false)
 const activeModal = () => {

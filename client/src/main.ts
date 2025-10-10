@@ -8,6 +8,8 @@ import { createPinia } from "pinia";
 import mitt from "mitt";
 import axios from "axios";
 import interceptors from "./plugins/axios/interceptors";
+import vuetify from './plugins/vuetify'
+import '@mdi/font/css/materialdesignicons.css'
 
 // Taiwind Css
 import "@/assets/css/index.css"
@@ -34,6 +36,7 @@ app.provide("emitter", emitter);
 app.use(pinia)
 app.use(VueQueryPlugin)
 app.use(router)
+app.use(vuetify)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
 
