@@ -36,8 +36,13 @@ const jwtVerify = (accessToken) => {
     return jwt.verify(accessToken, process.env.ACCESS_TOKEN_PRIVATE_KEY);
 };
 
+const jwtVerifyRefreshToken = (refreshToken) => {
+    return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_PRIVATE_KEY);
+};
+
 module.exports = {
     jwtCreate,
     jwtVerify,
+    jwtVerifyRefreshToken,
     jwtDecodeToken
 }

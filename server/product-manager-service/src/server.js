@@ -18,6 +18,8 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/brands', require('./routes/brands'));
 app.use('/api/colors', require('./routes/colors'));
+app.use('/api/memories', require('./routes/memories'));
+app.use('/api/specifications', require('./routes/specifications'));
 app.get('/', (req, res) => res.json({ success: true, message: 'Product Service OK' }));
 
 const PORT = process.env.PORT || 5002;

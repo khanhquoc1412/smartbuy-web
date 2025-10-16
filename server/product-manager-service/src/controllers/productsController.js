@@ -35,7 +35,7 @@ exports.list = async (req, res) => {
       // Lookup product variants để tính tổng stock
       {
         $lookup: {
-          from: 'productVariants',
+          from: 'productvariants',
           let: { productId: '$_id' },
           pipeline: [
             {

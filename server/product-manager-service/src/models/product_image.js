@@ -22,6 +22,11 @@ const productImageSchema = new mongoose.Schema({
     ref: "Product",
     required: true,
   },
+  colorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Color",
+    default: null,
+  },
 }, {
   timestamps: true,
 });

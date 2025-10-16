@@ -59,6 +59,7 @@ export default defineConfig({
                         @import "@/assets/scss/_variables.scss";
         `,
         quietDeps: true,
+        silenceDeprecations: ['legacy-js-api', 'import'],
       },
     },
   },

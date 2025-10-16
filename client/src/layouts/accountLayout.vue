@@ -60,6 +60,7 @@ import Container from "@components/base/Container.vue";
 import Header from "@/components/base/Header.vue"
 import Footer from "@/components/base/Footer.vue";
 import bagSvg from "@assets/svg/account/bag.svg"
+import admin from "@assets/svg/account/admin.png"
 import clockSvg from "@assets/svg/account/clock.svg"
 import heartSvg from "@assets/svg/account/heart.svg"
 import logoutSvg from "@assets/svg/account/logout.svg"
@@ -115,7 +116,7 @@ const sidebarItemsWithAdmin = computed<ISideBarItem[]>(() => {
     if (isAdmin.value) {
         base.push({
             value: 'admin-page',
-            icon: bagSvg,
+            icon: admin,
             title: 'Trang quản lý',
             path: '/admin'
         })

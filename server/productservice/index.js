@@ -8,11 +8,15 @@ connectDB(); // Gọi hàm kết nối database
 
 const app = express();
 
-// ✅ Bật CORS cho frontend (http://localhost:5173)
+// ✅ Bật CORS cho frontend (http://localhost:5173) VÀ API Gateway (http://localhost:3000)
 app.use(cors({
-  origin: "http://localhost:5173", // chỉ cho phép frontend này
+  origin: [
+    "http://localhost:5173",  // Client
+    "http://localhost:3000"   // API Gateway
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 
 app.use(express.json());

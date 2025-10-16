@@ -12,10 +12,6 @@ const colorSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    description: {
-      type: String,
-      default: null,
-    },
   },
   {
     timestamps: true,

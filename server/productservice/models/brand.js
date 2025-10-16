@@ -23,7 +23,7 @@ const mongoose = require("mongoose");
 
 const BrandSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  nameAscii: { type: String }, // 👈 thêm dòng này
+  // nameAscii: { type: String }, // 👈 thêm dòng này
   createdAt: { type: Date, default: Date.now },
 });
 

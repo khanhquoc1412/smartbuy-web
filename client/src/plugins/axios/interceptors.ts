@@ -33,24 +33,38 @@ export default function interceptors(axios: AxiosInstance) {
   axios.interceptors.response.use(
     (response: AxiosResponse) => response.data,
     async (error: AxiosError) => {
-      const originalConfig = error.config;
+      const originalConfig = error.config as AxiosOriginalRequestConfig;
 
       if (error.response) {
-        if (error.response.status === 401) {
+        if (error.response.status === 401 && !originalConfig?._retry) {
+          originalConfig._retry = true; // 🔥 Đánh dấu đã retry để tránh loop vô tận
+          
           const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
           const userId = localStorage.getItem(USER_ID);
+          
           try {
             const res = await getNewToken(refreshToken as string, userId as string)
             const newAccessToken = res.accessToken
+            
             if (originalConfig?.headers) {
               localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
               originalConfig.headers["authorization"] = `Bearer ${newAccessToken}`;
             }
+            
             if (originalConfig) {
               return axios(originalConfig)
             }
           } catch (error) {
-            // redirectLogin
+            // ❌ Refresh token thất bại -> Đăng xuất người dùng
+            localStorage.removeItem(ACCESS_TOKEN_KEY);
+            localStorage.removeItem(REFRESH_TOKEN_KEY);
+            localStorage.removeItem(USER_ID);
+            
+            // Redirect về trang login
+            if (typeof window !== 'undefined') {
+              window.location.href = '/login';
+            }
+            
             return Promise.reject(error);
           }
         }

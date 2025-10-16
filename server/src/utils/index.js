@@ -5,6 +5,7 @@ const {
 const {
     jwtCreate,
     jwtVerify,
+    jwtVerifyRefreshToken,
     jwtDecodeToken
 } = require('./jwt')
 
@@ -17,6 +18,7 @@ module.exports = {
     comparePassword,
     jwtCreate,
     jwtVerify,
+    jwtVerifyRefreshToken,
     jwtDecodeToken,
     createCryptoString
 }

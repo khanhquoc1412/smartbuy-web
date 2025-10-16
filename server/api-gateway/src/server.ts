@@ -25,11 +25,13 @@ app.get('/health', (_req, res) => {
 app.get('/api/info', (_req, res) => {
   res.json({
     success: true,
-    message: 'Mobile Shop API Gateway',
+    message: 'Smartbuy API Gateway',
     version: '1.0.0',
     services: {
-      user: process.env.USER_SERVICE_URL || 'http://localhost:5001',
-      product: process.env.PRODUCT_SERVICE_URL || 'http://localhost:5002',
+      user: process.env.USER_SERVICE_URL || 'http://localhost:3005',
+      product: process.env.PRODUCT_SERVICE_URL || 'http://localhost:3001',
+      productManager: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002',
+      cart: process.env.CART_SERVICE_URL || 'http://localhost:5000',
       order: process.env.ORDER_SERVICE_URL || 'http://localhost:5003',
       location: process.env.LOCATION_SERVICE_URL || 'http://localhost:5004',
       promotion: process.env.PROMOTION_SERVICE_URL || 'http://localhost:5005',

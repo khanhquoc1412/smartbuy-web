@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="admin-app">
     <v-app-bar app color="#cc0000" dark flat>
       <div class="header-left">
         <router-link to="/" class="header-logo">
@@ -39,7 +39,7 @@
       <v-list nav dense>
         <v-list-item title="Tài khoản" class="title-item" disabled />
         <v-list-item prepend-icon="mdi-account" :title="userName" subtitle="Nhân viên quản lý" disabled />
-        <v-list-item prepend-icon="mdi-logout" title="Logout" @click="logout" />
+        <v-list-item prepend-icon="mdi-logout" title="Logout" @click="activeModal" />
         <v-list-item prepend-icon="mdi-login" title="Sign-in" @click="signIn" />
       </v-list>
     </v-navigation-drawer>
@@ -49,6 +49,33 @@
         <router-view />
       </v-container>
     </v-main>
+
+    <!-- Modal xác nhận đăng xuất -->
+    <v-dialog v-model="activeModalSignOut" max-width="600" persistent>
+      <v-card class="logout-modal">
+        <v-card-title class="modal-title text-center">Xác nhận đăng xuất</v-card-title>
+        <v-card-text class="modal-content text-center">Bạn muốn thoát tài khoản?</v-card-text>
+        <v-card-actions class="modal-actions">
+          <v-btn 
+            class="btn-cancel" 
+            variant="outlined" 
+            @click="closeModal"
+            width="48%"
+          >
+            KHÔNG
+          </v-btn>
+          <v-btn 
+            class="btn-confirm" 
+            color="#cc0000" 
+            variant="elevated" 
+            @click="handleLogout"
+            width="48%"
+          >
+            XÁC NHẬN
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
   
 </template>
@@ -74,10 +101,24 @@ const managementItems = ref([
 
 const userName = computed(() => localStorage.getItem('fullName') || localStorage.getItem('userName') || 'Admin.admin')
 
+const activeModalSignOut = ref(false)
+
+function activeModal() {
+  activeModalSignOut.value = true
+}
+
+function closeModal() {
+  activeModalSignOut.value = false
+}
+
+function handleLogout() {
+  localStorage.clear()
+  activeModalSignOut.value = false
+  router.push('/login')
+}
+
 function logout() {
-  localStorage.removeItem('userName')
-  localStorage.removeItem('fullName')
-  localStorage.removeItem('token')
+  localStorage.clear()
   router.push('/login')
 }
 function signIn() {
@@ -113,6 +154,58 @@ watch(() => route.path, (newPath) => {
   color: #555;
   padding-left: 16px;
 }
+
+/* Modal styles */
+.logout-modal {
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 16px 24px;
+  color: #333;
+}
+
+.modal-content {
+  font-size: 16px;
+  padding: 20px 24px;
+  color: #666;
+}
+
+.modal-actions {
+  padding: 16px 24px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.btn-cancel {
+  text-transform: uppercase;
+  font-weight: 600;
+  border-color: #ddd;
+  color: #666;
+  height: 44px;
+}
+
+.btn-cancel:hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+}
+
+.btn-confirm {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: white;
+  height: 44px;
+}
+
+.btn-confirm:hover {
+  background-color: #b30000;
+}
+
+
 </style>
 
 <route lang="yaml">
