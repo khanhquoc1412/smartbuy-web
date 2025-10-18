@@ -8,7 +8,10 @@ const Brand = require("./brand");
 const Specification = require("./specification");
 const Product = require("./product");
 const ProductSpecification = require("./product_specification");
-
+const ProductImage = require("./product_image");
+const Color = require("./color");
+const Memory = require("./memory");
+const ProductVariant = require("./product_variant");
 const MONGO_URI =
   process.env.MONGO_URI || "mongodb://localhost:27017/smartbuy_db_product";
 
@@ -192,7 +195,7 @@ const seed = async () => {
         originalName: "iphone15_ben.jpg",
         fileSize: 1024,
       },
-      
+
       // Ảnh iPhone màu trắng
       {
         productId: iphone15._id,
@@ -218,7 +221,7 @@ const seed = async () => {
         originalName: "ip15_trang_ben.jpg",
         fileSize: 1024,
       },
-      
+
       // Ảnh iPhone màu xanh
       {
         productId: iphone15._id,
@@ -244,7 +247,7 @@ const seed = async () => {
         originalName: "ip15_xanh_ben.jpg",
         fileSize: 1024,
       },
-      
+
       // Ảnh iPhone màu hồng
       {
         productId: iphone15._id,
@@ -272,6 +275,154 @@ const seed = async () => {
       },
     ]);
 
+    const xiaomiColors = await Color.insertMany([
+      { name: "Xám", code: "#808080" },
+      { name: "Vàng Hồng", code: "#FAD77A" },
+    ]);
+
+    const xiaomiMemories = await Memory.insertMany([
+      { ram: "12GB", rom: "256GB", chipset: "Dimensity 8400-Ultra" },
+      { ram: "12GB", rom: "512GB", chipset: "Dimensity 9400+" },
+    ]);
+
+    const xiaomi15T = await Product.create({
+      name: "Xiaomi 15T 5G",
+      description:
+        "Xiaomi 15T 5G trang bị màn hình AMOLED 6.7 inch 120Hz, chip Dimensity 8400-Ultra, camera 50MP Leica, pin 5500mAh.",
+      slug: slugify("Xiaomi 15T 5G", { lower: true }),
+      thumbUrl: "/src/assets/images/xiaomi_15t_vangtruoc.jpg",
+      discountPercentage: 5,
+      basePrice: 19490000,
+      brand: xiaomi._id,
+      category: phoneCategory._id,
+    });
+
+    const xiaomi15TPro = await Product.create({
+      name: "Xiaomi 15T Pro 5G",
+      description:
+        "Xiaomi 15T Pro 5G nâng cấp chip Dimensity 9400+, camera Leica cao cấp, pin 5500mAh, thiết kế sang trọng.",
+      slug: slugify("Xiaomi 15T Pro 5G", { lower: true }),
+      thumbUrl: "/src/assets/images/xiaomi_15t_vangtruoc.jpg",
+      discountPercentage: 5,
+      basePrice: 21490000,
+      brand: xiaomi._id,
+      category: phoneCategory._id,
+    });
+
+    await ProductVariant.insertMany([
+      {
+        productId: xiaomi15T._id,
+        colorId: xiaomiColors[0]._id,
+        memoryId: xiaomiMemories[0]._id,
+        price: 19490000,
+        stock: 100,
+      },
+      {
+        productId: xiaomi15T._id,
+        colorId: xiaomiColors[1]._id,
+        memoryId: xiaomiMemories[0]._id,
+        price: 19490000,
+        stock: 100,
+      },
+      {
+        productId: xiaomi15TPro._id,
+        colorId: xiaomiColors[0]._id,
+        memoryId: xiaomiMemories[1]._id,
+        price: 21490000,
+        stock: 80,
+      },
+      {
+        productId: xiaomi15TPro._id,
+        colorId: xiaomiColors[1]._id,
+        memoryId: xiaomiMemories[1]._id,
+        price: 21490000,
+        stock: 80,
+      },
+    ]);
+
+    await ProductImage.insertMany([
+      // XÁM
+      {
+        productId: xiaomi15T._id,
+        colorId: xiaomiColors[0]._id,
+        name: "Xiaomi 15T Xám - Mặt trước",
+        imageUrl: "/src/assets/images/xiaomi_15t_dentruoc.jpg",
+      },
+      {
+        productId: xiaomi15T._id,
+        colorId: xiaomiColors[0]._id,
+        name: "Xiaomi 15T Xám - Mặt sau",
+        imageUrl: "/src/assets/images/xiaomi_15t_densau.jpg",
+      },
+      // VÀNG HỒNG
+      {
+        productId: xiaomi15T._id,
+        colorId: xiaomiColors[1]._id,
+        name: "Xiaomi 15T Vàng Hồng - Mặt trước",
+        imageUrl: "/src/assets/images/xiaomi_15t_vangtruoc.jpg",
+      },
+      {
+        productId: xiaomi15T._id,
+        colorId: xiaomiColors[1]._id,
+        name: "Xiaomi 15T Vàng Hồng - Mặt sau",
+        imageUrl: "/src/assets/images/xiaomi_15t_vangsau.jpg",
+      },
+    ]);
+    // ✅ Hàm hiển thị log dữ liệu đã seed
+    async function showSeedLog() {
+      console.log("\n📦 KẾT QUẢ DỮ LIỆU SAU KHI SEED:\n");
+
+      const products = await Product.find().populate("brand category");
+      for (const p of products) {
+        console.log("--------------------------------------------------");
+        console.log(`📱 Sản phẩm: ${p.name}`);
+        console.log(`   Thương hiệu: ${p.brand?.name || "N/A"}`);
+        console.log(`   Danh mục: ${p.category?.name || "N/A"}`);
+        console.log(`   Giá gốc: ${p.basePrice.toLocaleString("vi-VN")}₫`);
+        console.log(`   Giảm giá: ${p.discountPercentage}%`);
+        console.log(`   Slug: ${p.slug}`);
+
+        // Lấy specs
+        const specs = await ProductSpecification.find({
+          productId: p._id,
+        }).populate("specsId");
+        if (specs.length > 0) {
+          console.log("   ⚙️ Thông số kỹ thuật:");
+          specs.forEach((s) => {
+            console.log(`      - ${s.specsId?.specName}: ${s.specValue}`);
+          });
+        }
+
+        // Lấy variants
+        const variants = await ProductVariant.find({
+          productId: p._id,
+        }).populate("colorId memoryId");
+        if (variants.length > 0) {
+          console.log("   🎨 Biến thể:");
+          variants.forEach((v) => {
+            console.log(
+              `      - Màu: ${v.colorId?.name || "?"}, RAM/ROM: ${
+                v.memoryId?.ram || "?"
+              }/${v.memoryId?.rom || "?"}, Giá: ${v.price.toLocaleString(
+                "vi-VN"
+              )}₫, SL: ${v.stock}`
+            );
+          });
+        }
+
+        // Lấy images
+        const images = await ProductImage.find({ productId: p._id });
+        if (images.length > 0) {
+          console.log("   🖼️ Hình ảnh:");
+          images.forEach((img) => {
+            console.log(`      - ${img.name}: ${img.imageUrl}`);
+          });
+        }
+      }
+
+      console.log("\n✅ DỮ LIỆU SEED HOÀN TẤT!\n");
+    }
+    await showSeedLog();
     console.log("🌱 Seeding completed successfully!");
     process.exit(0);
   } catch (err) {

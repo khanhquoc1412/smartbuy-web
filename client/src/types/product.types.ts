@@ -63,9 +63,11 @@ export interface IProductVariant {
 }
 
 export interface IProductImage {
-  id: number | string,
-  name: string,
-  imageUrl: string,
-  originalName?: string,
-  fileSize?: number
+  id: number | string;
+  _id?: string; // Thêm dòng này để dùng làm key cho Swiper
+  colorId?: number | string; // Thêm dòng này để lọc ảnh theo màu
+  name: string;
+  imageUrl: string;
+  originalName?: string;
+  fileSize?: number;
 }

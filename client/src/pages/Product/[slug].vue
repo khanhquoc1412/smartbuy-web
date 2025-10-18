@@ -13,7 +13,7 @@
         </p>
       </div>
       <div class="product-main">
-        <div class="product-swiper">
+        <!-- <div class="product-swiper">
           <swiper
             :spaceBetween="10"
             :pagination="true"
@@ -37,6 +37,42 @@
             class="swiper-slider"
           >
             <swiper-slide class="swiper-img" v-for="image in product?.images">
+              <img :src="image.imageUrl" :alt="image.name" />
+            </swiper-slide>
+          </swiper>
+        </div> -->
+        <div class="product-swiper">
+          <swiper
+            :spaceBetween="10"
+            :pagination="true"
+            :navigation="true"
+            :thumbs="{ swiper: thumbsSwiper }"
+            :modules="modules"
+            class="swiper-view"
+          >
+            <swiper-slide
+              class="swiper-img"
+              v-for="image in filteredImages"
+              :key="image._id"
+            >
+              <img :src="image.imageUrl" :alt="image.name" />
+            </swiper-slide>
+          </swiper>
+          <swiper
+            @swiper="setThumbsSwiper"
+            :navigation="true"
+            :spaceBetween="10"
+            :slidesPerView="8"
+            :freeMode="true"
+            :watchSlidesProgress="true"
+            :modules="modules"
+            class="swiper-slider"
+          >
+            <swiper-slide
+              class="swiper-img"
+              v-for="image in filteredImages"
+              :key="image._id"
+            >
               <img :src="image.imageUrl" :alt="image.name" />
             </swiper-slide>
           </swiper>
@@ -286,6 +322,18 @@ interface IProductSelected {
   colorId?: number | null;
   memoryId?: number | null;
 }
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const filteredImages = computed(() => {
+  if (!product.value?.images) return [];
+  if (!productSelected.colorId) return product.value.images;
+  // Lọc ảnh theo colorId đã chọn
+  return product.value.images.filter(
+    (img: any) =>
+      img.colorId?.toString() === productSelected.colorId?.toString()
+  );
+});
 const thumbsSwiper = ref<any>(null);
 
 const setThumbsSwiper = (swiper: any) => {
@@ -296,10 +344,17 @@ const modules: SwiperModule[] = [FreeMode, Navigation, Thumbs, Pagination];
 const {
   params: { slug },
 } = useRoute();
+
 const router = useRouter();
 const { userId, loggedIn } = useAuth();
 const { addToCart, isAddLoading, isAddError } = useCart();
-const { data: product, isFetching } = useGetProductDetails(slug as string);
+const {
+  data: product,
+  isFetching,
+  refetch,
+} = useGetProductDetails(slug as string);
+// Gọi refetch() trực tiếp, không dùng .value
+
 const { data: products } = useListProductsSale(10);
 const productSelected = reactive<IProductSelected>({
   id: null,
@@ -370,9 +425,10 @@ const handleBuyNow = async () => {
 onMounted(() => {
   setProductSelectedValues();
 });
+const route = useRoute();
 
 watch(product, () => {
-  setProductSelectedValues();
+  setProductSelectedValues && setProductSelectedValues();
 });
 </script>
 <route lang="yaml">
@@ -867,5 +923,3 @@ meta:
   }
 }
 </style>
-
-

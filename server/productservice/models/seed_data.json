@@ -1,0 +1,140 @@
+{
+  "categories": [
+    {
+      "name": "Điện thoại",
+      "nameAscii": "dien-thoai"
+    }
+  ],
+  "brands": [
+    {
+      "name": "Apple",
+      "nameAscii": "apple"
+    },
+    {
+      "name": "Xiaomi",
+      "nameAscii": "xiaomi"
+    }
+  ],
+  "specifications": [
+    { "specName": "Màn hình" },
+    { "specName": "Camera" },
+    { "specName": "Chip" },
+    { "specName": "RAM & Bộ nhớ" },
+    { "specName": "Pin" },
+    { "specName": "Hệ điều hành" }
+  ],
+  "colors": [
+    { "name": "Đen", "code": "#000000" },
+    { "name": "Trắng", "code": "#FFFFFF" },
+    { "name": "Xanh", "code": "#0000FF" },
+    { "name": "Hồng", "code": "#FFC0CB" },
+    { "name": "Xám", "code": "#808080" },
+    { "name": "Vàng Hồng", "code": "#FAD77A" }
+  ],
+  "memories": [
+    { "ram": "6GB", "rom": "128GB", "chipset": "Apple A16 Bionic" },
+    { "ram": "6GB", "rom": "256GB", "chipset": "Apple A16 Bionic" },
+    { "ram": "8GB", "rom": "512GB", "chipset": "Apple A16 Bionic" },
+    { "ram": "12GB", "rom": "256GB", "chipset": "Dimensity 8400-Ultra" },
+    { "ram": "12GB", "rom": "512GB", "chipset": "Dimensity 9400+" }
+  ],
+  "products": [
+    {
+      "name": "iPhone 15",
+      "description": "Điện thoại iPhone 15 mới nhất",
+      "thumbUrl": "/src/assets/images/ip15.jpg",
+      "discountPercentage": 5,
+      "slug": "iphone-15",
+      "basePrice": 25000000,
+      "brand": "Apple",
+      "category": "Điện thoại",
+      "specifications": [
+        { "specName": "Màn hình", "specValue": "6.1 inch OLED" },
+        { "specName": "Camera", "specValue": "48MP + 12MP" },
+        { "specName": "Chip", "specValue": "Apple A16 Bionic" },
+        { "specName": "RAM & Bộ nhớ", "specValue": "6GB RAM + 128GB" },
+        { "specName": "Pin", "specValue": "3279 mAh" },
+        { "specName": "Hệ điều hành", "specValue": "iOS 17" }
+      ],
+      "variants": [
+        { "color": "Đen", "memory": { "ram": "6GB", "rom": "128GB" }, "price": 25000000, "stock": 50 },
+        { "color": "Đen", "memory": { "ram": "6GB", "rom": "256GB" }, "price": 28000000, "stock": 30 },
+        { "color": "Trắng", "memory": { "ram": "6GB", "rom": "128GB" }, "price": 25000000, "stock": 45 },
+        { "color": "Trắng", "memory": { "ram": "6GB", "rom": "256GB" }, "price": 28000000, "stock": 35 },
+        { "color": "Xanh", "memory": { "ram": "6GB", "rom": "128GB" }, "price": 25000000, "stock": 40 },
+        { "color": "Hồng", "memory": { "ram": "6GB", "rom": "128GB" }, "price": 25000000, "stock": 25 },
+        { "color": "Hồng", "memory": { "ram": "6GB", "rom": "256GB" }, "price": 28000000, "stock": 20 }
+      ],
+      "images": [
+        { "color": "Đen", "name": "iPhone 15 Đen - Mặt trước", "imageUrl": "/src/assets/images/ip15.jpg" },
+        { "color": "Đen", "name": "iPhone 15 Đen - Mặt sau", "imageUrl": "/src/assets/images/ip15_back.jpg" },
+        { "color": "Đen", "name": "iPhone 15 Đen - Cạnh bên", "imageUrl": "/src/assets/images/ip15_ben.jpg" },
+        { "color": "Trắng", "name": "iPhone 15 Trắng - Mặt trước", "imageUrl": "/src/assets/images/ip15_trang_truoc1.jpg" },
+        { "color": "Trắng", "name": "iPhone 15 Trắng - Mặt sau", "imageUrl": "/src/assets/images/ip15_trang_sau.jpg" },
+        { "color": "Trắng", "name": "iPhone 15 Trắng - Cạnh bên", "imageUrl": "/src/assets/images/ip15_trang_ben.jpg" },
+        { "color": "Xanh", "name": "iPhone 15 Xanh - Mặt trước", "imageUrl": "/src/assets/images/ip15_xanh_truoc.jpg" },
+        { "color": "Xanh", "name": "iPhone 15 Xanh - Mặt sau", "imageUrl": "/src/assets/images/ip15_xanh_sau.jpg" },
+        { "color": "Xanh", "name": "iPhone 15 Xanh - Cạnh bên", "imageUrl": "/src/assets/images/ip15_xanh_ben.jpg" },
+        { "color": "Hồng", "name": "iPhone 15 Hồng - Mặt trước", "imageUrl": "/src/assets/images/ip15_hong_truoc.jpg" },
+        { "color": "Hồng", "name": "iPhone 15 Hồng - Mặt sau", "imageUrl": "/src/assets/images/ip15_hong_sau1.jpg" },
+        { "color": "Hồng", "name": "iPhone 15 Hồng - Cạnh bên", "imageUrl": "/src/assets/images/ip15_hong_ben.jpg" }
+      ]
+    },
+    {
+      "name": "Xiaomi 15T 5G",
+      "description": "Xiaomi 15T 5G trang bị màn hình AMOLED 6.7 inch 120Hz, chip Dimensity 8400-Ultra, camera 50MP Leica, pin 5500mAh.",
+      "slug": "xiaomi-15t-5g",
+      "thumbUrl": "/src/assets/images/xiaomi_15t_vangtruoc.jpg",
+      "discountPercentage": 5,
+      "basePrice": 19490000,
+      "brand": "Xiaomi",
+      "category": "Điện thoại",
+      "specifications": [
+        { "specName": "Màn hình", "specValue": "6.83 inches, AMOLED, Độ sáng tối đa 3200 nits (25% vùng hiển thị), 68 tỷ màu, DCI-P3, Chứng nhận TÜV Rheinland (Low Blue Light, Flicker Free, Circadian Friendly)" },
+        { "specName": "Camera", "specValue": "Sau: Chính: 50MP (23mm, f/1.7, OIS, Light Fusion 800), Tele: 50MP (46mm, f/1.9), Góc siêu rộng: 12MP (15mm, f/2.2, 120° FOV) | Trước: 32MP, f/2.2, tiêu cự 21mm" },
+        { "specName": "Chip", "specValue": "MediaTek Dimensity 8400-Ultra" },
+        { "specName": "RAM & Bộ nhớ", "specValue": "12 GB RAM, 512 GB" },
+        { "specName": "Pin", "specValue": "5500mAh" },
+        { "specName": "Hệ điều hành", "specValue": "Xiaomi HyperOS 2, tích hợp Xiaomi HyperAI & Google Gemini" }
+      ],
+      "variants": [
+        { "color": "Xám", "memory": { "ram": "12GB", "rom": "256GB" }, "price": 19490000, "stock": 100 },
+        { "color": "Vàng Hồng", "memory": { "ram": "12GB", "rom": "256GB" }, "price": 19490000, "stock": 100 }
+      ],
+      "images": [
+        { "color": "Xám", "name": "Xiaomi 15T Xám - Mặt trước", "imageUrl": "/src/assets/images/xiaomi_15t_dentruoc.jpg" },
+        { "color": "Xám", "name": "Xiaomi 15T Xám - Mặt sau", "imageUrl": "/src/assets/images/xiaomi_15t_densau.jpg" },
+        { "color": "Vàng Hồng", "name": "Xiaomi 15T Vàng Hồng - Mặt trước", "imageUrl": "/src/assets/images/xiaomi_15t_vangtruoc.jpg" },
+        { "color": "Vàng Hồng", "name": "Xiaomi 15T Vàng Hồng - Mặt sau", "imageUrl": "/src/assets/images/xiaomi_15t_vangsau.jpg" }
+      ]
+    },
+    {
+      "name": "Xiaomi 15T Pro 5G",
+      "description": "Xiaomi 15T Pro 5G nâng cấp chip Dimensity 9400+, camera Leica cao cấp, pin 5500mAh, thiết kế sang trọng.",
+      "slug": "xiaomi-15t-pro-5g",
+      "thumbUrl": "/src/assets/images/xiaomi_15t_vangtruoc.jpg",
+      "discountPercentage": 5,
+      "basePrice": 21490000,
+      "brand": "Xiaomi",
+      "category": "Điện thoại",
+      "specifications": [
+        { "specName": "Màn hình", "specValue": "6.83 inches, AMOLED, Độ sáng tối đa 3200 nits, 447ppi, 68 tỷ màu, DCI-P3, HDR10+, Dolby Vision®, DC dimming, TÜV Rheinland" },
+        { "specName": "Camera", "specValue": "Sau: Chính: 50MP, f/1.62, OIS, cảm biến Light Fusion 900, Tele: 50MP, f/3.0, OIS, Samsung JN5, Zoom 5x, 10x lossless, Ultra Zoom 20x, Siêu rộng: 12MP, f/2.2, 120° FOV | Trước: 32MP, f/2.2, tiêu cự 21mm" },
+        { "specName": "Chip", "specValue": "MediaTek Dimensity 9400+" },
+        { "specName": "RAM & Bộ nhớ", "specValue": "12 GB RAM, 512 GB" },
+        { "specName": "Pin", "specValue": "5500mAh" },
+        { "specName": "Hệ điều hành", "specValue": "Xiaomi HyperOS 2" }
+      ],
+      "variants": [
+        { "color": "Xám", "memory": { "ram": "12GB", "rom": "512GB" }, "price": 21490000, "stock": 80 },
+        { "color": "Vàng Hồng", "memory": { "ram": "12GB", "rom": "512GB" }, "price": 21490000, "stock": 80 }
+      ],
+      "images": [
+        { "color": "Xám", "name": "Xiaomi 15T Xám - Mặt trước", "imageUrl": "/src/assets/images/xiaomi_15t_dentruoc.jpg" },
+        { "color": "Xám", "name": "Xiaomi 15T Xám - Mặt sau", "imageUrl": "/src/assets/images/xiaomi_15t_densau.jpg" },
+        { "color": "Vàng Hồng", "name": "Xiaomi 15T Vàng Hồng - Mặt trước", "imageUrl": "/src/assets/images/xiaomi_15t_vangtruoc.jpg" },
+        { "color": "Vàng Hồng", "name": "Xiaomi 15T Vàng Hồng - Mặt sau", "imageUrl": "/src/assets/images/xiaomi_15t_vangsau.jpg" }
+      ]
+    }
+  ]
+}

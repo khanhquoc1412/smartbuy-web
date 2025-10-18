@@ -139,7 +139,10 @@ import {
   UseQueryOptions,
   useInfiniteQuery,
   useQuery,
+  useQueryResult,
 } from "vue-query";
+
+import type { IProduct } from "@/types/product.types";
 import {
   fetchProduct,
   fetchProductDetails,
@@ -149,7 +152,7 @@ import {
   fetchProductByKeyword
 } from "./product";
 import { IParams } from "@/types/product.types";
-
+import { computed, unref, Ref } from "vue";
 export const useListProductsInfiniteQuery = () => {
   return useInfiniteQuery(
     "productsInfinite",
@@ -192,6 +195,34 @@ export const useGetProductDetails = (slug: string) => {
   });
 };
 
+// export const useGetProductDetails = (
+//   slug: string | Ref<string>
+// ): useQueryResult<IProduct, unknown> => {
+//   const slugRef = computed(() => String(unref(slug) || ""));
+//   const key = ["product-details", slugRef.value] as const;
+
+//   return useQuery<IProduct, unknown>(
+//     key,
+//     () => fetchProductDetails(slugRef.value),
+//     {
+//       refetchOnWindowFocus: false,
+//       enabled: !!slugRef.value,
+//     }
+//   );
+// };
+// export const useGetProductDetails = (slug: string | Ref<string>) => {
+//   const slugRef = computed(() => String(unref(slug) || ""));
+//   const key = ["product-details", slugRef.value] as const;
+
+//   return useQuery<IProduct, unknown>(
+//     key,
+//     () => fetchProductDetails(slugRef.value),
+//     {
+//       refetchOnWindowFocus: false,
+//       enabled: !!slugRef.value,
+//     }
+//   );
+// };
 export const useGetProductVariant = (productVariantId: string) => {
   return useQuery(
     ["product-variant", productVariantId],

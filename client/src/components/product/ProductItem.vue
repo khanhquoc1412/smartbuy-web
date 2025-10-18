@@ -2,11 +2,12 @@
   <div
     class="product-item tw-relative tw-flex tw-flex-col tw-gap-4 tw-w-full tw-h-auto tw-bg-white tw-rounded-sm"
   >
-    <router-link
+    <!-- <router-link
       :to="`/product/${path}`"
       class="product-top tw-block tw-overflow-hidden"
-    >
-      <div class="product-img tw-overflow-hidden">
+    > -->
+    <router-link :to="`/product/${product.slug}`" class="product-link">
+      <div class="product-img tw-h-40 tw-overflow-hidden">
         <img
           :src="product.thumbUrl"
           alt=""
@@ -69,11 +70,40 @@ const { product, path } = defineProps<{ product: IProduct; path?: string }>();
 </script>
 
 <style scoped lang="scss">
+// .product-item {
+//   padding: 50px 16px 20px 16px;
+//   border: 1px solid $border-prd;
+
+//   .product-disc-persentage {
+//     background-repeat: no-repeat;
+//     background-position: center;
+//     position: absolute;
+//     width: 79px;
+//     height: 31px;
+//     left: -6px;
+//     top: 12px;
+//     font-size: 12px;
+//     font-weight: 600;
+//   }
+
+//   .product-price {
+//     .disc-price {
+//       font-size: 13px;
+//     }
+//   }
+// }
 .product-item {
   padding: 50px 16px 20px 16px;
   border: 1px solid $border-prd;
+  position: relative;
+
+  .product-top {
+    z-index: 1; // đảm bảo vùng link phía trên
+  }
 
   .product-disc-persentage {
+    z-index: 2;
+    pointer-events: none; // không chặn click
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
@@ -84,7 +114,6 @@ const { product, path } = defineProps<{ product: IProduct; path?: string }>();
     font-size: 12px;
     font-weight: 600;
   }
-
   .product-price {
     .disc-price {
       font-size: 13px;
