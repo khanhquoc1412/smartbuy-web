@@ -430,6 +430,16 @@ const route = useRoute();
 watch(product, () => {
   setProductSelectedValues && setProductSelectedValues();
 });
+
+watch(
+  () => route.params.slug,
+  (newSlug, oldSlug) => {
+    if (newSlug && newSlug !== oldSlug) {
+      // Ép reload toàn trang để re-init component (Swiper, dữ liệu, v.v.)
+      window.location.reload();
+    }
+  }
+);
 </script>
 <route lang="yaml">
 name: iPhone 15 Pro Max
