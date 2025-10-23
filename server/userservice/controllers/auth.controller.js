@@ -5,6 +5,7 @@ const {
   comparePassword,
   jwtCreate,
   jwtVerify,
+  jwtVerifyRefreshToken,
   hashPassword,
 } = require("../../src/utils"); // Giả định utils/index.js
 const {
@@ -238,19 +239,19 @@ const refreshToken = async (req, res) => {
       throw new UnauthorizedError("No refresh token provided");
     }
 
-    const decoded = jwtVerify(refreshToken, true); // true cho refresh
+    const decoded = jwtVerifyRefreshToken(refreshToken);
     const user = await User.findById(decoded.id);
     if (!user || user.refreshToken !== refreshToken) {
       throw new UnauthorizedError("Invalid refresh token");
     }
 
-    const { accessToken, newRefreshToken } = jwtCreate(user._id);
-    user.refreshToken = newRefreshToken;
+    const tokens = jwtCreate(user._id);
+    user.refreshToken = tokens.refreshToken; // ✅ Sửa: dùng tokens.refreshToken
     await user.save();
 
     res.status(StatusCodes.OK).json({
-      accessToken,
-      refreshToken: newRefreshToken,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
     });
   } catch (error) {
     console.log(error);

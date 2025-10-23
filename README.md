@@ -26,7 +26,7 @@ npm i
 or
 
 ```
-git clone https://github.com/dinhuty/tech-shop
+https://github.com/khanhquoc1412/smartbuy-web.git
 ```
 
 then

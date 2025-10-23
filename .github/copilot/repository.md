@@ -23,6 +23,7 @@ Mục tiêu: quản lý sản phẩm, giỏ hàng, đơn hàng, thanh toán, đ�
 8. `discovery-service` — service registry
 9. `api-gateway` — định tuyến request đến service
 10. `client` — giao diện người dùng (Vue)
+11.`product-manager-service` - quản lý tất cả sản phẩm dưới quyền admin
 
 ### Quy tắc lập trình chung
 - Luôn **viết bằng tiếng Việt** (code comment, commit, file doc).

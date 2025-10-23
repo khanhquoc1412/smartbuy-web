@@ -9,9 +9,9 @@ const UserSchema = new mongoose.Schema(
       default: "username",
     },
     email: {
-      type: String,
+      type: String, 
       required: true,
-      unique: true,
+      unique: true, 
       match: [/^\S+@\S+\.\S+$/, "Email không hợp lệ"],
     },
     password: {

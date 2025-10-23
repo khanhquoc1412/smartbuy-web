@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from "unplugin-auto-import/vite";
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
+import vuetify from 'vite-plugin-vuetify'
 
 
 // https://vitejs.dev/config/
@@ -24,6 +25,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vuetify({ autoImport: true }),
     Pages(),
     Layouts({
       defaultLayout: 'default'
@@ -56,7 +58,19 @@ export default defineConfig({
         additionalData: `@import "@/assets/scss/_mixins.scss";
                         @import "@/assets/scss/_variables.scss";
         `,
+        quietDeps: true,
+        silenceDeprecations: ['legacy-js-api', 'import'],
       },
     },
   },
+  server: {
+    proxy: {
+      // Proxy requests to /uploads to Product Manager Service
+      '/uploads': {
+        target: 'http://localhost:5002',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 })
