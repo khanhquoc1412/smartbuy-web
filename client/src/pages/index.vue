@@ -139,7 +139,12 @@
         <div
           class="btn-view tw-self-center tw-p-3 tw-bg-red tw-text-white hover:tw-opacity-70 tw-transition-all tw-rounded-sm"
         >
-          Xem thêm sản phẩm
+          <router-link
+            to="/product"
+            class="btn-view tw-self-center tw-p-3 tw-bg-red tw-text-white hover:tw-opacity-70 tw-transition-all tw-rounded-sm"
+          >
+            Xem thêm sản phẩm
+          </router-link>
         </div>
       </div>
     </div>
@@ -159,16 +164,8 @@ import Brands from "@/components/brands/Brands.vue";
 import Heading from "@/components/base/Heading.vue";
 import ProductItem from "@/components/product/ProductItem.vue";
 import { breakpoints } from "@utils/breackpoints";
-import {
-  Swiper,
-  SwiperSlide,
-} from  "swiper/vue";
-import {
-  Navigation,
-  Pagination,
-  Autoplay,
-  EffectCube,
-} from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, Autoplay, EffectCube } from "swiper/modules";
 import bgChistmas from "@assets/images/christmas-gift-box.png";
 import "swiper/css";
 import "swiper/css/navigation";

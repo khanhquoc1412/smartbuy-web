@@ -41,6 +41,7 @@ const breakpoints = {
   1024: { slidesPerView: 5.5, spaceBetween: 24 },
   1224: { slidesPerView: 6, spaceBetween: 24 },
 };
+
 interface ICategories {
   name: string;
   image: string;

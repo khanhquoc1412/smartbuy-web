@@ -43,18 +43,21 @@ export interface IProductsListResponse {
   page: number
 }
 export interface IColor {
-  id: number,
+  id: number ,
+   _id?: string,
   name?: string,
   code?: string
 }
 export interface IMemory {
-  id: number,
+  id: number ,
+   _id?: string,
   ram?: string,
   rom?: string,
   chipset?: string
 }
 export interface IProductVariant {
-  id: number,
+  id: number | string,
+  _id?: string,
   stock?: number,
   price?: number,
   color?: IColor,

@@ -2,14 +2,18 @@
   <div class="app-product-detail tw-flex tw-flex-col tw-gap-3 tw-pb-5">
     <BreadScrumb
       v-if="product"
-      :name-page="(product?.name as string)"
+      :name-page="productFullName"
       :sub-navs="[{ name: getNameCategory(product?.categoryName) as string, path: `/category/${product?.categoryName?.toLowerCase()}` }]"
     />
     <Container class="tw-flex tw-gap-4 tw-flex-col">
       <div class="product-title">
-        <p>
+        <!-- <p>
           {{ getNameCategory(product?.categoryName) }}
           {{ product?.name }}
+        </p> -->
+        <p>
+          {{ getNameCategory(product?.categoryName) }}
+          {{ productFullName }}
         </p>
       </div>
       <div class="product-main">
@@ -325,14 +329,42 @@ interface IProductSelected {
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
+const productFullName = computed(() => {
+  if (!product.value) return "";
+  let name = product.value.name || "";
+  // Tìm variant đang chọn
+  const variant = (product.value.productVariants || []).find(
+    (v: any) =>
+      String(v.color?.id ?? v.color?._id) === String(productSelected.colorId) &&
+      String(v.memory?.id ?? v.memory?._id) === String(productSelected.memoryId)
+  );
+  // Ghép cấu hình nếu có
+  if (variant?.memory?.ram && variant?.memory?.rom) {
+    name += ` ${variant.memory.ram}GB/${variant.memory.rom}GB`;
+  }
+  // Ghép màu nếu có
+  if (variant?.color?.name) {
+    name += ` ${variant.color.name}`;
+  }
+  return name;
+});
+// const filteredImages = computed(() => {
+//   if (!product.value?.images) return [];
+//   if (!productSelected.colorId) return product.value.images;
+//   // Lọc ảnh theo colorId đã chọn
+//   return product.value.images.filter(
+//     (img: any) =>
+//       img.colorId?.toString() === productSelected.colorId?.toString()
+//   );
+// });
 const filteredImages = computed(() => {
   if (!product.value?.images) return [];
   if (!productSelected.colorId) return product.value.images;
-  // Lọc ảnh theo colorId đã chọn
-  return product.value.images.filter(
-    (img: any) =>
-      img.colorId?.toString() === productSelected.colorId?.toString()
-  );
+  return product.value.images.filter((img: any) => {
+    const imgCid =
+      img?.colorId?._id ?? img?.colorId ?? img?.color?._id ?? img?.color;
+    return String(imgCid) === String(productSelected.colorId);
+  });
 });
 const thumbsSwiper = ref<any>(null);
 
@@ -362,13 +394,103 @@ const productSelected = reactive<IProductSelected>({
   memoryId: null,
 });
 
+const sameId = (a: any, b: any) => {
+  if (a === undefined || a === null || b === undefined || b === null)
+    return false;
+  return String(a) === String(b);
+};
+
+const findVariantByQuery = (
+  qVariantId?: string,
+  qColorId?: string,
+  qMemoryId?: string
+) => {
+  const variants = product.value?.productVariants ?? [];
+  if (!variants.length) return null;
+
+  if (qVariantId) {
+    const v = variants.find(
+      (vv: any) =>
+        sameId(vv._id ?? vv.id, qVariantId) || sameId(vv.id, qVariantId)
+    );
+    if (v) return v;
+  }
+  if (qColorId && qMemoryId) {
+    const v = variants.find(
+      (vv: any) =>
+        sameId(vv.color?._id ?? vv.color?.id, qColorId) &&
+        sameId(vv.memory?._id ?? vv.memory?.id, qMemoryId)
+    );
+    if (v) return v;
+  }
+  if (qColorId) {
+    const v = variants.find((vv: any) =>
+      sameId(vv.color?._id ?? vv.color?.id, qColorId)
+    );
+    if (v) return v;
+  }
+  return variants[0] ?? null;
+};
+
 const setProductSelectedValues = () => {
-  if (product.value?.productVariants) {
-    productSelected.id = product.value.id;
-    productSelected.colorId = product.value.productVariants[0]?.color?.id;
-    productSelected.memoryId = product.value.productVariants[0]?.memory?.id;
+  if (!product.value?.productVariants) return;
+  // lấy query từ route (string)
+  const q = route.query;
+  const qVariantId = q.variantId ? String(q.variantId) : "";
+  const qColorId = q.colorId ? String(q.colorId) : "";
+  const qMemoryId = q.memoryId ? String(q.memoryId) : "";
+
+  const picked = findVariantByQuery(
+    qVariantId || undefined,
+    qColorId || undefined,
+    qMemoryId || undefined
+  );
+
+  if (picked) {
+    // đảm bảo gán số nếu backend trả number-like, dùng Number() để phù hợp so sánh trong template
+    productSelected.id = product.value.id ?? null;
+    const cId = picked.color?.id ?? picked.color?._id ?? null;
+    const mId = picked.memory?.id ?? picked.memory?._id ?? null;
+    productSelected.colorId =
+      cId !== null
+        ? isNaN(Number(cId))
+          ? (String(cId) as any)
+          : Number(cId)
+        : null;
+    productSelected.memoryId =
+      mId !== null
+        ? isNaN(Number(mId))
+          ? (String(mId) as any)
+          : Number(mId)
+        : null;
+  } else {
+    // fallback mặc định variant[0]
+    const def = product.value.productVariants[0];
+    productSelected.id = product.value.id ?? null;
+    const cId = def?.color?.id ?? def?.color?._id ?? null;
+    const mId = def?.memory?.id ?? def?.memory?._id ?? null;
+    productSelected.colorId =
+      cId !== null
+        ? isNaN(Number(cId))
+          ? (String(cId) as any)
+          : Number(cId)
+        : null;
+    productSelected.memoryId =
+      mId !== null
+        ? isNaN(Number(mId))
+          ? (String(mId) as any)
+          : Number(mId)
+        : null;
   }
 };
+
+// const setProductSelectedValues = () => {
+//   if (product.value?.productVariants) {
+//     productSelected.id = product.value.id;
+//     productSelected.colorId = product.value.productVariants[0]?.color?.id;
+//     productSelected.memoryId = product.value.productVariants[0]?.memory?.id;
+//   }
+// };
 const swiperRef = ref<any>(null);
 
 const onSwiperInit = (swiper: any) => {
@@ -431,12 +553,42 @@ watch(product, () => {
   setProductSelectedValues && setProductSelectedValues();
 });
 
+// watch(
+//   () => route.params.slug,
+//   (newSlug, oldSlug) => {
+//     if (newSlug && newSlug !== oldSlug) {
+//       // Ép reload toàn trang để re-init component (Swiper, dữ liệu, v.v.)
+
+//     }
+//   }
+// );
 watch(
   () => route.params.slug,
-  (newSlug, oldSlug) => {
-    if (newSlug && newSlug !== oldSlug) {
-      // Ép reload toàn trang để re-init component (Swiper, dữ liệu, v.v.)
-      window.location.reload();
+  async (newSlug, oldSlug) => {
+    if (!newSlug || newSlug === oldSlug) return;
+    window.location.reload();
+    try {
+      // clear old thumbs instance to avoid "reading 'classList' of undefined" in Swiper modules
+      thumbsSwiper.value = null;
+
+      // fetch product detail for new slug
+
+      // set selection (color/memory) based on new data / query
+      setProductSelectedValues && setProductSelectedValues();
+
+      // wait DOM to update so Swiper can re-init safely
+      await nextTick();
+
+      // if you keep a direct swiper ref, try to update it (optional)
+      if (swiperRef.value?.update) {
+        try {
+          swiperRef.value.update();
+        } catch (e) {
+          /* ignore */
+        }
+      }
+    } catch (err) {
+      console.error("Failed to reload product details:", err);
     }
   }
 );
