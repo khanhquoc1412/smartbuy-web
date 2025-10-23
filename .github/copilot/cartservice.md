@@ -6,7 +6,7 @@
 - Thêm sản phẩm từ bên product vào giỏ hàng.
 ## Cấu trúc
 cartservice/
-├── config/db.js
+├── config/config.js,connectDB.js
 ├── controllers/cart.controller.js
 ├── models/cart.model.js
 ├── routes/cart.routes.js
@@ -15,8 +15,7 @@ cartservice/
 └── package.json
 
 ## Endpoint
-| Method | Endpoint | Mô tả |
-|---------|-----------|--------|
+
 router.post('/add',
     auth,
     cartController.addProductToCart

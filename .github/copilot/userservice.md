@@ -1,38 +1,42 @@
 # 👤 user-service – Quản lý người dùng
 
 ## Chức năng
+
 - Đăng ký, đăng nhập, đăng xuất.
 - Xác thực JWT.
 - Lấy thông tin hồ sơ người dùng.
 - Phân quyền (admin, customer).
 
 ## Cấu trúc thư mục
+
 userservice/
 ├── config/
-│   ├── config.js
-│   ├── connectDB.js
-│   └── passport.js
+│ ├── config.js
+│ ├── connectDB.js
+│ └── passport.js
 ├── controllers/
-│   └── auth.controller.js
+│ └── auth.controller.js
 ├── middleware/
-│   ├── auth.js
-│   ├── cors.js
-│   ├── index.js
-│   └── multer.js
+│ ├── auth.js
+│ ├── cors.js
+│ ├── index.js
+│ └── multer.js
 ├── models/
-│   ├── address.js
-│   └── user.js
+│ ├── address.js
+│ └── user.js
 ├── node_modules/
 ├── routes/
-│   └── auth.router.js
+│ └── auth.router.js
 ├── services/
-│   ├── cloudinary.js
-│   ├── index.js
-│   └── mailer.js
+│ ├── cloudinary.js
+│ ├── index.js
+│ └── mailer.js
 ├── validations/
-│   └── authValidation.js
+│ └── authValidation.js
 └── .env
+
 ## Mô hình MongoDB
+
 ```js
 const mongoose = require("mongoose");
 const { hashPassword } = require("../../src/utils");
@@ -111,3 +115,4 @@ UserSchema.virtual("carts", {
 });
 
 module.exports = mongoose.models.User || mongoose.model("User", UserSchema);
+```

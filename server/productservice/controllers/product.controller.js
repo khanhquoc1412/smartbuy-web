@@ -11,66 +11,113 @@ const Memory = require("../models/memory");
 const { NotFoundError, BadRequestError } = require("../errors");
 const { cloudinary } = require("../services/cloudinary");
 
+// const getAll = async (req, res, next) => {
+//   try {
+//     await new Promise((resolve) => setTimeout(resolve, 500));
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 10;
+//     const skip = (page - 1) * limit;
+
+//     const { order, dir } = req.query;
+//     const sort = order && dir ? { [order]: dir } : {};
+
+//     const categoryCondition = req.params?.categoryName
+//       ? { name: new RegExp(req.params.categoryName, "i") }
+//       : {};
+//     const brandCondition = req.query?.brand
+//       ? { nameAscii: new RegExp(req.query.brand, "i") }
+//       : {};
+//     let productCondition = {};
+//     if (req.params?.keyword) {
+//       productCondition = { name: new RegExp(req.params.keyword, "i") };
+//     }
+
+//     const [brands, categories] = await Promise.all([
+//       Brand.find(brandCondition),
+//       Category.find(categoryCondition),
+//     ]);
+
+//     const products = await Product.find(productCondition)
+//       .populate("brand")
+//       .populate("category")
+//       .sort(sort)
+//       .skip(skip)
+//       .limit(limit);
+
+//     const count = await Product.countDocuments(productCondition);
+//     const totalPages = Math.ceil(count / limit);
+//     for (const product of products) {
+//     const images = await ProductImage.find({ productId: product._id });
+//     // ...xử lý tiếp...
+//   }
+//     res.status(StatusCodes.OK).json({
+//       products: products.map((p) => ({
+//         id: p._id,
+//         name: p.name,
+//         description: p.description,
+//         discountPercentage: p.discountPercentage,
+//         thumbUrl: p.thumbUrl,
+//         slug: p.slug,
+//         basePrice: p.basePrice,
+//         brandName: p.brand?.name,
+//         categoryName: p.category?.name,
+//       })),
+//       total: totalPages,
+//       skip,
+//       limit,
+//       page,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Lỗi server",
+//       status: StatusCodes.BAD_REQUEST,
+//     });
+//   }
+// };
 const getAll = async (req, res, next) => {
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    const { order, dir } = req.query;
-    const sort = order && dir ? { [order]: dir } : {};
-
-    const categoryCondition = req.params?.categoryName
-      ? { name: new RegExp(req.params.categoryName, "i") }
-      : {};
-    const brandCondition = req.query?.brand
-      ? { nameAscii: new RegExp(req.query.brand, "i") }
-      : {};
-    let productCondition = {};
-    if (req.params?.keyword) {
-      productCondition = { name: new RegExp(req.params.keyword, "i") };
-    }
-
-    const [brands, categories] = await Promise.all([
-      Brand.find(brandCondition),
-      Category.find(categoryCondition),
-    ]);
-
-    const products = await Product.find(productCondition)
-      .populate("brand")
-      .populate("category")
-      .sort(sort)
-      .skip(skip)
-      .limit(limit);
-
-    const count = await Product.countDocuments(productCondition);
-    const totalPages = Math.ceil(count / limit);
-
-    res.status(StatusCodes.OK).json({
-      products: products.map((p) => ({
-        id: p._id,
-        name: p.name,
-        description: p.description,
-        discountPercentage: p.discountPercentage,
-        thumbUrl: p.thumbUrl,
-        slug: p.slug,
-        basePrice: p.basePrice,
-        brandName: p.brand?.name,
-        categoryName: p.category?.name,
+  const products = await Product.find().populate("brand category");
+  const productsWithVariants = [];
+  for (const product of products) {
+    const images = await ProductImage.find({ productId: product._id });
+    const variants = await ProductVariant.find({ productId: product._id })
+      .populate("colorId")
+      .populate("memoryId");
+    productsWithVariants.push({
+      id: product._id,
+      name: product.name,
+      slug: product.slug,
+      basePrice: product.basePrice,
+      discountPercentage: product.discountPercentage,
+      thumbUrl: product.thumbUrl,
+      productVariants: variants.map(variant => ({
+        id: variant._id,
+        color: {
+          id: variant.colorId?._id,
+          name: variant.colorId?.name,
+        },
+        memory: {
+          id: variant.memoryId?._id,
+          rom: variant.memoryId?.rom,
+        },
+        price: variant.price,
+        stock: variant.stock,
       })),
-      total: totalPages,
-      skip,
-      limit,
-      page,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Lỗi server",
-      status: StatusCodes.BAD_REQUEST,
+      images: images.map(img => ({
+        _id: img._id,
+        colorId: img.colorId,
+        imageUrl: img.imageUrl,
+        name: img.name,
+      })),
     });
   }
+  res.status(StatusCodes.OK).json({
+    products: productsWithVariants,
+    total: productsWithVariants.length,
+    skip: 0,
+    limit: productsWithVariants.length,
+    page: 1,
+  });
 };
 
 const createProduct = async (req, res, next) => {
@@ -239,85 +286,92 @@ const getProductBySlug = async (req, res) => {
     const ProductImage = require("../models/product_image");
     const ProductSpecification = require("../models/product_specification");
     const ProductVariant = require("../models/product_variant");
-    
+
     // Tìm sản phẩm theo slug
     const product = await Product.findOne({ slug })
       .populate("brand")
       .populate("category");
-    
+
     if (!product) return res.status(404).json({ message: "Product not found" });
-    
+
     // Lấy thêm thông tin từ các collection liên quan
     const [images, productSpecs, productVariants] = await Promise.all([
       // Lấy hình ảnh sản phẩm
       ProductImage.find({ productId: product._id }),
-      
+
       // Lấy thông số kỹ thuật
       ProductSpecification.find({ productId: product._id }).populate({
         path: "specsId",
-        select: "specName"
+        select: "specName",
       }),
-      
+
       // Lấy biến thể sản phẩm
       ProductVariant.find({ productId: product._id })
         .populate("colorId")
-        .populate("memoryId")
+        .populate("memoryId"),
     ]);
-    
+
     // Chuyển đổi product thành object để có thể thêm các thuộc tính mới
     const productData = product.toObject();
-    
+
     // Đảm bảo categoryName được thiết lập đúng
     productData.categoryName = product.category?.name;
-    
+
     // Thêm images vào product
-    productData.images = images.map(img => ({
+    productData.images = images.map((img) => ({
+      _id: img._id, // Thêm dòng này
+      colorId: img.colorId,
       imageUrl: img.imageUrl,
-      name: img.name || img.originalName || "Product Image"
+      name: img.name || img.originalName || "Product Image",
     }));
-    
+
     // Thêm productSpecs vào product
-    productData.productSpecs = productSpecs.map(spec => ({
+    productData.productSpecs = productSpecs.map((spec) => ({
       specValue: spec.specValue,
       specification: {
         specName: spec.specsId.specName,
-        _id: spec.specsId._id
-      }
+        _id: spec.specsId._id,
+      },
     }));
-    
+
     // Thêm productVariants vào product với cấu trúc đúng cho frontend
-    productData.productVariants = productVariants.map(variant => ({
+    productData.productVariants = productVariants.map((variant) => ({
       id: variant._id,
       stock: variant.stock,
       price: variant.price,
       color: {
         id: variant.colorId._id,
-        name: variant.colorId.name
+        name: variant.colorId.name,
       },
       memory: {
         id: variant.memoryId._id,
         ram: variant.memoryId.ram,
-        rom: variant.memoryId.rom
-      }
+        rom: variant.memoryId.rom,
+      },
     }));
-    
+
     // Đảm bảo basePrice được thiết lập đúng
     if (!productData.basePrice && productVariants.length > 0) {
       productData.basePrice = productVariants[0].price;
     }
-    
+
     // Log để debug
-    console.log("Product data:", JSON.stringify({
-      hasImages: productData.images.length > 0,
-      hasVariants: productData.productVariants.length > 0,
-      basePrice: productData.basePrice,
-      discountPercentage: productData.discountPercentage
-    }));
-    
+    console.log(
+      "Product data:",
+      JSON.stringify({
+        hasImages: productData.images.length > 0,
+        hasVariants: productData.productVariants.length > 0,
+        basePrice: productData.basePrice,
+        discountPercentage: productData.discountPercentage,
+      })
+    );
+
     res.status(StatusCodes.OK).json(productData);
   } catch (error) {
     console.error("Error in getProductBySlug:", error);
-    res.status(StatusCodes.BAD_REQUEST).json({ message: "Error fetching product" });
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Error fetching product" });
   }
 };
 
@@ -329,7 +383,9 @@ const getProductVariant = async (req, res) => {
     if (!variant) return res.status(404).json({ message: "Variant not found" });
     res.status(StatusCodes.OK).json(variant);
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: "Error fetching variant" });
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Error fetching variant" });
   }
 };
 
@@ -340,6 +396,6 @@ module.exports = {
   deleteProduct,
   addImageProduct,
   getProductSale,
-  getProductBySlug,      // ✅ export thêm
-  getProductVariant      // ✅ export thêm
+  getProductBySlug, // ✅ export thêm
+  getProductVariant, // ✅ export thêm
 };

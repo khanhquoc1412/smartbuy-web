@@ -1,11 +1,11 @@
 import App from "./App.vue"
-import { createApp } from 'vue'
+import { createApp } from "vue";
 import router from "./router";
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import library from '@/plugins/fontAwesomeIcons'
 import { VueQueryPlugin } from "vue-query";
-import { createPinia } from "pinia";
-import mitt from "mitt";
+import { createPinia } from     "pinia";
+import mitt from    "mitt";
 import axios from "axios";
 import interceptors from "./plugins/axios/interceptors";
 import vuetify from './plugins/vuetify'

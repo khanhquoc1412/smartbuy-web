@@ -1,3 +1,4 @@
+
 ## Về Dự Án Này
 
 Đây là API Gateway cho ứng dụng microservice của Mobile Shop, được xây dựng bằng TypeScript và Express.js. Các trách nhiệm chính của nó bao gồm:
@@ -51,3 +52,22 @@ const services = {
   // ... các service khác
   payment: { url: process.env.PAYMENT_SERVICE_URL || 'http://localhost:5009', path: '/api/payments' }
 } as const;
+=======
+# 🚪 api-gateway – Cổng giao tiếp trung gian
+
+## Chức năng
+- Nhận request từ frontend và điều hướng đến service tương ứng.
+- Xử lý xác thực JWT và ghi log.
+
+## Cấu trúc
+apigateway/
+├── routes/
+│ ├── user.route.js
+│ ├── product.route.js
+│ ├── order.route.js
+│ ├── payment.route.js
+│ ├── review.route.js
+│ └── chat.route.js
+├── middleware/auth.middleware.js
+├── index.js
+└── package.json

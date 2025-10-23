@@ -43,18 +43,21 @@ export interface IProductsListResponse {
   page: number
 }
 export interface IColor {
-  id: number,
+  id: number ,
+   _id?: string,
   name?: string,
   code?: string
 }
 export interface IMemory {
-  id: number,
+  id: number ,
+   _id?: string,
   ram?: string,
   rom?: string,
   chipset?: string
 }
 export interface IProductVariant {
-  id: number,
+  id: number | string,
+  _id?: string,
   stock?: number,
   price?: number,
   color?: IColor,
@@ -63,9 +66,11 @@ export interface IProductVariant {
 }
 
 export interface IProductImage {
-  id: number | string,
-  name: string,
-  imageUrl: string,
-  originalName?: string,
-  fileSize?: number
+  id: number | string;
+  _id?: string; // Thêm dòng này để dùng làm key cho Swiper
+  colorId?: number | string; // Thêm dòng này để lọc ảnh theo màu
+  name: string;
+  imageUrl: string;
+  originalName?: string;
+  fileSize?: number;
 }

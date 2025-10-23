@@ -1,15 +1,27 @@
 <template>
   <Container class="tw-py-4">
     <div class="app-home tw-flex tw-flex-col tw-gap-4">
-      <div class="block-top-home tw-bg-white tw-flex tw-gap-5 tw-justify-between">
+      <div
+        class="block-top-home tw-bg-white tw-flex tw-gap-5 tw-justify-between"
+      >
         <div class="menu-main">
           <Menu />
         </div>
         <div class="home-slider tw-relative tw-rounded-lg">
           <div class="home-slider-main">
-            <swiper :modules="modules" :slides-per-view="1" :space-between="10" :pagination="{ clickable: true }"
-              :navigation="true" id="swiper-slider">
-              <swiper-slide class="swiper-item tw-overflow-hidden" v-for="n in 6" :key="n">
+            <swiper
+              :modules="modules"
+              :slides-per-view="1"
+              :space-between="10"
+              :pagination="{ clickable: true }"
+              :navigation="true"
+              id="swiper-slider"
+            >
+              <swiper-slide
+                class="swiper-item tw-overflow-hidden"
+                v-for="n in 6"
+                :key="n"
+              >
                 <img :src="banner" alt="" />
               </swiper-slide>
             </swiper>
@@ -35,65 +47,110 @@
         </div>
         <div class="home__right-banner">
           <router-link class="banner-item" to="/">
-            <img :src="banner1" alt="banner1">
+            <img :src="banner1" alt="banner1" />
           </router-link>
           <router-link class="banner-item" to="/">
-            <img :src="banner2" alt="banner2">
+            <img :src="banner2" alt="banner2" />
           </router-link>
           <router-link class="banner-item" to="/">
-            <img :src="banner3" alt="banner3">
+            <img :src="banner3" alt="banner3" />
           </router-link>
         </div>
       </div>
       <div class="home-banner">
-        <img :src="tetBanner" alt="">
+        <img :src="tetBanner" alt="" />
       </div>
-      <div class="home-sale tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5">
+      <div
+        class="home-sale tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5"
+      >
         <Heading event-title="HOT SALE GIÁ SỐC" :timer="true" />
         <div class="list-product">
-          <swiper :modules="modules" :slides-per-view="3" :navigation="true" :space-between="24" id="swiper-slider"
-            :breakpoints="breakpoints">
-            <swiper-slide class="swiper-item" v-for="product in products" :key="product.id">
+          <swiper
+            :modules="modules"
+            :slides-per-view="3"
+            :navigation="true"
+            :space-between="24"
+            id="swiper-slider"
+            :breakpoints="breakpoints"
+          >
+            <swiper-slide
+              class="swiper-item"
+              v-for="product in products"
+              :key="product.id"
+            >
               <product-item :product="product" :path="product.slug" />
             </swiper-slide>
           </swiper>
         </div>
       </div>
 
-      <div class="best-seller tw-bg-white tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5">
+      <div
+        class="best-seller tw-bg-white tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5"
+      >
         <Heading toptitle="Tháng này" title="Sản phẩm bán chạy" />
         <div class="list-product">
-          <swiper :modules="modules" :slides-per-view="3" :navigation="true" :space-between="24" id="swiper-slider"
-            :breakpoints="breakpoints">
-            <swiper-slide class="swiper-item" v-for="product in products" :key="product.id">
+          <swiper
+            :modules="modules"
+            :slides-per-view="3"
+            :navigation="true"
+            :space-between="24"
+            id="swiper-slider"
+            :breakpoints="breakpoints"
+          >
+            <swiper-slide
+              class="swiper-item"
+              v-for="product in products"
+              :key="product.id"
+            >
               <product-item :product="product" :path="product.slug" />
             </swiper-slide>
           </swiper>
         </div>
       </div>
       <div class="home-banner">
-        <img src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/01/23/zflip-1899000.png" alt="">
+        <img
+          src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/01/23/zflip-1899000.png"
+          alt=""
+        />
       </div>
-      <div class="home-brand tw-rounded-xl tw-bg-white tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5">
+      <div
+        class="home-brand tw-rounded-xl tw-bg-white tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5"
+      >
         <Heading toptitle="Brands" title="Thương hiệu nổi tiếng" />
         <Brands />
       </div>
-      <div class="best-seller tw-bg-white tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5">
-        <Heading toptitle="Sản phẩm khác" title="Có thể bạn sẽ thích" :allow-view-all="false" />
+      <div
+        class="best-seller tw-bg-white tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5"
+      >
+        <Heading
+          toptitle="Sản phẩm khác"
+          title="Có thể bạn sẽ thích"
+          :allow-view-all="false"
+        />
         <div class="list-product tw-grid tw-grid-cols-5 tw-gap-5">
-          <div class="product-item" v-for="product in products" :key="product.id">
+          <div
+            class="product-item"
+            v-for="product in products"
+            :key="product.id"
+          >
             <product-item :product="product" :path="product.slug" />
           </div>
         </div>
         <div
-          class="btn-view tw-self-center tw-p-3 tw-bg-red tw-text-white hover:tw-opacity-70 tw-transition-all tw-rounded-sm">
-          Xem thêm sản phẩm
+          class="btn-view tw-self-center tw-p-3 tw-bg-red tw-text-white hover:tw-opacity-70 tw-transition-all tw-rounded-sm"
+        >
+          <router-link
+            to="/product"
+            class="btn-view tw-self-center tw-p-3 tw-bg-red tw-text-white hover:tw-opacity-70 tw-transition-all tw-rounded-sm"
+          >
+            Xem thêm sản phẩm
+          </router-link>
         </div>
       </div>
     </div>
   </Container>
 </template>
-  
+
 <script lang="ts" setup>
 import Menu from "@/components/categories/Menu.vue";
 import Container from "@components/base/Container.vue";
@@ -101,12 +158,12 @@ import banner from "@/assets/images/banner.jpg";
 import banner1 from "@/assets/images/banner/b1.png";
 import banner2 from "@/assets/images/banner/b2.png";
 import banner3 from "@/assets/images/banner/b3.png";
-import adv from "@/assets/images/banner/adv.jpg"
+import adv from "@/assets/images/banner/adv.jpg";
 import tetBanner from "@/assets/images/banner/tet-banner.gif";
 import Brands from "@/components/brands/Brands.vue";
 import Heading from "@/components/base/Heading.vue";
 import ProductItem from "@/components/product/ProductItem.vue";
-import { breakpoints } from "@utils/breackpoints"
+import { breakpoints } from "@utils/breackpoints";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Pagination, Autoplay, EffectCube } from "swiper/modules";
 import bgChistmas from "@assets/images/christmas-gift-box.png";
@@ -125,25 +182,23 @@ const product: IProduct = {
   id: "c7626d43-949b-4212-9084-86f747c6624f",
   name: "iPhone 15 Pro MAx",
   description: "iphone 15 pro max desc",
-  thumbUrl: "https://cdn.tgdd.vn/Products/Images/42/305658/TimerThumb/iphone-15-pro-max-(4).jpg",
+  thumbUrl:
+    "https://cdn.tgdd.vn/Products/Images/42/305658/TimerThumb/iphone-15-pro-max-(4).jpg",
   slug: "iphone-15-pro-max",
   basePrice: 24900000,
   brandName: "apple",
-  categoryName: "mobile"
-}
-const { data: products } = useListProductsSale(10)
-
+  categoryName: "mobile",
+};
+const { data: products } = useListProductsSale(10);
 </script>
 <route lang="yaml">
-  name: Trang chủ
-  meta:
-    layout: "default"
+name: Trang chủ
+meta:
+  layout: "default"
 </route>
-<style lang="scss" >
+<style lang="scss">
 .app-home {
-
   .block-top-home {
-
     .menu-main {
       z-index: 10;
       width: 230px;
@@ -179,7 +234,7 @@ const { data: products } = useListProductsSale(10)
           justify-content: center;
           flex-direction: column;
           align-items: center;
-          transition: opacity .2s ease-in-out;
+          transition: opacity 0.2s ease-in-out;
 
           p {
             text-align: center;
@@ -209,7 +264,6 @@ const { data: products } = useListProductsSale(10)
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
       }
 
       @include min-xl {
@@ -223,7 +277,6 @@ const { data: products } = useListProductsSale(10)
           img {
             width: 100%;
             border-radius: 8px;
-
           }
         }
       }
@@ -266,7 +319,6 @@ const { data: products } = useListProductsSale(10)
         }
       }
 
-
       .swiper-pagination-bullet {
         &.swiper-pagination-bullet-active {
           border-radius: 4px;
@@ -300,7 +352,6 @@ const { data: products } = useListProductsSale(10)
       }
 
       #swiper-slider {
-
         .swiper-button-prev,
         .swiper-button-next {
           z-index: 1;
