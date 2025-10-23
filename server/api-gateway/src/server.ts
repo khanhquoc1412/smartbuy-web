@@ -15,8 +15,24 @@ app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
 app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: true }));
 app.use(morgan('combined'));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// ⚠️ Chỉ parse JSON/urlencoded cho NON-multipart requests
+app.use((req, res, next) => {
+  const contentType = req.headers['content-type'] || '';
+  if (!contentType.includes('multipart/form-data')) {
+    express.json({ limit: '10mb' })(req, res, next);
+  } else {
+    next();
+  }
+});
+app.use((req, res, next) => {
+  const contentType = req.headers['content-type'] || '';
+  if (!contentType.includes('multipart/form-data')) {
+    express.urlencoded({ extended: true, limit: '10mb' })(req, res, next);
+  } else {
+    next();
+  }
+});
 
 app.get('/health', (_req, res) => {
   res.json({ success: true, message: 'API Gateway is running', timestamp: new Date().toISOString(), service: 'api-gateway', version: '1.0.0', port: PORT });

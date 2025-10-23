@@ -181,7 +181,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="category in filteredCategories" :key="category._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
+            <tr v-for="category in paginatedCategories" :key="category._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
               <td class="tw-p-2 tw-text-center">
                 <input type="checkbox" v-model="selectedCategoryIds" :value="category._id" />
               </td>
@@ -238,7 +238,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="brand in filteredBrands" :key="brand._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
+            <tr v-for="brand in paginatedBrands" :key="brand._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
               <td class="tw-p-2 tw-text-center">
                 <input type="checkbox" v-model="selectedBrandIds" :value="brand._id" />
               </td>
@@ -295,7 +295,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="color in filteredColors" :key="color._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
+            <tr v-for="color in paginatedColors" :key="color._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
               <td class="tw-p-2 tw-text-center">
                 <input type="checkbox" v-model="selectedColorIds" :value="color._id" />
               </td>
@@ -320,6 +320,127 @@
           </tbody>
         </table>
       </div>
+
+      
+      <div class="tw-flex tw-justify-between tw-items-center tw-mt-4">
+        <div>Hàng trên mỗi trang:
+          <select v-model="perPage" class="tw-border tw-border-stone-300 tw-p-1 tw-rounded-lg tw-ml-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
+            <option v-for="n in [5, 10, 20]" :key="n" :value="n">{{ n }}</option>
+          </select>
+        </div>
+        <div class="tw-flex tw-gap-2">
+          <button @click="prevPage" :disabled="page === 1"
+            class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&lt;</button>
+          <span>Trang {{ page }}</span>
+          <button @click="nextPage" :disabled="page >= totalPages"
+            class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&gt;</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="activeTab === 'Bộ nhớ và Chipset'">
+      <div class="tw-flex tw-flex-wrap tw-gap-6 tw-mb-4 tw-items-start">
+        <input type="text" v-model="memorySearch" placeholder="Tìm kiếm bộ nhớ..." class="tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg tw-w-64 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent" />
+
+        <div class="tw-flex tw-gap-2 tw-self-end">
+          <button @click="showAddMemoryModal = true" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
+            + Thêm bộ nhớ
+          </button>
+          <button @click="deleteSelectedMemories" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
+            - Xóa bộ nhớ
+          </button>
+        </div>
+      </div>
+
+      <div class="tw-overflow-x-auto">
+        <table class="tw-min-w-full tw-border">
+          <thead class="tw-bg-crimson-600 tw-text-white">
+            <tr>
+              <th class="tw-p-2"><input type="checkbox" @change="toggleAllMemories($event)" /></th>
+              <th class="tw-p-2">RAM</th>
+              <th class="tw-p-2">ROM</th>
+              <th class="tw-p-2">Ngày tạo</th>
+              <th class="tw-p-2">Cập nhật lần cuối</th>
+              <th class="tw-p-2">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="memory in paginatedMemories" :key="memory._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
+              <td class="tw-p-2 tw-text-center">
+                <input type="checkbox" v-model="selectedMemoryIds" :value="memory._id" />
+              </td>
+              <td class="tw-p-2">{{ memory.ram || 'N/A' }}</td>
+              <td class="tw-p-2">{{ memory.rom || 'N/A' }}</td>
+              <td class="tw-p-2">{{ formatDate(memory.createdAt) }}</td>
+              <td class="tw-p-2">{{ formatDate(memory.updatedAt) }}</td>
+              <td class="tw-p-2">
+                <button @click="editMemory(memory)" class="tw-text-sky-600 hover:tw-text-sky-800 tw-transition-colors">Chỉnh sửa</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
+      <div class="tw-flex tw-justify-between tw-items-center tw-mt-4">
+        <div>Hàng trên mỗi trang:
+          <select v-model="perPage" class="tw-border tw-border-stone-300 tw-p-1 tw-rounded-lg tw-ml-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
+            <option v-for="n in [5, 10, 20]" :key="n" :value="n">{{ n }}</option>
+          </select>
+        </div>
+        <div class="tw-flex tw-gap-2">
+          <button @click="prevPage" :disabled="page === 1"
+            class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&lt;</button>
+          <span>Trang {{ page }}</span>
+          <button @click="nextPage" :disabled="page >= totalPages"
+            class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&gt;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Thuộc tính kỹ thuật -->
+    <div v-if="activeTab === 'Thuộc tính kỹ thuật'">
+      <div class="tw-flex tw-flex-wrap tw-gap-6 tw-mb-4 tw-items-start">
+        <input type="text" v-model="specificationSearch" placeholder="Tìm kiếm thuộc tính..." class="tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg tw-w-64 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent" />
+
+        <div class="tw-flex tw-gap-2 tw-self-end">
+          <button @click="showAddSpecificationModal = true" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
+            + Thêm thuộc tính
+          </button>
+          <button @click="deleteSelectedSpecifications" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
+            - Xóa thuộc tính
+          </button>
+        </div>
+      </div>
+
+      <div class="tw-overflow-x-auto">
+        <table class="tw-min-w-full tw-border">
+          <thead class="tw-bg-crimson-600 tw-text-white">
+            <tr>
+              <th class="tw-p-2"><input type="checkbox" @change="toggleAllSpecifications($event)" /></th>
+              <th class="tw-p-2">Tên thuộc tính</th>
+              <th class="tw-p-2">Ngày tạo</th>
+              <th class="tw-p-2">Cập nhật lần cuối</th>
+              <th class="tw-p-2">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="spec in paginatedSpecifications" :key="spec._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
+              <td class="tw-p-2 tw-text-center">
+                <input type="checkbox" v-model="selectedSpecificationIds" :value="spec._id" />
+              </td>
+              <td class="tw-p-2">{{ spec.specName || 'N/A' }}</td>
+              <td class="tw-p-2">{{ formatDate(spec.createdAt) }}</td>
+              <td class="tw-p-2">{{ formatDate(spec.updatedAt) }}</td>
+              <td class="tw-p-2">
+                <button @click="editSpecification(spec)" class="tw-text-sky-600 hover:tw-text-sky-800 tw-transition-colors">Chỉnh sửa</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
       <div class="tw-flex tw-justify-between tw-items-center tw-mt-4">
         <div>Hàng trên mỗi trang:
           <select v-model="perPage" class="tw-border tw-border-stone-300 tw-p-1 tw-rounded-lg tw-ml-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
@@ -494,6 +615,96 @@
       </div>
     </div>
 
+    <div v-if="showAddMemoryModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Thêm bộ nhớ mới</h3>
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-mb-1">RAM</label>
+            <input v-model="newMemory.ram" class="tw-border tw-p-2 tw-rounded tw-w-full" placeholder="Ví dụ: 8GB" />
+          </div>
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-mb-1">ROM</label>
+            <input v-model="newMemory.rom" class="tw-border tw-p-2 tw-rounded tw-w-full" placeholder="Ví dụ: 256GB" />
+          </div>
+        </div>
+        <div class="tw-flex tw-gap-2 tw-mt-4">
+          <button @click="addMemory" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700">
+            Thêm
+          </button>
+          <button @click="showAddMemoryModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-rounded-lg">
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showEditMemoryModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Chỉnh sửa bộ nhớ</h3>
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-mb-1">RAM</label>
+            <input v-model="editingMemoryData.ram" class="tw-border tw-p-2 tw-rounded tw-w-full" placeholder="Ví dụ: 8GB" />
+          </div>
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-mb-1">ROM</label>
+            <input v-model="editingMemoryData.rom" class="tw-border tw-p-2 tw-rounded tw-w-full" placeholder="Ví dụ: 256GB" />
+          </div>
+        </div>
+        <div class="tw-flex tw-gap-2 tw-mt-4">
+          <button @click="saveMemory(editingMemory)" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700">
+            Lưu
+          </button>
+          <button @click="showEditMemoryModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-rounded-lg">
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal thêm Specification -->
+    <div v-if="showAddSpecificationModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Thêm thuộc tính kỹ thuật mới</h3>
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-mb-1">Tên thuộc tính</label>
+            <input v-model="newSpecification.specName" class="tw-border tw-p-2 tw-rounded tw-w-full" placeholder="Ví dụ: Kích thước màn hình" />
+          </div>
+        </div>
+        <div class="tw-flex tw-gap-2 tw-mt-4">
+          <button @click="addSpecification" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700">
+            Thêm
+          </button>
+          <button @click="showAddSpecificationModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-rounded-lg">
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal edit Specification -->
+    <div v-if="showEditSpecificationModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Chỉnh sửa thuộc tính kỹ thuật</h3>
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-mb-1">Tên thuộc tính</label>
+            <input v-model="editingSpecificationData.specName" class="tw-border tw-p-2 tw-rounded tw-w-full" placeholder="Ví dụ: Kích thước màn hình" />
+          </div>
+        </div>
+        <div class="tw-flex tw-gap-2 tw-mt-4">
+          <button @click="saveSpecification(editingSpecification)" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700">
+            Lưu
+          </button>
+          <button @click="showEditSpecificationModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-rounded-lg">
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal xác nhận xóa -->
     <div v-if="showDeleteConfirmModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
       <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
@@ -520,7 +731,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 // Tabs
-const tabs = ['Sản phẩm', 'Danh mục', 'Thương hiệu', 'Màu sắc']
+const tabs = ['Sản phẩm', 'Danh mục', 'Thương hiệu', 'Màu sắc', 'Bộ nhớ và Chipset', 'Thuộc tính kỹ thuật']
 const activeTab = ref('Sản phẩm')
 const categories = ['Điện thoại', 'Phụ kiện điện thoại']
 
@@ -582,14 +793,20 @@ const products = ref([])
 const categoryList = ref([])
 const brandList = ref([])
 const colorList = ref([])
+const memoryList = ref([])
+const specificationList = ref([])
 
 // Modal states
 const showAddCategoryModal = ref(false)
 const showAddBrandModal = ref(false)
 const showAddColorModal = ref(false)
+const showAddMemoryModal = ref(false)
+const showAddSpecificationModal = ref(false)
 const showEditCategoryModal = ref(false)
 const showEditBrandModal = ref(false)
 const showEditColorModal = ref(false)
+const showEditMemoryModal = ref(false)
+const showEditSpecificationModal = ref(false)
 const showDeleteConfirmModal = ref(false)
 
 // Delete confirmation
@@ -600,26 +817,36 @@ const deleteConfirmAction = ref(null)
 const categorySearch = ref('')
 const brandSearch = ref('')
 const colorSearch = ref('')
+const memorySearch = ref('')
+const specificationSearch = ref('')
 
 // Editing states
 const editingCategory = ref(null)
 const editingBrand = ref(null)
 const editingColor = ref(null)
+const editingMemory = ref(null)
+const editingSpecification = ref(null)
 
 // Form data
 const newCategory = ref({ name: '', nameAscii: '' })
 const newBrand = ref({ name: '', description: '' })
 const newColor = ref({ name: '', code: '#000000', description: '' })
+const newMemory = ref({ ram: '', rom: '' })
+const newSpecification = ref({ specName: '' })
 
 const editingCategoryData = ref({ name: '', nameAscii: '' })
 const editingBrandData = ref({ name: ''})
 const editingColorData = ref({ name: '', code: '#000000'})
+const editingMemoryData = ref({ ram: '', rom: '' })
+const editingSpecificationData = ref({ specName: '' })
 
 onMounted(async () => {
   await loadProducts()
   await loadCategories()
   await loadBrands()
   await loadColors()
+  await loadMemories()
+  await loadSpecifications()
 })
 
 async function loadProducts() {
@@ -669,6 +896,24 @@ async function loadColors() {
   }
 }
 
+async function loadMemories() {
+  try {
+    const res = await axios.get('http://localhost:3000/api/memories')
+    if (res?.success) memoryList.value = res.items
+  } catch (error) {
+    console.error('Error loading memories:', error)
+  }
+}
+
+async function loadSpecifications() {
+  try {
+    const res = await axios.get('http://localhost:3000/api/specifications')
+    if (res?.success) specificationList.value = res.items
+  } catch (error) {
+    console.error('Error loading specifications:', error)
+  }
+}
+
 
 // Checkbox
 const selected = ref([])
@@ -677,6 +922,8 @@ const selected = ref([])
 const selectedCategoryIds = ref([])
 const selectedBrandIds = ref([])
 const selectedColorIds = ref([])
+const selectedMemoryIds = ref([])
+const selectedSpecificationIds = ref([])
 
 function toggleAll(event) {
   if (event.target.checked) {
@@ -713,6 +960,192 @@ function toggleAllColors(event) {
   }
 }
 
+// Checkbox cho bộ nhớ
+function toggleAllMemories(event) {
+  if (event.target.checked) {
+    selectedMemoryIds.value = filteredMemories.value.map(m => m._id)
+  } else {
+    selectedMemoryIds.value = []
+  }
+}
+
+function toggleAllSpecifications(event) {
+  if (event.target.checked) {
+    selectedSpecificationIds.value = filteredSpecifications.value.map(s => s._id)
+  } else {
+    selectedSpecificationIds.value = []
+  }
+}
+
+// ============= GENERIC HELPER FUNCTIONS =============
+// Cấu hình cho từng resource type
+const resourceConfig = {
+  categories: {
+    endpoint: 'categories',
+    label: 'danh mục',
+    selectedIds: selectedCategoryIds,
+    loadFunction: loadCategories,
+    newData: newCategory,
+    defaultData: { name: '', nameAscii: '' },
+    editingData: editingCategoryData,
+    editing: editingCategory,
+    showAddModal: showAddCategoryModal,
+    showEditModal: showEditCategoryModal
+  },
+  brands: {
+    endpoint: 'brands',
+    label: 'thương hiệu',
+    selectedIds: selectedBrandIds,
+    loadFunction: loadBrands,
+    newData: newBrand,
+    defaultData: { name: '' },
+    editingData: editingBrandData,
+    editing: editingBrand,
+    showAddModal: showAddBrandModal,
+    showEditModal: showEditBrandModal
+  },
+  colors: {
+    endpoint: 'colors',
+    label: 'màu sắc',
+    selectedIds: selectedColorIds,
+    loadFunction: loadColors,
+    newData: newColor,
+    defaultData: { name: '', code: '#000000' },
+    editingData: editingColorData,
+    editing: editingColor,
+    showAddModal: showAddColorModal,
+    showEditModal: showEditColorModal
+  },
+  memories: {
+    endpoint: 'memories',
+    label: 'bộ nhớ',
+    selectedIds: selectedMemoryIds,
+    loadFunction: loadMemories,
+    newData: newMemory,
+    defaultData: { ram: '', rom: '' },
+    editingData: editingMemoryData,
+    editing: editingMemory,
+    showAddModal: showAddMemoryModal,
+    showEditModal: showEditMemoryModal
+  },
+  specifications: {
+    endpoint: 'specifications',
+    label: 'thuộc tính kỹ thuật',
+    selectedIds: selectedSpecificationIds,
+    loadFunction: loadSpecifications,
+    newData: newSpecification,
+    defaultData: { specName: '' },
+    editingData: editingSpecificationData,
+    editing: editingSpecification,
+    showAddModal: showAddSpecificationModal,
+    showEditModal: showEditSpecificationModal
+  }
+}
+
+// Generic function để xóa nhiều items
+async function deleteSelectedItems(resourceType) {
+  const config = resourceConfig[resourceType]
+  if (config.selectedIds.value.length === 0) {
+    deleteConfirmMessage.value = `Chưa chọn ${config.label} để xóa`
+    deleteConfirmAction.value = null
+    showDeleteConfirmModal.value = true
+    return
+  }
+  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${config.selectedIds.value.length} ${config.label} đã chọn?`
+  deleteConfirmAction.value = async () => {
+    try {
+      for (const id of config.selectedIds.value) {
+        await axios.delete(`http://localhost:3000/api/${config.endpoint}/${id}`)
+      }
+      await config.loadFunction()
+      config.selectedIds.value = []
+      showDeleteConfirmModal.value = false
+    } catch (error) {
+      console.error(`Error deleting ${resourceType}:`, error)
+      deleteConfirmMessage.value = `Lỗi khi xóa ${config.label}`
+      deleteConfirmAction.value = null
+    }
+  }
+  showDeleteConfirmModal.value = true
+}
+
+// Wrapper functions
+const deleteSelectedCategories = () => deleteSelectedItems('categories')
+const deleteSelectedBrands = () => deleteSelectedItems('brands')
+const deleteSelectedColors = () => deleteSelectedItems('colors')
+const deleteSelectedMemories = () => deleteSelectedItems('memories')
+const deleteSelectedSpecifications = () => deleteSelectedItems('specifications')
+
+// Generic function để thêm item
+async function addItem(resourceType) {
+  const config = resourceConfig[resourceType]
+  try {
+    const res = await axios.post(`http://localhost:3000/api/${config.endpoint}`, config.newData.value)
+    if (res?.success) {
+      await config.loadFunction()
+      config.showAddModal.value = false
+      config.newData.value = { ...config.defaultData }
+    }
+  } catch (error) {
+    console.error(`Error adding ${resourceType}:`, error)
+    deleteConfirmMessage.value = `Lỗi khi thêm ${config.label}`
+    deleteConfirmAction.value = null
+    showDeleteConfirmModal.value = true
+  }
+}
+
+// Generic function để mở modal edit
+function editItem(resourceType, item) {
+  const config = resourceConfig[resourceType]
+  config.editing.value = item._id
+  config.editingData.value = { ...config.defaultData }
+  // Copy data từ item vào editingData
+  Object.keys(config.defaultData).forEach(key => {
+    if (item[key] !== undefined) {
+      config.editingData.value[key] = item[key]
+    }
+  })
+  config.showEditModal.value = true
+}
+
+// Generic function để lưu item
+async function saveItem(resourceType, id) {
+  const config = resourceConfig[resourceType]
+  try {
+    const res = await axios.put(`http://localhost:3000/api/${config.endpoint}/${id}`, config.editingData.value)
+    if (res?.success) {
+      await config.loadFunction()
+      config.showEditModal.value = false
+      config.editing.value = null
+    }
+  } catch (error) {
+    console.error(`Error updating ${resourceType}:`, error)
+    deleteConfirmMessage.value = `Lỗi khi cập nhật ${config.label}`
+    deleteConfirmAction.value = null
+    showDeleteConfirmModal.value = true
+  }
+}
+
+// Wrapper functions cho add
+const addCategory = () => addItem('categories')
+const addBrand = () => addItem('brands')
+const addColor = () => addItem('colors')
+const addMemory = () => addItem('memories')
+const addSpecification = () => addItem('specifications')
+
+// Wrapper functions cho edit
+const editCategory = (item) => editItem('categories', item)
+const editBrand = (item) => editItem('brands', item)
+const editColor = (item) => editItem('colors', item)
+const editMemory = (item) => editItem('memories', item)
+const editSpecification = (item) => editItem('specifications', item)
+
+// Wrapper functions cho save
+const saveCategory = (id) => saveItem('categories', id)
+const saveBrand = (id) => saveItem('brands', id)
+const saveColor = (id) => saveItem('colors', id)
+const saveMemory = (id) => saveItem('memories', id)
+const saveSpecification = (id) => saveItem('specifications', id)
 
 // Lọc sản phẩm
 const filteredProducts = computed(() => {
@@ -753,14 +1186,128 @@ const filteredColors = computed(() => {
   })
 })
 
-// Phân trang
-const page = ref(1)
-const perPage = ref(10)
-const totalPages = computed(() => Math.ceil(filteredProducts.value.length / perPage.value))
+// Lọc bộ nhớ
+const filteredMemories = computed(() => {
+  return memoryList.value.filter(m => {
+    return !memorySearch.value || 
+           (m.ram && m.ram.toLowerCase().includes(memorySearch.value.toLowerCase())) ||
+           (m.rom && m.rom.toLowerCase().includes(memorySearch.value.toLowerCase()))
+  })
+})
+
+const filteredSpecifications = computed(() => {
+  return specificationList.value.filter(s => {
+    return !specificationSearch.value || 
+           (s.specName && s.specName.toLowerCase().includes(specificationSearch.value.toLowerCase()))
+  })
+})
+
+// Phân trang - Riêng biệt cho từng tab
+const productPage = ref(1)
+const productPerPage = ref(10)
+
+const categoryPage = ref(1)
+const categoryPerPage = ref(10)
+
+const brandPage = ref(1)
+const brandPerPage = ref(10)
+
+const colorPage = ref(1)
+const colorPerPage = ref(10)
+
+const memoryPage = ref(1)
+const memoryPerPage = ref(10)
+
+const specificationPage = ref(1)
+const specificationPerPage = ref(10)
+
+// Computed properties để lấy page và perPage hiện tại theo tab
+const page = computed({
+  get() {
+    if (activeTab.value === 'Sản phẩm') return productPage.value
+    if (activeTab.value === 'Danh mục') return categoryPage.value
+    if (activeTab.value === 'Thương hiệu') return brandPage.value
+    if (activeTab.value === 'Màu sắc') return colorPage.value
+    if (activeTab.value === 'Bộ nhớ và Chipset') return memoryPage.value
+    if (activeTab.value === 'Thuộc tính kỹ thuật') return specificationPage.value
+    return 1
+  },
+  set(val) {
+    if (activeTab.value === 'Sản phẩm') productPage.value = val
+    else if (activeTab.value === 'Danh mục') categoryPage.value = val
+    else if (activeTab.value === 'Thương hiệu') brandPage.value = val
+    else if (activeTab.value === 'Màu sắc') colorPage.value = val
+    else if (activeTab.value === 'Bộ nhớ và Chipset') memoryPage.value = val
+    else if (activeTab.value === 'Thuộc tính kỹ thuật') specificationPage.value = val
+  }
+})
+
+const perPage = computed({
+  get() {
+    if (activeTab.value === 'Sản phẩm') return productPerPage.value
+    if (activeTab.value === 'Danh mục') return categoryPerPage.value
+    if (activeTab.value === 'Thương hiệu') return brandPerPage.value
+    if (activeTab.value === 'Màu sắc') return colorPerPage.value
+    if (activeTab.value === 'Bộ nhớ và Chipset') return memoryPerPage.value
+    if (activeTab.value === 'Thuộc tính kỹ thuật') return specificationPerPage.value
+    return 10
+  },
+  set(val) {
+    if (activeTab.value === 'Sản phẩm') productPerPage.value = val
+    else if (activeTab.value === 'Danh mục') categoryPerPage.value = val
+    else if (activeTab.value === 'Thương hiệu') brandPerPage.value = val
+    else if (activeTab.value === 'Màu sắc') colorPerPage.value = val
+    else if (activeTab.value === 'Bộ nhớ và Chipset') memoryPerPage.value = val
+    else if (activeTab.value === 'Thuộc tính kỹ thuật') specificationPerPage.value = val
+  }
+})
+
+// Tính tổng số trang cho từng tab
+const totalPages = computed(() => {
+  if (activeTab.value === 'Sản phẩm') {
+    return Math.ceil(filteredProducts.value.length / productPerPage.value)
+  } else if (activeTab.value === 'Danh mục') {
+    return Math.ceil(filteredCategories.value.length / categoryPerPage.value)
+  } else if (activeTab.value === 'Thương hiệu') {
+    return Math.ceil(filteredBrands.value.length / brandPerPage.value)
+  } else if (activeTab.value === 'Màu sắc') {
+    return Math.ceil(filteredColors.value.length / colorPerPage.value)
+  } else if (activeTab.value === 'Bộ nhớ và Chipset') {
+    return Math.ceil(filteredMemories.value.length / memoryPerPage.value)
+  } else if (activeTab.value === 'Thuộc tính kỹ thuật') {
+    return Math.ceil(filteredSpecifications.value.length / specificationPerPage.value)
+  }
+  return 1
+})
 
 const paginatedProducts = computed(() => {
-  const start = (page.value - 1) * perPage.value
-  return filteredProducts.value.slice(start, start + perPage.value)
+  const start = (productPage.value - 1) * productPerPage.value
+  return filteredProducts.value.slice(start, start + productPerPage.value)
+})
+
+const paginatedCategories = computed(() => {
+  const start = (categoryPage.value - 1) * categoryPerPage.value
+  return filteredCategories.value.slice(start, start + categoryPerPage.value)
+})
+
+const paginatedBrands = computed(() => {
+  const start = (brandPage.value - 1) * brandPerPage.value
+  return filteredBrands.value.slice(start, start + brandPerPage.value)
+})
+
+const paginatedColors = computed(() => {
+  const start = (colorPage.value - 1) * colorPerPage.value
+  return filteredColors.value.slice(start, start + colorPerPage.value)
+})
+
+const paginatedMemories = computed(() => {
+  const start = (memoryPage.value - 1) * memoryPerPage.value
+  return filteredMemories.value.slice(start, start + memoryPerPage.value)
+})
+
+const paginatedSpecifications = computed(() => {
+  const start = (specificationPage.value - 1) * specificationPerPage.value
+  return filteredSpecifications.value.slice(start, start + specificationPerPage.value)
 })
 
 function prevPage() {
@@ -798,84 +1345,6 @@ function deleteSelected() {
   showDeleteConfirmModal.value = true
 }
 
-// Xóa nhiều danh mục
-async function deleteSelectedCategories() {
-  if (selectedCategoryIds.value.length === 0) {
-    deleteConfirmMessage.value = 'Chưa chọn danh mục để xóa'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-    return
-  }
-  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selectedCategoryIds.value.length} danh mục đã chọn?`
-  deleteConfirmAction.value = async () => {
-    try {
-      for (const id of selectedCategoryIds.value) {
-        await axios.delete(`http://localhost:3000/api/categories/${id}`)
-      }
-      await loadCategories()
-      selectedCategoryIds.value = []
-      showDeleteConfirmModal.value = false
-    } catch (error) {
-      console.error('Error deleting categories:', error)
-      deleteConfirmMessage.value = 'Lỗi khi xóa danh mục'
-      deleteConfirmAction.value = null
-    }
-  }
-  showDeleteConfirmModal.value = true
-}
-
-// Xóa nhiều thương hiệu
-async function deleteSelectedBrands() {
-  if (selectedBrandIds.value.length === 0) {
-    deleteConfirmMessage.value = 'Chưa chọn thương hiệu để xóa'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-    return
-  }
-  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selectedBrandIds.value.length} thương hiệu đã chọn?`
-  deleteConfirmAction.value = async () => {
-    try {
-      for (const id of selectedBrandIds.value) {
-        await axios.delete(`http://localhost:3000/api/brands/${id}`)
-      }
-      await loadBrands()
-      selectedBrandIds.value = []
-      showDeleteConfirmModal.value = false
-    } catch (error) {
-      console.error('Error deleting brands:', error)
-      deleteConfirmMessage.value = 'Lỗi khi xóa thương hiệu'
-      deleteConfirmAction.value = null
-    }
-  }
-  showDeleteConfirmModal.value = true
-}
-
-// Xóa nhiều màu sắc
-async function deleteSelectedColors() {
-  if (selectedColorIds.value.length === 0) {
-    deleteConfirmMessage.value = 'Chưa chọn màu sắc để xóa'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-    return
-  }
-  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selectedColorIds.value.length} màu sắc đã chọn?`
-  deleteConfirmAction.value = async () => {
-    try {
-      for (const id of selectedColorIds.value) {
-        await axios.delete(`http://localhost:3000/api/colors/${id}`)
-      }
-      await loadColors()
-      selectedColorIds.value = []
-      showDeleteConfirmModal.value = false
-    } catch (error) {
-      console.error('Error deleting colors:', error)
-      deleteConfirmMessage.value = 'Lỗi khi xóa màu sắc'
-      deleteConfirmAction.value = null
-    }
-  }
-  showDeleteConfirmModal.value = true
-}
-
 // Xác nhận xóa
 function confirmDelete() {
   if (deleteConfirmAction.value) {
@@ -891,158 +1360,6 @@ function formatDate(date) {
   return new Date(date).toLocaleDateString('vi-VN')
 }
 
-// CRUD Categories
-async function addCategory() {
-  try {
-    const res = await axios.post('http://localhost:3000/api/categories', newCategory.value)
-    if (res?.success) {
-      await loadCategories()
-      showAddCategoryModal.value = false
-      newCategory.value = { name: '', nameAscii: '' }
-    }
-  } catch (error) {
-    console.error('Error adding category:', error)
-    deleteConfirmMessage.value = 'Lỗi khi thêm danh mục'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-  }
-}
-
-function editCategory(category) {
-  editingCategory.value = category._id
-  editingCategoryData.value = { name: category.name, nameAscii: category.nameAscii }
-  showEditCategoryModal.value = true
-}
-
-async function saveCategory(id) {
-  try {
-    const res = await axios.put(`http://localhost:3000/api/categories/${id}`, editingCategoryData.value)
-    if (res?.success) {
-      await loadCategories()
-      showEditCategoryModal.value = false
-      editingCategory.value = null
-    }
-  } catch (error) {
-    console.error('Error updating category:', error)
-    deleteConfirmMessage.value = 'Lỗi khi cập nhật danh mục'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-  }
-}
-
-// CRUD Brands
-async function addBrand() {
-  try {
-    const res = await axios.post('http://localhost:3000/api/brands', newBrand.value)
-    if (res?.success) {
-      await loadBrands()
-      showAddBrandModal.value = false
-      newBrand.value = { name: ''}
-    }
-  } catch (error) {
-    console.error('Error adding brand:', error)
-    deleteConfirmMessage.value = 'Lỗi khi thêm thương hiệu'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-  }
-}
-
-function editBrand(brand) {
-  editingBrand.value = brand._id
-  editingBrandData.value = { name: brand.name || '' }
-  showEditBrandModal.value = true
-}
-
-async function saveBrand(id) {
-  try {
-    const res = await axios.put(`http://localhost:3000/api/brands/${id}`, editingBrandData.value)
-    if (res?.success) {
-      await loadBrands()
-      showEditBrandModal.value = false
-      editingBrand.value = null
-    }
-  } catch (error) {
-    console.error('Error updating brand:', error)
-    deleteConfirmMessage.value = 'Lỗi khi cập nhật thương hiệu'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-  }
-}
-
-async function deleteBrand(id) {
-  deleteConfirmMessage.value = 'Bạn có chắc chắn muốn xóa thương hiệu này?'
-  deleteConfirmAction.value = async () => {
-    try {
-      const res = await axios.delete(`http://localhost:3000/api/brands/${id}`)
-      if (res?.success) {
-        await loadBrands()
-        showDeleteConfirmModal.value = false
-      }
-    } catch (error) {
-      console.error('Error deleting brand:', error)
-      deleteConfirmMessage.value = 'Lỗi khi xóa thương hiệu'
-      deleteConfirmAction.value = null
-    }
-  }
-  showDeleteConfirmModal.value = true
-}
-
-// CRUD Colors
-async function addColor() {
-  try {
-    const res = await axios.post('http://localhost:3000/api/colors', newColor.value)
-    if (res?.success) {
-      await loadColors()
-      showAddColorModal.value = false
-      newColor.value = { name: '', code: '#000000', hexCode: '#000000' }
-    }
-  } catch (error) {
-    console.error('Error adding color:', error)
-    deleteConfirmMessage.value = 'Lỗi khi thêm màu sắc'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-  }
-}
-
-function editColor(color) {
-  editingColor.value = color._id
-  editingColorData.value = { name: color.name, code: color.code || '#000000' }
-  showEditColorModal.value = true
-}
-
-async function saveColor(id) {
-  try {
-    const res = await axios.put(`http://localhost:3000/api/colors/${id}`, editingColorData.value)
-    if (res?.success) {
-      await loadColors()
-      showEditColorModal.value = false
-      editingColor.value = null
-    }
-  } catch (error) {
-    console.error('Error updating color:', error)
-    deleteConfirmMessage.value = 'Lỗi khi cập nhật màu sắc'
-    deleteConfirmAction.value = null
-    showDeleteConfirmModal.value = true
-  }
-}
-
-async function deleteColor(id) {
-  deleteConfirmMessage.value = 'Bạn có chắc chắn muốn xóa màu sắc này?'
-  deleteConfirmAction.value = async () => {
-    try {
-      const res = await axios.delete(`http://localhost:3000/api/colors/${id}`)
-      if (res?.success) {
-        await loadColors()
-        showDeleteConfirmModal.value = false
-      }
-    } catch (error) {
-      console.error('Error deleting color:', error)
-      deleteConfirmMessage.value = 'Lỗi khi xóa màu sắc'
-      deleteConfirmAction.value = null
-    }
-  }
-  showDeleteConfirmModal.value = true
-}
 </script>
 
 <style scoped>

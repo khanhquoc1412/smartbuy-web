@@ -10,10 +10,6 @@ const memorySchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    chipset: {
-      type: String,
-      default: null,
-    },
   },
   {
     timestamps: true,

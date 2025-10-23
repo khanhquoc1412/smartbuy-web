@@ -101,3 +101,52 @@ exports.delete = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// POST /api/products/:productId/images/upload - Upload file ảnh
+exports.upload = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const file = req.file;
+    
+    console.log('📤 Upload request received:');
+    console.log('  - productId:', productId);
+    console.log('  - file:', file);
+    console.log('  - body:', req.body);
+    console.log('  - headers:', req.headers['content-type']);
+    
+    if (!file) {
+      console.error('❌ No file in req.file');
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+    
+    const { colorId } = req.body;
+    
+    if (!colorId) {
+      return res.status(400).json({ success: false, message: 'colorId is required' });
+    }
+    
+    // Lưu relative path trong database (không có domain)
+    // Frontend sẽ tự động ghép với base URL khi hiển thị
+    const imageUrl = `/uploads/${file.filename}`;
+    
+    console.log('✅ Image saved at:', imageUrl);
+    
+    // Save image info to database
+    const image = new ProductImage({
+      productId,
+      name: file.originalname,
+      imageUrl: imageUrl, // Relative path: /uploads/...
+      originalName: file.originalname,
+      fileSize: file.size,
+      colorId
+    });
+    
+    await image.save();
+    await image.populate('colorId', 'name code');
+    
+    res.status(201).json({ success: true, item: image });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

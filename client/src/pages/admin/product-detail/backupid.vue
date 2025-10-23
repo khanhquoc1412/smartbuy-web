@@ -715,6 +715,14 @@
             <input v-model="newMemory.rom" type="text" placeholder="VD: 128GB, 256GB, 512GB..."
               class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500" />
           </div>
+          
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
+              Chipset
+            </label>
+            <input v-model="newMemory.chipset" type="text" placeholder="VD: A16 Bionic, Snapdragon 8 Gen 2..."
+              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500" />
+          </div>
         </div>
 
         <div class="tw-flex tw-gap-2 tw-justify-end tw-mt-6 tw-pt-4 tw-border-t">
@@ -844,7 +852,8 @@ const showAddColorModal = ref(false)
 // New data for modals
 const newMemory = ref({
   ram: '',
-  rom: ''
+  rom: '',
+  chipset: ''
 })
 
 const newColor = ref({
@@ -1615,7 +1624,8 @@ async function saveNewMemory() {
     // Call API to create memory
     const response = await $axios.post('/memories', {
       ram: newMemory.value.ram,
-      rom: newMemory.value.rom
+      rom: newMemory.value.rom,
+      chipset: newMemory.value.chipset || ''
     })
 
     console.log('✅ Memory created - Full response:', response)
@@ -1640,7 +1650,8 @@ async function saveNewMemory() {
     // Reset form and close modal
     newMemory.value = {
       ram: '',
-      rom: ''
+      rom: '',
+      chipset: ''
     }
     showAddMemoryModal.value = false
 

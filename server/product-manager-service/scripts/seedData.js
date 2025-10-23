@@ -15,7 +15,7 @@ const ProductSpecification = require('../src/models/product_specification');
 // Database connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/products_phone_shop', {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/smartbuy_db_product', {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });

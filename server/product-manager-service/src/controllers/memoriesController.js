@@ -32,8 +32,8 @@ exports.getById = async (req, res) => {
 // POST /api/memories - Tạo bộ nhớ mới
 exports.create = async (req, res) => {
   try {
-    const { ram, rom, chipset } = req.body;
-    const memory = new Memory({ ram, rom, chipset });
+    const { ram, rom } = req.body;
+    const memory = new Memory({ ram, rom });
     await memory.save();
     res.status(201).json({ success: true, data: memory });
   } catch (error) {
@@ -45,10 +45,10 @@ exports.create = async (req, res) => {
 // PUT /api/memories/:id - Cập nhật bộ nhớ
 exports.update = async (req, res) => {
   try {
-    const { ram, rom, chipset } = req.body;
+    const { ram, rom } = req.body;
     const memory = await Memory.findByIdAndUpdate(
       req.params.id,
-      { ram, rom, chipset },
+      { ram, rom },
       { new: true, runValidators: true }
     );
     if (!memory) {

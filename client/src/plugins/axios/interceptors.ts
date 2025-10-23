@@ -22,6 +22,16 @@ export default function interceptors(axios: AxiosInstance) {
         config.headers["authorization"] = `Bearer ${access_token}`;
       }
 
+      // 🔥 Nếu là FormData, xóa Content-Type để browser tự set với boundary
+      if (config.data instanceof FormData) {
+        console.log('🔥 Detected FormData - deleting Content-Type header');
+        console.log('Before:', config.headers['Content-Type']);
+        delete config.headers['Content-Type'];
+        console.log('After:', config.headers['Content-Type']);
+      } else {
+        console.log('📦 Not FormData, keeping Content-Type:', config.headers['Content-Type']);
+      }
+
       return config;
     },
 

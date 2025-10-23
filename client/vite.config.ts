@@ -63,4 +63,14 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    proxy: {
+      // Proxy requests to /uploads to Product Manager Service
+      '/uploads': {
+        target: 'http://localhost:5002',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 })

@@ -98,10 +98,10 @@ const seed = async () => {
 
     // Tạo bộ nhớ
     const memories = await Memory.insertMany([
-      { ram: "6GB", rom: "128GB", chipset: "Apple A16 Bionic" },
-      { ram: "6GB", rom: "256GB", chipset: "Apple A16 Bionic" },
-      { ram: "8GB", rom: "512GB", chipset: "Apple A16 Bionic" },
-      { ram: "12GB", rom: "512GB", chipset: "Intel Core i7" },
+      { ram: "6GB", rom: "128GB", },
+      { ram: "6GB", rom: "256GB", },
+      { ram: "8GB", rom: "512GB", },
+      { ram: "12GB", rom: "512GB",},
     ]);
 
     // Tạo ProductVariants
@@ -332,8 +332,8 @@ const seed = async () => {
         productId: iphone15._id,
         colorId: colors[2]._id, // Xanh
         name: "iPhone 15 Xanh - Mặt trước",
-        imageUrl: "/src/assets/images/ip15_xanh_truoc.jpg",
-        originalName: "ip15_xanh_truoc.jpg",
+        imageUrl: "/src/assets/images/ip15_xanh.jpg",
+        originalName: "ip15_xanh.jpg",
         fileSize: 1024,
       },
       {
@@ -348,8 +348,8 @@ const seed = async () => {
         productId: iphone15._id,
         colorId: colors[2]._id, // Xanh
         name: "iPhone 15 Xanh - Cạnh bên",
-        imageUrl: "/src/assets/images/ip15_xanh_ben.jpg",
-        originalName: "ip15_xanh_ben.jpg",
+        imageUrl: "/src/assets/images/ip15_xanh.jpg",
+        originalName: "ip15_xanh.jpg",
         fileSize: 1024,
       },
       
