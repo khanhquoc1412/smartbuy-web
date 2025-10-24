@@ -27,6 +27,10 @@ export default {
       'black': '#212121',
       'yellow': '#ffc400',
       'success': '#28a745',
+      'error': '#dc3545',
+      'warning': '#ffc107',
+      'info': '#17a2b8',
+      // Thêm gray vào theme.colors chính để Tailwind nhận diện
       'gray': {
         50: '#fafaf9',
         100: '#f5f5f4',

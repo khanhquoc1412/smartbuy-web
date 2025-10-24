@@ -112,9 +112,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in paginatedProducts" :key="product.id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
+            <tr v-for="product in paginatedProducts" :key="product._id" class="tw-border-b hover:tw-bg-stone-50 tw-transition-colors">
               <td class="tw-p-2 tw-text-center">
-                <input type="checkbox" v-model="selected" :value="product.id" />
+                <input type="checkbox" v-model="selected" :value="product._id" />
               </td>
               <td class="tw-p-2">{{ product.name }}</td>
               <td class="tw-p-2">{{ product.brand }}</td>
@@ -129,7 +129,7 @@
               <td class="tw-p-2">{{ product.created_at }}</td>
               <td class="tw-p-2">{{ product.updated_at }}</td>
               <td class="tw-p-2">
-                <button class="tw-text-crimson-600 tw-underline hover:tw-text-crimson-800 tw-transition-colors" @click="goToDetail(product.id)">
+                <button class="tw-text-crimson-600 tw-underline hover:tw-text-crimson-800 tw-transition-colors" @click="goToDetail(product._id)">
                   Chi tiết
                 </button>
               </td>
@@ -721,6 +721,42 @@
       </div>
     </div>
 
+    <!-- Modal thông báo -->
+    <div v-if="showNotificationModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-[60]">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96 tw-shadow-xl">
+        <div class="tw-flex tw-items-start tw-gap-3">
+          <!-- Message -->
+          <div class="tw-flex-1">
+            <h3 class="tw-text-lg tw-font-semibold tw-mb-2" 
+                :class="{
+                  'tw-text-success': notificationType === 'success',
+                  'tw-text-error': notificationType === 'error',
+                  'tw-text-warning': notificationType === 'warning',
+                  'tw-text-info': notificationType === 'info'
+                }">
+              {{ notificationType === 'success' ? 'Thành công' : 
+                 notificationType === 'error' ? 'Lỗi' : 
+                 notificationType === 'warning' ? 'Cảnh báo' : 'Thông báo' }}
+            </h3>
+            <p class="tw-text-stone-700 tw-whitespace-pre-line">{{ notificationMessage }}</p>
+          </div>
+        </div>
+        
+        <div class="tw-flex tw-justify-end tw-mt-6">
+          <button @click="showNotificationModal = false" 
+                  class="tw-px-4 tw-py-2 tw-rounded-lg tw-font-medium tw-transition-colors"
+                  :class="{
+                    'tw-bg-red tw-text-white hover:tw-bg-emerald-700': notificationType === 'success',
+                    'tw-bg-red tw-text-white hover:tw-bg-crimson-700': notificationType === 'error',
+                    'tw-bg-red tw-text-white hover:tw-bg-amber-700': notificationType === 'warning',
+                    'tw-bg-red tw-text-white hover:tw-bg-blue-700': notificationType === 'info'
+                  }">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal thêm sản phẩm mới -->
     <div v-if="showAddProductModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
       <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-w-[600px] tw-max-h-[90vh] tw-overflow-y-auto">
@@ -934,6 +970,9 @@ const showEditMemoryModal = ref(false)
 const showEditSpecificationModal = ref(false)
 const showDeleteConfirmModal = ref(false)
 const showAddProductModal = ref(false)
+const showNotificationModal = ref(false)
+const notificationMessage = ref('')
+const notificationType = ref('info') // 'success', 'error', 'warning', 'info'
 
 // Add product states
 const addProductStep = ref(1) // 1 = thông tin sản phẩm, 2 = tạo phiên bản
@@ -1074,10 +1113,15 @@ const selectedMemoryIds = ref([])
 const selectedSpecificationIds = ref([])
 
 function toggleAll(event) {
+  console.log('🔘 toggleAll called, checked:', event.target.checked)
+  console.log('📦 paginatedProducts:', paginatedProducts.value.map(p => ({ _id: p._id, id: p.id, name: p.name })))
+  
   if (event.target.checked) {
-    selected.value = paginatedProducts.value.map(p => p.id)
+    selected.value = paginatedProducts.value.map(p => p._id)
+    console.log('✅ Selected IDs:', selected.value)
   } else {
     selected.value = []
+    console.log('❌ Cleared selection')
   }
 }
 
@@ -1128,6 +1172,14 @@ function toggleAllSpecifications(event) {
 // ============= GENERIC HELPER FUNCTIONS =============
 // Cấu hình cho từng resource type
 const resourceConfig = {
+  products: {
+    endpoint: 'products',
+    label: 'sản phẩm',
+    selectedIds: selected,
+    loadFunction: loadProducts,
+    // Products không dùng generic add/edit vì có logic riêng (modal 2 bước)
+    cascadeDelete: true // Đánh dấu có cascade delete
+  },
   categories: {
     endpoint: 'categories',
     label: 'danh mục',
@@ -1477,18 +1529,63 @@ function goToDetail(id) {
 }
 
 // Xóa nhiều sản phẩm
-function deleteSelected() {
+async function deleteSelected() {
   if (selected.value.length === 0) {
     deleteConfirmMessage.value = 'Chưa chọn sản phẩm để xóa'
     deleteConfirmAction.value = null
     showDeleteConfirmModal.value = true
     return
   }
-  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selected.value.length} sản phẩm đã chọn?`
-  deleteConfirmAction.value = () => {
-    products.value = products.value.filter(p => !selected.value.includes(p.id))
-    selected.value = []
-    showDeleteConfirmModal.value = false
+  
+  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selected.value.length} sản phẩm đã chọn? Tất cả phiên bản, hình ảnh và thông số kỹ thuật cũng sẽ bị xóa!`
+  deleteConfirmAction.value = async () => {
+    try {
+      console.log('🗑️ Deleting products:', selected.value)
+      
+      let totalDeleted = {
+        products: 0,
+        variants: 0,
+        images: 0,
+        specifications: 0
+      }
+      
+      // Xóa từng sản phẩm (backend sẽ cascade delete)
+      for (const productId of selected.value) {
+        try {
+          const res = await axios.delete(`http://localhost:3000/api/products/${productId}`)
+          
+          if (res?.success) {
+            totalDeleted.products++
+            if (res.deletedCount) {
+              totalDeleted.variants += res.deletedCount.variants || 0
+              totalDeleted.images += res.deletedCount.images || 0
+              totalDeleted.specifications += res.deletedCount.specifications || 0
+            }
+          }
+        } catch (error) {
+          console.error(`❌ Error deleting product ${productId}:`, error)
+        }
+      }
+      
+      // Reload danh sách
+      await loadProducts()
+      
+      // Clear selection
+      selected.value = []
+      
+      // Đóng modal xác nhận
+      showDeleteConfirmModal.value = false
+      
+      // Hiển thị thông báo thành công
+      const message = `Đã xóa:\n• ${totalDeleted.products} sản phẩm\n• ${totalDeleted.variants} phiên bản\n• ${totalDeleted.images} hình ảnh\n• ${totalDeleted.specifications} thông số kỹ thuật`
+      showNotification(message, 'success')
+      
+      console.log('✅ Delete completed:', totalDeleted)
+    } catch (error) {
+      console.error('❌ Error in deleteSelected:', error)
+      showDeleteConfirmModal.value = false
+      showNotification('Lỗi khi xóa sản phẩm!', 'error')
+    }
   }
   showDeleteConfirmModal.value = true
 }
@@ -1508,6 +1605,13 @@ function formatDate(date) {
   return new Date(date).toLocaleDateString('vi-VN')
 }
 
+// Helper function: Show notification modal
+function showNotification(message, type = 'info') {
+  notificationMessage.value = message
+  notificationType.value = type
+  showNotificationModal.value = true
+}
+
 // ============= THÊM SẢN PHẨM MỚI =============
 // Handle thumb file selection
 function handleThumbFileSelect(event) {
@@ -1516,13 +1620,13 @@ function handleThumbFileSelect(event) {
 
   // Validate file type
   if (!file.type.startsWith('image/')) {
-    alert('Vui lòng chọn file ảnh hợp lệ')
+    showNotification('Vui lòng chọn file ảnh hợp lệ', 'error')
     return
   }
 
   // Validate file size (max 5MB)
   if (file.size > 5 * 1024 * 1024) {
-    alert('Kích thước file không được vượt quá 5MB')
+    showNotification('Kích thước file không được vượt quá 5MB', 'error')
     return
   }
 
@@ -1535,7 +1639,7 @@ function handleThumbFileSelect(event) {
     newProductThumbPreview.value = e.target.result
   }
   reader.onerror = () => {
-    alert('Lỗi khi đọc file')
+    showNotification('Lỗi khi đọc file', 'error')
   }
   reader.readAsDataURL(file)
 }
@@ -1567,22 +1671,22 @@ function cancelAddProduct() {
 function goToStep2() {
   // Validate thông tin sản phẩm
   if (!newProduct.value.name || !newProduct.value.name.trim()) {
-    alert('⚠️ Vui lòng nhập tên sản phẩm')
+    showNotification('Vui lòng nhập tên sản phẩm', 'warning')
     return
   }
   
   if (!newProduct.value.category) {
-    alert('⚠️ Vui lòng chọn danh mục')
+    showNotification('Vui lòng chọn danh mục', 'warning')
     return
   }
   
   if (!newProduct.value.brand) {
-    alert('⚠️ Vui lòng chọn thương hiệu')
+    showNotification('Vui lòng chọn thương hiệu', 'warning')
     return
   }
   
   if (!newProduct.value.basePrice || newProduct.value.basePrice <= 0) {
-    alert('⚠️ Vui lòng nhập giá cơ bản hợp lệ')
+    showNotification('Vui lòng nhập giá cơ bản hợp lệ', 'warning')
     return
   }
   
@@ -1608,17 +1712,17 @@ async function createProductWithVariant() {
   try {
     // Validate variant
     if (!newProductVariant.value.memoryId) {
-      alert('⚠️ Vui lòng chọn bộ nhớ cho phiên bản')
+      showNotification('Vui lòng chọn bộ nhớ cho phiên bản', 'warning')
       return
     }
     
     if (!newProductVariant.value.colorId) {
-      alert('⚠️ Vui lòng chọn màu sắc cho phiên bản')
+      showNotification('Vui lòng chọn màu sắc cho phiên bản', 'warning')
       return
     }
     
     if (!newProductVariant.value.price || newProductVariant.value.price <= 0) {
-      alert('⚠️ Vui lòng nhập giá phiên bản hợp lệ')
+      showNotification('Vui lòng nhập giá phiên bản hợp lệ', 'warning')
       return
     }
 
@@ -1697,13 +1801,17 @@ async function createProductWithVariant() {
     // Đóng modal và reset form
     cancelAddProduct()
     
-    // Chuyển sang trang chi tiết sản phẩm
-    alert('✅ Tạo sản phẩm thành công!')
-    router.push(`/admin/product-detail/${newProductId}`)
+    // Hiển thị thông báo thành công
+    showNotification('Tạo sản phẩm thành công! Đang chuyển đến trang chi tiết...', 'success')
+    
+    // Chuyển sang trang chi tiết sản phẩm sau 1 giây
+    setTimeout(() => {
+      router.push(`/admin/product-detail/${newProductId}`)
+    }, 1000)
     
   } catch (error) {
     console.error('❌ Error creating product:', error)
-    alert('⚠️ Lỗi khi tạo sản phẩm: ' + (error.response?.data?.message || error.message))
+    showNotification('Lỗi khi tạo sản phẩm: ' + (error.response?.data?.message || error.message), 'error')
   }
 }
 

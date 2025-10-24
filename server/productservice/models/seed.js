@@ -13,10 +13,6 @@ const ProductVariant = require("./product_variant");
 const ProductImage = require("./product_image");
 const Specification = require("./specification");
 const ProductSpecification = require("./product_specification");
-const ProductImage = require("./product_image");
-const Color = require("./color");
-const Memory = require("./memory");
-const ProductVariant = require("./product_variant");
 const MONGO_URI =
   process.env.MONGO_URI || "mongodb://localhost:27017/smartbuy_db_product";
 
@@ -26,7 +22,6 @@ const seed = async () => {
     console.log("✅ MongoDB connected");
 
     // Xóa dữ liệu cũ
-
   await Category.deleteMany();
   await Brand.deleteMany();
   await Color.deleteMany();
@@ -36,6 +31,15 @@ const seed = async () => {
   await ProductVariant.deleteMany();
   await ProductImage.deleteMany();
   await ProductSpecification.deleteMany();
+  
+  // Drop indexes cũ để tránh conflict
+  try {
+    await Memory.collection.dropIndexes();
+    console.log("🗑️  Dropped old indexes on Memory collection");
+  } catch (err) {
+    console.log("ℹ️  No indexes to drop on Memory collection");
+  }
+  
   console.log("🧹 Old data cleared");
 
     // Tạo categories
@@ -52,6 +56,7 @@ const seed = async () => {
     const apple = await Brand.create({ name: "Apple" });
     const samsung = await Brand.create({ name: "Samsung" });
     const dell = await Brand.create({ name: "Dell" });
+    const xiaomi = await Brand.create({ name: "Xiaomi" });
     
     // Tạo sản phẩm iPhone 15
     const iphone15 = await Product.create({

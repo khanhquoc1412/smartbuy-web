@@ -651,8 +651,15 @@
       @click="showDeleteModal = false">
       <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-max-w-md tw-w-full tw-mx-4" @click.stop>
         <h3 class="tw-text-xl tw-font-bold tw-mb-4 tw-text-crimson-600">Xác nhận xóa sản phẩm</h3>
-        <p class="tw-text-stone-600 tw-mb-6">Bạn có chắc chắn muốn xóa sản phẩm "{{ product.name }}"? Hành động này
-          không thể hoàn tác.</p>
+        <p class="tw-text-stone-800 tw-font-medium tw-mb-2">Bạn có chắc chắn muốn xóa sản phẩm "{{ product.name }}"?</p>
+        <div class="tw-bg-yellow-50 tw-border tw-border-yellow-200 tw-rounded-lg tw-p-3 tw-mb-4">
+          <p class="tw-text-sm tw-text-yellow-800 tw-mb-2">Hành động này sẽ xóa:</p>
+          <ul class="tw-text-sm tw-text-yellow-700 tw-space-y-1 tw-ml-4">
+            <li>• <strong>{{ productVariants.length }}</strong> phiên bản sản phẩm</li>
+            <li>• <strong>{{ productImages.length }}</strong> hình ảnh</li>
+            <li>• <strong>{{ productSpecs.length }}</strong> thông số kỹ thuật</li>
+          </ul>
+        </div>
         <div class="tw-flex tw-gap-2 tw-justify-end">
           <button @click="showDeleteModal = false"
             class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-800 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors">
@@ -660,7 +667,7 @@
           </button>
           <button @click="deleteProduct"
             class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
-            Xóa sản phẩm
+            Xóa vĩnh viễn
           </button>
         </div>
       </div>
@@ -1668,14 +1675,24 @@ async function saveProduct() {
 
 async function deleteProduct() {
   try {
-    await $axios.delete(`/products/${productId}`)
-    showSuccess('Xóa sản phẩm thành công!')
+    console.log('🗑️ Deleting product:', productId)
+    const res = await $axios.delete(`/products/${productId}`)
+    
+    // Hiển thị thông báo chi tiết
+    if (res?.deletedCount) {
+      const { variants, images, specifications } = res.deletedCount
+      const message = `Đã xóa sản phẩm và ${variants} phiên bản, ${images} hình ảnh, ${specifications} thông số kỹ thuật!`
+      showSuccess(message)
+    } else {
+      showSuccess('Xóa sản phẩm thành công!')
+    }
+    
     setTimeout(() => {
       router.push('/admin/products')
-    }, 1500)
+    }, 2000)
   } catch (error) {
-    console.error('Error deleting product:', error)
-    showError('Lỗi khi xóa sản phẩm')
+    console.error('❌ Error deleting product:', error)
+    showError('Lỗi khi xóa sản phẩm: ' + (error.response?.data?.message || error.message))
   }
   showDeleteModal.value = false
 }

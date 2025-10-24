@@ -1,5 +1,7 @@
 const Product = require('../models/product');
 const ProductVariant = require('../models/product_variant');
+const ProductImage = require('../models/product_image');
+const ProductSpecification = require('../models/product_specification');
 
 exports.health = (req, res) => {
   res.json({ success: true, service: 'product-service', timestamp: new Date().toISOString() });
@@ -81,7 +83,8 @@ exports.list = async (req, res) => {
       const updated = d.updatedAt || created;
       const status = (d.stock || 0) > 0 ? 'Còn hàng' : 'Hết hàng';
       return {
-        id: String(d._id),
+        _id: String(d._id),  // MongoDB _id
+        id: String(d._id),   // Alias cho compatibility
         name: d.name,
         brand: d.brandName,
         category: d.categoryName,
@@ -129,9 +132,42 @@ exports.update = async (req, res) => {
 
 exports.remove = async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.json({ success: true });
+    const productId = req.params.id;
+    
+    console.log('🗑️ Deleting product and related data:', productId);
+    
+    // 1. Xóa tất cả ProductVariants của sản phẩm
+    const deletedVariants = await ProductVariant.deleteMany({ productId });
+    console.log(`  ✅ Deleted ${deletedVariants.deletedCount} variants`);
+    
+    // 2. Xóa tất cả ProductImages của sản phẩm
+    const deletedImages = await ProductImage.deleteMany({ productId });
+    console.log(`  ✅ Deleted ${deletedImages.deletedCount} images`);
+    
+    // 3. Xóa tất cả ProductSpecifications của sản phẩm
+    const deletedSpecs = await ProductSpecification.deleteMany({ productId });
+    console.log(`  ✅ Deleted ${deletedSpecs.deletedCount} specifications`);
+    
+    // 4. Cuối cùng xóa Product
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+    
+    if (!deletedProduct) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+    
+    console.log('  ✅ Deleted product');
+    
+    res.json({ 
+      success: true, 
+      message: 'Product and all related data deleted successfully',
+      deletedCount: {
+        variants: deletedVariants.deletedCount,
+        images: deletedImages.deletedCount,
+        specifications: deletedSpecs.deletedCount
+      }
+    });
   } catch (e) {
+    console.error('❌ Error deleting product:', e);
     res.status(400).json({ success: false, message: e.message });
   }
 };
