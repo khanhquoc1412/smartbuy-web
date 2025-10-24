@@ -40,7 +40,6 @@
         <v-list-item title="Tài khoản" class="title-item" disabled />
         <v-list-item prepend-icon="mdi-account" :title="userName" subtitle="Nhân viên quản lý" disabled />
         <v-list-item prepend-icon="mdi-logout" title="Logout" @click="activeModal" />
-        <v-list-item prepend-icon="mdi-login" title="Sign-in" @click="signIn" />
       </v-list>
     </v-navigation-drawer>
 
@@ -77,6 +76,7 @@
       </v-card>
     </v-dialog>
   </v-app>
+ 
   
 </template>
 

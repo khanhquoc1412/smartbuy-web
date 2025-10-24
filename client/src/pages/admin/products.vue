@@ -338,7 +338,7 @@
       </div>
     </div>
 
-    <div v-if="activeTab === 'Bộ nhớ và Chipset'">
+    <div v-if="activeTab === 'Bộ nhớ'">
       <div class="tw-flex tw-flex-wrap tw-gap-6 tw-mb-4 tw-items-start">
         <input type="text" v-model="memorySearch" placeholder="Tìm kiếm bộ nhớ..." class="tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg tw-w-64 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent" />
 
@@ -720,6 +720,131 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal thêm sản phẩm mới -->
+    <div v-if="showAddProductModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-w-[600px] tw-max-h-[90vh] tw-overflow-y-auto">
+        <h3 class="tw-text-xl tw-font-bold tw-mb-4 tw-text-crimson-600">
+          {{ addProductStep === 1 ? 'Bước 1: Thông tin sản phẩm' : 'Bước 2: Tạo phiên bản đầu tiên' }}
+        </h3>
+
+        <!-- Bước 1: Thông tin sản phẩm -->
+        <div v-if="addProductStep === 1">
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Tên sản phẩm <span class="tw-text-red-500">*</span></label>
+            <input v-model="newProduct.name" type="text" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: iPhone 15 Pro Max">
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Danh mục <span class="tw-text-red-500">*</span></label>
+            <select v-model="newProduct.category" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2">
+              <option value="">-- Chọn danh mục --</option>
+              <option v-for="cat in categoryList" :key="cat._id" :value="cat._id">{{ cat.name }}</option>
+            </select>
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Thương hiệu <span class="tw-text-red-500">*</span></label>
+            <select v-model="newProduct.brand" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2">
+              <option value="">-- Chọn thương hiệu --</option>
+              <option v-for="brand in brandList" :key="brand._id" :value="brand._id">{{ brand.name }}</option>
+            </select>
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Giá gốc <span class="tw-text-red-500">*</span></label>
+            <input v-model.number="newProduct.basePrice" type="number" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: 29990000">
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Giảm giá (%)</label>
+            <input v-model.number="newProduct.discountPercentage" type="number" min="0" max="100" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: 10">
+          </div>
+
+          <!-- Upload ảnh đại diện -->
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Ảnh đại diện (tùy chọn)</label>
+            <div class="tw-flex tw-gap-2">
+              <input 
+                type="file" 
+                ref="thumbFileInput"
+                @change="handleThumbFileSelect"
+                accept="image/*"
+                class="tw-hidden"
+              />  
+              <button 
+                @click="$refs.thumbFileInput.click()" 
+                class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded hover:tw-bg-blue-600"
+              >
+                📁 Chọn ảnh
+              </button>
+              <span v-if="newProductThumbFileName" class="tw-flex tw-items-center tw-text-sm tw-text-gray-600">
+                {{ newProductThumbFileName }}
+              </span>
+            </div>
+            <!-- Preview ảnh -->
+            <div v-if="newProductThumbPreview" class="tw-mt-2">
+              <img :src="newProductThumbPreview" alt="Preview" class="tw-w-32 tw-h-32 tw-object-cover tw-rounded tw-border">
+            </div>
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Mô tả</label>
+            <textarea v-model="newProduct.description" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" rows="3" placeholder="Nhập mô tả sản phẩm..."></textarea>
+          </div>
+
+          <div class="tw-flex tw-justify-end tw-gap-2">
+            <button @click="cancelAddProduct" class="tw-px-4 tw-py-2 tw-bg-gray-300 tw-rounded hover:tw-bg-gray-400">Hủy</button>
+            <button @click="goToStep2" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded hover:tw-bg-crimson-700">Tiếp theo →</button>
+          </div>
+        </div>
+
+        <!-- Bước 2: Tạo phiên bản đầu tiên -->
+        <div v-if="addProductStep === 2">
+          <div class="tw-mb-4 tw-p-3 tw-bg-blue-50 tw-rounded tw-border tw-border-blue-200">
+            <p class="tw-text-sm tw-text-blue-800">
+              <strong>{{ newProduct.name }}</strong> - {{ formatCurrency(newProduct.basePrice) }}
+            </p>
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Bộ nhớ <span class="tw-text-red-500">*</span></label>
+            <select v-model="newProductVariant.memoryId" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2">
+              <option value="">-- Chọn bộ nhớ --</option>
+              <option v-for="mem in memoryList" :key="mem._id" :value="mem._id">
+                {{ mem.ram }} / {{ mem.rom }}
+              </option>
+            </select>
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Màu sắc <span class="tw-text-red-500">*</span></label>
+            <select v-model="newProductVariant.colorId" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2">
+              <option value="">-- Chọn màu sắc --</option>
+              <option v-for="color in colorList" :key="color._id" :value="color._id">
+                {{ color.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Giá bán <span class="tw-text-red-500">*</span></label>
+            <input v-model.number="newProductVariant.price" type="number" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: 29990000">
+          </div>
+
+          <div class="tw-mb-4">
+            <label class="tw-block tw-mb-2 tw-font-medium">Số lượng tồn kho <span class="tw-text-red-500">*</span></label>
+            <input v-model.number="newProductVariant.stock" type="number" min="0" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: 100">
+          </div>
+
+          <div class="tw-flex tw-justify-end tw-gap-2">
+            <button @click="addProductStep = 1" class="tw-px-4 tw-py-2 tw-bg-gray-300 tw-rounded hover:tw-bg-gray-400">← Quay lại</button>
+            <button @click="cancelAddProduct" class="tw-px-4 tw-py-2 tw-bg-gray-300 tw-rounded hover:tw-bg-gray-400">Hủy</button>
+            <button @click="createProductWithVariant" class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded">✓ Tạo sản phẩm</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -731,7 +856,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 // Tabs
-const tabs = ['Sản phẩm', 'Danh mục', 'Thương hiệu', 'Màu sắc', 'Bộ nhớ và Chipset', 'Thuộc tính kỹ thuật']
+const tabs = ['Sản phẩm', 'Danh mục', 'Thương hiệu', 'Màu sắc', 'Bộ nhớ', 'Thuộc tính kỹ thuật']
 const activeTab = ref('Sản phẩm')
 const categories = ['Điện thoại', 'Phụ kiện điện thoại']
 
@@ -808,6 +933,29 @@ const showEditColorModal = ref(false)
 const showEditMemoryModal = ref(false)
 const showEditSpecificationModal = ref(false)
 const showDeleteConfirmModal = ref(false)
+const showAddProductModal = ref(false)
+
+// Add product states
+const addProductStep = ref(1) // 1 = thông tin sản phẩm, 2 = tạo phiên bản
+const newProduct = ref({
+  name: '',
+  category: '',
+  brand: '',
+  basePrice: 0,
+  discountPercentage: 0,
+  description: '',
+  thumbUrl: ''
+})
+const newProductVariant = ref({
+  memoryId: '',
+  colorId: '',
+  price: 0,
+  stock: 0
+})
+const thumbFileInput = ref(null)
+const newProductThumbFile = ref(null)
+const newProductThumbFileName = ref('')
+const newProductThumbPreview = ref('')
 
 // Delete confirmation
 const deleteConfirmMessage = ref('')
@@ -1228,7 +1376,7 @@ const page = computed({
     if (activeTab.value === 'Danh mục') return categoryPage.value
     if (activeTab.value === 'Thương hiệu') return brandPage.value
     if (activeTab.value === 'Màu sắc') return colorPage.value
-    if (activeTab.value === 'Bộ nhớ và Chipset') return memoryPage.value
+    if (activeTab.value === 'Bộ nhớ') return memoryPage.value
     if (activeTab.value === 'Thuộc tính kỹ thuật') return specificationPage.value
     return 1
   },
@@ -1237,7 +1385,7 @@ const page = computed({
     else if (activeTab.value === 'Danh mục') categoryPage.value = val
     else if (activeTab.value === 'Thương hiệu') brandPage.value = val
     else if (activeTab.value === 'Màu sắc') colorPage.value = val
-    else if (activeTab.value === 'Bộ nhớ và Chipset') memoryPage.value = val
+    else if (activeTab.value === 'Bộ nhớ') memoryPage.value = val
     else if (activeTab.value === 'Thuộc tính kỹ thuật') specificationPage.value = val
   }
 })
@@ -1248,7 +1396,7 @@ const perPage = computed({
     if (activeTab.value === 'Danh mục') return categoryPerPage.value
     if (activeTab.value === 'Thương hiệu') return brandPerPage.value
     if (activeTab.value === 'Màu sắc') return colorPerPage.value
-    if (activeTab.value === 'Bộ nhớ và Chipset') return memoryPerPage.value
+    if (activeTab.value === 'Bộ nhớ') return memoryPerPage.value
     if (activeTab.value === 'Thuộc tính kỹ thuật') return specificationPerPage.value
     return 10
   },
@@ -1257,7 +1405,7 @@ const perPage = computed({
     else if (activeTab.value === 'Danh mục') categoryPerPage.value = val
     else if (activeTab.value === 'Thương hiệu') brandPerPage.value = val
     else if (activeTab.value === 'Màu sắc') colorPerPage.value = val
-    else if (activeTab.value === 'Bộ nhớ và Chipset') memoryPerPage.value = val
+    else if (activeTab.value === 'Bộ nhớ') memoryPerPage.value = val
     else if (activeTab.value === 'Thuộc tính kỹ thuật') specificationPerPage.value = val
   }
 })
@@ -1272,7 +1420,7 @@ const totalPages = computed(() => {
     return Math.ceil(filteredBrands.value.length / brandPerPage.value)
   } else if (activeTab.value === 'Màu sắc') {
     return Math.ceil(filteredColors.value.length / colorPerPage.value)
-  } else if (activeTab.value === 'Bộ nhớ và Chipset') {
+  } else if (activeTab.value === 'Bộ nhớ') {
     return Math.ceil(filteredMemories.value.length / memoryPerPage.value)
   } else if (activeTab.value === 'Thuộc tính kỹ thuật') {
     return Math.ceil(filteredSpecifications.value.length / specificationPerPage.value)
@@ -1359,6 +1507,207 @@ function formatDate(date) {
   if (!date) return 'N/A'
   return new Date(date).toLocaleDateString('vi-VN')
 }
+
+// ============= THÊM SẢN PHẨM MỚI =============
+// Handle thumb file selection
+function handleThumbFileSelect(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  // Validate file type
+  if (!file.type.startsWith('image/')) {
+    alert('Vui lòng chọn file ảnh hợp lệ')
+    return
+  }
+
+  // Validate file size (max 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Kích thước file không được vượt quá 5MB')
+    return
+  }
+
+  newProductThumbFile.value = file
+  newProductThumbFileName.value = file.name
+
+  // Create preview
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    newProductThumbPreview.value = e.target.result
+  }
+  reader.onerror = () => {
+    alert('Lỗi khi đọc file')
+  }
+  reader.readAsDataURL(file)
+}
+
+function cancelAddProduct() {
+  showAddProductModal.value = false
+  addProductStep.value = 1
+  newProduct.value = {
+    name: '',
+    category: '',
+    brand: '',
+    basePrice: 0,
+    discountPercentage: 0,
+    description: '',
+    thumbUrl: ''
+  }
+  newProductVariant.value = {
+    memoryId: '',
+    colorId: '',
+    price: 0,
+    stock: 0
+  }
+  newProductThumbFile.value = null
+  newProductThumbFileName.value = ''
+  newProductThumbPreview.value = ''
+}
+
+// Bước 1 -> Bước 2: Validate thông tin sản phẩm cơ bản
+function goToStep2() {
+  // Validate thông tin sản phẩm
+  if (!newProduct.value.name || !newProduct.value.name.trim()) {
+    alert('⚠️ Vui lòng nhập tên sản phẩm')
+    return
+  }
+  
+  if (!newProduct.value.category) {
+    alert('⚠️ Vui lòng chọn danh mục')
+    return
+  }
+  
+  if (!newProduct.value.brand) {
+    alert('⚠️ Vui lòng chọn thương hiệu')
+    return
+  }
+  
+  if (!newProduct.value.basePrice || newProduct.value.basePrice <= 0) {
+    alert('⚠️ Vui lòng nhập giá cơ bản hợp lệ')
+    return
+  }
+  
+  // Chuyển sang bước 2
+  addProductStep.value = 2
+}
+
+// Helper function: Tạo slug từ string (giống slugify)
+function createSlug(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')        // Thay space bằng -
+    .replace(/[^\w\-]+/g, '')    // Xóa ký tự đặc biệt
+    .replace(/\-\-+/g, '-')      // Thay -- bằng -
+    .replace(/^-+/, '')          // Xóa - ở đầu
+    .replace(/-+$/, '')          // Xóa - ở cuối
+}
+
+// Tạo sản phẩm mới với ít nhất 1 phiên bản
+async function createProductWithVariant() {
+  try {
+    // Validate variant
+    if (!newProductVariant.value.memoryId) {
+      alert('⚠️ Vui lòng chọn bộ nhớ cho phiên bản')
+      return
+    }
+    
+    if (!newProductVariant.value.colorId) {
+      alert('⚠️ Vui lòng chọn màu sắc cho phiên bản')
+      return
+    }
+    
+    if (!newProductVariant.value.price || newProductVariant.value.price <= 0) {
+      alert('⚠️ Vui lòng nhập giá phiên bản hợp lệ')
+      return
+    }
+
+    // Bước 1: Tạo sản phẩm (không upload ảnh trước, sẽ upload sau trong trang chi tiết)
+    const productName = newProduct.value.name.trim()
+    const productData = {
+      name: productName,
+      slug: createSlug(productName), // ✅ Tạo slug ở frontend
+      basePrice: Number(newProduct.value.basePrice),
+      discountPercentage: Number(newProduct.value.discountPercentage) || 0,
+      brand: newProduct.value.brand,
+      category: newProduct.value.category
+    }
+    
+    // Chỉ thêm description nếu có
+    if (newProduct.value.description?.trim()) {
+      productData.description = newProduct.value.description.trim()
+    }
+
+    console.log('📦 Creating product:', productData)
+    
+    const productRes = await axios.post('http://localhost:3000/api/products', productData)
+    
+    if (!productRes?.success || !productRes.item?._id) {
+      throw new Error('Không thể tạo sản phẩm')
+    }
+
+    const newProductId = productRes.item._id
+    console.log('✅ Product created:', newProductId)
+
+    // Bước 2: Upload thumb nếu có (sau khi đã có productId)
+    if (newProductThumbFile.value) {
+      try {
+        const formData = new FormData()
+        formData.append('image', newProductThumbFile.value)
+        
+        // ✅ Dùng endpoint riêng để upload thumb cho Product
+        const uploadRes = await axios.post(
+          `http://localhost:3000/api/products/${newProductId}/upload-thumb`, 
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } }
+        )
+        
+        if (uploadRes?.success) {
+          console.log('✅ Thumb uploaded:', uploadRes.thumbUrl)
+        }
+      } catch (uploadError) {
+        console.error('❌ Error uploading thumb:', uploadError)
+        console.warn('⚠️ Sản phẩm đã tạo nhưng không upload được ảnh đại diện')
+      }
+    }
+
+    // Bước 3: Tạo phiên bản đầu tiên
+    const variantData = {
+      productId: newProductId,
+      memoryId: newProductVariant.value.memoryId,
+      colorId: newProductVariant.value.colorId,
+      price: Number(newProductVariant.value.price),
+      stock: Number(newProductVariant.value.stock) || 0
+    }
+
+    console.log('📦 Creating variant:', variantData)
+    
+    // ✅ Sửa endpoint: /api/products/:productId/variants
+    const variantRes = await axios.post(`http://localhost:3000/api/products/${newProductId}/variants`, variantData)
+    
+    if (!variantRes?.success) {
+      console.warn('⚠️ Variant creation failed, but product was created')
+    } else {
+      console.log('✅ Variant created:', variantRes.item)
+    }
+
+    // Bước 4: Reload danh sách và chuyển sang trang chi tiết
+    await loadProducts()
+    
+    // Đóng modal và reset form
+    cancelAddProduct()
+    
+    // Chuyển sang trang chi tiết sản phẩm
+    alert('✅ Tạo sản phẩm thành công!')
+    router.push(`/admin/product-detail/${newProductId}`)
+    
+  } catch (error) {
+    console.error('❌ Error creating product:', error)
+    alert('⚠️ Lỗi khi tạo sản phẩm: ' + (error.response?.data?.message || error.message))
+  }
+}
+
+
 
 </script>
 

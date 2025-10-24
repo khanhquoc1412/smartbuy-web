@@ -136,4 +136,47 @@ exports.remove = async (req, res) => {
   }
 };
 
+// Upload thumbnail cho product
+exports.uploadThumb = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const file = req.file;
+    
+    console.log('📤 Upload thumb request:');
+    console.log('  - productId:', id);
+    console.log('  - file:', file);
+    
+    if (!file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+    
+    // Lưu relative path
+    const thumbUrl = `/uploads/${file.filename}`;
+    
+    console.log('✅ Thumb saved at:', thumbUrl);
+    
+    // Update product với thumbUrl
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { thumbUrl: thumbUrl },
+      { new: true }
+    );
+    
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+    
+    res.json({ 
+      success: true, 
+      item: product,
+      thumbUrl: thumbUrl 
+    });
+  } catch (error) {
+    console.error('Error uploading thumb:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
 

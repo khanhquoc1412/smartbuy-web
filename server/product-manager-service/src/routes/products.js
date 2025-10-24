@@ -53,6 +53,9 @@ router.post('/', ctrl.create);
 router.patch('/:id', ctrl.update);
 router.delete('/:id', ctrl.remove);
 
+// Upload thumbnail cho product
+router.post('/:id/upload-thumb', upload.single('image'), ctrl.uploadThumb);
+
 // Product Variants
 router.get('/:productId/variants', variantsCtrl.listByProduct);
 router.get('/:productId/variants/:id', variantsCtrl.getById);

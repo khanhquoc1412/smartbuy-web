@@ -33,6 +33,70 @@
         </div>
       </div>
 
+      <!-- Checklist Widget - Độ hoàn thiện sản phẩm -->
+      <div class="tw-bg-gradient-to-r tw-from-blue-50 tw-to-purple-50 tw-rounded-lg tw-p-4 tw-mb-6 tw-border tw-border-blue-200">
+        <div class="tw-flex tw-items-start tw-justify-between">
+          <div class="tw-flex-1">
+            <div class="tw-flex tw-items-center tw-gap-2 tw-mb-3">
+              <svg class="tw-w-5 tw-h-5 tw-text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 class="tw-text-base tw-font-semibold tw-text-blue-900">Độ hoàn thiện sản phẩm</h3>
+              <span class="tw-ml-auto tw-px-3 tw-py-1 tw-rounded-full tw-text-sm tw-font-medium"
+                :class="completionPercentage === 100 
+                  ? 'tw-bg-green-100 tw-text-green-700' 
+                  : 'tw-bg-yellow-100 tw-text-yellow-700'">
+                {{ completionPercentage }}%
+              </span>
+            </div>
+            
+            <div class="tw-grid tw-grid-cols-2 tw-gap-3">
+              <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm">
+                <span :class="hasVariants ? 'tw-text-green-600' : 'tw-text-gray-400'">
+                  {{ hasVariants ? '✅' : '⬜' }}
+                </span>
+                <span :class="hasVariants ? 'tw-text-gray-700' : 'tw-text-gray-400'">
+                  {{ productVariants.length }} phiên bản
+                </span>
+              </div>
+              
+              <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm">
+                <span :class="hasImages ? 'tw-text-green-600' : 'tw-text-gray-400'">
+                  {{ hasImages ? '✅' : '⬜' }}
+                </span>
+                <span :class="hasImages ? 'tw-text-gray-700' : 'tw-text-gray-400'">
+                  {{ productImages.length }} hình ảnh
+                </span>
+              </div>
+              
+              <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm">
+                <span :class="hasThumb ? 'tw-text-green-600' : 'tw-text-gray-400'">
+                  {{ hasThumb ? '✅' : '⬜' }}
+                </span>
+                <span :class="hasThumb ? 'tw-text-gray-700' : 'tw-text-gray-400'">
+                  Ảnh đại diện
+                </span>
+              </div>
+              
+              <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm">
+                <span :class="hasSpecs ? 'tw-text-green-600' : 'tw-text-gray-400'">
+                  {{ hasSpecs ? '✅' : '⬜' }}
+                </span>
+                <span :class="hasSpecs ? 'tw-text-gray-700' : 'tw-text-gray-400'">
+                  {{ productSpecs.length }} thông số kỹ thuật
+                </span>
+              </div>
+            </div>
+            
+            <!-- Warning nếu chưa hoàn thiện -->
+            <div v-if="completionPercentage < 100" class="tw-mt-3 tw-p-2 tw-bg-yellow-50 tw-border tw-border-yellow-200 tw-rounded tw-text-xs tw-text-yellow-800">
+              ⚠️ Sản phẩm chưa đầy đủ thông tin. Vui lòng hoàn thiện các mục còn thiếu.
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Main Content Grid -->
       <div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-12 tw-gap-6">
 
@@ -51,19 +115,21 @@
                 class="tw-ml-auto tw-px-3 tw-py-1 tw-bg-blue-100 tw-text-blue-700 tw-text-sm tw-font-medium tw-rounded-full">
                 {{ productVariants.length }} phiên bản
               </span>
+              <!-- Nút thêm phiên bản mới -->
+              <button @click="showAddVariantModal = true"
+                class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-green-700 tw-transition-colors tw-flex tw-items-center tw-gap-2 tw-font-medium">
+                <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Thêm phiên bản
+              </button>
             </div>
 
-            <!-- Step 1: Chọn BỘ NHỚ -->
+            <!-- Step 1: Chọn BỘ NHỚ (chỉ hiển thị, không có nút thêm) -->
             <div class="tw-mb-4">
-              <div class="tw-flex tw-items-center tw-justify-between tw-mb-2">
-                <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700">
-                  RAM & BỘ NHỚ
-                </label>
-                <button @click="showAddMemoryModal = true"
-                  class="tw-px-3 tw-py-1 tw-text-xs tw-bg-stone-600 tw-text-white tw-rounded-lg hover:tw:bg-red-700 tw-transition-colors tw-flex tw-items-center tw-gap-1">
-                  Thêm Memory
-                </button>
-              </div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
+                RAM & BỘ NHỚ
+              </label>
               <div class="tw-flex tw-flex-wrap tw-gap-2">
                 <div v-for="memory in availableMemories" :key="memory._id" class="tw-relative tw-group">
                   <button @click="selectedMemoryId = memory._id"
@@ -79,17 +145,11 @@
               </div>
             </div>
 
-            <!-- Step 2: Chọn MÀU SẮC -->
+            <!-- Step 2: Chọn MÀU SẮC (chỉ hiển thị, không có nút thêm) -->
             <div class="tw-mb-4">
-              <div class="tw-flex tw-items-center tw-justify-between tw-mb-2">
-                <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700">
-                  MÀU SẮC
-                </label>
-                <button @click="showAddColorModal = true"
-                  class="tw-px-3 tw-py-1 tw-text-xs tw-bg-stone-600 tw-text-white tw-rounded-lg hover:tw-bg-purple-700 tw-transition-colors tw-flex tw-items-center tw-gap-1">
-                  Thêm Màu
-                </button>
-              </div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
+                MÀU SẮC
+              </label>
               <div class="tw-flex tw-flex-wrap tw-gap-2">
                 <div v-for="color in availableColors" :key="color._id" class="tw-relative tw-group">
                   <button @click="selectedVariantColorId = color._id"
@@ -136,29 +196,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
               </svg>
-              <p>Chưa có phiên bản nào</p>
-            </div>
-
-            <!-- Nút thêm phiên bản mới -->
-            <div v-if="selectedMemoryId && selectedVariantColorId && !selectedVariant"
-              class="tw-mb-4 tw-p-4 tw-bg-green-50 tw-border-2 tw-border-green-300 tw-rounded-lg">
-              <div class="tw-flex tw-items-center tw-justify-between">
-                <div class="tw-flex tw-items-center tw-gap-3">
-                  <svg class="tw-w-6 tw-h-6 tw-text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                  </svg>
-                  <div>
-                    <h3 class="tw-text-sm tw-font-semibold tw-text-green-800">
-                      Phiên bản mới: {{ getColorName(selectedVariantColorId) }} - {{ getMemoryDisplay(selectedMemoryId) }}
-                    </h3>
-                    <p class="tw-text-xs tw-text-green-600">Nhấn "Thêm phiên bản" để tạo variant mới này</p>
-                  </div>
-                </div>
-                <button @click="createNewVariant"
-                  class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-green-700 tw-transition-colors tw-font-medium tw-flex tw-items-center tw-gap-2">
-                  Thêm phiên bản
-                </button>
-              </div>
+              <p>Chưa có phiên bản nào. Nhấn "Thêm phiên bản" để tạo mới.</p>
             </div>
 
             <!-- Layout 2 cột: Danh sách + Form chỉnh sửa -->
@@ -686,111 +724,90 @@
       </div>
     </div>
 
-    <!-- Add Memory Modal -->
-    <div v-if="showAddMemoryModal"
+    <!-- Add Variant Modal -->
+    <div v-if="showAddVariantModal"
       class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50"
-      @click="showAddMemoryModal = false">
+      @click="showAddVariantModal = false">
       <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-max-w-md tw-w-full tw-mx-4" @click.stop>
         <div class="tw-flex tw-items-center tw-gap-3 tw-mb-4 tw-pb-3 tw-border-b">
-          <svg class="tw-w-6 tw-h-6 tw-text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="tw-w-6 tw-h-6 tw-text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              d="M12 4v16m8-8H4" />
           </svg>
-          <h3 class="tw-text-xl tw-font-bold tw-text-stone-800">Thêm RAM & Bộ nhớ mới</h3>
+          <h3 class="tw-text-xl tw-font-bold tw-text-stone-800">Thêm phiên bản mới</h3>
         </div>
         
         <div class="tw-space-y-4">
+          <!-- Chọn RAM & Bộ nhớ -->
           <div>
             <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
-              RAM <span class="tw-text-red-500">*</span>
+              RAM & Bộ nhớ <span class="tw-text-red-500">*</span>
             </label>
-            <input v-model="newMemory.ram" type="text" placeholder="VD: 6GB, 8GB, 12GB..."
-              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500" />
+            <select v-model="newVariantMemoryId"
+              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500">
+              <option value="">-- Chọn RAM & Bộ nhớ --</option>
+              <option v-for="memory in memories" :key="memory._id" :value="memory._id">
+                {{ memory.ram }} / {{ memory.rom }}
+              </option>
+            </select>
           </div>
-          
-          <div>
-            <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
-              Bộ nhớ trong (ROM) <span class="tw-text-red-500">*</span>
-            </label>
-            <input v-model="newMemory.rom" type="text" placeholder="VD: 128GB, 256GB, 512GB..."
-              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500" />
-          </div>
-          
-          <div>
-            <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
-              Chipset
-            </label>
-            <input v-model="newMemory.chipset" type="text" placeholder="VD: A16 Bionic, Snapdragon 8 Gen 2..."
-              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500" />
-          </div>
-        </div>
 
-        <div class="tw-flex tw-gap-2 tw-justify-end tw-mt-6 tw-pt-4 tw-border-t">
-          <button @click="showAddMemoryModal = false"
-            class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-800 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors">
-            Hủy
-          </button>
-          <button @click="saveNewMemory"
-            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-green-700 tw-transition-colors tw-flex tw-items-center tw-gap-2">
-            <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-            Lưu
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add Color Modal -->
-    <div v-if="showAddColorModal"
-      class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50"
-      @click="showAddColorModal = false">
-      <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-max-w-md tw-w-full tw-mx-4" @click.stop>
-        <div class="tw-flex tw-items-center tw-gap-3 tw-mb-4 tw-pb-3 tw-border-b">
-          <svg class="tw-w-6 tw-h-6 tw-text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-          </svg>
-          <h3 class="tw-text-xl tw-font-bold tw-text-stone-800">Thêm màu sắc mới</h3>
-        </div>
-        
-        <div class="tw-space-y-4">
+          <!-- Chọn Màu sắc -->
           <div>
             <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
-              Tên màu <span class="tw-text-red-500">*</span>
+              Màu sắc <span class="tw-text-red-500">*</span>
             </label>
-            <input v-model="newColor.name" type="text" placeholder="VD: Đen, Trắng, Xanh dương..."
-              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-purple-500" />
+            <select v-model="newVariantColorId"
+              class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500">
+              <option value="">-- Chọn màu sắc --</option>
+              <option v-for="color in colors" :key="color._id" :value="color._id">
+                {{ color.name }}
+              </option>
+            </select>
           </div>
-          
-          <div>
-            <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
-              Mã màu (HEX) <span class="tw-text-red-500">*</span>
-            </label>
-            <div class="tw-flex tw-gap-2">
-              <input v-model="newColor.code" type="color"
-                class="tw-h-12 tw-w-16 tw-border tw-border-stone-300 tw-rounded-lg tw-cursor-pointer" />
-              <input v-model="newColor.code" type="text" placeholder="#000000"
-                class="tw-flex-1 tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-purple-500" />
-            </div>
-            <p class="tw-text-xs tw-text-stone-500 tw-mt-1">Preview: 
-              <span class="tw-inline-block tw-w-6 tw-h-6 tw-rounded tw-border tw-border-stone-300 tw-ml-2 tw-align-middle"
-                :style="{ backgroundColor: newColor.code }"></span>
+
+          <!-- Preview màu được chọn -->
+          <div v-if="newVariantColorId" class="tw-p-3 tw-bg-blue-50 tw-border tw-border-blue-200 tw-rounded-lg">
+            <p class="tw-text-sm tw-text-blue-800 tw-flex tw-items-center tw-gap-2">
+              <span class="tw-inline-block tw-w-6 tw-h-6 tw-rounded tw-border tw-border-stone-300"
+                :style="{ backgroundColor: getColorCode(newVariantColorId) }"></span>
+              <strong>{{ getColorName(newVariantColorId) }}</strong>
+              <span v-if="newVariantMemoryId"> - {{ getMemoryDisplay(newVariantMemoryId) }}</span>
+            </p>
+          </div>
+
+          <!-- Cảnh báo nếu đã tồn tại -->
+          <div v-if="variantCombinationExists" class="tw-p-3 tw-bg-red-50 tw-border tw-border-red-200 tw-rounded-lg">
+            <p class="tw-text-sm tw-text-red-800 tw-flex tw-items-center tw-gap-2">
+              <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              Phiên bản này đã tồn tại!
+            </p>
+          </div>
+
+          <!-- Gợi ý nếu không có dữ liệu -->
+          <div v-if="memories.length === 0 || colors.length === 0"
+            class="tw-p-3 tw-bg-amber-50 tw-border tw-border-amber-200 tw-rounded-lg">
+            <p class="tw-text-sm tw-text-amber-800">
+              ⚠️ Vui lòng tạo RAM & Bộ nhớ và Màu sắc tại trang <strong>Quản lý sản phẩm</strong> trước.
             </p>
           </div>
         </div>
 
         <div class="tw-flex tw-gap-2 tw-justify-end tw-mt-6 tw-pt-4 tw-border-t">
-          <button @click="showAddColorModal = false"
+          <button @click="showAddVariantModal = false; newVariantMemoryId = ''; newVariantColorId = ''"
             class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-800 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors">
             Hủy
           </button>
-          <button @click="saveNewColor"
-            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-purple-700 tw-transition-colors tw-flex tw-items-center tw-gap-2">
+          <button @click="saveNewVariant"
+            :disabled="!newVariantMemoryId || !newVariantColorId || variantCombinationExists"
+            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-blue-700 tw-transition-colors tw-flex tw-items-center tw-gap-2 disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">
             <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            Lưu
+            Tạo phiên bản
           </button>
         </div>
       </div>
@@ -846,20 +863,11 @@ const memories = ref([])
 const specifications = ref([])
 
 // Modal states
-const showAddMemoryModal = ref(false)
-const showAddColorModal = ref(false)
+const showAddVariantModal = ref(false)
 
-// New data for modals
-const newMemory = ref({
-  ram: '',
-  rom: '',
-  chipset: ''
-})
-
-const newColor = ref({
-  name: '',
-  code: '#000000'
-})
+// Selected IDs for creating new variant
+const newVariantMemoryId = ref('')
+const newVariantColorId = ref('')
 
 // Product Related Data
 const productVariants = ref([]) // Các biến thể (color + memory + price + stock)
@@ -872,12 +880,79 @@ const selectedColor = computed(() => {
 })
 
 // NEW: Computed for variant selector
+// Chỉ hiển thị memories và colors có trong productVariants của sản phẩm này
 const availableMemories = computed(() => {
-  return memories.value
+  if (!productVariants.value || productVariants.value.length === 0) {
+    return []
+  }
+  
+  // Lấy danh sách unique memoryIds từ productVariants
+  const memoryIdsInVariants = [...new Set(
+    productVariants.value.map(v => v.memoryId?._id || v.memoryId)
+  )]
+  
+  // Lọc memories có trong variants
+  return memories.value.filter(m => memoryIdsInVariants.includes(m._id))
 })
 
 const availableColors = computed(() => {
-  return colors.value
+  if (!productVariants.value || productVariants.value.length === 0) {
+    return []
+  }
+  
+  // Lấy danh sách unique colorIds từ productVariants
+  const colorIdsInVariants = [...new Set(
+    productVariants.value.map(v => v.colorId?._id || v.colorId)
+  )]
+  
+  // Lọc colors có trong variants
+  return colors.value.filter(c => colorIdsInVariants.includes(c._id))
+})
+
+// Computed: Memories/Colors chưa có trong product (để thêm mới)
+const unusedMemories = computed(() => {
+  const usedMemoryIds = [...new Set(
+    productVariants.value.map(v => v.memoryId?._id || v.memoryId)
+  )]
+  
+  return memories.value.filter(m => !usedMemoryIds.includes(m._id))
+})
+
+const unusedColors = computed(() => {
+  const usedColorIds = [...new Set(
+    productVariants.value.map(v => v.colorId?._id || v.colorId)
+  )]
+  
+  return colors.value.filter(c => !usedColorIds.includes(c._id))
+})
+
+// Computed: Check if selected combination already exists
+const variantCombinationExists = computed(() => {
+  if (!newVariantMemoryId.value || !newVariantColorId.value) return false
+  
+  return productVariants.value.some(v => {
+    const vMemoryId = v.memoryId?._id || v.memoryId
+    const vColorId = v.colorId?._id || v.colorId
+    return vMemoryId === newVariantMemoryId.value && vColorId === newVariantColorId.value
+  })
+})
+
+// Computed: Độ hoàn thiện sản phẩm
+const hasVariants = computed(() => productVariants.value.length > 0)
+const hasImages = computed(() => productImages.value.length > 0)
+const hasThumb = computed(() => !!product.value.thumbUrl)
+const hasSpecs = computed(() => productSpecs.value.length > 0)
+
+const completionPercentage = computed(() => {
+  let completed = 0
+  let total = 4
+  
+  if (hasVariants.value) completed++
+  if (hasImages.value) completed++
+  if (hasThumb.value) completed++
+  if (hasSpecs.value) completed++
+  
+  return Math.round((completed / total) * 100)
 })
 
 // Thay đổi từ computed sang reactive để có thể edit
@@ -1609,97 +1684,63 @@ function goBack() {
   router.push('/admin/products')
 }
 
-// Save new memory
-async function saveNewMemory() {
+// Create new variant with both memory and color
+async function saveNewVariant() {
   try {
-    // Validate
-    if (!newMemory.value.ram || !newMemory.value.rom) {
-      showAddMemoryModal.value = false
-      showError('Vui lòng nhập RAM và Bộ nhớ!')
+    // Validate both selections
+    if (!newVariantMemoryId.value || !newVariantColorId.value) {
+      showError('Vui lòng chọn cả RAM & Bộ nhớ và Màu sắc!')
       return
     }
 
-    console.log('💾 Creating new memory:', newMemory.value)
-    
-    // Call API to create memory
-    const response = await $axios.post('/memories', {
-      ram: newMemory.value.ram,
-      rom: newMemory.value.rom,
-      chipset: newMemory.value.chipset || ''
-    })
-
-    console.log('✅ Memory created - Full response:', response)
-    console.log('✅ Memory created - response.item:', response.item)
-    console.log('✅ Memory created - response.data:', response.data)
-
-    // Add to memories array - handle different response structures
-    let newMemoryItem = response.item || response.data?.item || response.data || response
-    
-    // Ensure it has the required fields
-    if (!newMemoryItem.ram || !newMemoryItem.rom) {
-      console.error('❌ Invalid memory structure:', newMemoryItem)
-      throw new Error('Response không có cấu trúc đúng')
-    }
-
-    console.log('✅ Adding memory to array:', newMemoryItem)
-    memories.value.push(newMemoryItem)
-
-    // Auto-select the new memory
-    selectedMemoryId.value = newMemoryItem._id
-
-    // Reset form and close modal
-    newMemory.value = {
-      ram: '',
-      rom: '',
-      chipset: ''
-    }
-    showAddMemoryModal.value = false
-
-    showSuccess('Thêm RAM & Bộ nhớ thành công! Giờ hãy chọn màu sắc và nhấn "Thêm phiên bản".')
-  } catch (error) {
-    console.error('❌ Error creating memory:', error)
-    showError('Có lỗi xảy ra khi thêm RAM & Bộ nhớ!')
-  }
-}
-
-// Save new color
-async function saveNewColor() {
-  try {
-    // Validate
-    if (!newColor.value.name || !newColor.value.code) {
-      showAddColorModal.value = false
-      showError('Vui lòng nhập tên và mã màu!')
+    // Check if combination already exists
+    if (variantCombinationExists.value) {
+      showError('Phiên bản này đã tồn tại!')
       return
     }
 
-    console.log('💾 Creating new color:', newColor.value)
-    
-    // Call API to create color
-    const response = await $axios.post('/colors', {
-      name: newColor.value.name,
-      code: newColor.value.code
+    console.log('💾 Creating new variant:', {
+      memory: newVariantMemoryId.value,
+      color: newVariantColorId.value
     })
 
-    console.log('✅ Color created:', response)
+    // Create variant
+    const newVariant = {
+      productId: productId,
+      memoryId: newVariantMemoryId.value,
+      colorId: newVariantColorId.value,
+      price: product.value.basePrice || 0,
+      stock: 0
+    }
 
-    // Add to colors array
-    const newColorItem = response.item || response
-    colors.value.push(newColorItem)
+    console.log('🆕 Saving variant:', newVariant)
 
-    // Auto-select the new color
-    selectedVariantColorId.value = newColorItem._id
+    // Save to database
+    const savedVariant = await $axios.post(`/products/${productId}/variants`, newVariant)
+    console.log('✅ Variant saved:', savedVariant)
+
+    // Add to local array
+    productVariants.value.push(savedVariant.item || savedVariant)
+
+    // Auto-select new variant for editing
+    selectedMemoryId.value = newVariantMemoryId.value
+    selectedVariantColorId.value = newVariantColorId.value
+    currentVariantImageIndex.value = 0
+
+    showSuccess(`Đã tạo phiên bản mới! Bạn có thể chỉnh sửa giá và số lượng.`)
 
     // Reset form and close modal
-    newColor.value = {
-      name: '',
-      code: '#000000'
-    }
-    showAddColorModal.value = false
+    newVariantMemoryId.value = ''
+    newVariantColorId.value = ''
+    showAddVariantModal.value = false
 
-    showSuccess('Thêm màu sắc thành công! Giờ hãy chọn bộ nhớ và nhấn "Thêm phiên bản".')
+    // ✅ Reload product variants to update availableMemories and availableColors
+    console.log('🔄 Reloading product variants...')
+    await loadProduct()
+    
   } catch (error) {
-    console.error('❌ Error creating color:', error)
-    showError('Có lỗi xảy ra khi thêm màu sắc!')
+    console.error('❌ Error creating variant:', error)
+    showError('Có lỗi xảy ra khi tạo phiên bản: ' + (error.response?.data?.message || error.message))
   }
 }
 
@@ -1881,6 +1922,12 @@ function createNewVariant() {
 
 async function deleteSelectedVariant() {
   if (!selectedVariant.value) return
+
+  // ✅ Validation: Ngăn xóa variant cuối cùng
+  if (productVariants.value.length === 1) {
+    showError('⚠️ Không thể xóa phiên bản cuối cùng! Sản phẩm phải có ít nhất 1 phiên bản.')
+    return
+  }
 
   showConfirm(`Xóa variant ${getColorName(selectedVariant.value.colorId)} - ${getMemoryDisplay(selectedVariant.value.memoryId)}?`, async () => {
     const variant = selectedVariant.value
