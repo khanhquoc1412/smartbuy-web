@@ -1,29 +1,18 @@
 // const mongoose = require("mongoose");
 
-// const brandSchema = new mongoose.Schema(
-//   {
-//     name: {
-//       type: String,
-//       required: true,
-//       unique: true,
-//     },
-//     nameAscii: {
-//       type: String,
-//       required: true,
-//       unique: true,
-//     },
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
+// const BrandSchema = new mongoose.Schema({
+//   name: { type: String, required: true, unique: true },
+//   // nameAscii: { type: String }, // 👈 thêm dòng này
+//   createdAt: { type: Date, default: Date.now },
+// });
 
-// module.exports = mongoose.model("Brand", brandSchema);
+// module.exports = mongoose.model("Brand", BrandSchema);
+
 const mongoose = require("mongoose");
 
 const BrandSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  // nameAscii: { type: String }, // 👈 thêm dòng này
+  nameAscii: { type: String, default: null }, // ✅ bật lại dòng này
   createdAt: { type: Date, default: Date.now },
 });
 

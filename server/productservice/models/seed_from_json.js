@@ -19,16 +19,19 @@ const MONGO_URI =
 
 const importData = async () => {
   try {
-    // Kết nối tới DB
+    // 🔗 Kết nối tới MongoDB
     await mongoose.connect(MONGO_URI);
     console.log("✅ MongoDB connected");
 
-    // Đọc dữ liệu từ file JSON
-    // Sửa thành tên file đúng của bạn
+    // 🔥 Xóa các bản ghi lỗi có nameAscii = null để tránh duplicate key
+    await Brand.deleteMany({ nameAscii: null });
+    console.log("🧹 Removed invalid brands with null nameAscii");
+
+    // 📖 Đọc dữ liệu từ file JSON
     const dataPath = path.join(__dirname, "seed_data.json");
     const data = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
-    // Tùy chọn: Xóa dữ liệu cũ để tránh trùng lặp
+    // 🧹 Xóa dữ liệu cũ (đảm bảo sạch trước khi seed)
     console.log("🧹 Clearing old data...");
     await Category.deleteMany();
     await Brand.deleteMany();
@@ -41,17 +44,58 @@ const importData = async () => {
     await ProductImage.deleteMany();
     console.log("🧹 Old data cleared");
 
-    // --- Bắt đầu chèn dữ liệu ---
-
+    // 🌱 Chèn dữ liệu độc lập
     console.log("🌱 Seeding independent data...");
-    // 1. Chèn các dữ liệu không phụ thuộc
-    const categories = await Category.insertMany(data.categories);
-    const brands = await Brand.insertMany(data.brands);
-    const specifications = await Specification.insertMany(data.specifications);
-    const colors = await Color.insertMany(data.colors);
-    const memories = await Memory.insertMany(data.memories);
 
-    // 2. Tạo các map để dễ dàng tra cứu ID từ tên (bước quan trọng nhất)
+    // 👉 Dùng updateOne + upsert để tránh lỗi trùng khóa
+    for (const cat of data.categories) {
+      await Category.updateOne(
+        { nameAscii: cat.nameAscii },
+        { $set: cat },
+        { upsert: true }
+      );
+    }
+
+    for (const brand of data.brands) {
+      if (!brand.nameAscii) continue; // tránh null nameAscii
+      await Brand.updateOne(
+        { nameAscii: brand.nameAscii },
+        { $set: brand },
+        { upsert: true }
+      );
+    }
+
+    for (const spec of data.specifications) {
+      await Specification.updateOne(
+        { specName: spec.specName },
+        { $set: spec },
+        { upsert: true }
+      );
+    }
+
+    for (const color of data.colors) {
+      await Color.updateOne(
+        { name: color.name },
+        { $set: color },
+        { upsert: true }
+      );
+    }
+
+    for (const mem of data.memories) {
+      await Memory.updateOne(
+        { ram: mem.ram, rom: mem.rom },
+        { $set: mem },
+        { upsert: true }
+      );
+    }
+
+    // 🔁 Sau khi chèn xong, lấy lại danh sách từ DB để map ID
+    const categories = await Category.find();
+    const brands = await Brand.find();
+    const specifications = await Specification.find();
+    const colors = await Color.find();
+    const memories = await Memory.find();
+
     const categoryMap = new Map(categories.map((c) => [c.name, c._id]));
     const brandMap = new Map(brands.map((b) => [b.name, b._id]));
     const specMap = new Map(specifications.map((s) => [s.specName, s._id]));
@@ -61,9 +105,9 @@ const importData = async () => {
     );
 
     console.log("📱 Seeding products and their relations...");
-    // 3. Lặp qua từng sản phẩm để chèn và tạo liên kết
+
+    // 🔧 Tạo sản phẩm và quan hệ
     for (const productData of data.products) {
-      // Tạo sản phẩm chính
       const newProduct = await Product.create({
         name: productData.name,
         description: productData.description,
@@ -71,39 +115,39 @@ const importData = async () => {
         discountPercentage: productData.discountPercentage,
         slug: productData.slug,
         basePrice: productData.basePrice,
-        brand: brandMap.get(productData.brand), // Lấy ID từ map
-        category: categoryMap.get(productData.category), // Lấy ID từ map
+        brand: brandMap.get(productData.brand),
+        category: categoryMap.get(productData.category),
       });
 
-      // Tạo thông số kỹ thuật cho sản phẩm
+      // 🧩 Thông số kỹ thuật
       if (productData.specifications && productData.specifications.length > 0) {
         const productSpecs = productData.specifications.map((spec) => ({
           productId: newProduct._id,
-          specsId: specMap.get(spec.specName), // Lấy ID từ map
+          specsId: specMap.get(spec.specName),
           specValue: spec.specValue,
         }));
         await ProductSpecification.insertMany(productSpecs);
       }
 
-      // Tạo các biến thể sản phẩm
+      // 🎨 Biến thể (color + memory)
       if (productData.variants && productData.variants.length > 0) {
         const productVariants = productData.variants.map((variant) => ({
           productId: newProduct._id,
-          colorId: colorMap.get(variant.color), // Lấy ID từ map
+          colorId: colorMap.get(variant.color),
           memoryId: memoryMap.get(
             `${variant.memory.ram}/${variant.memory.rom}`
-          ), // Lấy ID từ map
+          ),
           price: variant.price,
           stock: variant.stock,
         }));
         await ProductVariant.insertMany(productVariants);
       }
 
-      // Tạo hình ảnh sản phẩm
+      // 🖼️ Hình ảnh sản phẩm
       if (productData.images && productData.images.length > 0) {
         const productImages = productData.images.map((image) => ({
           productId: newProduct._id,
-          colorId: colorMap.get(image.color), // Lấy ID từ map
+          colorId: colorMap.get(image.color),
           name: image.name,
           imageUrl: image.imageUrl,
         }));

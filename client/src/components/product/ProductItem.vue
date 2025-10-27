@@ -18,7 +18,7 @@
     <router-link :to="linkTo" class="product-link">
       <div class="product-img tw-h-40 tw-overflow-hidden">
         <img
-          :src="mainImage?.imageUrl || product.thumbUrl"
+          :src="displayImage"
           alt=""
           class="hover:tw-scale-90 tw-transition-all"
         />
@@ -45,6 +45,7 @@
       >
         {{ productFullName }}
       </router-link>
+
       <div
         class="product-price lg:tw-flex-row tw-flex-col lg:tw-gap-3 tw-flex tw-gap-0.5"
       >
@@ -87,10 +88,12 @@ import { IProduct } from "@/types/product.types";
 import { formatMoney } from "@utils/formatMoney";
 
 // const { product, path } = defineProps<{ product: IProduct; path?: string }>();
-const { product, path } = defineProps<{
+const props = defineProps<{
   product: IProduct & Record<string, any>;
   path?: string;
+  variant?: any;
 }>();
+const product = props.product;
 // const linkTo = computed(() => {
 //   const q: Record<string, any> = {};
 //   if (variantId.value !== undefined) q.variantId = String(variantId.value);
@@ -100,26 +103,41 @@ const { product, path } = defineProps<{
 // });
 
 const linkTo = computed(() => {
-  const variant = defaultVariant.value;
-  return {
-    path: `/product/${product.slug}`,
-    query: {
-      colorId: variant?.color?.id ?? variant?.color?._id,
-      memoryId: variant?.memory?.id ?? variant?.memory?._id,
-      variantId: variant?.id ?? variant?._id
-    }
-  };
+  const v = defaultVariant.value;
+  const q: Record<string, string> = {};
+  if (v) {
+    const vid = v.id ?? v._id;
+    if (vid !== undefined) q.variantId = String(vid);
+    const cid = v.color?.id ?? v.color?._id ?? v.color;
+    if (cid !== undefined) q.colorId = String(cid);
+    const mid = v.memory?.id ?? v.memory?._id ?? v.memory;
+    if (mid !== undefined) q.memoryId = String(mid);
+  }
+  return { path: `/product/${product.slug}`, query: q };
 });
+// const productFullName = computed(() => {
+//   let name = product?.name ?? "";
+//   // Ưu tiên props.variant nếu có
+//   const v = props.variant ?? defaultVariant.value;
+//   const memStr = v?.memory
+//     ? v.memory.ram && v.memory.rom
+//       ? `${v.memory.ram}GB/${v.memory.rom}GB`
+//       : v.memory.name ?? ""
+//     : "";
+//   const colorName = v?.color?.name ?? "";
+
+//   if (memStr && !name.includes(memStr)) name = `${name} ${memStr}`;
+//   if (colorName && !name.includes(colorName)) name = `${name} ${colorName}`;
+
+//   return name.trim();
+// });
+
 const productFullName = computed(() => {
-  let name = product.name || "";
-  const variant = defaultVariant.value;
-  if (variant?.memory?.ram && variant?.memory?.rom) {
-    name += ` ${variant.memory.ram}GB/${variant.memory.rom}GB`;
-  }
-  if (variant?.color?.name) {
-    name += ` ${variant.color.name}`;
-  }
-  return name;
+  let name = product?.name ?? "";
+  const v = props.variant ?? defaultVariant.value;
+  const colorName = v?.color?.name ?? "";
+  if (colorName && !name.includes(colorName)) name = `${name} ${colorName}`;
+  return name.trim();
 });
 // lấy variant mặc định nếu product.productVariants có
 // const defaultVariant = computed(() =>
@@ -127,22 +145,40 @@ const productFullName = computed(() => {
 //     ? product.productVariants[0]
 //     : null
 // );
-const mainImage = computed(() =>
-  product.images?.find(img => img.imageUrl === product.thumbUrl) || product.images?.[0]
-);
-
-const defaultVariant = computed(() => {
-  if (mainImage.value && product.productVariants) {
-    const imgColorId = mainImage.value.colorId;
-    // Tìm variant có colorId trùng với ảnh chính
-    return product.productVariants.find(
-      v => String(v.color?.id ?? v.color?._id) === String(imgColorId)
-    ) || product.productVariants[0];
+const mainImage = computed(() => {
+  const imgs = product?.images || [];
+  if (props.variant) {
+    const vid = String(props.variant?.color?.id ?? props.variant?.color?._id ?? props.variant?.color ?? "");
+    if (vid) {
+      const byVar = imgs.find(i => String(i.colorId ?? "") === vid);
+      if (byVar) return byVar;
+    }
   }
-  return product.productVariants?.[0] ?? null;
+  // fallback
+  const byThumb = imgs.find(i => String(i.imageUrl) === String(product?.thumbUrl));
+  return byThumb || imgs[0] || undefined;
 });
 
+const displayImage = computed(() => {
+  return mainImage.value?.imageUrl || product?.thumbUrl || "";
+});
 
+const defaultVariant = computed(() => {
+  const variants: any[] = product?.productVariants || [];
+  if (props.variant) return props.variant;
+  const img = mainImage.value;
+  if (img && variants.length) {
+    const imgColorId = String(img.colorId ?? "");
+    if (imgColorId) {
+      const found = variants.find((v) => {
+        const vid = String(v?.color?.id ?? v?.color?._id ?? v?.color ?? "");
+        return vid === imgColorId;
+      });
+      if (found) return found;
+    }
+  }
+  return variants[0] ?? null;
+});
 
 // xác định giá trị variantId/colorId/memoryId an toàn (ưu tiên trường trên product nếu tồn tại, sau đó fallback variant[0])
 const variantId = computed(() => {
@@ -171,7 +207,6 @@ const memoryId = computed(() => {
 });
 
 // build to object, chỉ thêm query khi tồn tại giá trị
-
 </script>
 
 <style scoped lang="scss">

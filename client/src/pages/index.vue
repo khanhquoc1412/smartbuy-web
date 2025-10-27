@@ -75,10 +75,16 @@
           >
             <swiper-slide
               class="swiper-item"
-              v-for="product in products"
-              :key="product.id"
+              v-for="item in productVariantsList"
+              :key="
+                item.product.id + '-' + (item.variant?.id ?? item.variant?._id)
+              "
             >
-              <product-item :product="product" :path="product.slug" />
+              <product-item
+                :product="item.product"
+                :variant="item.variant"
+                :path="item.product.slug"
+              />
             </swiper-slide>
           </swiper>
         </div>
@@ -99,10 +105,16 @@
           >
             <swiper-slide
               class="swiper-item"
-              v-for="product in products"
-              :key="product.id"
+              v-for="item in productVariantsList"
+              :key="
+                item.product.id + '-' + (item.variant?.id ?? item.variant?._id)
+              "
             >
-              <product-item :product="product" :path="product.slug" />
+              <ProductItem
+                :product="item.product"
+                :variant="item.variant"
+                :path="item.product.slug"
+              />
             </swiper-slide>
           </swiper>
         </div>
@@ -176,7 +188,27 @@ import { IProduct } from "@/types/product.types";
 import { useListProductsSale } from "@/api/product/query";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
-
+import { computed, unref } from "vue";
+const productVariantsList = computed(() => {
+  const arr = unref(products) ?? [];
+  return arr.flatMap((p: any) => {
+    const variants =
+      p.productVariants && p.productVariants.length
+        ? p.productVariants
+        : [undefined];
+    const seen = new Set();
+    return variants
+      .filter((v: any) => {
+        const key = `${v?.color?.id ?? v?.color?._id ?? v?.color ?? ""}#${
+          v?.memory?.id ?? v?.memory?._id ?? v?.memory ?? ""
+        }`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .map((v: any) => ({ product: p, variant: v }));
+  });
+});
 // testing homepage
 const product: IProduct = {
   id: "c7626d43-949b-4212-9084-86f747c6624f",
@@ -190,6 +222,7 @@ const product: IProduct = {
   categoryName: "mobile",
 };
 const { data: products } = useListProductsSale(10);
+console.log("products from API", products?.value ?? products);
 </script>
 <route lang="yaml">
 name: Trang chủ
