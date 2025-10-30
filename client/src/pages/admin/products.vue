@@ -85,9 +85,43 @@
           </div>
         </div>
 
+        <div class="tw-relative">
+          <button @click="toggleDropdown('sort')"
+            class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+            <span v-if="!selectedSort">Giá</span>
+            <span v-else class="tw-text-crimson-600 tw-font-medium">
+              {{ sortOptions.find(opt => opt.value === selectedSort)?.label }}
+            </span>
+            <span :class="openDropdown === 'sort' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
+          </button>
+
+          <div v-if="openDropdown === 'sort'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
+            <div class="tw-flex tw-flex-col tw-gap-2 tw-mb-4">
+              <button 
+                @click="selectedSort = ''; closeDropdown()"
+                class="tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition-colors tw-text-left"
+                :class="!selectedSort
+                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                Mặc định
+              </button>
+              <button 
+                v-for="option in sortOptions" 
+                :key="option.value" 
+                @click="selectedSort = option.value; closeDropdown()"
+                class="tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition-colors tw-text-left"
+                :class="selectedSort === option.value
+                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                {{ option.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="tw-flex tw-gap-2 tw-self-end">
           <button @click="showAddProductModal = true" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
-            + Thêm sản phẩm mới
+            + Thêm sản phẩm
           </button>
           <button @click="deleteSelected" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
             - Xóa sản phẩm
@@ -759,7 +793,7 @@
 
     <!-- Modal thêm sản phẩm mới -->
     <div v-if="showAddProductModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
-      <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-w-[600px] tw-max-h-[90vh] tw-overflow-y-auto">
+      <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-w-[600px] tw-max-h-[80vh] tw-overflow-y-auto">
         <h3 class="tw-text-xl tw-font-bold tw-mb-4 tw-text-crimson-600">
           {{ addProductStep === 1 ? 'Bước 1: Thông tin sản phẩm' : 'Bước 2: Tạo phiên bản đầu tiên' }}
         </h3>
@@ -894,18 +928,21 @@ const router = useRouter()
 // Tabs
 const tabs = ['Sản phẩm', 'Danh mục', 'Thương hiệu', 'Màu sắc', 'Bộ nhớ', 'Thuộc tính kỹ thuật']
 const activeTab = ref('Sản phẩm')
-const categories = ['Điện thoại', 'Phụ kiện điện thoại']
 
 // Bộ lọc
 const search = ref('')
 const statuses = ['Còn hàng', 'Hết hàng']
-const brands = ['Apple', 'Samsung', 'Xiaomi', 'Oppo']
+const sortOptions = [
+  { value: 'price-asc', label: 'Tăng dần' },
+  { value: 'price-desc', label: 'Giảm dần' }
+]
 
 // Dữ liệu thực sự dùng để lọc
 const selectedStatuses = ref([])
 const selectedBrands = ref([])
 const selectedCategories = ref([])
 const selectedColors = ref([])
+const selectedSort = ref('')
 
 // Dữ liệu tạm trong dropdown
 const tempStatuses = ref([])
@@ -956,6 +993,10 @@ const brandList = ref([])
 const colorList = ref([])
 const memoryList = ref([])
 const specificationList = ref([])
+
+// Computed properties cho dropdown filter
+const categories = computed(() => categoryList.value.map(c => c.name))
+const brands = computed(() => brandList.value.map(b => b.name))
 
 // Modal states
 const showAddCategoryModal = ref(false)
@@ -1349,7 +1390,7 @@ const saveSpecification = (id) => saveItem('specifications', id)
 
 // Lọc sản phẩm
 const filteredProducts = computed(() => {
-  return products.value.filter(p => {
+  let filtered = products.value.filter(p => {
     return (
       (!search.value || p.name.toLowerCase().includes(search.value.toLowerCase())) &&
       (selectedStatuses.value.length === 0 || selectedStatuses.value.includes(p.status)) &&
@@ -1357,6 +1398,15 @@ const filteredProducts = computed(() => {
       (selectedCategories.value.length === 0 || selectedCategories.value.includes(p.category)
       ))
   })
+
+  // Áp dụng sắp xếp theo giá
+  if (selectedSort.value === 'price-asc') {
+    filtered = filtered.sort((a, b) => (a.price || 0) - (b.price || 0))
+  } else if (selectedSort.value === 'price-desc') {
+    filtered = filtered.sort((a, b) => (b.price || 0) - (a.price || 0))
+  }
+
+  return filtered
 })
 
 // Lọc danh mục
