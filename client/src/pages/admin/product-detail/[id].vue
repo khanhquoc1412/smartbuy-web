@@ -280,7 +280,7 @@
                   <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
                     Danh mục <span class="tw-text-red-500">*</span>
                   </label>
-                  <select v-model="product.categoryId"
+                  <select v-model="product.category"
                     class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
                     <option value="">-- Chọn danh mục --</option>
                     <option v-for="cat in categories" :key="cat._id" :value="cat._id">{{ cat.name }}</option>
@@ -291,7 +291,7 @@
                   <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
                     Thương hiệu <span class="tw-text-red-500">*</span>
                   </label>
-                  <select v-model="product.brandId"
+                  <select v-model="product.brand"
                     class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
                     <option value="">-- Chọn thương hiệu --</option>
                     <option v-for="brand in brands" :key="brand._id" :value="brand._id">{{ brand.name }}</option>
@@ -842,8 +842,8 @@ const product = ref({
   discountPercentage: 0,
   thumbUrl: '',
   slug: '',
-  brandId: '',
-  categoryId: '',
+  brand: '',
+  category: '',
 })
 
 const selectedColorId = ref('')
@@ -1203,6 +1203,10 @@ async function loadProduct() {
     console.log('✅ Product data received:', productData)
 
     // Ensure product has required fields
+    // Extract IDs if brand/category are populated objects
+    const brandId = productData.brand?._id || productData.brand || ''
+    const categoryId = productData.category?._id || productData.category || ''
+    
     product.value = {
       name: productData.name || '',
       description: productData.description || '',
@@ -1210,8 +1214,8 @@ async function loadProduct() {
       discountPercentage: productData.discountPercentage || 0,
       thumbUrl: productData.thumbUrl || productData.image || '',
       slug: productData.slug || '',
-      brandId: productData.brand || productData.brandId || '',
-      categoryId: productData.category || productData.categoryId || '',
+      brand: brandId,
+      category: categoryId,
     }
 
     // Try to load product variants (may not exist yet)
