@@ -189,19 +189,42 @@ import { useListProductsSale } from "@/api/product/query";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
 import { computed, unref } from "vue";
+// const productVariantsList = computed(() => {
+//   const arr = unref(products) ?? [];
+//   return arr.flatMap((p: any) => {
+//     const variants =
+//       p.productVariants && p.productVariants.length
+//         ? p.productVariants
+//         : [undefined];
+//     const seen = new Set();
+//     return variants
+//       .filter((v: any) => {
+//         const key = `${v?.color?.id ?? v?.color?._id ?? v?.color ?? ""}#${
+//           v?.memory?.id ?? v?.memory?._id ?? v?.memory ?? ""
+//         }`;
+//         if (seen.has(key)) return false;
+//         seen.add(key);
+//         return true;
+//       })
+//       .map((v: any) => ({ product: p, variant: v }));
+//   });
+// });
+
+
 const productVariantsList = computed(() => {
   const arr = unref(products) ?? [];
   return arr.flatMap((p: any) => {
-    const variants =
-      p.productVariants && p.productVariants.length
-        ? p.productVariants
-        : [undefined];
+    const variants: any[] = Array.isArray(p.productVariants) ? p.productVariants : [];
+    // Nếu không có variant, giữ 1 entry với variant = null để vẫn render sản phẩm
+    const variantsToUse = variants.length ? variants : [null];
+
     const seen = new Set();
-    return variants
+    return variantsToUse
       .filter((v: any) => {
-        const key = `${v?.color?.id ?? v?.color?._id ?? v?.color ?? ""}#${
-          v?.memory?.id ?? v?.memory?._id ?? v?.memory ?? ""
-        }`;
+        // tạo key bao gồm product id để tránh trùng giữa các product khác
+        const pid = String(p.id ?? p._id ?? "");
+        const vid = String(v?.id ?? v?._id ?? v ?? "");
+        const key = `${pid}#${vid}`;
         if (seen.has(key)) return false;
         seen.add(key);
         return true;

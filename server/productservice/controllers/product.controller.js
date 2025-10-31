@@ -75,50 +75,209 @@ const { cloudinary } = require("../services/cloudinary");
 //     });
 //   }
 // };
+
+
+
+
+// const getAll = async (req, res, next) => {
+//   const products = await Product.find().populate("brand category");
+//   const productsWithVariants = [];
+//   for (const product of products) {
+//     const images = await ProductImage.find({ productId: product._id });
+//     const variants = await ProductVariant.find({ productId: product._id })
+//       .populate({ path: "colorId", select: "name" })
+//       .populate({ path: "memoryId", select: "ram rom" });
+
+//     productsWithVariants.push({
+//       id: product._id,
+//       name: product.name,
+//       slug: product.slug,
+//       basePrice: product.basePrice,
+//       discountPercentage: product.discountPercentage,
+//       thumbUrl: product.thumbUrl,
+//       productVariants: variants.map((variant) => ({
+//         id: variant._id,
+//         color: variant.colorId
+//           ? { id: variant.colorId._id, name: variant.colorId.name }
+//           : null,
+//         memory: variant.memoryId
+//           ? { id: variant.memoryId._id, ram: variant.memoryId.ram, rom: variant.memoryId.rom }
+//           : null,
+//         price: variant.price,
+//         stock: variant.stock,
+//       })),
+//       images: images.map((img) => ({
+//         _id: img._id,
+//         colorId: img.colorId,
+//         imageUrl: img.imageUrl,
+//         name: img.name,
+//       })),
+//     });
+//   }
+//   res.status(StatusCodes.OK).json({
+//     products: productsWithVariants,
+//     total: productsWithVariants.length,
+//     skip: 0,
+//     limit: productsWithVariants.length,
+//     page: 1,
+//   });
+// };
+
+
+
 const getAll = async (req, res, next) => {
-  const products = await Product.find().populate("brand category");
-  const productsWithVariants = [];
-  for (const product of products) {
-    const images = await ProductImage.find({ productId: product._id });
-    const variants = await ProductVariant.find({ productId: product._id })
-      .populate("colorId")
-      .populate("memoryId");
-    productsWithVariants.push({
-      id: product._id,
-      name: product.name,
-      slug: product.slug,
-      basePrice: product.basePrice,
-      discountPercentage: product.discountPercentage,
-      thumbUrl: product.thumbUrl,
-      productVariants: variants.map(variant => ({
-        id: variant._id,
-        color: {
-          id: variant.colorId?._id,
-          name: variant.colorId?.name,
-        },
-        memory: {
-          id: variant.memoryId?._id,
-          rom: variant.memoryId?.rom,
-        },
-        price: variant.price,
-        stock: variant.stock,
-      })),
-      images: images.map(img => ({
-        _id: img._id,
-        colorId: img.colorId,
-        imageUrl: img.imageUrl,
-        name: img.name,
-      })),
+  try {
+    // 📌 Lấy query params
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    const skip = (page - 1) * limit;
+    const { order, dir, brand: brandQuery } = req.query;
+    const sort = order ? { [order]: dir === "desc" ? -1 : 1 } : {};
+
+    const productCondition = {};
+    if (req.params?.keyword) productCondition.name = new RegExp(req.params.keyword, "i");
+    else if (req.query?.keyword) productCondition.name = new RegExp(req.query.keyword, "i");
+
+    // 📂 Lọc theo category
+    if (req.params?.categoryName) {
+      const categoryParam = req.params.categoryName;
+      const category = await Category.findOne({
+        $or: [
+          { nameAscii: new RegExp(categoryParam, "i") },
+          { name: new RegExp(categoryParam, "i") },
+        ],
+      });
+      if (category) {
+        productCondition.$or = [
+          { categoryId: category._id },
+          { category: category.name },
+          { category: category.nameAscii },
+        ];
+      }
+    }
+
+    // 🏷️ Lọc theo brand (thương hiệu)
+    let unresolvedBrandFilter = null;
+    if (brandQuery) {
+      const brand = await Brand.findOne({
+        $or: [
+          { nameAscii: new RegExp(brandQuery, "i") },
+          { name: new RegExp(brandQuery, "i") },
+        ],
+      });
+
+      if (brand) {
+        const idMatches = await Product.find({
+          $or: [{ brandId: brand._id }, { brand: brand._id }],
+        })
+          .select("_id")
+          .lean();
+
+        const strMatchesRaw = await Product.collection
+          .find({ brand: { $regex: new RegExp(brand.name, "i") } })
+          .toArray();
+
+        const ids = new Set();
+        idMatches.forEach((d) => ids.add(String(d._id)));
+        strMatchesRaw.forEach((d) => ids.add(String(d._id)));
+
+        if (ids.size > 0) {
+          productCondition._id = { $in: Array.from(ids) };
+        } else {
+          productCondition.$or = productCondition.$or || [];
+          productCondition.$or.push({ brandId: brand._id }, { brand: brand._id });
+        }
+      } else {
+        unresolvedBrandFilter = new RegExp(brandQuery, "i");
+      }
+    }
+
+    // 🧩 Truy vấn danh sách sản phẩm
+    const products = await Product.find(productCondition)
+      .populate("brand")
+      .populate("category")
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    // Nếu brand không tìm thấy trong collection, lọc lại bằng regex
+    const filteredProducts = unresolvedBrandFilter
+      ? products.filter((p) => {
+          const combined = `${p.brand?.name || ""} ${p.brand?.nameAscii || ""} ${p.brand || ""}`.trim();
+          return unresolvedBrandFilter.test(combined);
+        })
+      : products;
+
+    // 🔁 Gắn thêm thông tin variant + hình ảnh + tên hiển thị
+    const productsWithVariants = [];
+    for (const p of filteredProducts) {
+      const images = await ProductImage.find({ productId: p._id }).lean();
+      const variants = await ProductVariant.find({ productId: p._id })
+        .populate({ path: "colorId", select: "name" })
+        .populate({ path: "memoryId", select: "ram rom" })
+        .lean();
+
+      productsWithVariants.push({
+        id: p._id,
+        name: p.name, // tên gốc
+        description: p.description,
+        discountPercentage: p.discountPercentage,
+        thumbUrl: p.thumbUrl,
+        slug: p.slug,
+        basePrice: p.basePrice,
+        brandName: p.brand?.name || p.brand || null,
+        categoryName: p.category?.name || p.category || null,
+        // ✅ Danh sách biến thể (có tên hiển thị đầy đủ)
+        productVariants: variants.map((v) => {
+          const ram = v.memoryId?.ram ? `${v.memoryId.ram}GB` : "";
+          const rom = v.memoryId?.rom ? `${v.memoryId.rom}GB` : "";
+          const color = v.colorId?.name || "";
+          const variantName = [p.name, ram && rom ? `${ram}/${rom}` : "", color]
+            .filter(Boolean)
+            .join(" ");
+          return {
+            id: v._id,
+            variantName, // ✅ iPhone 15 6GB/256GB Đen
+            price: v.price,
+            stock: v.stock,
+            color: v.colorId
+              ? { id: v.colorId._id, name: v.colorId.name }
+              : null,
+            memory: v.memoryId
+              ? {
+                  id: v.memoryId._id,
+                  ram: v.memoryId.ram,
+                  rom: v.memoryId.rom,
+                }
+              : null,
+          };
+        }),
+        images: images.map((img) => ({
+          _id: img._id,
+          colorId: img.colorId,
+          imageUrl: img.imageUrl,
+          name: img.name,
+        })),
+      });
+    }
+
+    // 📤 Trả về response
+    res.status(StatusCodes.OK).json({
+      products: productsWithVariants,
+      total: productsWithVariants.length,
+      skip,
+      limit,
+      page,
     });
+  } catch (error) {
+    console.error("getAll error:", error);
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Lỗi server", status: StatusCodes.BAD_REQUEST });
   }
-  res.status(StatusCodes.OK).json({
-    products: productsWithVariants,
-    total: productsWithVariants.length,
-    skip: 0,
-    limit: productsWithVariants.length,
-    page: 1,
-  });
 };
+
 
 const createProduct = async (req, res, next) => {
   try {

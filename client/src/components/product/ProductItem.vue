@@ -115,30 +115,67 @@ const linkTo = computed(() => {
   }
   return { path: `/product/${product.slug}`, query: q };
 });
-// const productFullName = computed(() => {
-//   let name = product?.name ?? "";
-//   // Ưu tiên props.variant nếu có
-//   const v = props.variant ?? defaultVariant.value;
-//   const memStr = v?.memory
-//     ? v.memory.ram && v.memory.rom
-//       ? `${v.memory.ram}GB/${v.memory.rom}GB`
-//       : v.memory.name ?? ""
-//     : "";
-//   const colorName = v?.color?.name ?? "";
-
-//   if (memStr && !name.includes(memStr)) name = `${name} ${memStr}`;
-//   if (colorName && !name.includes(colorName)) name = `${name} ${colorName}`;
-
-//   return name.trim();
-// });
-
 const productFullName = computed(() => {
   let name = product?.name ?? "";
-  const v = props.variant ?? defaultVariant.value;
+  const v = props.variant;
+
+  let memStr = "";
+  if (v?.memory) {
+    // Nếu là số thì nối GB, nếu là chuỗi thì giữ nguyên
+    const ram =
+      v.memory.ram !== undefined
+        ? typeof v.memory.ram === "number"
+          ? `${v.memory.ram}GB`
+          : v.memory.ram
+        : "";
+    const rom =
+      v.memory.rom !== undefined
+        ? typeof v.memory.rom === "number"
+          ? `${v.memory.rom}GB`
+          : v.memory.rom
+        : "";
+    memStr = ram && rom ? `${ram}/${rom}` : ram || rom;
+  }
+
   const colorName = v?.color?.name ?? "";
-  if (colorName && !name.includes(colorName)) name = `${name} ${colorName}`;
-  return name.trim();
+
+  let fullName = name;
+  if (memStr) fullName += ` ${memStr}`;
+  if (colorName) fullName += ` ${colorName}`;
+  return fullName.trim();
 });
+
+// const productFullName = computed(() => {
+//   let name = product?.name ?? "";
+//   const v = props.variant;
+
+//   // Ghép cấu hình bộ nhớ đúng chuẩn: RAM trước, ROM sau
+//   let memStr = "";
+//   if (v?.memory) {
+//     // Chỉ nối "GB" nếu chưa có
+//     const ram = v.memory.ram
+//       ? v.memory.ram.toString().includes("GB")
+//         ? v.memory.ram
+//         : `${v.memory.ram}GB`
+//       : "";
+//     const rom = v.memory.rom
+//       ? v.memory.rom.toString().includes("GB")
+//         ? v.memory.rom
+//         : `${v.memory.rom}GB`
+//       : "";
+//     // Chỉ ghép nếu có cả ram và rom
+//     memStr = ram && rom ? `${ram}/${rom}` : ram || rom;
+//   }
+
+//   // Ghép màu
+//   const colorName = v?.color?.name ?? "";
+
+//   // Ghép tên đầy đủ
+//   let fullName = name;
+//   if (memStr) fullName += ` ${memStr}`;
+//   if (colorName) fullName += ` ${colorName}`;
+//   return fullName.trim();
+// });
 // lấy variant mặc định nếu product.productVariants có
 // const defaultVariant = computed(() =>
 //   product?.productVariants && product.productVariants.length
@@ -148,14 +185,21 @@ const productFullName = computed(() => {
 const mainImage = computed(() => {
   const imgs = product?.images || [];
   if (props.variant) {
-    const vid = String(props.variant?.color?.id ?? props.variant?.color?._id ?? props.variant?.color ?? "");
+    const vid = String(
+      props.variant?.color?.id ??
+        props.variant?.color?._id ??
+        props.variant?.color ??
+        ""
+    );
     if (vid) {
-      const byVar = imgs.find(i => String(i.colorId ?? "") === vid);
+      const byVar = imgs.find((i) => String(i.colorId ?? "") === vid);
       if (byVar) return byVar;
     }
   }
   // fallback
-  const byThumb = imgs.find(i => String(i.imageUrl) === String(product?.thumbUrl));
+  const byThumb = imgs.find(
+    (i) => String(i.imageUrl) === String(product?.thumbUrl)
+  );
   return byThumb || imgs[0] || undefined;
 });
 

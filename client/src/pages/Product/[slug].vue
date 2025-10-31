@@ -340,7 +340,7 @@ const productFullName = computed(() => {
   );
   // Ghép cấu hình nếu có
   if (variant?.memory?.ram && variant?.memory?.rom) {
-    name += ` ${variant.memory.ram}GB/${variant.memory.rom}GB`;
+    name += ` ${variant.memory.ram}/${variant.memory.rom}`;
   }
   // Ghép màu nếu có
   if (variant?.color?.name) {
