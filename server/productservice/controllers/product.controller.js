@@ -75,10 +75,7 @@ const { cloudinary } = require("../services/cloudinary");
 //     });
 //   }
 // };
-
-
-
-
+// getall - kiếm được tất cả sản phẩm với brand và category populated
 // const getAll = async (req, res, next) => {
 //   const products = await Product.find().populate("brand category");
 //   const productsWithVariants = [];
@@ -123,95 +120,465 @@ const { cloudinary } = require("../services/cloudinary");
 //   });
 // };
 
+// getall -kiếm được thương hiệu ở trang mobile
+// const getAll = async (req, res, next) => {
+//   try {
+//     // ⚙️ Lấy tham số phân trang & sắp xếp
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 12;
+//     const skip = (page - 1) * limit;
 
+//     const { order, dir, brand: brandQuery } = req.query;
+//     const sort = order ? { [order]: dir === "desc" ? -1 : 1 } : {};
+
+//     // 🎯 Điều kiện tìm kiếm
+//     const productCondition = {};
+
+//     // 🔍 Lọc theo keyword (tên sản phẩm)
+//     const keyword =
+//       req.params?.keyword?.trim() || req.query?.keyword?.trim() || null;
+//     if (keyword) {
+//       productCondition.name = { $regex: new RegExp(keyword, "i") };
+//     }
+
+//     // 📂 Lọc theo category
+//     if (req.params?.categoryName) {
+//       const categoryParam = req.params.categoryName.trim();
+//       const category = await Category.findOne({
+//         $or: [
+//           { nameAscii: new RegExp(categoryParam, "i") },
+//           { name: new RegExp(categoryParam, "i") },
+//         ],
+//       });
+
+//       if (category) {
+//         productCondition.$or = [
+//           { categoryId: category._id },
+//           { category: category.name },
+//           { category: category.nameAscii },
+//         ];
+//       }
+//     }
+
+//     // 🏷️ Lọc theo brand
+//     let unresolvedBrandFilter = null;
+//     if (brandQuery) {
+//       console.log("brandQuery:", brandQuery);
+//       const brand = await Brand.findOne({
+//         $or: [
+//           { nameAscii: new RegExp(brandQuery, "i") },
+//           { name: new RegExp(brandQuery, "i") },
+//         ],
+//       });
+
+//       if (brand) {
+//         // 🔍 Tìm các sản phẩm khớp theo brand ID hoặc tên brand
+//         const idMatches = await Product.find({
+//           $or: [{ brandId: brand._id }, { brand: brand._id }],
+//         })
+//           .select("_id")
+//           .lean();
+
+//         const strMatches = await Product.collection
+//           .find({
+//             brand: { $regex: new RegExp(brand.name, "i") },
+//           })
+//           .project({ _id: 1 })
+//           .toArray();
+
+//         // Gộp tất cả _id trùng
+//         const ids = new Set();
+//         idMatches.forEach((d) => ids.add(String(d._id)));
+//         strMatches.forEach((d) => ids.add(String(d._id)));
+
+//         if (ids.size > 0) {
+//           productCondition._id = { $in: Array.from(ids) };
+//         } else {
+//           // fallback nếu không có id nào match
+//           productCondition.$or = productCondition.$or || [];
+//           productCondition.$or.push(
+//             { brandId: brand._id },
+//             { brand: brand._id }
+//           );
+//         }
+
+//         console.log("✅ resolved brand:", brand._id.toString());
+//       } else {
+//         // brand không có trong collection → lọc sau khi query
+//         unresolvedBrandFilter = new RegExp(brandQuery, "i");
+//         console.warn(
+//           `⚠️ Brand "${brandQuery}" not found → filtering in-memory`
+//         );
+//       }
+//     }
+
+//     // 🧩 Lấy sản phẩm (populate brand, category)
+//     const products = await Product.find(productCondition)
+//       .populate("brand")
+//       .populate("category")
+//       .sort(sort)
+//       .skip(skip)
+//       .limit(limit)
+//       .lean();
+
+//     // 🔍 Nếu brand không có trong Brand collection, lọc bằng regex thủ công
+//     const filteredProducts = unresolvedBrandFilter
+//       ? products.filter((p) => {
+//           const combined = `${p.brand?.name || ""} ${
+//             p.brand?.nameAscii || ""
+//           } ${p.brand || ""}`.trim();
+//           return unresolvedBrandFilter.test(combined);
+//         })
+//       : products;
+    
+//     // 🧱 Thêm variants & images
+//     const productsWithVariants = [];
+//     for (const p of filteredProducts) {
+//       const images = await ProductImage.find({ productId: p._id }).lean();
+//       const variants = await ProductVariant.find({ productId: p._id })
+//         .populate({ path: "colorId", select: "name" })
+//         .populate({ path: "memoryId", select: "ram rom" })
+//         .lean();
+
+//       productsWithVariants.push({
+//         id: p._id,
+//         name: p.name,
+//         description: p.description,
+//         slug: p.slug,
+//         basePrice: p.basePrice,
+//         discountPercentage: p.discountPercentage,
+//         thumbUrl: p.thumbUrl,
+//         brandName: p.brand?.name || p.brand || null,
+//         categoryName: p.category?.name || p.category || null,
+//         productVariants: variants.map((v) => ({
+//           id: v._id,
+//           price: v.price,
+//           stock: v.stock,
+//           color: v.colorId ? { id: v.colorId._id, name: v.colorId.name } : null,
+//           memory: v.memoryId
+//             ? {
+//                 id: v.memoryId._id,
+//                 ram: v.memoryId.ram,
+//                 rom: v.memoryId.rom,
+//               }
+//             : null,
+//         })),
+//         images: images.map((img) => ({
+//           _id: img._id,
+//           colorId: img.colorId,
+//           imageUrl: img.imageUrl,
+//           name: img.name,
+//         })),
+//       });
+//     }
+
+//     // 📤 Trả về dữ liệu
+//     res.status(StatusCodes.OK).json({
+//       products: productsWithVariants,
+//       total: productsWithVariants.length,
+//       skip,
+//       limit,
+//       page,
+//     });
+//   } catch (error) {
+//     console.error("getAll error:", error);
+//     res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Lỗi server",
+//       detail: error.message,
+//     });
+//   }
+// };
+
+// const getAll = async (req, res, next) => {
+//   console.log("🔍 getAll called:", {
+//     params: req.params,
+//     query: req.query,
+//     path: req.path,
+//   });
+
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 12;
+//     const skip = (page - 1) * limit;
+//     const { order, dir, brand: brandQuery, category: categoryQuery } = req.query;
+//     const sort = order ? { [order]: dir === "desc" ? -1 : 1 } : {};
+
+//     const escapeRegex = (s = "") => new RegExp(String(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
+
+//     const brandField = "brand";
+//     const categoryField = "category";
+
+//     const productCondition = {};
+
+//     // Keyword filter
+//     const keyword = req.params?.keyword || req.query?.keyword;
+//     if (keyword) productCondition.name = { $regex: escapeRegex(String(keyword)) };
+
+//     // Category filter (from route param /category/:categoryName or query)
+//     let unresolvedCategoryRegex = null;
+//     const categoryParam = req.params?.categoryName || categoryQuery;
+//     if (categoryParam) {
+//       const cp = String(categoryParam).trim();
+//       const catDoc = await Category.findOne({
+//         $or: [{ nameAscii: new RegExp(cp, "i") }, { name: new RegExp(cp, "i") }],
+//       }).lean();
+      
+//       console.log("📂 Category lookup:", { 
+//         param: cp, 
+//         found: catDoc ? { _id: catDoc._id, name: catDoc.name } : null 
+//       });
+      
+//       if (catDoc) {
+//         productCondition[categoryField] = catDoc._id;
+//         const count = await Product.countDocuments({ [categoryField]: catDoc._id });
+//         console.log(`📊 Products with category "${catDoc.name}": ${count}`);
+//       } else {
+//         unresolvedCategoryRegex = escapeRegex(cp.replace(/-/g, " "));
+//         console.warn(`⚠️ Category "${cp}" not found → will filter in-memory`);
+//       }
+//     }
+
+//     // Brand filter (from query ?brand=apple)
+//     let unresolvedBrandRegex = null;
+//     if (typeof brandQuery === "string" && brandQuery.trim() !== "") {
+//       const bq = brandQuery.trim();
+//       const brandDoc = await Brand.findOne({
+//         $or: [{ nameAscii: new RegExp(bq, "i") }, { name: new RegExp(bq, "i") }],
+//       }).lean();
+      
+//       console.log("🏷️ Brand lookup:", { 
+//         param: bq, 
+//         found: brandDoc ? { _id: brandDoc._id, name: brandDoc.name } : null 
+//       });
+      
+//       if (brandDoc) {
+//         productCondition[brandField] = brandDoc._id;
+//       } else {
+//         unresolvedBrandRegex = escapeRegex(bq);
+//         console.warn(`⚠️ Brand "${bq}" not found → will filter in-memory`);
+//       }
+//     }
+
+//     console.log("🔎 Final productCondition:", productCondition);
+
+//     let products = [];
+//     let totalItems = 0;
+
+//     if (unresolvedBrandRegex || unresolvedCategoryRegex) {
+//       const candidates = await Product.find(productCondition)
+//         .populate({ path: brandField, select: "name nameAscii" })
+//         .populate({ path: categoryField, select: "name nameAscii" })
+//         .sort(sort)
+//         .lean();
+
+//       let filtered = candidates;
+//       if (unresolvedBrandRegex) {
+//         filtered = filtered.filter((p) => {
+//           const val = p[brandField];
+//           const name = typeof val === "string" ? val : (val && (val.name || val.nameAscii)) || "";
+//           return unresolvedBrandRegex.test(String(name));
+//         });
+//       }
+//       if (unresolvedCategoryRegex) {
+//         filtered = filtered.filter((p) => {
+//           const val = p[categoryField];
+//           const name = typeof val === "string" ? val : (val && (val.name || val.nameAscii)) || "";
+//           return unresolvedCategoryRegex.test(String(name));
+//         });
+//       }
+
+//       totalItems = filtered.length;
+//       products = filtered.slice(skip, skip + limit);
+//     } else {
+//       totalItems = await Product.countDocuments(productCondition);
+//       products = await Product.find(productCondition)
+//         .populate({ path: brandField, select: "name nameAscii" })
+//         .populate({ path: categoryField, select: "name nameAscii" })
+//         .sort(sort)
+//         .skip(skip)
+//         .limit(limit)
+//         .lean();
+//     }
+
+//     // Attach variants + images
+//     const productsWithVariants = [];
+//     for (const p of products) {
+//       const images = await ProductImage.find({ productId: p._id }).lean();
+//       const variants = await ProductVariant.find({ productId: p._id })
+//         .populate({ path: "colorId", select: "name" })
+//         .populate({ path: "memoryId", select: "ram rom" })
+//         .lean();
+
+//       productsWithVariants.push({
+//         id: String(p._id),
+//         _id: p._id,
+//         name: p.name,
+//         slug: p.slug,
+//         description: p.description,
+//         basePrice: p.basePrice,
+//         discountPercentage: p.discountPercentage,
+//         thumbUrl: p.thumbUrl,
+//         brandName: (p[brandField] && (p[brandField].name || p[brandField])) || null,
+//         categoryName: (p[categoryField] && (p[categoryField].name || p[categoryField])) || null,
+//         productVariants: variants.map((v) => ({
+//           id: String(v._id),
+//           _id: v._id,
+//           price: v.price,
+//           stock: v.stock,
+//           color: v.colorId ? { id: String(v.colorId._id), name: v.colorId.name } : null,
+//           memory: v.memoryId ? { id: String(v.memoryId._id), ram: v.memoryId.ram, rom: v.memoryId.rom } : null,
+//         })),
+//         images: images.map((img) => ({
+//           id: String(img._id),
+//           _id: img._id,
+//           colorId: img.colorId,
+//           imageUrl: img.imageUrl,
+//           name: img.name,
+//         })),
+//       });
+//     }
+
+//     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+
+//     console.log("✅ getAll result:", {
+//       page,
+//       limit,
+//       totalItems,
+//       totalPages,
+//       returnedItems: productsWithVariants.length,
+//     });
+
+//     return res.status(StatusCodes.OK).json({
+//       products: productsWithVariants,
+//       total: totalPages,
+//       page,
+//       limit,
+//       skip,
+//     });
+//   } catch (error) {
+//     console.error("❌ getAll error:", error);
+//     return res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Lỗi server",
+//       detail: error.message,
+//     });
+//   }
+// };
 
 const getAll = async (req, res, next) => {
+  console.log("🔍 getAll called:", {
+    params: req.params,
+    query: req.query,
+    path: req.path,
+  });
+
   try {
-    // 📌 Lấy query params
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
-    const { order, dir, brand: brandQuery } = req.query;
+    const { order, dir, brand: brandQuery, category: categoryQuery } = req.query;
     const sort = order ? { [order]: dir === "desc" ? -1 : 1 } : {};
 
+    const escapeRegex = (s = "") => new RegExp(String(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
+
+    const brandField = "brand";
+    const categoryField = "category";
+
     const productCondition = {};
-    if (req.params?.keyword) productCondition.name = new RegExp(req.params.keyword, "i");
-    else if (req.query?.keyword) productCondition.name = new RegExp(req.query.keyword, "i");
 
-    // 📂 Lọc theo category
-    if (req.params?.categoryName) {
-      const categoryParam = req.params.categoryName;
-      const category = await Category.findOne({
-        $or: [
-          { nameAscii: new RegExp(categoryParam, "i") },
-          { name: new RegExp(categoryParam, "i") },
-        ],
+    // ✅ Keyword filter
+    const keyword = req.params?.keyword || req.query?.keyword;
+    if (keyword) productCondition.name = { $regex: escapeRegex(String(keyword)) };
+
+    // ✅ Category filter
+    let unresolvedCategoryRegex = null;
+    const categoryParam = req.params?.categoryName || categoryQuery;
+    if (categoryParam) {
+      const cp = String(categoryParam).trim();
+      const catDoc = await Category.findOne({
+        $or: [{ nameAscii: new RegExp(cp, "i") }, { name: new RegExp(cp, "i") }],
+      }).lean();
+      
+      console.log("📂 Category lookup:", { 
+        param: cp, 
+        found: catDoc ? { _id: catDoc._id, name: catDoc.name } : null 
       });
-      if (category) {
-        productCondition.$or = [
-          { categoryId: category._id },
-          { category: category.name },
-          { category: category.nameAscii },
-        ];
-      }
-    }
-
-    // 🏷️ Lọc theo brand (thương hiệu)
-    let unresolvedBrandFilter = null;
-    if (brandQuery) {
-      const brand = await Brand.findOne({
-        $or: [
-          { nameAscii: new RegExp(brandQuery, "i") },
-          { name: new RegExp(brandQuery, "i") },
-        ],
-      });
-
-      if (brand) {
-        const idMatches = await Product.find({
-          $or: [{ brandId: brand._id }, { brand: brand._id }],
-        })
-          .select("_id")
-          .lean();
-
-        const strMatchesRaw = await Product.collection
-          .find({ brand: { $regex: new RegExp(brand.name, "i") } })
-          .toArray();
-
-        const ids = new Set();
-        idMatches.forEach((d) => ids.add(String(d._id)));
-        strMatchesRaw.forEach((d) => ids.add(String(d._id)));
-
-        if (ids.size > 0) {
-          productCondition._id = { $in: Array.from(ids) };
-        } else {
-          productCondition.$or = productCondition.$or || [];
-          productCondition.$or.push({ brandId: brand._id }, { brand: brand._id });
-        }
+      
+      if (catDoc) {
+        productCondition[categoryField] = catDoc._id;
       } else {
-        unresolvedBrandFilter = new RegExp(brandQuery, "i");
+        unresolvedCategoryRegex = escapeRegex(cp.replace(/-/g, " "));
+        console.warn(`⚠️ Category "${cp}" not found → will filter in-memory`);
       }
     }
 
-    // 🧩 Truy vấn danh sách sản phẩm
-    const products = await Product.find(productCondition)
-      .populate("brand")
-      .populate("category")
-      .sort(sort)
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    // ✅ Brand filter
+    let unresolvedBrandRegex = null;
+    if (typeof brandQuery === "string" && brandQuery.trim() !== "") {
+      const bq = brandQuery.trim();
+      const brandDoc = await Brand.findOne({
+        $or: [{ nameAscii: new RegExp(bq, "i") }, { name: new RegExp(bq, "i") }],
+      }).lean();
+      
+      console.log("🏷️ Brand lookup:", { 
+        param: bq, 
+        found: brandDoc ? { _id: brandDoc._id, name: brandDoc.name } : null 
+      });
+      
+      if (brandDoc) {
+        productCondition[brandField] = brandDoc._id;
+      } else {
+        unresolvedBrandRegex = escapeRegex(bq);
+        console.warn(`⚠️ Brand "${bq}" not found → will filter in-memory`);
+      }
+    }
 
-    // Nếu brand không tìm thấy trong collection, lọc lại bằng regex
-    const filteredProducts = unresolvedBrandFilter
-      ? products.filter((p) => {
-          const combined = `${p.brand?.name || ""} ${p.brand?.nameAscii || ""} ${p.brand || ""}`.trim();
-          return unresolvedBrandFilter.test(combined);
-        })
-      : products;
+    console.log("🔎 Final productCondition:", productCondition);
 
-    // 🔁 Gắn thêm thông tin variant + hình ảnh + tên hiển thị
+    // ✅ Fetch products với/không có filter in-memory
+    let products = [];
+    let totalItems = 0;
+
+    if (unresolvedBrandRegex || unresolvedCategoryRegex) {
+      // Trường hợp cần filter sau khi query (brand/category không có trong DB)
+      const candidates = await Product.find(productCondition)
+        .populate({ path: brandField, select: "name nameAscii" })
+        .populate({ path: categoryField, select: "name nameAscii" })
+        .sort(sort)
+        .lean();
+
+      let filtered = candidates;
+      if (unresolvedBrandRegex) {
+        filtered = filtered.filter((p) => {
+          const val = p[brandField];
+          const name = typeof val === "string" ? val : (val && (val.name || val.nameAscii)) || "";
+          return unresolvedBrandRegex.test(String(name));
+        });
+      }
+      if (unresolvedCategoryRegex) {
+        filtered = filtered.filter((p) => {
+          const val = p[categoryField];
+          const name = typeof val === "string" ? val : (val && (val.name || val.nameAscii)) || "";
+          return unresolvedCategoryRegex.test(String(name));
+        });
+      }
+
+      totalItems = filtered.length;
+      products = filtered.slice(skip, skip + limit);
+    } else {
+      // Trường hợp query trực tiếp DB
+      totalItems = await Product.countDocuments(productCondition);
+      products = await Product.find(productCondition)
+        .populate({ path: brandField, select: "name nameAscii" })
+        .populate({ path: categoryField, select: "name nameAscii" })
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .lean();
+    }
+
+    // ✅ Attach variants + images cho từng sản phẩm
     const productsWithVariants = [];
-    for (const p of filteredProducts) {
+    for (const p of products) {
       const images = await ProductImage.find({ productId: p._id }).lean();
       const variants = await ProductVariant.find({ productId: p._id })
         .populate({ path: "colorId", select: "name" })
@@ -219,41 +586,26 @@ const getAll = async (req, res, next) => {
         .lean();
 
       productsWithVariants.push({
-        id: p._id,
-        name: p.name, // tên gốc
+        id: String(p._id),
+        _id: p._id,
+        name: p.name,
+        slug: p.slug,
         description: p.description,
+        basePrice: p.basePrice,
         discountPercentage: p.discountPercentage,
         thumbUrl: p.thumbUrl,
-        slug: p.slug,
-        basePrice: p.basePrice,
-        brandName: p.brand?.name || p.brand || null,
-        categoryName: p.category?.name || p.category || null,
-        // ✅ Danh sách biến thể (có tên hiển thị đầy đủ)
-        productVariants: variants.map((v) => {
-          const ram = v.memoryId?.ram ? `${v.memoryId.ram}GB` : "";
-          const rom = v.memoryId?.rom ? `${v.memoryId.rom}GB` : "";
-          const color = v.colorId?.name || "";
-          const variantName = [p.name, ram && rom ? `${ram}/${rom}` : "", color]
-            .filter(Boolean)
-            .join(" ");
-          return {
-            id: v._id,
-            variantName, // ✅ iPhone 15 6GB/256GB Đen
-            price: v.price,
-            stock: v.stock,
-            color: v.colorId
-              ? { id: v.colorId._id, name: v.colorId.name }
-              : null,
-            memory: v.memoryId
-              ? {
-                  id: v.memoryId._id,
-                  ram: v.memoryId.ram,
-                  rom: v.memoryId.rom,
-                }
-              : null,
-          };
-        }),
+        brandName: (p[brandField] && (p[brandField].name || p[brandField])) || null,
+        categoryName: (p[categoryField] && (p[categoryField].name || p[categoryField])) || null,
+        productVariants: variants.map((v) => ({
+          id: String(v._id),
+          _id: v._id,
+          price: v.price,
+          stock: v.stock,
+          color: v.colorId ? { id: String(v.colorId._id), name: v.colorId.name } : null,
+          memory: v.memoryId ? { id: String(v.memoryId._id), ram: v.memoryId.ram, rom: v.memoryId.rom } : null,
+        })),
         images: images.map((img) => ({
+          id: String(img._id),
           _id: img._id,
           colorId: img.colorId,
           imageUrl: img.imageUrl,
@@ -262,22 +614,32 @@ const getAll = async (req, res, next) => {
       });
     }
 
-    // 📤 Trả về response
-    res.status(StatusCodes.OK).json({
-      products: productsWithVariants,
-      total: productsWithVariants.length,
-      skip,
-      limit,
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+
+    console.log("✅ getAll result:", {
       page,
+      limit,
+      totalItems,
+      totalPages,
+      returnedItems: productsWithVariants.length,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      products: productsWithVariants,
+      total: totalPages, // Frontend cần totalPages cho pagination
+      totalItems, // Thêm totalItems để debug
+      page,
+      limit,
+      skip,
     });
   } catch (error) {
-    console.error("getAll error:", error);
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "Lỗi server", status: StatusCodes.BAD_REQUEST });
+    console.error("❌ getAll error:", error);
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Lỗi server",
+      detail: error.message,
+    });
   }
 };
-
 
 const createProduct = async (req, res, next) => {
   try {

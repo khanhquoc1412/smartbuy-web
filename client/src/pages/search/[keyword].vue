@@ -78,16 +78,8 @@ import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import noen_1 from "@/assets/images/gif/noen-1.gif";
 import Heading from "@/components/base/Heading.vue";
 import { fBrands, fOptions, fPrices } from "@utils/filter-sort/filter";
-import {
-  Swiper,
-  SwiperSlide,
-} from "swiper/vue";
-import {
-  Navigation,
-  Pagination,
-  Autoplay,
-  EffectCube,
-}  from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, Autoplay, EffectCube } from "swiper/modules";
 import { breakpoints } from "@utils/breackpoints";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -118,7 +110,7 @@ const {
 } = useRoute();
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
-  limit: 2,
+  limit: 12,
   brand: route?.query?.brand ? (route.query.brand as string) : "",
   order: route?.query?.order ? (route.query.order as string) : "",
   dir: route?.query?.dir ? (route.query.dir as string) : "",

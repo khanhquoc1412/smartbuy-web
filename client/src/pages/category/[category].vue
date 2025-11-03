@@ -117,7 +117,6 @@ const productVariantsList = computed(() => {
   });
 });
 
-
 const modules = [Navigation, Pagination, Autoplay, EffectCube];
 interface iSort {
   label: string;
@@ -141,7 +140,7 @@ const {
 } = useRoute();
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
-  limit: 2,
+  limit: 12,
   brand: route?.query?.brand ? (route.query.brand as string) : "",
   order: route?.query?.order ? (route.query.order as string) : "",
   dir: route?.query?.dir ? (route.query.dir as string) : "",

@@ -80,6 +80,7 @@ declare global {
   const useLoading: typeof import('./composables/useLoading').default
   const useModel: typeof import('vue').useModel
   const useOrder: typeof import('./composables/useOrder').useOrder
+  const useProductFilter: typeof import('./composables/useProductTest').useProductFilter
   const useProductTest: typeof import('./composables/useProductTest').useProductTest
   const useRoute: typeof import('vue-router').useRoute
   const useRouter: typeof import('vue-router').useRouter

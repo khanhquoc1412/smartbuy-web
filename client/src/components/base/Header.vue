@@ -96,9 +96,33 @@ const { totalItem } = useCart();
 const router = useRouter();
 const keyword = ref<string>("");
 const isScrolled = ref(false);
+// const handleSearch = () => {
+//   router.push(`/search/${keyword.value}`);
+// };
+
+const searchKeyword = ref("");
+
+// ✅ Handle search submission
 const handleSearch = () => {
-  router.push(`/search/${keyword.value}`);
+  const searchTerm = keyword.value.trim();
+
+  if (!searchTerm) {
+    alert("Vui lòng nhập từ khóa tìm kiếm");
+    return;
+  }
+
+  console.log("🔍 Searching for:", searchTerm);
+
+  // ✅ Navigate to search page
+  router.push({
+    path: "/search",
+    query: { keyword: searchTerm },
+  });
+
+  // ✅ Clear input sau khi search
+  keyword.value = "";
 };
+
 </script>
 
 <style scoped lang="scss">
@@ -141,10 +165,15 @@ const handleSearch = () => {
   header {
     .header-search {
       input {
-        outline: none;
-
+        padding-right: 120px;
+        // Space for button
+        color: white;
         &::placeholder {
-          font-size: 0.85rem;
+          color: white;
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(235, 231, 231, 0.2);
         }
       }
     }

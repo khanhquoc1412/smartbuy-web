@@ -70,11 +70,17 @@
 
           <Container>
             <div class="product-list tw-grid tw-grid-cols-4 tw-gap-6">
-              <ProductItem
+              <!-- <ProductItem
                 v-for="item in productVariantsList"
                 :key="item.variantId"
                 :product="item"
                 :path="item.slug"
+              /> -->
+              <ProductItem
+                v-for="item in productVariantsList"
+                :key="item._id"
+                :product="item.product"
+                :variant="item.variant"
               />
             </div>
           </Container>
@@ -137,34 +143,91 @@ interface iSort {
   dir?: string;
 }
 
+// const productVariantsList = computed(() => {
+//   if (!productsData.value?.products) return [];
+//   const result: any[] = [];
+//   productsData.value.products.forEach((product: IProduct) => {
+//     if (product.productVariants && product.productVariants.length > 0) {
+//       product.productVariants.forEach((variant: IProductVariant) => {
+//         result.push({
+//           ...product,
+//           variantId: variant.id,
+//           color: variant.color,
+//           memory: variant.memory,
+//           price: variant.price,
+//           stock: variant.stock,
+//           basePrice: variant.price, // Sửa dòng này!
+//           thumbUrl:
+//             product.images?.find((img) => img.colorId == variant.color?.id)
+//               ?.imageUrl || product.thumbUrl,
+//           name: `${product.name} ${variant.memory?.rom || ""} ${
+//             variant.color?.name || ""
+//           }`,
+//         });
+//       });
+//     } else {
+//       result.push(product);
+//     }
+//   });
+//   return result;
+// });
+
 const productVariantsList = computed(() => {
-  if (!productsData.value?.products) return [];
-  const result: any[] = [];
-  productsData.value.products.forEach((product: IProduct) => {
-    if (product.productVariants && product.productVariants.length > 0) {
-      product.productVariants.forEach((variant: IProductVariant) => {
-        result.push({
-          ...product,
-          variantId: variant.id,
-          color: variant.color,
-          memory: variant.memory,
-          price: variant.price,
-          stock: variant.stock,
-          basePrice: variant.price, // Sửa dòng này!
-          thumbUrl:
-            product.images?.find((img) => img.colorId == variant.color?.id)
-              ?.imageUrl || product.thumbUrl,
-          name: `${product.name} ${variant.memory?.rom || ""} ${
-            variant.color?.name || ""
-          }`,
-        });
+  if (!data.value?.products) return [];
+
+  const result: Array<{
+    _id: string;
+    product: IProduct;
+    variant: IProductVariant | null;
+  }> = [];
+
+  data.value.products.forEach((product: IProduct) => {
+    const variants = product.productVariants || [];
+
+    // ✅ Lấy _id an toàn từ product (có thể là id hoặc _id)
+    const productId = String((product as any)._id || (product as any).id || "");
+
+    if (variants.length === 0) {
+      // Sản phẩm không có variant
+      result.push({
+        _id: productId,
+        product: product,
+        variant: null,
       });
     } else {
-      result.push(product);
+      // Tạo 1 item cho mỗi variant unique
+      const seenKeys = new Set<string>();
+
+      variants.forEach((variant: IProductVariant) => {
+        const colorId = String(
+          (variant.color as any)?.id || (variant.color as any)?._id || ""
+        );
+        const memoryId = String(
+          (variant.memory as any)?.id || (variant.memory as any)?._id || ""
+        );
+        const key = `${colorId}-${memoryId}`;
+
+        if (!seenKeys.has(key)) {
+          seenKeys.add(key);
+          result.push({
+            _id: `${productId}-${key}`,
+            product: product,
+            variant: variant,
+          });
+        }
+      });
     }
   });
+
+  console.log("📊 productVariantsList:", {
+    totalProducts: data.value?.products?.length,
+    totalVariants: result.length,
+    sample: result[0],
+  });
+
   return result;
 });
+
 const categoryList: ICategory[] = [
   {
     id: 1,
@@ -186,30 +249,30 @@ const sortOptions: iSort[] = [
 ];
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
-  limit: 2,
+  limit: 12,
   brand: route?.query?.brand ? (route.query.brand as string) : "",
   order: route?.query?.order ? (route.query.order as string) : "",
   dir: route?.query?.dir ? (route.query.dir as string) : "",
 });
 const { data, refetch, isLoading, isFetching } = useListProducts(params);
-watch([() => params.value.brand], ([newBrand]) => {
-  if (!newBrand) {
-    const { brand, ...restQuery } = route.query;
-    router.replace({
-      query: restQuery,
-    });
-  } else {
-    params.value.page = 1;
-    router.replace({
-      query: {
-        ...route.query,
-        brand: newBrand,
-        page: 1,
-      },
-    });
-  }
-  refetch.value();
-});
+// watch([() => params.value.brand], ([newBrand]) => {
+//   if (!newBrand) {
+//     const { brand, ...restQuery } = route.query;
+//     router.replace({
+//       query: restQuery,
+//     });
+//   } else {
+//     params.value.page = 1;
+//     router.replace({
+//       query: {
+//         ...route.query,
+//         brand: newBrand,
+//         page: 1,
+//       },
+//     });
+//   }
+//   refetch.value();
+// });
 
 const handleSort = async (dir: string) => {
   if (dir.length <= 0) {
@@ -248,6 +311,25 @@ const updateHandler = async (newPage: number) => {
   }
   refetch.value();
 };
+
+watch([() => params.value.brand], ([newBrand]) => {
+  if (!newBrand) {
+    const { brand, ...restQuery } = route.query;
+    router.replace({
+      query: restQuery,
+    });
+  } else {
+    params.value.page = 1;
+    router.replace({
+      query: {
+        ...route.query,
+        brand: newBrand,
+        page: 1,
+      },
+    });
+  }
+  refetch.value();
+});
 </script>
 <route lang="yaml">
 name: Tất cả sản phẩm
