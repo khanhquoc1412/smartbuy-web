@@ -7,6 +7,9 @@ const services = {
   // ===== USER SERVICE (port 3005) - Backend cũ =====
   auth: { url: process.env.USER_SERVICE_URL || 'http://localhost:3005', path: '/api/auth' },
   
+  // ===== USER MANAGER SERVICE (port 3006) - Admin quản lý users =====
+  users: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/users' },
+  
   // ===== PRODUCT SERVICE (port 3001) - Backend cũ =====
   product: { url: process.env.PRODUCT_SERVICE_URL || 'http://localhost:3001', path: '/api/product' },
   
