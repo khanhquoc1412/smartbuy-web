@@ -2,6 +2,52 @@ const User = require('../models/User');
 
 class UserService {
   /**
+   * Create new user
+   */
+  async createUser(userData) {
+    const { userName, email, password, isAdmin } = userData;
+
+    // Validate required fields
+    if (!email || !password) {
+      const error = new Error('Email và mật khẩu là bắt buộc');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      const error = new Error('Email đã tồn tại');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    // Create new user
+    const user = new User({
+      userName: userName || 'User',
+      email,
+      password, // Will be hashed by pre-save hook
+      isAdmin: isAdmin || false,
+      isVerified: false,
+      isBlocked: false,
+      avatarUrl: '/src/assets/svg/animal-avatar-bear.svg' // Default avatar
+    });
+
+    await user.save();
+
+    // Return user without sensitive data
+    const userObject = user.toObject();
+    delete userObject.password;
+    delete userObject.refreshToken;
+
+    return { 
+      success: true, 
+      data: userObject, 
+      message: 'Tạo tài khoản thành công' 
+    };
+  }
+
+  /**
    * Get all users with pagination, search, and filters
    */
   async getAllUsers({ page = 1, limit = 10, search = '', status = [], role = [], sortBy = 'createdAt', sortOrder = 'desc' }) {
@@ -77,38 +123,45 @@ class UserService {
    * Update user information
    */
   async updateUser(userId, updateData) {
-    // Don't allow updating sensitive fields via this endpoint
-    delete updateData.password;
-    delete updateData.refreshToken;
-
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $set: updateData },
-      { new: true, runValidators: true }
-    ).select('-password -refreshToken');
-
+    const user = await User.findById(userId);
+    
     if (!user) {
       const error = new Error('Không tìm thấy người dùng');
       error.statusCode = 404;
       throw error;
     }
 
-    return { success: true, data: user, message: 'Cập nhật thông tin thành công' };
+    // Update allowed fields
+    if (updateData.userName) user.userName = updateData.userName;
+    if (updateData.hasOwnProperty('isAdmin')) user.isAdmin = updateData.isAdmin;
+    if (updateData.hasOwnProperty('isBlocked')) user.isBlocked = updateData.isBlocked;
+    if (updateData.hasOwnProperty('isVerified')) user.isVerified = updateData.isVerified;
+    
+    // Update password if provided
+    if (updateData.password) {
+      user.password = updateData.password; // Will be hashed by pre-save hook
+    }
+
+    await user.save();
+
+    // Return user without sensitive data
+    const userObject = user.toObject();
+    delete userObject.password;
+    delete userObject.refreshToken;
+
+    return { success: true, data: userObject, message: 'Cập nhật thông tin thành công' };
   }
 
   /**
-   * Delete users (soft delete by blocking)
+   * Delete users (permanently delete)
    */
   async deleteUsers(userIds) {
-    const result = await User.updateMany(
-      { _id: { $in: userIds } },
-      { $set: { isBlocked: true } }
-    );
+    const result = await User.deleteMany({ _id: { $in: userIds } });
 
     return {
       success: true,
-      message: `Đã khóa ${result.modifiedCount} tài khoản`,
-      deletedCount: result.modifiedCount
+      message: `Đã xóa ${result.deletedCount} tài khoản`,
+      deletedCount: result.deletedCount
     };
   }
 
@@ -184,6 +237,42 @@ class UserService {
         verified,
         unverified: total - verified
       }
+    };
+  }
+
+  /**
+   * Bulk block/unblock users
+   */
+  async bulkBlockUsers(userIds, isBlocked) {
+    const result = await User.updateMany(
+      { _id: { $in: userIds } },
+      { $set: { isBlocked } }
+    );
+
+    return {
+      success: true,
+      message: isBlocked 
+        ? `Đã khóa ${result.modifiedCount} tài khoản` 
+        : `Đã mở khóa ${result.modifiedCount} tài khoản`,
+      modifiedCount: result.modifiedCount
+    };
+  }
+
+  /**
+   * Bulk set admin role
+   */
+  async bulkSetAdmin(userIds, isAdmin) {
+    const result = await User.updateMany(
+      { _id: { $in: userIds } },
+      { $set: { isAdmin } }
+    );
+
+    return {
+      success: true,
+      message: isAdmin 
+        ? `Đã cấp quyền Admin cho ${result.modifiedCount} tài khoản` 
+        : `Đã gỡ quyền Admin khỏi ${result.modifiedCount} tài khoản`,
+      modifiedCount: result.modifiedCount
     };
   }
 }

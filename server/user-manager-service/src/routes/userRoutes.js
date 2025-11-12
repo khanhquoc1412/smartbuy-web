@@ -12,6 +12,13 @@ router.get('/stats', userController.getUserStats);
 // Get all users with filters
 router.get('/', userController.getAllUsers);
 
+// Create new user
+router.post('/', userController.createUser);
+
+// Bulk operations
+router.patch('/bulk-block', userController.bulkBlockUsers);
+router.patch('/bulk-admin', userController.bulkSetAdmin);
+
 // Get user by ID
 router.get('/:id', userController.getUserById);
 

@@ -5,30 +5,57 @@
     </h1>
 
     <!-- Statistics Cards -->
-    <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 lg:tw-grid-cols-6 tw-gap-4 tw-mb-6">
-      <div class="tw-bg-blue-50 tw-p-4 tw-rounded-lg tw-border tw-border-blue-200">
-        <div class="tw-text-sm tw-text-gray-600">Tổng số</div>
-        <div class="tw-text-2xl tw-font-bold tw-text-blue-600">{{ stats.total || 0 }}</div>
+    <div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-3 tw-gap-6 tw-mb-6">
+      <!-- Overview Chart -->
+      <div class="tw-bg-white tw-p-6 tw-rounded-xl tw-shadow-lg tw-border tw-border-gray-200">
+        <h3 class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4">Tổng quan tài khoản</h3>
+        <div class="tw-flex tw-items-center tw-justify-center" style="height: 200px;">
+          <canvas ref="overviewChart"></canvas>
+        </div>
+        <div class="tw-mt-4 tw-text-center">
+          <p class="tw-text-3xl tw-font-bold tw-text-blue-600">{{ stats.total || 0 }}</p>
+          <p class="tw-text-sm tw-text-gray-600">Tổng số tài khoản</p>
+        </div>
       </div>
-      <div class="tw-bg-green-50 tw-p-4 tw-rounded-lg tw-border tw-border-green-200">
-        <div class="tw-text-sm tw-text-gray-600">Hoạt động</div>
-        <div class="tw-text-2xl tw-font-bold tw-text-green-600">{{ stats.active || 0 }}</div>
+
+      <!-- Status Chart -->
+      <div class="tw-bg-white tw-p-6 tw-rounded-xl tw-shadow-lg tw-border tw-border-gray-200">
+        <h3 class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4">Trạng thái hoạt động</h3>
+        <div class="tw-flex tw-items-center tw-justify-center" style="height: 200px;">
+          <canvas ref="statusChart"></canvas>
+        </div>
+        <div class="tw-grid tw-grid-cols-2 tw-gap-4 tw-mt-4">
+          <div class="tw-text-center tw-p-3 tw-bg-green-50 tw-rounded-lg">
+            <p class="tw-text-2xl tw-font-bold tw-text-green-600">{{ stats.active || 0 }}</p>
+            <p class="tw-text-xs tw-text-gray-600">Hoạt động</p>
+          </div>
+          <div class="tw-text-center tw-p-3 tw-bg-crimson-50 tw-rounded-lg">
+            <p class="tw-text-2xl tw-font-bold tw-text-crimson-600">{{ stats.blocked || 0 }}</p>
+            <p class="tw-text-xs tw-text-gray-600">Bị khóa</p>
+          </div>
+        </div>
       </div>
-      <div class="tw-bg-red-50 tw-p-4 tw-rounded-lg tw-border tw-border-red-200">
-        <div class="tw-text-sm tw-text-gray-600">Bị khóa</div>
-        <div class="tw-text-2xl tw-font-bold tw-text-red-600">{{ stats.blocked || 0 }}</div>
-      </div>
-      <div class="tw-bg-purple-50 tw-p-4 tw-rounded-lg tw-border tw-border-purple-200">
-        <div class="tw-text-sm tw-text-gray-600">Admin</div>
-        <div class="tw-text-2xl tw-font-bold tw-text-purple-600">{{ stats.admin || 0 }}</div>
-      </div>
-      <div class="tw-bg-emerald-50 tw-p-4 tw-rounded-lg tw-border tw-border-emerald-200">
-        <div class="tw-text-sm tw-text-gray-600">Đã xác thực</div>
-        <div class="tw-text-2xl tw-font-bold tw-text-emerald-600">{{ stats.verified || 0 }}</div>
-      </div>
-      <div class="tw-bg-amber-50 tw-p-4 tw-rounded-lg tw-border tw-border-amber-200">
-        <div class="tw-text-sm tw-text-gray-600">Chưa xác thực</div>
-        <div class="tw-text-2xl tw-font-bold tw-text-amber-600">{{ stats.unverified || 0 }}</div>
+
+      <!-- Verification Chart -->
+      <div class="tw-bg-white tw-p-6 tw-rounded-xl tw-shadow-lg tw-border tw-border-gray-200">
+        <h3 class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4">Xác thực & Vai trò</h3>
+        <div class="tw-flex tw-items-center tw-justify-center" style="height: 200px;">
+          <canvas ref="verificationChart"></canvas>
+        </div>
+        <div class="tw-grid tw-grid-cols-3 tw-gap-2 tw-mt-4">
+          <div class="tw-text-center tw-p-2 tw-bg-purple-50 tw-rounded-lg">
+            <p class="tw-text-xl tw-font-bold tw-text-purple-600">{{ stats.admin || 0 }}</p>
+            <p class="tw-text-xs tw-text-gray-600">Admin</p>
+          </div>
+          <div class="tw-text-center tw-p-2 tw-bg-emerald-50 tw-rounded-lg">
+            <p class="tw-text-xl tw-font-bold tw-text-emerald-600">{{ stats.verified || 0 }}</p>
+            <p class="tw-text-xs tw-text-gray-600">Đã xác thực</p>
+          </div>
+          <div class="tw-text-center tw-p-2 tw-bg-amber-50 tw-rounded-lg">
+            <p class="tw-text-xl tw-font-bold tw-text-amber-600">{{ stats.unverified || 0 }}</p>
+            <p class="tw-text-xs tw-text-gray-600">Chưa xác thực</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -45,7 +72,7 @@
       <!-- Filter by status -->
       <div class="tw-relative">
         <button @click="toggleDropdown('status')"
-          class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+          class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-200 tw-transition-colors tw-bg-white focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
           Trạng thái
           <span :class="openDropdown === 'status' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
         </button>
@@ -70,7 +97,7 @@
       <!-- Filter by role -->
       <div class="tw-relative">
         <button @click="toggleDropdown('role')"
-          class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+          class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-200 tw-transition-colors tw-bg-white focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
           Vai trò
           <span :class="openDropdown === 'role' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
         </button>
@@ -93,8 +120,43 @@
       </div>
 
       <div class="tw-flex tw-gap-2 tw-self-end">
-        <button @click="deleteSelectedUsers" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
-          - Khóa tài khoản
+        <button @click="openAddUserModal" class="tw-px-4 tw-py-2 tw-bg-green-600 tw-text-white tw-rounded-lg hover:tw-bg-green-700 tw-transition-colors tw-font-medium tw-flex tw-items-center tw-gap-2">
+          <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Thêm tài khoản
+        </button>
+        
+        <button @click="bulkBlockUsers" :disabled="selectedUserIds.length === 0"
+          class="tw-px-4 tw-py-2 tw-bg-amber-600 tw-text-white tw-rounded-lg hover:tw-bg-amber-700 tw-transition-colors tw-font-medium disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-gap-2">
+          <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          Khóa
+        </button>
+        
+        <button @click="bulkUnblockUsers" :disabled="selectedUserIds.length === 0"
+          class="tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-rounded-lg hover:tw-bg-blue-700 tw-transition-colors tw-font-medium disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-gap-2">
+          <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+          </svg>
+          Mở khóa
+        </button>
+        
+        <button @click="bulkSetAdmin" :disabled="selectedUserIds.length === 0"
+          class="tw-px-4 tw-py-2 tw-bg-purple-600 tw-text-white tw-rounded-lg hover:tw-bg-purple-700 tw-transition-colors tw-font-medium disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-gap-2">
+          <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          Cấp Admin
+        </button>
+        
+        <button @click="deleteSelectedUsers" :disabled="selectedUserIds.length === 0"
+          class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-gap-2">
+          <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Xóa
         </button>
       </div>
     </div>
@@ -112,6 +174,7 @@
             <th class="tw-p-2">Trạng thái</th>
             <th class="tw-p-2">Xác thực</th>
             <th class="tw-p-2">Ngày tạo</th>
+            <th class="tw-p-2">Ngày cập nhật</th>
             <th class="tw-p-2">Thao tác</th>
           </tr>
         </thead>
@@ -132,7 +195,7 @@
             <td class="tw-p-2">
               <span 
                 class="tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold"
-                :class="user.isAdmin ? 'tw-bg-purple-100 tw-text-purple-700' : 'tw-bg-gray-100 tw-text-gray-700'"
+                :class="user.isAdmin ? 'tw-bg-green-100 tw-text-green-700' : 'tw-bg-sky-100 tw-text-sky-700'"
               >
                 {{ user.isAdmin ? 'Admin' : 'Khách hàng' }}
               </span>
@@ -140,32 +203,34 @@
             <td class="tw-p-2">
               <span 
                 class="tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold"
-                :class="user.isBlocked ? 'tw-bg-red-100 tw-text-red-700' : 'tw-bg-green-100 tw-text-green-700'"
+                :class="user.isBlocked ? 'tw-bg-crimson-100 tw-text-crimson-700' : 'tw-bg-green-100 tw-text-green-700'"
               >
                 {{ user.isBlocked ? 'Bị khóa' : 'Hoạt động' }}
               </span>
             </td>
             <td class="tw-p-2 tw-text-center">
-              <span v-if="user.isVerified" class="tw-text-green-600">✓</span>
-              <span v-else class="tw-text-gray-400">✗</span>
+              <span 
+                v-if="user.isVerified" 
+                class="tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-bg-green-100 tw-text-green-700"
+              >
+                ✓ Đã xác thực
+              </span>
+              <span 
+                v-else 
+                class="tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-semibold tw-bg-crimson-100 tw-text-crimson-700"
+              >
+                ✗ Chưa xác thực
+              </span>
             </td>
             <td class="tw-p-2">{{ formatDate(user.createdAt) }}</td>
-            <td class="tw-p-2">
-              <div class="tw-flex tw-gap-2">
-                <button 
-                  @click="toggleBlockUser(user)" 
-                  :class="user.isBlocked ? 'tw-text-green-600 hover:tw-text-green-800' : 'tw-text-red-600 hover:tw-text-red-800'"
-                  class="tw-transition-colors tw-font-medium"
-                >
-                  {{ user.isBlocked ? 'Mở khóa' : 'Khóa' }}
-                </button>
-                <button 
-                  @click="toggleAdminRole(user)" 
-                  class="tw-text-purple-600 hover:tw-text-purple-800 tw-transition-colors tw-font-medium"
-                >
-                  {{ user.isAdmin ? 'Gỡ Admin' : 'Set Admin' }}
-                </button>
-              </div>
+            <td class="tw-p-2">{{ formatDate(user.updatedAt) }}</td>
+            <td class="tw-p-2 tw-text-center">
+              <button 
+                @click="openEditUserModal(user)" 
+                class="tw-px-4 tw-py-2 tw-bg-blue-200 hover:tw-bg-blue-100 tw-text-blue-700 tw-transition-colors tw-rounded-full tw-text-xs tw-font-semibold"
+              >
+                Chỉnh sửa
+              </button>
             </td>
           </tr>
         </tbody>
@@ -191,14 +256,186 @@
     <!-- Delete Confirmation Modal -->
     <div v-if="showDeleteConfirmModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
       <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
-        <h3 class="tw-text-lg tw-font-semibold tw-mb-4 tw-text-crimson-600">Xác nhận khóa tài khoản</h3>
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4 tw-text-crimson-600">Xác nhận xóa tài khoản</h3>
         <p class="tw-text-stone-700 tw-mb-6">{{ deleteConfirmMessage }}</p>
         <div class="tw-flex tw-gap-2 tw-justify-end">
           <button @click="showDeleteConfirmModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-400 tw-transition-colors">
             Hủy
           </button>
           <button @click="confirmDelete" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
-            Khóa
+            Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div v-if="showEditUserModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-[500px] tw-max-h-[90vh] tw-overflow-y-auto">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4 tw-text-crimson-600">Chỉnh sửa tài khoản</h3>
+        
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Tên người dùng</label>
+            <input 
+              v-model="editingUser.userName" 
+              type="text" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhập tên người dùng"
+            />
+          </div>
+          
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Email</label>
+            <input 
+              v-model="editingUser.email" 
+              type="email" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhập email"
+              disabled
+            />
+            <p class="tw-text-xs tw-text-gray-500 tw-mt-1">Email không thể thay đổi</p>
+          </div>
+          
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Mật khẩu mới (để trống nếu không đổi)</label>
+            <input 
+              v-model="editingUser.password" 
+              type="password" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"
+            />
+          </div>
+          
+          <div class="tw-flex tw-items-center tw-justify-between">
+            <label class="tw-text-sm tw-font-medium tw-text-gray-700">Vai trò Admin</label>
+            <button 
+              @click="editingUser.isAdmin = !editingUser.isAdmin"
+              type="button"
+              :class="editingUser.isAdmin ? 'tw-bg-green-600' : 'tw-bg-gray-300'"
+              class="tw-relative tw-inline-flex tw-h-6 tw-w-11 tw-items-center tw-rounded-full tw-transition-colors focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500 focus:tw-ring-offset-2"
+            >
+              <span 
+                :class="editingUser.isAdmin ? 'tw-translate-x-6' : 'tw-translate-x-1'"
+                class="tw-inline-block tw-h-4 tw-w-4 tw-transform tw-rounded-full tw-bg-white tw-transition-transform"
+              />
+            </button>
+          </div>
+
+          <div class="tw-flex tw-items-center tw-justify-between tw-p-3 tw-rounded-lg"
+               :class="editingUser.isBlocked ? 'tw-bg-crimson-50' : 'tw-bg-green-50'">
+            <div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700">Trạng thái hoạt động</label>
+              <span class="tw-text-xs tw-font-semibold tw-px-2 tw-py-1 tw-rounded-full tw-inline-block tw-mt-1"
+                    :class="editingUser.isBlocked ? 'tw-bg-crimson-100 tw-text-crimson-700' : 'tw-bg-green-100 tw-text-green-700'">
+                {{ editingUser.isBlocked ? '🔒 Tài khoản đang bị khóa' : '✅ Tài khoản đang hoạt động' }}
+              </span>
+            </div>
+            <button 
+              @click="editingUser.isBlocked = !editingUser.isBlocked"
+              type="button"
+              :class="!editingUser.isBlocked ? 'tw-bg-green-600' : 'tw-bg-crimson-600'"
+              class="tw-relative tw-inline-flex tw-h-6 tw-w-11 tw-items-center tw-rounded-full tw-transition-colors focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500 focus:tw-ring-offset-2"
+            >
+              <span 
+                :class="!editingUser.isBlocked ? 'tw-translate-x-6' : 'tw-translate-x-1'"
+                class="tw-inline-block tw-h-4 tw-w-4 tw-transform tw-rounded-full tw-bg-white tw-transition-transform"
+              />
+            </button>
+          </div>
+
+          <div class="tw-flex tw-items-center tw-justify-between tw-p-3 tw-rounded-lg"
+               :class="editingUser.isVerified ? 'tw-bg-green-50' : 'tw-bg-crimson -50'">
+            <div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700">Trạng thái xác thực</label>
+              <span class="tw-text-xs tw-font-semibold tw-px-2 tw-py-1 tw-rounded-full tw-inline-block tw-mt-1"
+                    :class="editingUser.isVerified ? 'tw-bg-green-100 tw-text-green-700' : 'tw-bg-crimson-100 tw-text-crimson-700'">
+                {{ editingUser.isVerified ? '✓ Email đã được xác thực' : '✗ Email chưa xác thực' }}
+              </span>
+            </div>
+            <button 
+              @click="editingUser.isVerified = !editingUser.isVerified"
+              type="button"
+              :class="editingUser.isVerified ? 'tw-bg-green-600' : 'tw-bg-crimson-600'"
+              class="tw-relative tw-inline-flex tw-h-6 tw-w-11 tw-items-center tw-rounded-full tw-transition-colors focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500 focus:tw-ring-offset-2"
+            >
+              <span 
+                :class="editingUser.isVerified ? 'tw-translate-x-6' : 'tw-translate-x-1'"
+                class="tw-inline-block tw-h-4 tw-w-4 tw-transform tw-rounded-full tw-bg-white tw-transition-transform"
+              />
+            </button>
+          </div>
+        </div>
+        
+        <div class="tw-flex tw-gap-2 tw-justify-end tw-mt-6">
+          <button @click="closeEditUserModal" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-400 tw-transition-colors">
+            Hủy
+          </button>
+          <button @click="updateUser" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
+            Cập nhật
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div v-if="showAddUserModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-[500px]">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4 tw-text-crimson-600">Thêm tài khoản mới</h3>
+        
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Tên người dùng</label>
+            <input 
+              v-model="newUser.userName" 
+              type="text" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhập tên người dùng"
+            />
+          </div>
+          
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Email</label>
+            <input 
+              v-model="newUser.email" 
+              type="email" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhập email"
+            />
+          </div>
+          
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Mật khẩu</label>
+            <input 
+              v-model="newUser.password" 
+              type="password" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+            />
+          </div>
+          
+          <div class="tw-flex tw-items-center tw-justify-between">
+            <label class="tw-text-sm tw-font-medium tw-text-gray-700">Vai trò Admin</label>
+            <button 
+              @click="newUser.isAdmin = !newUser.isAdmin"
+              type="button"
+              :class="newUser.isAdmin ? 'tw-bg-green-600' : 'tw-bg-gray-300'"
+              class="tw-relative tw-inline-flex tw-h-6 tw-w-11 tw-items-center tw-rounded-full tw-transition-colors focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500 focus:tw-ring-offset-2"
+            >
+              <span 
+                :class="newUser.isAdmin ? 'tw-translate-x-6' : 'tw-translate-x-1'"
+                class="tw-inline-block tw-h-4 tw-w-4 tw-transform tw-rounded-full tw-bg-white tw-transition-transform"
+              />
+            </button>
+          </div>
+        </div>
+        
+        <div class="tw-flex tw-gap-2 tw-justify-end tw-mt-6">
+          <button @click="closeAddUserModal" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-400 tw-transition-colors">
+            Hủy
+          </button>
+          <button @click="addUser" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
+            Thêm
           </button>
         </div>
       </div>
@@ -211,10 +448,10 @@
           <div class="tw-flex-1">
             <h3 class="tw-text-lg tw-font-semibold tw-mb-2" 
                 :class="{
-                  'tw-text-emerald-600': notificationType === 'success',
+                  'tw-text-crimson-500': notificationType === 'success',
                   'tw-text-crimson-600': notificationType === 'error',
-                  'tw-text-amber-600': notificationType === 'warning',
-                  'tw-text-blue-600': notificationType === 'info'
+                  'tw-text-crimson-400': notificationType === 'warning',
+                  'tw-text-crimson-700': notificationType === 'info'
                 }">
               {{ notificationType === 'success' ? 'Thành công' : 
                  notificationType === 'error' ? 'Lỗi' : 
@@ -236,11 +473,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import axios from 'axios'
+import { Chart, registerables } from 'chart.js'
+
+// Register Chart.js components
+Chart.register(...registerables)
 
 // API Base URL
 const API_URL = 'http://localhost:3000/api/users' // Through API Gateway
+
+// Chart refs
+const overviewChart = ref(null)
+const statusChart = ref(null)
+const verificationChart = ref(null)
+
+let overviewChartInstance = null
+let statusChartInstance = null
+let verificationChartInstance = null
 
 // State
 const users = ref([])
@@ -263,10 +513,27 @@ const openDropdown = ref(null)
 // Modals
 const showDeleteConfirmModal = ref(false)
 const showNotificationModal = ref(false)
+const showAddUserModal = ref(false)
+const showEditUserModal = ref(false)
 const notificationMessage = ref('')
 const notificationType = ref('info')
 const deleteConfirmMessage = ref('')
 const deleteConfirmAction = ref(null)
+const newUser = ref({
+  userName: '',
+  email: '',
+  password: '',
+  isAdmin: false
+})
+const editingUser = ref({
+  _id: '',
+  userName: '',
+  email: '',
+  password: '',
+  isAdmin: false,
+  isBlocked: false,
+  isVerified: false
+})
 
 // Load users from API
 const loadUsers = async () => {
@@ -299,11 +566,120 @@ const loadStats = async () => {
     // ✅ interceptors đã return response.data
     if (response.success) {
       stats.value = response.data
+      // Update charts after stats loaded
+      await nextTick()
+      initCharts()
     }
   } catch (error) {
     console.error('Error loading stats:', error)
   }
 }
+
+// Initialize charts
+const initCharts = () => {
+  // Destroy existing charts
+  if (overviewChartInstance) overviewChartInstance.destroy()
+  if (statusChartInstance) statusChartInstance.destroy()
+  if (verificationChartInstance) verificationChartInstance.destroy()
+
+  // Overview Doughnut Chart
+  if (overviewChart.value) {
+    const ctx = overviewChart.value.getContext('2d')
+    overviewChartInstance = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Hoạt động', 'Bị khóa'],
+        datasets: [{
+          data: [stats.value.active || 0, stats.value.blocked || 0],
+          backgroundColor: ['#10b981', '#dc2626'],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: { size: 12 }
+            }
+          }
+        }
+      }
+    })
+  }
+
+  // Status Bar Chart
+  if (statusChart.value) {
+    const ctx = statusChart.value.getContext('2d')
+    statusChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Hoạt động', 'Bị khóa'],
+        datasets: [{
+          label: 'Số lượng',
+          data: [stats.value.active || 0, stats.value.blocked || 0],
+          backgroundColor: ['#10b981', '#dc2626'],
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 }
+          }
+        }
+      }
+    })
+  }
+
+  // Verification Pie Chart
+  if (verificationChart.value) {
+    const ctx = verificationChart.value.getContext('2d')
+    verificationChartInstance = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Admin', 'Đã xác thực', 'Chưa xác thực'],
+        datasets: [{
+          data: [
+            stats.value.admin || 0,
+            stats.value.verified || 0,
+            stats.value.unverified || 0
+          ],
+          backgroundColor: ['#9333ea', '#10b981', '#f59e0b'],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 10,
+              font: { size: 11 }
+            }
+          }
+        }
+      }
+    })
+  }
+}
+
+// Watch stats changes
+watch(() => stats.value, () => {
+  initCharts()
+}, { deep: true })
 
 // Filter functions
 function toggleDropdown(type) {
@@ -352,7 +728,7 @@ function deleteSelectedUsers() {
     return
   }
 
-  deleteConfirmMessage.value = `Bạn có chắc chắn muốn khóa ${selectedUserIds.value.length} tài khoản đã chọn?`
+  deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selectedUserIds.value.length} tài khoản đã chọn?`
   deleteConfirmAction.value = async () => {
     try {
       const response = await axios.delete(API_URL, {
@@ -366,11 +742,197 @@ function deleteSelectedUsers() {
         await Promise.all([loadUsers(), loadStats()])
       }
     } catch (error) {
+      showNotification(error.response?.data?.message || 'Lỗi xóa tài khoản', 'error')
+    }
+    showDeleteConfirmModal.value = false
+  }
+  showDeleteConfirmModal.value = true
+}
+
+// Bulk block users
+async function bulkBlockUsers() {
+  if (selectedUserIds.value.length === 0) {
+    showNotification('Vui lòng chọn ít nhất một tài khoản', 'warning')
+    return
+  }
+
+  deleteConfirmMessage.value = `Bạn có chắc chắn muốn KHÓA ${selectedUserIds.value.length} tài khoản đã chọn?`
+  deleteConfirmAction.value = async () => {
+    try {
+      const response = await axios.patch(`${API_URL}/bulk-block`, {
+        ids: selectedUserIds.value,
+        isBlocked: true
+      })
+
+      if (response.success) {
+        showNotification(`Đã khóa ${selectedUserIds.value.length} tài khoản`, 'success')
+        selectedUserIds.value = []
+        await Promise.all([loadUsers(), loadStats()])
+      }
+    } catch (error) {
       showNotification(error.response?.data?.message || 'Lỗi khóa tài khoản', 'error')
     }
     showDeleteConfirmModal.value = false
   }
   showDeleteConfirmModal.value = true
+}
+
+// Bulk unblock users
+async function bulkUnblockUsers() {
+  if (selectedUserIds.value.length === 0) {
+    showNotification('Vui lòng chọn ít nhất một tài khoản', 'warning')
+    return
+  }
+
+  deleteConfirmMessage.value = `Bạn có chắc chắn muốn MỞ KHÓA ${selectedUserIds.value.length} tài khoản đã chọn?`
+  deleteConfirmAction.value = async () => {
+    try {
+      const response = await axios.patch(`${API_URL}/bulk-block`, {
+        ids: selectedUserIds.value,
+        isBlocked: false
+      })
+
+      if (response.success) {
+        showNotification(`Đã mở khóa ${selectedUserIds.value.length} tài khoản`, 'success')
+        selectedUserIds.value = []
+        await Promise.all([loadUsers(), loadStats()])
+      }
+    } catch (error) {
+      showNotification(error.response?.data?.message || 'Lỗi mở khóa tài khoản', 'error')
+    }
+    showDeleteConfirmModal.value = false
+  }
+  showDeleteConfirmModal.value = true
+}
+
+// Bulk set admin role
+async function bulkSetAdmin() {
+  if (selectedUserIds.value.length === 0) {
+    showNotification('Vui lòng chọn ít nhất một tài khoản', 'warning')
+    return
+  }
+
+  deleteConfirmMessage.value = `Bạn có chắc chắn muốn CẤP QUYỀN ADMIN cho ${selectedUserIds.value.length} tài khoản đã chọn?`
+  deleteConfirmAction.value = async () => {
+    try {
+      const response = await axios.patch(`${API_URL}/bulk-admin`, {
+        ids: selectedUserIds.value,
+        isAdmin: true
+      })
+
+      if (response.success) {
+        showNotification(`Đã cấp quyền Admin cho ${selectedUserIds.value.length} tài khoản`, 'success')
+        selectedUserIds.value = []
+        await Promise.all([loadUsers(), loadStats()])
+      }
+    } catch (error) {
+      showNotification(error.response?.data?.message || 'Lỗi cấp quyền Admin', 'error')
+    }
+    showDeleteConfirmModal.value = false
+  }
+  showDeleteConfirmModal.value = true
+}
+
+// Add user modal
+function openAddUserModal() {
+  newUser.value = {
+    userName: '',
+    email: '',
+    password: '',
+    isAdmin: false
+  }
+  showAddUserModal.value = true
+}
+
+function closeAddUserModal() {
+  showAddUserModal.value = false
+}
+
+async function addUser() {
+  // Validate
+  if (!newUser.value.userName || !newUser.value.email || !newUser.value.password) {
+    showNotification('Vui lòng điền đầy đủ thông tin', 'warning')
+    return
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(newUser.value.email)) {
+    showNotification('Email không đúng định dạng', 'warning')
+    return
+  }
+
+  if (newUser.value.password.length < 6) {
+    showNotification('Mật khẩu phải có ít nhất 6 ký tự', 'warning')
+    return
+  }
+
+  try {
+    const response = await axios.post(API_URL, newUser.value)
+    
+    if (response.success) {
+      showNotification(response.message || 'Thêm tài khoản thành công', 'success')
+      closeAddUserModal()
+      await Promise.all([loadUsers(), loadStats()])
+    }
+  } catch (error) {
+    showNotification(error.response?.data?.message || 'Lỗi thêm tài khoản', 'error')
+  }
+}
+
+// Edit user modal
+function openEditUserModal(user) {
+  editingUser.value = {
+    _id: user._id,
+    userName: user.userName,
+    email: user.email,
+    password: '',
+    isAdmin: user.isAdmin,
+    isBlocked: user.isBlocked,
+    isVerified: user.isVerified
+  }
+  showEditUserModal.value = true
+}
+
+function closeEditUserModal() {
+  showEditUserModal.value = false
+}
+
+async function updateUser() {
+  // Validate
+  if (!editingUser.value.userName) {
+    showNotification('Tên người dùng không được để trống', 'warning')
+    return
+  }
+
+  if (editingUser.value.password && editingUser.value.password.length < 6) {
+    showNotification('Mật khẩu phải có ít nhất 6 ký tự', 'warning')
+    return
+  }
+
+  try {
+    const updateData = {
+      userName: editingUser.value.userName,
+      isAdmin: editingUser.value.isAdmin,
+      isBlocked: editingUser.value.isBlocked,
+      isVerified: editingUser.value.isVerified
+    }
+
+    // Chỉ gửi password nếu có thay đổi
+    if (editingUser.value.password) {
+      updateData.password = editingUser.value.password
+    }
+
+    const response = await axios.put(`${API_URL}/${editingUser.value._id}`, updateData)
+    
+    if (response.success) {
+      showNotification(response.message || 'Cập nhật tài khoản thành công', 'success')
+      closeEditUserModal()
+      await Promise.all([loadUsers(), loadStats()])
+    }
+  } catch (error) {
+    showNotification(error.response?.data?.message || 'Lỗi cập nhật tài khoản', 'error')
+  }
 }
 
 function confirmDelete() {

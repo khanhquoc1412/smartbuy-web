@@ -78,6 +78,20 @@ class UserController {
   }
 
   /**
+   * @route   POST /api/users
+   * @desc    Create new user
+   * @access  Admin
+   */
+  async createUser(req, res, next) {
+    try {
+      const result = await userService.createUser(req.body);
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * @route   PATCH /api/users/:id/toggle-block
    * @desc    Toggle user blocked status
    * @access  Admin
@@ -113,6 +127,66 @@ class UserController {
   async getUserStats(req, res, next) {
     try {
       const result = await userService.getUserStats();
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * @route   PATCH /api/users/bulk-block
+   * @desc    Bulk block/unblock users
+   * @access  Admin
+   */
+  async bulkBlockUsers(req, res, next) {
+    try {
+      const { ids, isBlocked } = req.body;
+      
+      if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Vui lòng cung cấp danh sách ID người dùng'
+        });
+      }
+
+      if (typeof isBlocked !== 'boolean') {
+        return res.status(400).json({
+          success: false,
+          message: 'Vui lòng cung cấp trạng thái khóa (true/false)'
+        });
+      }
+
+      const result = await userService.bulkBlockUsers(ids, isBlocked);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * @route   PATCH /api/users/bulk-admin
+   * @desc    Bulk set admin role
+   * @access  Admin
+   */
+  async bulkSetAdmin(req, res, next) {
+    try {
+      const { ids, isAdmin } = req.body;
+      
+      if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Vui lòng cung cấp danh sách ID người dùng'
+        });
+      }
+
+      if (typeof isAdmin !== 'boolean') {
+        return res.status(400).json({
+          success: false,
+          message: 'Vui lòng cung cấp quyền Admin (true/false)'
+        });
+      }
+
+      const result = await userService.bulkSetAdmin(ids, isAdmin);
       res.json(result);
     } catch (error) {
       next(error);
