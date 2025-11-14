@@ -245,11 +245,13 @@
         </select>
       </div>
       <div class="tw-flex tw-gap-2 tw-items-center">
-        <button @click="prevPage" :disabled="page === 1"
-          class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&lt;</button>
-        <span>Trang {{ page }} / {{ totalPages }}</span>
-        <button @click="nextPage" :disabled="page >= totalPages"
-          class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&gt;</button>
+        <button @click="prevPage" :disabled="page === 1" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed">
+          Trước
+        </button>
+        <span class="tw-text-gray-600">Trang {{ page }} / {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="page === totalPages" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed">
+          Sau
+        </button>
       </div>
     </div>
 

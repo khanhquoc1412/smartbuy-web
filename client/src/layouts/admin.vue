@@ -1,219 +1,350 @@
 <template>
-  <v-app id="admin-app">
-    <v-app-bar app elevation="2" class="admin-header">
-      <div class="header-container">
-        <div class="header-left">
-          <v-btn icon variant="text" @click="drawer = !drawer" class="menu-toggle">
-            <v-icon>mdi-menu</v-icon>
-          </v-btn>
-          <router-link to="/" class="header-logo">
-            <span class="logo-text">SmartBuy Admin</span>
+  <div id="admin-app" class="tw-min-h-screen tw-bg-stone-50">
+    <!-- Header -->
+    <header class="tw-fixed tw-top-0 tw-left-0 tw-right-0 tw-h-16 tw-bg-gradient-to-r tw-from-crimson-600 tw-to-crimson-600 tw-shadow-lg tw-z-50">
+      <div class="tw-flex tw-items-center tw-justify-between tw-h-full tw-px-4">
+        <!-- Left Section -->
+        <div class="tw-flex tw-items-center tw-gap-3">
+          <button 
+            @click="drawer = !drawer" 
+            class="tw-p-2 tw-rounded-lg tw-text-white hover:tw-bg-white/10 tw-transition-colors"
+          >
+            <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          
+          <router-link to="/" class="tw-flex tw-items-center tw-gap-3 tw-text-white tw-no-underline hover:tw-scale-105 tw-transition-transform">
+            <span class="tw-text-lg tw-font-bold tw-tracking-wide">SmartBuy Admin</span>
           </router-link>
         </div>
 
+        <!-- Right Section -->
+        <div class="tw-flex tw-items-center tw-gap-2">
+          <div class="tw-relative settings-dropdown-container">
+            <button 
+              @click="showSettingsMenu = !showSettingsMenu"
+              class="tw-p-2 tw-rounded-lg tw-text-white hover:tw-bg-white/10 tw-transition-colors"
+              title="Cài đặt"
+            >
+              <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
 
-        <div class="header-right">
-          <v-menu offset-y :close-on-content-click="false">
-            <template v-slot:activator="{ props }">
-              <v-btn icon variant="text" class="header-icon-btn" title="Cài đặt" v-bind="props">
-                <v-icon>mdi-cog</v-icon>
-              </v-btn>
-            </template>
-            <v-card min-width="320" class="settings-menu">
-              <v-card-title class="settings-title">
-                <v-icon class="mr-2">mdi-cog</v-icon>
-                Cài đặt
-              </v-card-title>
-              <v-divider />
-              
-              <v-card-text class="settings-content">
+            <!-- Settings Dropdown -->
+            <div 
+              v-if="showSettingsMenu" 
+              @click.stop
+              class="tw-absolute tw-right-0 tw-top-full tw-mt-2 tw-w-80 tw-bg-white tw-rounded-xl tw-shadow-2xl tw-border tw-border-stone-200 tw-overflow-hidden tw-z-50"
+            >
+              <!-- Settings Header -->
+              <div class="tw-px-5 tw-py-4 tw-bg-crimson-50 tw-border-b tw-border-stone-200">
+                <div class="tw-flex tw-items-center tw-gap-2 tw-text-crimson-700">
+                  <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  </svg>
+                  <span class="tw-font-semibold tw-text-base">Cài đặt</span>
+                </div>
+              </div>
+
+              <div class="tw-px-5 tw-py-4 tw-max-h-96 tw-overflow-y-auto">
                 <!-- Theme Mode -->
-                <div class="setting-section">
-                  <div class="setting-label">
-                    <v-icon size="small" class="mr-2">mdi-theme-light-dark</v-icon>
-                    Chế độ giao diện
+                <div class="tw-mb-4">
+                  <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-stone-700 tw-mb-3">
+                    <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <span>Chế độ giao diện</span>
                   </div>
-                  <v-btn-toggle v-model="themeMode" color="primary" mandatory class="theme-toggle">
-                    <v-btn value="light" size="small">
-                      <v-icon size="small">mdi-white-balance-sunny</v-icon>
-                      <span class="ml-1">Sáng</span>
-                    </v-btn>
-                    <v-btn value="dark" size="small">
-                      <v-icon size="small">mdi-moon-waning-crescent</v-icon>
-                      <span class="ml-1">Tối</span>
-                    </v-btn>
-                  </v-btn-toggle>
+                  <div class="tw-flex tw-gap-2">
+                    <button 
+                      @click="themeMode = 'light'" 
+                      :class="[
+                        'tw-flex-1 tw-px-3 tw-py-2 tw-rounded-lg tw-text-sm tw-font-medium tw-transition-all tw-flex tw-items-center tw-justify-center tw-gap-2',
+                        themeMode === 'light' ? 'tw-bg-crimson-600 tw-text-white tw-shadow-md' : 'tw-bg-stone-100 tw-text-stone-700 hover:tw-bg-stone-200'
+                      ]"
+                    >
+                      <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      Sáng
+                    </button>
+                    <button 
+                      @click="themeMode = 'dark'" 
+                      :class="[
+                        'tw-flex-1 tw-px-3 tw-py-2 tw-rounded-lg tw-text-sm tw-font-medium tw-transition-all tw-flex tw-items-center tw-justify-center tw-gap-2',
+                        themeMode === 'dark' ? 'tw-bg-crimson-600 tw-text-white tw-shadow-md' : 'tw-bg-stone-100 tw-text-stone-700 hover:tw-bg-stone-200'
+                      ]"
+                    >
+                      <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      </svg>
+                      Tối
+                    </button>
+                  </div>
                 </div>
 
-                <v-divider class="my-3" />
+                <div class="tw-h-px tw-bg-stone-200 tw-my-4"></div>
 
-                <!-- Primary Color -->
-                <div class="setting-section">
-                  <div class="setting-label">
-                    <v-icon size="small" class="mr-2">mdi-palette</v-icon>
-                    Màu chủ đạo
+                <!-- Color Palette -->
+                <div class="tw-mb-4">
+                  <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-stone-700 tw-mb-3">
+                    <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
+                    <span>Màu chủ đạo</span>
                   </div>
-                  <div class="color-picker-grid">
-                    <div 
+                  <div class="tw-grid tw-grid-cols-4 tw-gap-3">
+                    <button 
                       v-for="color in themeColors" 
                       :key="color.value"
-                      class="color-option"
-                      :class="{ active: selectedColor === color.value }"
-                      :style="{ backgroundColor: color.hex }"
                       @click="selectedColor = color.value"
+                      :style="{ backgroundColor: color.hex }"
+                      :class="[
+                        'tw-w-12 tw-h-12 tw-rounded-lg tw-transition-all tw-flex tw-items-center tw-justify-center',
+                        selectedColor === color.value ? 'tw-ring-4 tw-ring-stone-900 tw-ring-offset-2 tw-scale-110' : 'hover:tw-scale-105'
+                      ]"
                       :title="color.name"
                     >
-                      <v-icon v-if="selectedColor === color.value" color="white" size="small">
-                        mdi-check
-                      </v-icon>
+                      <svg v-if="selectedColor === color.value" class="tw-w-5 tw-h-5 tw-text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="tw-h-px tw-bg-stone-200 tw-my-4"></div>
+
+                <!-- Sidebar Toggle -->
+                <div class="tw-mb-4">
+                  <label class="tw-flex tw-items-center tw-justify-between tw-cursor-pointer">
+                    <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-stone-700">
+                      <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                      </svg>
+                      <span>Thu gọn tự động</span>
                     </div>
-                  </div>
+                    <div class="tw-relative">
+                      <input 
+                        type="checkbox" 
+                        v-model="sidebarCollapsed" 
+                        class="tw-sr-only tw-peer"
+                      >
+                      <div class="tw-w-11 tw-h-6 tw-bg-stone-300 tw-rounded-full tw-peer peer-checked:tw-bg-crimson-600 tw-transition-colors"></div>
+                      <div class="tw-absolute tw-left-1 tw-top-1 tw-w-4 tw-h-4 tw-bg-white tw-rounded-full tw-transition-transform peer-checked:tw-translate-x-5"></div>
+                    </div>
+                  </label>
                 </div>
 
-                <v-divider class="my-3" />
-
-                <!-- Sidebar -->
-                <div class="setting-section">
-                  <div class="setting-label">
-                    <v-icon size="small" class="mr-2">mdi-dock-left</v-icon>
-                    Thanh điều hướng
-                  </div>
-                  <v-switch 
-                    v-model="sidebarCollapsed" 
-                    label="Thu gọn tự động"
-                    color="primary"
-                    hide-details
-                    density="compact"
-                  />
-                </div>
-
-                <v-divider class="my-3" />
+                <div class="tw-h-px tw-bg-stone-200 tw-my-4"></div>
 
                 <!-- Notifications -->
-                <div class="setting-section">
-                  <div class="setting-label">
-                    <v-icon size="small" class="mr-2">mdi-bell</v-icon>
-                    Thông báo
-                  </div>
-                  <v-switch 
-                    v-model="notificationsEnabled" 
-                    label="Bật thông báo"
-                    color="primary"
-                    hide-details
-                    density="compact"
-                  />
+                <div class="tw-mb-4">
+                  <label class="tw-flex tw-items-center tw-justify-between tw-cursor-pointer">
+                    <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-stone-700">
+                      <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      </svg>
+                      <span>Bật thông báo</span>
+                    </div>
+                    <div class="tw-relative">
+                      <input 
+                        type="checkbox" 
+                        v-model="notificationsEnabled" 
+                        class="tw-sr-only tw-peer"
+                      >
+                      <div class="tw-w-11 tw-h-6 tw-bg-stone-300 tw-rounded-full tw-peer peer-checked:tw-bg-crimson-600 tw-transition-colors"></div>
+                      <div class="tw-absolute tw-left-1 tw-top-1 tw-w-4 tw-h-4 tw-bg-white tw-rounded-full tw-transition-transform peer-checked:tw-translate-x-5"></div>
+                    </div>
+                  </label>
                 </div>
 
-                <v-divider class="my-3" />
+                <div class="tw-h-px tw-bg-stone-200 tw-my-4"></div>
 
                 <!-- Font Size -->
-                <div class="setting-section">
-                  <div class="setting-label">
-                    <v-icon size="small" class="mr-2">mdi-format-size</v-icon>
-                    Kích thước chữ
+                <div>
+                  <div class="tw-flex tw-items-center tw-gap-2 tw-text-sm tw-font-semibold tw-text-stone-700 tw-mb-3">
+                    <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Kích thước chữ</span>
                   </div>
-                  <v-slider
-                    v-model="fontSize"
-                    :min="12"
-                    :max="18"
-                    :step="1"
-                    thumb-label
-                    color="primary"
-                    hide-details
-                  />
-                  <div class="font-size-labels">
+                  <input 
+                    type="range" 
+                    v-model="fontSize" 
+                    min="12" 
+                    max="18" 
+                    step="1"
+                    class="tw-w-full tw-h-2 tw-bg-stone-200 tw-rounded-lg tw-appearance-none tw-cursor-pointer slider-thumb"
+                  >
+                  <div class="tw-flex tw-justify-between tw-text-xs tw-text-stone-500 tw-mt-1">
                     <span>Nhỏ</span>
                     <span>Vừa</span>
                     <span>Lớn</span>
                   </div>
                 </div>
-              </v-card-text>
+              </div>
 
-              <v-divider />
-              <v-card-actions class="settings-actions">
-                <v-btn variant="text" @click="resetSettings" size="small">
-                  <v-icon size="small" class="mr-1">mdi-refresh</v-icon>
+              <!-- Actions -->
+              <div class="tw-px-5 tw-py-3 tw-bg-stone-50 tw-border-t tw-border-stone-200 tw-flex tw-justify-between tw-gap-2">
+                <button 
+                  @click="resetSettings"
+                  class="tw-px-4 tw-py-2 tw-text-sm tw-font-medium tw-text-stone-700 hover:tw-bg-stone-200 tw-rounded-lg tw-transition-colors tw-flex tw-items-center tw-gap-1"
+                >
+                  <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
                   Đặt lại
-                </v-btn>
-                <v-spacer />
-                <v-btn color="primary" variant="flat" @click="saveSettings" size="small">
-                  <v-icon size="small" class="mr-1">mdi-check</v-icon>
+                </button>
+                <button 
+                  @click="saveSettings"
+                  class="tw-px-4 tw-py-2 tw-text-sm tw-font-medium tw-bg-crimson-600 tw-text-white hover:tw-bg-crimson-700 tw-rounded-lg tw-transition-colors tw-flex tw-items-center tw-gap-1"
+                >
+                  <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
                   Áp dụng
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </v-app-bar>
+    </header>
 
-    <v-navigation-drawer v-model="drawer" app color="#ffffff" width="250">
-      <v-list nav dense>
-        <v-list-item title="Quản Lý" class="title-item" disabled />
-        <v-list-item
-          v-for="item in managementItems"
-          :key="item.title"
-          :prepend-icon="item.icon"
-          :title="item.title"
-          :to="item.to"
-          link
-          class="menu-item"
-          :style="{ color: item.active ? '#cc0000' : '#333' }"
-          @click="setActive(item.to)"
-        />
-      </v-list>
+    <!-- Sidebar -->
+    <aside 
+      :class="[
+        'tw-fixed tw-left-0 tw-top-16 tw-bottom-0 tw-w-64 tw-bg-white tw-shadow-xl tw-transition-transform tw-duration-300 tw-z-40 tw-overflow-y-auto',
+        drawer ? 'tw-translate-x-0' : '-tw-translate-x-full'
+      ]"
+    >
+      <!-- Management Section -->
+      <div class="tw-px-4 tw-py-6">
+        <div class="tw-text-xs tw-font-bold tw-text-stone-500 tw-uppercase tw-tracking-wider tw-mb-3 tw-px-3">
+          Quản Lý
+        </div>
+        <nav class="tw-space-y-1">
+          <router-link
+            v-for="item in managementItems"
+            :key="item.title"
+            :to="item.to"
+            @click="setActive(item.to)"
+            :class="[
+              'tw-flex tw-items-center tw-gap-3 tw-px-3 tw-py-2.5 tw-rounded-lg tw-transition-all tw-text-sm tw-font-medium',
+              item.active 
+                ? 'tw-bg-crimson-50 tw-text-crimson-700' 
+                : 'tw-text-stone-700 hover:tw-bg-stone-100'
+            ]"
+          >
+            <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path v-if="item.icon === 'mdi-view-dashboard'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+              <path v-else-if="item.icon === 'mdi-cellphone'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              <path v-else-if="item.icon === 'mdi-account-group'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path v-else-if="item.icon === 'mdi-cart'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path v-else-if="item.icon === 'mdi-chart-line'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              <path v-else-if="item.icon === 'mdi-star'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+            </svg>
+            <span>{{ item.title }}</span>
+          </router-link>
+        </nav>
+      </div>
 
-      <v-divider />
-      <v-list nav dense>
-        <v-list-item title="Tài khoản" class="title-item" />
+      <div class="tw-h-px tw-bg-stone-200 tw-mx-4"></div>
+
+      <!-- Account Section -->
+      <div class="tw-px-4 tw-py-6">
+        <div class="tw-text-xs tw-font-bold tw-text-stone-500 tw-uppercase tw-tracking-wider tw-mb-3 tw-px-3">
+          Tài khoản
+        </div>
         
-        <v-list-item
-          prepend-icon="mdi-account"
-          :title="userName"
-          :subtitle="'Quản trị viên'"
-          class="account-info-item"
-        />
-        
-        <v-list-item prepend-icon="mdi-account-circle" title="Hồ sơ" @click="Account" link class="menu-item" />
-        <v-list-item prepend-icon="mdi-logout" title="Đăng xuất" @click="activeModal" link class="menu-item logout-menu-item" />
-      </v-list>
-    </v-navigation-drawer>
+        <!-- User Info Card -->
+        <div class="tw-bg-stone-50 tw-rounded-lg tw-p-3 tw-mb-3 tw-mx-1">
+          <div class="tw-flex tw-items-center tw-gap-3">
+            <div class="tw-w-10 tw-h-10 tw-bg-crimson-100 tw-rounded-full tw-flex tw-items-center tw-justify-center">
+              <svg class="tw-w-6 tw-h-6 tw-text-crimson-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <div>
+              <div class="tw-font-semibold tw-text-sm tw-text-stone-800">{{ userName }}</div>
+              <div class="tw-text-xs tw-text-stone-500">Quản trị viên</div>
+            </div>
+          </div>
+        </div>
 
-    <v-main style="background-color: #ffffff;">
-      <v-container fluid>
+        <nav class="tw-space-y-1">
+          <button
+            @click="Account"
+            class="tw-w-full tw-flex tw-items-center tw-gap-3 tw-px-3 tw-py-2.5 tw-rounded-lg tw-transition-all tw-text-sm tw-font-medium tw-text-stone-700 hover:tw-bg-stone-100"
+          >
+            <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Hồ sơ</span>
+          </button>
+          
+          <button
+            @click="activeModal"
+            class="tw-w-full tw-flex tw-items-center tw-gap-3 tw-px-3 tw-py-2.5 tw-rounded-lg tw-transition-all tw-text-sm tw-font-medium tw-text-crimson-600 hover:tw-bg-crimson-50"
+          >
+            <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span>Đăng xuất</span>
+          </button>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Overlay for mobile -->
+    <div 
+      v-if="drawer" 
+      @click="drawer = false"
+      class="tw-fixed tw-inset-0 tw-bg-black/50 tw-z-30 lg:tw-hidden"
+    ></div>
+
+    <!-- Main Content -->
+    <main :class="['tw-pt-16 tw-min-h-screen', drawer ? 'lg:tw-pl-64' : '']">
+      <div class="tw-p-6">
         <router-view />
-      </v-container>
-    </v-main>
+      </div>
+    </main>
 
-    <!-- Modal xác nhận đăng xuất -->
-    <v-dialog v-model="activeModalSignOut" max-width="600" persistent>
-      <v-card class="logout-modal">
-        <v-card-title class="modal-title text-center">Xác nhận đăng xuất</v-card-title>
-        <v-card-text class="modal-content text-center">Bạn muốn thoát tài khoản?</v-card-text>
-        <v-card-actions class="modal-actions">
-          <v-btn 
-            class="btn-cancel" 
-            variant="outlined" 
+    <!-- Logout Modal -->
+    <div 
+      v-if="activeModalSignOut" 
+      class="tw-fixed tw-inset-0 tw-bg-black/50 tw-flex tw-items-center tw-justify-center tw-z-[9999] tw-p-4"
+      @click.self="closeModal"
+    >
+      <div class="tw-bg-white tw-rounded-2xl tw-shadow-2xl tw-max-w-md tw-w-full tw-overflow-hidden">
+        <div class="tw-px-6 tw-py-5 tw-border-b tw-border-stone-200">
+          <h3 class="tw-text-xl tw-font-bold tw-text-stone-800 tw-text-center">Xác nhận đăng xuất</h3>
+        </div>
+        
+        <div class="tw-px-6 tw-py-6">
+          <p class="tw-text-center tw-text-stone-600">Bạn muốn thoát tài khoản?</p>
+        </div>
+
+        <div class="tw-px-6 tw-pb-6 tw-flex tw-gap-3">
+          <button 
             @click="closeModal"
-            width="48%"
+            class="tw-flex-1 tw-px-4 tw-py-3 tw-border-2 tw-border-stone-300 tw-rounded-lg tw-font-semibold tw-text-stone-700 hover:tw-bg-stone-50 tw-transition-colors"
           >
             KHÔNG
-          </v-btn>
-          <v-btn 
-            class="btn-confirm" 
-            color="#cc0000" 
-            variant="elevated" 
+          </button>
+          <button 
             @click="handleLogout"
-            width="48%"
+            class="tw-flex-1 tw-px-4 tw-py-3 tw-bg-crimson-600 tw-rounded-lg tw-font-semibold tw-text-white hover:tw-bg-crimson-700 tw-transition-colors"
           >
             XÁC NHẬN
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-app>
- 
-  
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -223,11 +354,10 @@ import { useAuth } from '@/composables/useAuth'
 
 const router = useRouter()
 const route = useRoute()
-const logo = new URL('@/assets/svg/logo6.svg', import.meta.url).href
 const { user } = useAuth()
 
 const drawer = ref(true)
-const searchQuery = ref('')
+const showSettingsMenu = ref(false)
 const managementItems = ref([
   { icon: 'mdi-view-dashboard', title: 'Dashboard', to: '/admin/dashboard', active: true },
   { icon: 'mdi-cellphone', title: 'Sản phẩm', to: '/admin/products', active: false },
@@ -267,7 +397,8 @@ function saveSettings() {
   // Apply settings
   applyThemeSettings()
   
-  // Show notification
+  // Close menu and show notification
+  showSettingsMenu.value = false
   alert('Đã lưu cài đặt thành công!')
 }
 
@@ -282,7 +413,7 @@ function resetSettings() {
 }
 
 function applyThemeSettings() {
-  // Apply theme mode - simple class toggle
+  // Apply theme mode
   if (themeMode.value === 'dark') {
     document.body.classList.add('dark-theme')
     document.body.classList.remove('light-theme')
@@ -309,9 +440,16 @@ watch([themeMode, selectedColor], () => {
   applyThemeSettings()
 })
 
-// Apply settings on mount
+// Close settings menu when clicking outside
 onMounted(() => {
   applyThemeSettings()
+  
+  document.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as HTMLElement
+    if (target && !target.closest('.settings-dropdown-container')) {
+      showSettingsMenu.value = false
+    }
+  })
 })
 
 const activeModalSignOut = ref(false)
@@ -351,49 +489,36 @@ body.dark-theme {
 }
 
 /* Main Content Area */
-body.dark-theme .v-main {
+body.dark-theme main {
   background-color: #1e1e1e !important;
 }
 
-body.dark-theme .v-main > * {
-  background-color: #1e1e1e !important;
-}
-
-/* Navigation Drawer */
-body.dark-theme .v-navigation-drawer {
+/* Cards and Containers */
+body.dark-theme .tw-bg-white {
   background-color: #2d2d2d !important;
-  color: #ffffff !important;
-  border-right: 1px solid #404040 !important;
 }
 
-body.dark-theme .v-list-item {
+body.dark-theme .tw-bg-stone-50 {
+  background-color: #353535 !important;
+}
+
+body.dark-theme .tw-bg-stone-100 {
+  background-color: #404040 !important;
+}
+
+body.dark-theme .tw-text-stone-700,
+body.dark-theme .tw-text-stone-800 {
   color: #e0e0e0 !important;
 }
 
-body.dark-theme .v-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+body.dark-theme .tw-text-stone-500,
+body.dark-theme .tw-text-stone-600 {
+  color: #999 !important;
 }
 
-body.dark-theme .v-list-item-title,
-body.dark-theme .v-list-item-subtitle {
-  color: #e0e0e0 !important;
-}
-
-/* Cards and Modals */
-body.dark-theme .v-card {
-  background-color: #2d2d2d !important;
-  color: #e0e0e0 !important;
-  border: 1px solid #404040 !important;
-}
-
-body.dark-theme .v-card-title,
-body.dark-theme .v-card-text {
-  color: #e0e0e0 !important;
-}
-
-body.dark-theme .settings-title,
-body.dark-theme .setting-label {
-  color: #e0e0e0 !important;
+body.dark-theme .tw-border-stone-200,
+body.dark-theme .tw-border-stone-300 {
+  border-color: #505050 !important;
 }
 
 /* Tables */
@@ -421,7 +546,7 @@ body.dark-theme th {
   border-color: #404040 !important;
 }
 
-/* Inputs and Form Elements */
+/* Inputs */
 body.dark-theme input,
 body.dark-theme select,
 body.dark-theme textarea {
@@ -432,61 +557,6 @@ body.dark-theme textarea {
 
 body.dark-theme input::placeholder {
   color: #888 !important;
-}
-
-body.dark-theme .v-field {
-  background-color: #353535 !important;
-  color: #e0e0e0 !important;
-}
-
-body.dark-theme .v-field__input {
-  color: #e0e0e0 !important;
-}
-
-/* Buttons */
-body.dark-theme button:not(.tw-bg-crimson-600):not([class*="bg-crimson"]) {
-  background-color: #353535 !important;
-  color: #e0e0e0 !important;
-  border-color: #505050 !important;
-}
-
-body.dark-theme button:not(.tw-bg-crimson-600):hover {
-  background-color: #404040 !important;
-}
-
-/* Dividers */
-body.dark-theme .v-divider {
-  border-color: #404040 !important;
-}
-
-body.dark-theme hr {
-  border-color: #404040 !important;
-}
-
-/* Tailwind Overrides */
-body.dark-theme .tw-bg-white {
-  background-color: #2d2d2d !important;
-}
-
-body.dark-theme .tw-bg-stone-50 {
-  background-color: #353535 !important;
-}
-
-body.dark-theme .tw-bg-stone-100 {
-  background-color: #404040 !important;
-}
-
-body.dark-theme .tw-text-stone-700 {
-  color: #e0e0e0 !important;
-}
-
-body.dark-theme .tw-text-stone-500 {
-  color: #999 !important;
-}
-
-body.dark-theme .tw-border-stone-300,
-body.dark-theme .tw-border-stone-200 {
-  border-color: #505050 !important;
 }
 
 /* Scrollbar */
@@ -505,313 +575,34 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
 </style>
 
 <style scoped>
-/* Header Styles */
-.admin-header {
-  background: linear-gradient(135deg, var(--primary-color, #cc0000) 0%, #ff1744 100%) !important;
-  box-shadow: 0 2px 8px rgba(204, 0, 0, 0.15) !important;
-  z-index: 100 !important;
-}
-
-.header-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 24px;
-  padding: 0 16px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 250px;
-}
-
-.menu-toggle {
-  color: white !important;
-}
-
-.header-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.header-logo:hover {
-  transform: scale(1.05);
-}
-
-.header-logo img {
-  height: 36px;
-  width: auto;
-  filter: brightness(0) invert(1);
-}
-
-.logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 0.5px;
-}
-
-.header-center {
-  flex: 1;
-  max-width: 600px;
-}
-
-.search-bar {
-  border-radius: 24px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.search-bar :deep(.v-field) {
-  border-radius: 24px !important;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-icon-btn {
-  color: white !important;
-}
-
-.header-icon-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Settings Menu Styles */
-.settings-menu {
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-.settings-title {
-  font-size: 18px;
-  font-weight: 600;
-  padding: 16px 20px;
-  color: #333;
-  display: flex;
-  align-items: center;
-}
-
-.settings-content {
-  padding: 16px 20px;
-}
-
-.setting-section {
-  margin-bottom: 4px;
-}
-
-.setting-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-}
-
-.theme-toggle {
-  width: 100%;
-  display: flex;
-}
-
-.theme-toggle .v-btn {
-  flex: 1;
-}
-
-.color-picker-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.color-option {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
+/* Custom Range Slider Styles */
+.slider-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #cc0000;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  border: 3px solid transparent;
 }
 
-.color-option:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.slider-thumb::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #cc0000;
+  cursor: pointer;
+  border: none;
 }
 
-.color-option.active {
-  border-color: #333;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px #333;
+.slider-thumb::-webkit-slider-thumb:hover {
+  background: #b30000;
 }
 
-.font-size-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #777;
-  margin-top: 4px;
-}
-
-.settings-actions {
-  padding: 12px 20px;
-}
-
-.user-menu-btn {
-  color: white !important;
-  text-transform: none !important;
-  padding: 4px 12px !important;
-  border-radius: 20px !important;
-}
-
-.user-menu-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.user-name {
-  margin: 0 8px;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.user-info-title {
-  font-weight: 600;
-  color: #333;
-}
-
-.logout-item {
-  color: #cc0000;
-}
-
-.logout-item:hover {
-  background-color: #fff5f5;
-}
-
-/* Navigation Drawer Styles */
-.menu-item {
-  font-weight: 500;
-  transition: all 0.3s;
-  margin: 4px 8px;
-  border-radius: 8px;
-}
-
-.menu-item:hover {
-  background-color: #fff5f5 !important;
-  color: #cc0000 !important;
-}
-
-.account-info-item {
-  margin: 4px 8px;
-  pointer-events: none;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
-.logout-menu-item {
-  color: #cc0000;
-}
-
-.logout-menu-item:hover {
-  background-color: #fff5f5 !important;
-}
-
-.title-item {
-  font-weight: bold;
-  color: #555;
-  padding-left: 16px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Modal styles */
-.logout-modal {
-  border-radius: 12px;
-  padding: 20px;
-  z-index: 9999 !important; /* Đảm bảo modal luôn ở trên cùng */
-}
-
-.modal-title {
-  font-size: 20px;
-  font-weight: 600;
-  padding: 16px 24px;
-  color: #333;
-}
-
-.modal-content {
-  font-size: 16px;
-  padding: 20px 24px;
-  color: #666;
-}
-
-.modal-actions {
-  padding: 16px 24px 24px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.btn-cancel {
-  text-transform: uppercase;
-  font-weight: 600;
-  border-color: #ddd;
-  color: #666;
-  height: 44px;
-  border-radius: 8px;
-}
-
-.btn-cancel:hover {
-  background-color: #f5f5f5;
-  border-color: #999;
-}
-
-.btn-confirm {
-  text-transform: uppercase;
-  font-weight: 600;
-  color: white;
-  height: 44px;
-  border-radius: 8px;
-}
-
-.btn-confirm:hover {
-  background-color: #b30000;
-}
-
-/* Responsive */
-@media (max-width: 960px) {
-  .header-container {
-    gap: 12px;
-  }
-  
-  .logo-text {
-    display: none;
-  }
-  
-  .user-name {
-    display: none;
-  }
-  
-  .header-center {
-    max-width: 400px;
-  }
-}
-
-@media (max-width: 600px) {
-  .header-center {
-    max-width: 200px;
-  }
-  
-  .search-bar :deep(.v-field__input) {
-    font-size: 14px;
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  aside {
+    position: fixed !important;
   }
 }
 </style>

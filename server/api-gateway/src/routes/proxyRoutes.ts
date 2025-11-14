@@ -28,15 +28,15 @@ const services = {
   // ===== BRAND SERVICE (tạm thời từ monolithic) =====
   brand: { url: process.env.BRAND_SERVICE_URL || 'http://localhost:5000', path: '/api/brand' },
   
-  // ===== ORDER SERVICE =====
-  orders: { url: process.env.ORDER_SERVICE_URL || 'http://localhost:5003', path: '/api/orders' },
+  // ===== ORDER MANAGER SERVICE (port 5003) - Microservice quản lý orders =====
+  orders: { url: process.env.ORDER_MANAGER_SERVICE_URL || 'http://localhost:5003', path: '/api/orders' },
   
   // ===== MICROSERVICES KHÁC =====
-  location: { url: process.env.LOCATION_SERVICE_URL || 'http://localhost:5004', path: '/api/locations' },
-  promotion: { url: process.env.PROMOTION_SERVICE_URL || 'http://localhost:5005', path: '/api/promotions' },
-  review: { url: process.env.REVIEW_SERVICE_URL || 'http://localhost:5006', path: '/api/reviews' },
-  search: { url: process.env.SEARCH_SERVICE_URL || 'http://localhost:5007', path: '/api/search' },
-  chatbot: { url: process.env.CHATBOT_SERVICE_URL || 'http://localhost:5008', path: '/api/chatbot' }
+  // location: { url: process.env.LOCATION_SERVICE_URL || 'http://localhost:5004', path: '/api/locations' },
+  // promotion: { url: process.env.PROMOTION_SERVICE_URL || 'http://localhost:5005', path: '/api/promotions' },
+  // review: { url: process.env.REVIEW_SERVICE_URL || 'http://localhost:5006', path: '/api/reviews' },
+  // search: { url: process.env.SEARCH_SERVICE_URL || 'http://localhost:5007', path: '/api/search' },
+  // chatbot: { url: process.env.CHATBOT_SERVICE_URL || 'http://localhost:5008', path: '/api/chatbot' }
 } as const;
 
 Object.values(services).forEach(service => {
