@@ -6,6 +6,22 @@ const AddressSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
+    },
+    label: {
+      type: String,
+      default: "Nhà riêng", // "Văn phòng", "Nhà bạn gái"...
+      trim: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
     },
     province: {
       type: String,
@@ -19,9 +35,13 @@ const AddressSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    houseNumber: {
+    address: {
       type: String,
-      default: "",
+      required: true, // Số nhà, tên đường
+    },
+    isDefault: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

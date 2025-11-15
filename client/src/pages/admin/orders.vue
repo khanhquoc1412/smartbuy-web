@@ -7,71 +7,71 @@
     <!-- KPI Cards -->
     <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-5 tw-gap-4 tw-mb-6">
       <div class="tw-bg-white tw-p-4 tw-rounded-xl tw-shadow-md tw-border tw-border-gray-200">
-        <div class="tw-flex tw-items-center tw-justify-between">
-          <div>
-            <p class="tw-text-sm tw-text-gray-600">Tổng đơn hôm nay</p>
-            <p class="tw-text-2xl tw-font-bold tw-text-crimson-600">{{ stats.todayOrders || 0 }}</p>
-          </div>
+        <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
           <div class="tw-bg-crimson-100 tw-p-3 tw-rounded-full">
             <svg class="tw-w-6 tw-h-6 tw-text-crimson-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
           </div>
+          <div class="tw-text-center">
+            <p class="tw-text-sm tw-text-gray-600">Tổng đơn hôm nay</p>
+            <p class="tw-text-2xl tw-font-bold tw-text-crimson-600">{{ stats.todayOrders || 0 }}</p>
+          </div>
         </div>
       </div>
 
       <div class="tw-bg-white tw-p-4 tw-rounded-xl tw-shadow-md tw-border tw-border-gray-200">
-        <div class="tw-flex tw-items-center tw-justify-between">
-          <div>
-            <p class="tw-text-sm tw-text-gray-600">Doanh thu hôm nay</p>
-            <p class="tw-text-2xl tw-font-bold tw-text-green-600">{{ formatCurrency(stats.todayRevenue || 0) }}</p>
-          </div>
+        <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
           <div class="tw-bg-green-100 tw-p-3 tw-rounded-full">
             <svg class="tw-w-6 tw-h-6 tw-text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
+          <div class="tw-text-center">
+            <p class="tw-text-sm tw-text-gray-600">Doanh thu hôm nay</p>
+            <p class="tw-text-xl tw-font-bold tw-text-green-600">{{ formatCurrency(stats.todayRevenue || 0) }}</p>
+          </div>
         </div>
       </div>
 
       <div class="tw-bg-white tw-p-4 tw-rounded-xl tw-shadow-md tw-border tw-border-gray-200">
-        <div class="tw-flex tw-items-center tw-justify-between">
-          <div>
-            <p class="tw-text-sm tw-text-gray-600">Đang giao hàng</p>
-            <p class="tw-text-2xl tw-font-bold tw-text-blue-600">{{ stats.shippingOrders || 0 }}</p>
-          </div>
+        <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
           <div class="tw-bg-blue-100 tw-p-3 tw-rounded-full">
             <svg class="tw-w-6 tw-h-6 tw-text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
             </svg>
           </div>
+          <div class="tw-text-center">
+            <p class="tw-text-sm tw-text-gray-600">Đang giao hàng</p>
+            <p class="tw-text-2xl tw-font-bold tw-text-blue-600">{{ stats.shippingOrders || 0 }}</p>
+          </div>
         </div>
       </div>
 
       <div class="tw-bg-white tw-p-4 tw-rounded-xl tw-shadow-md tw-border tw-border-gray-200">
-        <div class="tw-flex tw-items-center tw-justify-between">
-          <div>
-            <p class="tw-text-sm tw-text-gray-600">Chờ xử lý</p>
-            <p class="tw-text-2xl tw-font-bold tw-text-orange-600">{{ stats.pendingOrders || 0 }}</p>
-          </div>
+        <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
           <div class="tw-bg-orange-100 tw-p-3 tw-rounded-full">
             <svg class="tw-w-6 tw-h-6 tw-text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
+          <div class="tw-text-center">
+            <p class="tw-text-sm tw-text-gray-600">Chờ xử lý</p>
+            <p class="tw-text-2xl tw-font-bold tw-text-orange-600">{{ stats.pendingOrders || 0 }}</p>
+          </div>
         </div>
       </div>
 
       <div class="tw-bg-white tw-p-4 tw-rounded-xl tw-shadow-md tw-border tw-border-gray-200">
-        <div class="tw-flex tw-items-center tw-justify-between">
-          <div>
-            <p class="tw-text-sm tw-text-gray-600">Tỉ lệ hoàn thành</p>
-            <p class="tw-text-2xl tw-font-bold tw-text-purple-600">{{ stats.completionRate || 0 }}%</p>
-          </div>
+        <div class="tw-flex tw-flex-col tw-items-center tw-gap-3">
           <div class="tw-bg-purple-100 tw-p-3 tw-rounded-full">
             <svg class="tw-w-6 tw-h-6 tw-text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
+          </div>
+          <div class="tw-text-center">
+            <p class="tw-text-sm tw-text-gray-600">Tỉ lệ hoàn thành</p>
+            <p class="tw-text-2xl tw-font-bold tw-text-purple-600">{{ stats.completionRate || 0 }}%</p>
           </div>
         </div>
       </div>
@@ -98,21 +98,22 @@
 
     <!-- Search and Filters -->
     <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
-      <input 
-        type="text" 
-        v-model="search" 
-        @keyup.enter="loadOrders"
-        placeholder="Tìm kiếm theo mã đơn, tên khách hàng (Enter để tìm)..." 
-        class="tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg tw-w-80 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent" 
-      />
+      <div class="tw-relative tw-w-80">
+        <input 
+          type="text" 
+          v-model="search" 
+          @input="loadOrders"
+          placeholder="Tìm kiếm theo mã đơn, tên khách hàng..." 
+          class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-pl-10 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent" 
+        />
+        <button @click="loadOrders" class="tw-absolute tw-left-3 tw-top-1/2 tw-transform -tw-translate-y-1/2 tw-text-gray-500 hover:tw-text-crimson-600 tw-transition-colors">
+          <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      </div>
 
       <div class="tw-flex tw-gap-2">
-        <button @click="loadOrders" class="tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-rounded-lg hover:tw-bg-blue-700 tw-transition-colors tw-font-medium">
-          <svg class="tw-inline tw-w-5 tw-h-5 tw-mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          Làm mới
-        </button>
       </div>
     </div>
 
@@ -403,6 +404,26 @@
               <p v-if="selectedOrder?.cancelReason" class="tw-text-sm tw-text-crimson-600 tw-font-medium">Lý do hủy: {{ selectedOrder.cancelReason }}</p>
             </div>
           </div>
+
+          <!-- Action Buttons -->
+          <div class="tw-flex tw-gap-3 tw-pt-4 tw-border-t">
+            <button 
+              v-if="canCancelOrder(selectedOrder)" 
+              @click="openCancelOrderModal"
+              class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-font-medium tw-flex tw-items-center tw-gap-2"
+            >
+              <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Hủy đơn hàng
+            </button>
+            <button 
+              @click="closeOrderDetailModal"
+              class="tw-px-4 tw-py-2 tw-bg-gray-300 tw-text-gray-700 tw-rounded-lg hover:tw-bg-gray-400 tw-font-medium"
+            >
+              Đóng
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -445,6 +466,60 @@
           </button>
           <button @click="closeChangeStatusModal" class="tw-flex-1 tw-px-4 tw-py-2 tw-bg-gray-300 tw-text-gray-700 tw-rounded-lg hover:tw-bg-gray-400 tw-font-medium">
             Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cancel Order Modal -->
+    <div v-if="showCancelOrderModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-[500px]">
+        <h2 class="tw-text-xl tw-font-bold tw-text-crimson-600 tw-mb-4">Hủy đơn hàng</h2>
+        
+        <div class="tw-mb-4">
+          <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-2">Mã đơn hàng</label>
+          <p class="tw-font-mono tw-text-sm tw-bg-gray-100 tw-p-2 tw-rounded">{{ selectedOrder?.orderNumber }}</p>
+        </div>
+
+        <div class="tw-mb-4 tw-bg-amber-50 tw-border tw-border-amber-200 tw-p-4 tw-rounded-lg">
+          <div class="tw-flex tw-items-start tw-gap-3">
+            <svg class="tw-w-5 tw-h-5 tw-text-amber-600 tw-flex-shrink-0 tw-mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div>
+              <p class="tw-text-sm tw-font-medium tw-text-amber-800 tw-mb-1">Cảnh báo</p>
+              <p class="tw-text-sm tw-text-amber-700">
+                Hành động này không thể hoàn tác. 
+                <span v-if="selectedOrder?.paymentStatus === 'paid'" class="tw-font-semibold">
+                  Đơn hàng đã thanh toán sẽ được hoàn tiền tự động.
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tw-mb-4">
+          <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-2">Lý do hủy đơn *</label>
+          <textarea 
+            v-model="cancelReason" 
+            rows="4" 
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-p-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500" 
+            placeholder="Nhập lý do hủy đơn (bắt buộc)..."
+          ></textarea>
+        </div>
+
+        <div class="tw-flex tw-gap-3">
+          <button 
+            @click="confirmCancelOrder" 
+            class="tw-flex-1 tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-font-medium"
+          >
+            Xác nhận hủy
+          </button>
+          <button 
+            @click="closeCancelOrderModal" 
+            class="tw-flex-1 tw-px-4 tw-py-2 tw-bg-gray-300 tw-text-gray-700 tw-rounded-lg hover:tw-bg-gray-400 tw-font-medium"
+          >
+            Đóng
           </button>
         </div>
       </div>
@@ -546,6 +621,7 @@ const dateTo = ref('')
 // Modals
 const showOrderDetailModal = ref(false)
 const showChangeStatusModal = ref(false)
+const showCancelOrderModal = ref(false)
 const showNotificationModal = ref(false)
 const notificationMessage = ref('')
 const notificationType = ref('info')
@@ -554,6 +630,7 @@ const notificationType = ref('info')
 const selectedOrder = ref(null)
 const newOrderStatus = ref('')
 const statusChangeNote = ref('')
+const cancelReason = ref('')
 
 // Load orders
 const loadOrders = async () => {
@@ -896,6 +973,69 @@ function translateStatusInNote(note) {
   })
   
   return translatedNote
+}
+
+// Cancel order functions
+function canCancelOrder(order) {
+  if (!order) return false
+  
+  // Cannot cancel if order is already in these statuses
+  const nonCancellableStatuses = ['shipping', 'delivered', 'completed', 'cancelled', 'returned']
+  return !nonCancellableStatuses.includes(order.orderStatus)
+}
+
+function openCancelOrderModal() {
+  if (!selectedOrder.value) return
+  cancelReason.value = ''
+  showCancelOrderModal.value = true
+}
+
+function closeCancelOrderModal() {
+  showCancelOrderModal.value = false
+  cancelReason.value = ''
+}
+
+async function confirmCancelOrder() {
+  if (!selectedOrder.value) {
+    showNotification('Không tìm thấy đơn hàng', 'error')
+    return
+  }
+
+  if (!cancelReason.value.trim()) {
+    showNotification('Vui lòng nhập lý do hủy đơn', 'warning')
+    return
+  }
+
+  try {
+    const response = await axios.post(`${API_URL}/${selectedOrder.value._id}/cancel`, {
+      reason: cancelReason.value.trim()
+    })
+
+    if (response.success) {
+      showNotification(response.message, 'success')
+      
+      // Show refund info if available
+      if (response.refundInfo) {
+        const refundMsg = `Hoàn tiền: ${formatCurrency(response.refundInfo.amount)} - ${response.refundInfo.method} - ${formatDateTime(response.refundInfo.refundedAt)}`
+        setTimeout(() => {
+          showNotification(refundMsg, 'info')
+        }, 2000)
+      }
+
+      // Close modals and refresh
+      closeCancelOrderModal()
+      showOrderDetailModal.value = false
+      selectedOrder.value = null
+      await loadOrders()
+      await loadStats()
+    } else {
+      showNotification(response.message || 'Hủy đơn hàng thất bại', 'error')
+    }
+  } catch (error) {
+    console.error('Error cancelling order:', error)
+    const errorMsg = error.response?.data?.message || error.message || 'Có lỗi xảy ra khi hủy đơn hàng'
+    showNotification(errorMsg, 'error')
+  }
 }
 
 function showNotification(message, type = 'info') {

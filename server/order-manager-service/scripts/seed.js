@@ -4,13 +4,20 @@ const Order = require('../src/models/Order');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/smartbuy_db_order';
 
-// Sample user IDs (you should replace with real user IDs from your user service)
-const sampleUserIds = [
-  new mongoose.Types.ObjectId(),
-  new mongoose.Types.ObjectId(),
-  new mongoose.Types.ObjectId(),
-  new mongoose.Types.ObjectId(),
-  new mongoose.Types.ObjectId()
+// Real user IDs from user-manager-service database (with real emails for testing email notifications)
+const realUserIds = [
+  '690e335cc652340b3d8ab0d7',  // P_ Senpai - phapn460@gmail.com (Admin)
+  '690e37e853bac02db0034938',  // Huy Nguyen - huy056614@gmail.com
+  '6918a080d0cf402360e77001',  // Phap203 - phapn203@gmail.com
+  '6918a0acd0cf402360e77013'   // Phapb2104818 - phapb2104818@student.ctu.edu.vn
+];
+
+// User info for matching addresses (from real database)
+const userInfo = [
+  { id: '690e335cc652340b3d8ab0d7', name: 'P_ Senpai', email: 'phapn460@gmail.com' },
+  { id: '690e37e853bac02db0034938', name: 'Huy Nguyen', email: 'huy056614@gmail.com' },
+  { id: '6918a080d0cf402360e77001', name: 'Phap203', email: 'phapn203@gmail.com' },
+  { id: '6918a0acd0cf402360e77013', name: 'Phapb2104818', email: 'phapb2104818@student.ctu.edu.vn' }
 ];
 
 // Sample product IDs (you should replace with real product IDs from your product service)
@@ -52,10 +59,10 @@ const sampleProducts = [
   }
 ];
 
-// Sample addresses
+// Sample addresses (matching real user names)
 const sampleAddresses = [
   {
-    fullName: 'Nguyễn Văn An',
+    fullName: 'P_ Senpai',
     phone: '0901234567',
     province: 'Thành phố Hồ Chí Minh',
     district: 'Quận 1',
@@ -63,7 +70,7 @@ const sampleAddresses = [
     address: '123 Nguyễn Huệ'
   },
   {
-    fullName: 'Trần Thị Bình',
+    fullName: 'Huy Nguyen',
     phone: '0912345678',
     province: 'Hà Nội',
     district: 'Quận Hoàn Kiếm',
@@ -71,7 +78,7 @@ const sampleAddresses = [
     address: '456 Hàng Bạc'
   },
   {
-    fullName: 'Lê Minh Cường',
+    fullName: 'Phap203',
     phone: '0923456789',
     province: 'Đà Nẵng',
     district: 'Quận Hải Châu',
@@ -79,20 +86,12 @@ const sampleAddresses = [
     address: '789 Lê Duẩn'
   },
   {
-    fullName: 'Phạm Thị Dung',
+    fullName: 'Phapb2104818',
     phone: '0934567890',
-    province: 'Thành phố Hồ Chí Minh',
-    district: 'Quận 3',
-    ward: 'Phường Võ Thị Sáu',
-    address: '321 Võ Văn Tần'
-  },
-  {
-    fullName: 'Hoàng Văn Em',
-    phone: '0945678901',
-    province: 'Cần Thơ',
+    province: 'Thành phố Cần Thơ',
     district: 'Quận Ninh Kiều',
     ward: 'Phường An Hòa',
-    address: '654 Mậu Thân'
+    address: '321 Đại học Cần Thơ'
   }
 ];
 
@@ -226,10 +225,15 @@ const generateOrders = (count) => {
       });
     }
 
+    // Chọn user và address tương ứng
+    const userIndex = i % realUserIds.length;
+    const userId = realUserIds[userIndex];
+    const userAddress = sampleAddresses[userIndex];
+
     const order = {
-      user: randomItem(sampleUserIds),
+      user: userId,
       orderItems,
-      shippingAddress: randomItem(sampleAddresses),
+      shippingAddress: userAddress,
       paymentMethod,
       paymentStatus,
       paymentResult: paymentStatus === 'paid' && paymentMethod !== 'COD' ? {

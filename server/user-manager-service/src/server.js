@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
+const addressRoutes = require('./routes/addressRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -36,6 +37,7 @@ app.get('/health', (req, res) => {
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/addresses', addressRoutes);
 
 // Error handler
 app.use(errorHandler);

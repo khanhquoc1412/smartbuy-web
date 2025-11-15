@@ -1,0 +1,225 @@
+[{
+  "_id": {
+    "$oid": "690e349951f32de66fa255c9"
+  },
+  "ram": "3GB",
+  "rom": "32GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.338Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.338Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255ca"
+  },
+  "rom": "64GB",
+  "ram": "3GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.343Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.343Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "ram": "4GB",
+  "rom": "64GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.344Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.344Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "rom": "128GB",
+  "ram": "4GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.346Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.346Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255cd"
+  },
+  "ram": "4GB",
+  "rom": "256GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.348Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.348Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "rom": "128GB",
+  "ram": "6GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.349Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.349Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "ram": "6GB",
+  "rom": "256GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.351Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.351Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "rom": "128GB",
+  "ram": "8GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.353Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.353Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "ram": "8GB",
+  "rom": "256GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.355Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.639Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "rom": "512GB",
+  "ram": "8GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.358Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.358Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "ram": "8GB",
+  "rom": "1TB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.360Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.360Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "rom": "256GB",
+  "ram": "12GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.361Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.361Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "ram": "12GB",
+  "rom": "512GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.363Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.363Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d6"
+  },
+  "rom": "1TB",
+  "ram": "12GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.365Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.365Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255d7"
+  },
+  "ram": "16GB",
+  "rom": "512GB",
+  "__v": 0,
+  "chipset": null,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.366Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.366Z"
+  }
+}]

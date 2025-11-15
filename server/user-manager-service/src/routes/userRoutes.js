@@ -3,7 +3,10 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const adminAuth = require('../middleware/adminAuth');
 
-// Apply admin authentication to all routes
+// Internal API (no auth required) - for other services
+router.get('/internal/:id', userController.getUserById);
+
+// Apply admin authentication to all other routes
 router.use(adminAuth);
 
 // Get user statistics

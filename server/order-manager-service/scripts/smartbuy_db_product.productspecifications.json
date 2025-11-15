@@ -1,0 +1,5358 @@
+[{
+  "_id": {
+    "$oid": "690e349978453ce4b2474129"
+  },
+  "specValue": "6.1 inch, Super Retina XDR OLED, Dynamic Island",
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247412a"
+  },
+  "specValue": "Camera chính 48MP + Ultra Wide 12MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247412b"
+  },
+  "specValue": "12MP TrueDepth Autofocus",
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247412c"
+  },
+  "specValue": "Apple A16 Bionic",
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247412d"
+  },
+  "specValue": "3349 mAh, sạc nhanh 20W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247412e"
+  },
+  "specValue": "iOS 17",
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.401Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474143"
+  },
+  "specValue": "6.1 inch, Super Retina XDR OLED, Dynamic Island",
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.418Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.418Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474144"
+  },
+  "specValue": "Camera Fusion 48MP + Ultra Wide 12MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.418Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.418Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474145"
+  },
+  "specValue": "12MP TrueDepth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474146"
+  },
+  "specValue": "Apple A18",
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474147"
+  },
+  "specValue": "3561 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474148"
+  },
+  "specValue": "iOS 18",
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.419Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247416c"
+  },
+  "specValue": "6.9 inch, Super Retina XDR LTPO, ProMotion 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247416d"
+  },
+  "specValue": "Camera Fusion 48MP + Ultra Wide 48MP + Telephoto 5x 12MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247416e"
+  },
+  "specValue": "12MP TrueDepth Autofocus",
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247416f"
+  },
+  "specValue": "Apple A18 Pro",
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474170"
+  },
+  "specValue": "4685 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474171"
+  },
+  "specValue": "iOS 18",
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.433Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474197"
+  },
+  "specValue": "6.1 inch, Super Retina XDR OLED",
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474198"
+  },
+  "specValue": "Camera kép 12MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474199"
+  },
+  "specValue": "12MP TrueDepth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247419a"
+  },
+  "specValue": "Apple A16 Bionic",
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247419b"
+  },
+  "specValue": "3200 mAh, sạc nhanh 20W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247419c"
+  },
+  "specValue": "iOS 18",
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b2"
+  },
+  "specValue": "6.1 inch, Super Retina XDR OLED, 2532 x 1170 pixels",
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b3"
+  },
+  "specValue": "Camera kép 12MP (Wide + Ultra Wide)",
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b4"
+  },
+  "specValue": "12MP TrueDepth",
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b5"
+  },
+  "specValue": "Apple A15 Bionic",
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b6"
+  },
+  "specValue": "3240 mAh, sạc nhanh 20W",
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b7"
+  },
+  "specValue": "iOS 15",
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.458Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741cd"
+  },
+  "specValue": "6.1 inch, Super Retina XDR OLED, 2532 x 1170 pixels",
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ce"
+  },
+  "specValue": "Camera kép 12MP, Photonic Engine",
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741cf"
+  },
+  "specValue": "12MP TrueDepth Autofocus",
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d0"
+  },
+  "specValue": "Apple A15 Bionic",
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d1"
+  },
+  "specValue": "3279 mAh, sạc nhanh 20W",
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d2"
+  },
+  "specValue": "iOS 16",
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.466Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ea"
+  },
+  "specValue": "6.3 inch, Super Retina XDR LTPO, ProMotion 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741eb"
+  },
+  "specValue": "Camera chính 48MP + Ultra Wide 48MP + Telephoto 3x",
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ec"
+  },
+  "specValue": "12MP TrueDepth",
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ed"
+  },
+  "specValue": "Apple A19 Pro",
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ee"
+  },
+  "specValue": "3800 mAh, sạc nhanh 30W",
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ef"
+  },
+  "specValue": "iOS 19",
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474203"
+  },
+  "specValue": "6.9 inch, Super Retina XDR LTPO, ProMotion 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474204"
+  },
+  "specValue": "Camera chính 48MP + Ultra Wide 48MP + Telephoto 5x",
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474205"
+  },
+  "specValue": "12MP TrueDepth Autofocus",
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474206"
+  },
+  "specValue": "Apple A19 Pro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474207"
+  },
+  "specValue": "4800 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474208"
+  },
+  "specValue": "iOS 19",
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.486Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247421a"
+  },
+  "specValue": "6.7 inch, PLS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247421b"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247421c"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247421d"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247421e"
+  },
+  "specValue": "5000 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247421f"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.496Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247423a"
+  },
+  "specValue": "6.6 inch, PLS LCD, HD+",
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247423b"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247423c"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247423d"
+  },
+  "specValue": "MediaTek Helio G85",
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247423e"
+  },
+  "specValue": "5000 mAh, sạc 15W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247423f"
+  },
+  "specValue": "Android 14, One UI 6",
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.507Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474258"
+  },
+  "specValue": "6.6 inch, Super AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474259"
+  },
+  "specValue": "50MP OIS + 8MP Ultra Wide + 5MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247425a"
+  },
+  "specValue": "13MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247425b"
+  },
+  "specValue": "Snapdragon 7 Gen 1",
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247425c"
+  },
+  "specValue": "5000 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247425d"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.516Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474278"
+  },
+  "specValue": "6.7 inch, Super AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474279"
+  },
+  "specValue": "50MP OIS + 12MP Ultra Wide + 5MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247427a"
+  },
+  "specValue": "32MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247427b"
+  },
+  "specValue": "Exynos 1480",
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247427c"
+  },
+  "specValue": "5000 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247427d"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.526Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474297"
+  },
+  "specValue": "6.2 inch, Dynamic AMOLED 2X, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474298"
+  },
+  "specValue": "50MP OIS + 12MP Ultra Wide + 10MP Telephoto 3x",
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474299"
+  },
+  "specValue": "12MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247429a"
+  },
+  "specValue": "Exynos 2400",
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247429b"
+  },
+  "specValue": "4000 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247429c"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.534Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742b8"
+  },
+  "specValue": "6.4 inch, Dynamic AMOLED 2X, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742b9"
+  },
+  "specValue": "50MP OIS + 12MP Ultra Wide + 8MP Telephoto 3x",
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742ba"
+  },
+  "specValue": "10MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742bb"
+  },
+  "specValue": "Snapdragon 8 Gen 2",
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742bc"
+  },
+  "specValue": "4500 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742bd"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742de"
+  },
+  "specValue": "6.7 inch Dynamic AMOLED 2X (gập), 1.9 inch (phụ), 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742df"
+  },
+  "specValue": "12MP Wide + 12MP Ultra Wide",
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e0"
+  },
+  "specValue": "10MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e1"
+  },
+  "specValue": "Snapdragon 8 Gen 3",
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e2"
+  },
+  "specValue": "3700 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e3"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.554Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742ff"
+  },
+  "specValue": "7.6 inch Dynamic AMOLED 2X (trong), 6.2 inch (ngoài), 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474300"
+  },
+  "specValue": "50MP Wide + 12MP Ultra Wide + 10MP Telephoto 3x",
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474301"
+  },
+  "specValue": "10MP (ngoài) + 4MP (trong)",
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474302"
+  },
+  "specValue": "Snapdragon 8 Gen 3",
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474303"
+  },
+  "specValue": "4400 mAh, sạc nhanh 25W",
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474304"
+  },
+  "specValue": "Android 14, One UI 6.1",
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.562Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474321"
+  },
+  "specValue": "6.67 inch, AMOLED, 1.5K, 144Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474322"
+  },
+  "specValue": "50MP OIS + 50MP Telephoto 2x + 12MP Ultra Wide",
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474323"
+  },
+  "specValue": "32MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474324"
+  },
+  "specValue": "MediaTek Dimensity 8300 Ultra",
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474325"
+  },
+  "specValue": "5000 mAh, sạc nhanh 67W",
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474326"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.571Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474334"
+  },
+  "specValue": "6.88 inch, IPS LCD, HD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474335"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474336"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474337"
+  },
+  "specValue": "MediaTek Helio G81 Ultra",
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474338"
+  },
+  "specValue": "5160 mAh, sạc 18W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474339"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247434e"
+  },
+  "specValue": "6.74 inch, IPS LCD, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247434f"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474350"
+  },
+  "specValue": "13MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474351"
+  },
+  "specValue": "Snapdragon 4 Gen 2",
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474352"
+  },
+  "specValue": "5000 mAh, sạc nhanh 33W",
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474353"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.587Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247436e"
+  },
+  "specValue": "6.71 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247436f"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474370"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474371"
+  },
+  "specValue": "MediaTek Helio G36",
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474372"
+  },
+  "specValue": "5000 mAh, sạc 10W",
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474373"
+  },
+  "specValue": "Android 14 Go, MIUI",
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.597Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474381"
+  },
+  "specValue": "6.74 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474382"
+  },
+  "specValue": "13MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474383"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474384"
+  },
+  "specValue": "MediaTek Helio G81 Ultra",
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474385"
+  },
+  "specValue": "5160 mAh, sạc 18W",
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474386"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.607Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247439a"
+  },
+  "specValue": "6.67 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247439b"
+  },
+  "specValue": "200MP OIS + 8MP Ultra Wide + 2MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247439c"
+  },
+  "specValue": "20MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247439d"
+  },
+  "specValue": "MediaTek Helio G100 Ultra",
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247439e"
+  },
+  "specValue": "5500 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247439f"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.615Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743ba"
+  },
+  "specValue": "6.67 inch, AMOLED, 1.5K, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743bb"
+  },
+  "specValue": "200MP OIS + 8MP Ultra Wide + 2MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743bc"
+  },
+  "specValue": "20MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743bd"
+  },
+  "specValue": "MediaTek Dimensity 7300 Ultra",
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743be"
+  },
+  "specValue": "5500 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743bf"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.632Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743da"
+  },
+  "specValue": "6.67 inch, AMOLED, 1.5K, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743db"
+  },
+  "specValue": "200MP OIS + 50MP Telephoto 2.5x + 8MP Ultra Wide",
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743dc"
+  },
+  "specValue": "20MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743dd"
+  },
+  "specValue": "Snapdragon 7s Gen 3",
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743de"
+  },
+  "specValue": "6200 mAh, sạc nhanh 90W",
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743df"
+  },
+  "specValue": "Android 14, HyperOS",
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.641Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743ec"
+  },
+  "specValue": "6.67 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743ed"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743ee"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743ef"
+  },
+  "specValue": "MediaTek Helio G85",
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743f0"
+  },
+  "specValue": "5000 mAh, sạc 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743f1"
+  },
+  "specValue": "Android 14, ColorOS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.647Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474409"
+  },
+  "specValue": "6.7 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247440a"
+  },
+  "specValue": "50MP + 8MP Ultra Wide + 2MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247440b"
+  },
+  "specValue": "16MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247440c"
+  },
+  "specValue": "MediaTek Dimensity 7300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247440d"
+  },
+  "specValue": "5000 mAh, sạc nhanh 80W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247440e"
+  },
+  "specValue": "Android 14, ColorOS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.656Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474423"
+  },
+  "specValue": "6.67 inch, IPS LCD, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474424"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474425"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474426"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474427"
+  },
+  "specValue": "5000 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474428"
+  },
+  "specValue": "Android 14, ColorOS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.662Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474440"
+  },
+  "specValue": "6.67 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474441"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474442"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474443"
+  },
+  "specValue": "Snapdragon 680",
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474444"
+  },
+  "specValue": "5000 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.669Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474445"
+  },
+  "specValue": "Android 14, ColorOS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.670Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.670Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247445d"
+  },
+  "specValue": "6.8 inch AMOLED (gập), 3.26 inch (phụ), 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247445e"
+  },
+  "specValue": "50MP OIS + 48MP Ultra Wide + 32MP Telephoto 2x",
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247445f"
+  },
+  "specValue": "32MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474460"
+  },
+  "specValue": "MediaTek Dimensity 9200",
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474461"
+  },
+  "specValue": "4300 mAh, sạc nhanh 44W",
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474462"
+  },
+  "specValue": "Android 13, ColorOS 13.2",
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.677Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247447b"
+  },
+  "specValue": "6.78 inch, AMOLED LTPO, 1.5K, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247447c"
+  },
+  "specValue": "50MP OIS + 50MP Ultra Wide + 50MP Telephoto 3x + 50MP Periscope 6x",
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247447d"
+  },
+  "specValue": "32MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247447e"
+  },
+  "specValue": "MediaTek Dimensity 9400",
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247447f"
+  },
+  "specValue": "5910 mAh, sạc nhanh 80W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474480"
+  },
+  "specValue": "Android 15, ColorOS 15",
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474497"
+  },
+  "specValue": "6.67 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474498"
+  },
+  "specValue": "50MP OIS + 8MP Ultra Wide + 2MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474499"
+  },
+  "specValue": "32MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247449a"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247449b"
+  },
+  "specValue": "5000 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247449c"
+  },
+  "specValue": "Android 14, ColorOS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.694Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744bb"
+  },
+  "specValue": "6.67 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744bc"
+  },
+  "specValue": "50MP OIS + 8MP Ultra Wide",
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744bd"
+  },
+  "specValue": "50MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744be"
+  },
+  "specValue": "Snapdragon 6 Gen 1",
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744bf"
+  },
+  "specValue": "5500 mAh, sạc nhanh 44W",
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744c0"
+  },
+  "specValue": "Android 14, Funtouch OS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744d6"
+  },
+  "specValue": "6.67 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744d7"
+  },
+  "specValue": "50MP OIS + 8MP Ultra Wide",
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744d8"
+  },
+  "specValue": "32MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744d9"
+  },
+  "specValue": "Snapdragon 6 Gen 1",
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744da"
+  },
+  "specValue": "5000 mAh, sạc nhanh 44W",
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744db"
+  },
+  "specValue": "Android 14, Funtouch OS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.706Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744fa"
+  },
+  "specValue": "6.67 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.713Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.713Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744fb"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744fc"
+  },
+  "specValue": "16MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744fd"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744fe"
+  },
+  "specValue": "5000 mAh, sạc nhanh 44W",
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744ff"
+  },
+  "specValue": "Android 14, Funtouch OS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.714Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474514"
+  },
+  "specValue": "6.78 inch, AMOLED, 1.5K, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474515"
+  },
+  "specValue": "50MP OIS + 50MP Ultra Wide + 50MP Telephoto 2x",
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474516"
+  },
+  "specValue": "50MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474517"
+  },
+  "specValue": "Snapdragon 7 Gen 3",
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474518"
+  },
+  "specValue": "5500 mAh, sạc nhanh 80W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474519"
+  },
+  "specValue": "Android 15, Funtouch OS 15",
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.720Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247452f"
+  },
+  "specValue": "6.68 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474530"
+  },
+  "specValue": "50MP + 0.08MP Flicker",
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474531"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474532"
+  },
+  "specValue": "Unisoc T612",
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474533"
+  },
+  "specValue": "5500 mAh, sạc 15W",
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474534"
+  },
+  "specValue": "Android 14, Funtouch OS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.728Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474549"
+  },
+  "specValue": "6.68 inch, IPS LCD, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247454a"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247454b"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247454c"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247454d"
+  },
+  "specValue": "5500 mAh, sạc nhanh 44W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247454e"
+  },
+  "specValue": "Android 14, Funtouch OS 14",
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.735Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474565"
+  },
+  "specValue": "6.67 inch, IPS LCD, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474566"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474567"
+  },
+  "specValue": "16MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474568"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474569"
+  },
+  "specValue": "6000 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247456a"
+  },
+  "specValue": "Android 15, Realme UI 6.0",
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.743Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474582"
+  },
+  "specValue": "6.67 inch, AMOLED, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474583"
+  },
+  "specValue": "50MP OIS + 8MP Ultra Wide + 2MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474584"
+  },
+  "specValue": "16MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474585"
+  },
+  "specValue": "MediaTek Dimensity 7300",
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474586"
+  },
+  "specValue": "6000 mAh, sạc nhanh 67W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474587"
+  },
+  "specValue": "Android 15, Realme UI 6.0",
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.749Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247459e"
+  },
+  "specValue": "6.67 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247459f"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a0"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a1"
+  },
+  "specValue": "Unisoc T612",
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a2"
+  },
+  "specValue": "5000 mAh, sạc 10W",
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a3"
+  },
+  "specValue": "Android 14, Realme UI 5.0",
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.758Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745b9"
+  },
+  "specValue": "6.74 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745ba"
+  },
+  "specValue": "32MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745bb"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745bc"
+  },
+  "specValue": "Unisoc T612",
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745bd"
+  },
+  "specValue": "5000 mAh, sạc 10W",
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745be"
+  },
+  "specValue": "Android 14, Realme UI 5.0",
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.764Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d4"
+  },
+  "specValue": "6.74 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d5"
+  },
+  "specValue": "32MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d6"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d7"
+  },
+  "specValue": "Unisoc T612",
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d8"
+  },
+  "specValue": "5000 mAh, sạc 15W",
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d9"
+  },
+  "specValue": "Android 14, Realme UI 5.0",
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.772Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745ef"
+  },
+  "specValue": "6.67 inch, IPS LCD, FHD+, 120Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f0"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f1"
+  },
+  "specValue": "8MP",
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f2"
+  },
+  "specValue": "MediaTek Dimensity 6300",
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f3"
+  },
+  "specValue": "5000 mAh, sạc nhanh 45W",
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f4"
+  },
+  "specValue": "Android 14, Realme UI 5.0",
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.779Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247460a"
+  },
+  "specValue": "6.8 inch, IPS LCD, FHD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.502Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247460b"
+  },
+  "specValue": "108MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.536Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247460c"
+  },
+  "specValue": "16MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247460d"
+  },
+  "specValue": "MediaTek Dimensity 6080",
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.573Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247460e"
+  },
+  "specValue": "6000 mAh, sạc nhanh 35W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.590Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247460f"
+  },
+  "specValue": "Android 14, MagicOS 8.0",
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.612Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474625"
+  },
+  "specValue": "6.56 inch, IPS LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474626"
+  },
+  "specValue": "50MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474627"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474628"
+  },
+  "specValue": "MediaTek Helio G85",
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474629"
+  },
+  "specValue": "5200 mAh, sạc 10W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247462a"
+  },
+  "specValue": "Android 14, MagicOS 8.0",
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.796Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247463f"
+  },
+  "specValue": "6.77 inch, TFT LCD, HD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474640"
+  },
+  "specValue": "50MP + 2MP Depth",
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474641"
+  },
+  "specValue": "5MP",
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474642"
+  },
+  "specValue": "MediaTek Helio G85",
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474643"
+  },
+  "specValue": "5200 mAh, sạc 10W",
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474644"
+  },
+  "specValue": "Android 14, MagicOS 8.0",
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.804Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474659"
+  },
+  "specValue": "6.7 inch, AMOLED, FHD+, 90Hz",
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247465a"
+  },
+  "specValue": "108MP + 5MP Ultra Wide + 2MP Macro",
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247465b"
+  },
+  "specValue": "16MP",
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247465c"
+  },
+  "specValue": "Snapdragon 4 Gen 2",
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247465d"
+  },
+  "specValue": "4500 mAh, sạc nhanh 35W",
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247465e"
+  },
+  "specValue": "Android 14, MagicOS 8.0",
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "specsId": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.811Z"
+  }
+}]

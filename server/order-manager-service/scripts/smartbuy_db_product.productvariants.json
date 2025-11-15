@@ -1,0 +1,5428 @@
+[{
+  "_id": {
+    "$oid": "690e349978453ce4b2474130"
+  },
+  "stock": 50,
+  "price": 25990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474131"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474132"
+  },
+  "stock": 50,
+  "price": 25990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474133"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474134"
+  },
+  "stock": 50,
+  "price": 25990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474135"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.409Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247414a"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247414b"
+  },
+  "stock": 50,
+  "price": 31990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247414c"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247414d"
+  },
+  "stock": 50,
+  "price": 31990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247414e"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247414f"
+  },
+  "stock": 50,
+  "price": 31990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c0"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474150"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474151"
+  },
+  "stock": 50,
+  "price": 31990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c1"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474152"
+  },
+  "stock": 50,
+  "price": 28990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474153"
+  },
+  "stock": 50,
+  "price": 31990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.423Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474173"
+  },
+  "stock": 50,
+  "price": 39990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.437Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.437Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474174"
+  },
+  "stock": 50,
+  "price": 44990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474175"
+  },
+  "stock": 50,
+  "price": 49990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474176"
+  },
+  "stock": 50,
+  "price": 39990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474177"
+  },
+  "stock": 50,
+  "price": 44990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474178"
+  },
+  "stock": 50,
+  "price": 49990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474179"
+  },
+  "stock": 50,
+  "price": 39990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247417a"
+  },
+  "stock": 50,
+  "price": 44990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247417b"
+  },
+  "stock": 50,
+  "price": 49990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247417c"
+  },
+  "stock": 50,
+  "price": 39990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247417d"
+  },
+  "stock": 50,
+  "price": 44990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247417e"
+  },
+  "stock": 50,
+  "price": 49990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247419e"
+  },
+  "stock": 50,
+  "price": 19990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247419f"
+  },
+  "stock": 50,
+  "price": 22990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741a0"
+  },
+  "stock": 50,
+  "price": 19990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741a1"
+  },
+  "stock": 50,
+  "price": 22990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741a2"
+  },
+  "stock": 50,
+  "price": 19990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741a3"
+  },
+  "stock": 50,
+  "price": 22990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.449Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b9"
+  },
+  "stock": 50,
+  "price": 17990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741ba"
+  },
+  "stock": 50,
+  "price": 19990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cd"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741bb"
+  },
+  "stock": 50,
+  "price": 17990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741bc"
+  },
+  "stock": 50,
+  "price": 19990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cd"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.460Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d4"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d5"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d6"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d7"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d8"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741d9"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741f1"
+  },
+  "stock": 50,
+  "price": 35990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741f2"
+  },
+  "stock": 50,
+  "price": 40990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741f3"
+  },
+  "stock": 50,
+  "price": 35990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bd"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741f4"
+  },
+  "stock": 50,
+  "price": 40990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bd"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741f5"
+  },
+  "stock": 50,
+  "price": 35990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741f6"
+  },
+  "stock": 50,
+  "price": 40990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247420a"
+  },
+  "stock": 50,
+  "price": 42990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bd"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247420b"
+  },
+  "stock": 50,
+  "price": 47990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bd"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247420c"
+  },
+  "stock": 50,
+  "price": 52990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bd"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247420d"
+  },
+  "stock": 50,
+  "price": 42990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247420e"
+  },
+  "stock": 50,
+  "price": 47990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247420f"
+  },
+  "stock": 50,
+  "price": 52990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d3"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.489Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474221"
+  },
+  "stock": 50,
+  "price": 4290000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474222"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474223"
+  },
+  "stock": 50,
+  "price": 4290000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474224"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474225"
+  },
+  "stock": 50,
+  "price": 4290000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474226"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474241"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255c9"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474242"
+  },
+  "stock": 50,
+  "price": 3390000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474243"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255c9"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474244"
+  },
+  "stock": 50,
+  "price": 3390000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474245"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255c9"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474246"
+  },
+  "stock": 50,
+  "price": 3390000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.510Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247425f"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474260"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474261"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474262"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474263"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474264"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.518Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247427f"
+  },
+  "stock": 50,
+  "price": 11990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474280"
+  },
+  "stock": 50,
+  "price": 13990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474281"
+  },
+  "stock": 50,
+  "price": 11990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474282"
+  },
+  "stock": 50,
+  "price": 13990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474283"
+  },
+  "stock": 50,
+  "price": 11990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474284"
+  },
+  "stock": 50,
+  "price": 13990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.528Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247429e"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247429f"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742a0"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742a1"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742a2"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742a3"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742a4"
+  },
+  "stock": 50,
+  "price": 21990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742a5"
+  },
+  "stock": 50,
+  "price": 24990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.537Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742bf"
+  },
+  "stock": 50,
+  "price": 15990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c0"
+  },
+  "stock": 50,
+  "price": 17990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c1"
+  },
+  "stock": 50,
+  "price": 15990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c2"
+  },
+  "stock": 50,
+  "price": 17990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c2"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c3"
+  },
+  "stock": 50,
+  "price": 15990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c4"
+  },
+  "stock": 50,
+  "price": 17990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c5"
+  },
+  "stock": 50,
+  "price": 15990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742c6"
+  },
+  "stock": 50,
+  "price": 17990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.546Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e5"
+  },
+  "stock": 50,
+  "price": 26990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e6"
+  },
+  "stock": 50,
+  "price": 29990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e7"
+  },
+  "stock": 50,
+  "price": 26990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e8"
+  },
+  "stock": 50,
+  "price": 29990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742e9"
+  },
+  "stock": 50,
+  "price": 26990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742ea"
+  },
+  "stock": 50,
+  "price": 29990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c3"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.556Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474306"
+  },
+  "stock": 50,
+  "price": 43990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474307"
+  },
+  "stock": 50,
+  "price": 47990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474308"
+  },
+  "stock": 50,
+  "price": 52990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d6"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474309"
+  },
+  "stock": 50,
+  "price": 43990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247430a"
+  },
+  "stock": 50,
+  "price": 47990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247430b"
+  },
+  "stock": 50,
+  "price": 52990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d6"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247430c"
+  },
+  "stock": 50,
+  "price": 43990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247430d"
+  },
+  "stock": 50,
+  "price": 47990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247430e"
+  },
+  "stock": 50,
+  "price": 52990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d6"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.564Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474328"
+  },
+  "stock": 50,
+  "price": 12990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.574Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.574Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474329"
+  },
+  "stock": 50,
+  "price": 14990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.574Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.574Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247433b"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247433c"
+  },
+  "stock": 50,
+  "price": 3490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247433d"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247433e"
+  },
+  "stock": 50,
+  "price": 3490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.580Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474355"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474356"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474357"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474358"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474359"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247435a"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.591Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474375"
+  },
+  "stock": 50,
+  "price": 1990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ca"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.599Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.599Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474376"
+  },
+  "stock": 50,
+  "price": 2290000,
+  "productId": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.599Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.599Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474388"
+  },
+  "stock": 50,
+  "price": 2290000,
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474389"
+  },
+  "stock": 50,
+  "price": 2590000,
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247438a"
+  },
+  "stock": 50,
+  "price": 2290000,
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247438b"
+  },
+  "stock": 50,
+  "price": 2590000,
+  "productId": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.609Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743a1"
+  },
+  "stock": 50,
+  "price": 7990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743a2"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743a3"
+  },
+  "stock": 50,
+  "price": 7990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743a4"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743a5"
+  },
+  "stock": 50,
+  "price": 7990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743a6"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.619Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743c1"
+  },
+  "stock": 50,
+  "price": 9490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743c2"
+  },
+  "stock": 50,
+  "price": 11490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743c3"
+  },
+  "stock": 50,
+  "price": 9490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743c4"
+  },
+  "stock": 50,
+  "price": 11490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743c5"
+  },
+  "stock": 50,
+  "price": 9490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743c6"
+  },
+  "stock": 50,
+  "price": 11490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.634Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743e1"
+  },
+  "stock": 50,
+  "price": 11990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.643Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.643Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743e2"
+  },
+  "stock": 50,
+  "price": 13990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.643Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.643Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743f3"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743f4"
+  },
+  "stock": 50,
+  "price": 3290000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743f5"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743f6"
+  },
+  "stock": 50,
+  "price": 3290000,
+  "productId": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.649Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474410"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474411"
+  },
+  "stock": 50,
+  "price": 5490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474412"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474413"
+  },
+  "stock": 50,
+  "price": 5490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.657Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247442a"
+  },
+  "stock": 50,
+  "price": 3790000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247442b"
+  },
+  "stock": 50,
+  "price": 4290000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247442c"
+  },
+  "stock": 50,
+  "price": 3790000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247442d"
+  },
+  "stock": 50,
+  "price": 4290000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.663Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474447"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474448"
+  },
+  "stock": 50,
+  "price": 5490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474449"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247444a"
+  },
+  "stock": 50,
+  "price": 5490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.672Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474464"
+  },
+  "stock": 50,
+  "price": 22990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474465"
+  },
+  "stock": 50,
+  "price": 25990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474466"
+  },
+  "stock": 50,
+  "price": 22990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474467"
+  },
+  "stock": 50,
+  "price": 25990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.679Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474482"
+  },
+  "stock": 50,
+  "price": 32990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474483"
+  },
+  "stock": 50,
+  "price": 37990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d7"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474484"
+  },
+  "stock": 50,
+  "price": 32990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474485"
+  },
+  "stock": 50,
+  "price": 37990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d7"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.687Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247449e"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247449f"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b8"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744a0"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744a1"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744a2"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744a3"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.695Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744c2"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744c3"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255c6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744c4"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744c5"
+  },
+  "stock": 50,
+  "price": 10990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.702Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744dd"
+  },
+  "stock": 50,
+  "price": 7990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744de"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744df"
+  },
+  "stock": 50,
+  "price": 7990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744e0"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744e1"
+  },
+  "stock": 50,
+  "price": 7990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744e2"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.708Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474501"
+  },
+  "stock": 50,
+  "price": 6990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.715Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.715Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474502"
+  },
+  "stock": 50,
+  "price": 6990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.715Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.715Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474503"
+  },
+  "stock": 50,
+  "price": 6990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.715Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.715Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247451b"
+  },
+  "stock": 50,
+  "price": 11990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247451c"
+  },
+  "stock": 50,
+  "price": 13990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247451d"
+  },
+  "stock": 50,
+  "price": 11990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d4"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247451e"
+  },
+  "stock": 50,
+  "price": 13990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.723Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474536"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.729Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.729Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474537"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.729Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.729Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474550"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474551"
+  },
+  "stock": 50,
+  "price": 5490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474552"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474553"
+  },
+  "stock": 50,
+  "price": 5490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.737Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247456c"
+  },
+  "stock": 50,
+  "price": 5990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247456d"
+  },
+  "stock": 50,
+  "price": 6490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bb"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247456e"
+  },
+  "stock": 50,
+  "price": 5990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247456f"
+  },
+  "stock": 50,
+  "price": 6490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.744Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474589"
+  },
+  "stock": 50,
+  "price": 7490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247458a"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bc"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247458b"
+  },
+  "stock": 50,
+  "price": 7490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247458c"
+  },
+  "stock": 50,
+  "price": 8990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d5"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.750Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a5"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a6"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a7"
+  },
+  "stock": 50,
+  "price": 3990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745a8"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.759Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745c0"
+  },
+  "stock": 50,
+  "price": 2490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745c1"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b7"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745c2"
+  },
+  "stock": 50,
+  "price": 2490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745c3"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.765Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745db"
+  },
+  "stock": 50,
+  "price": 3290000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745dc"
+  },
+  "stock": 50,
+  "price": 3790000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745dd"
+  },
+  "stock": 50,
+  "price": 3290000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255ce"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745de"
+  },
+  "stock": 50,
+  "price": 3790000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.774Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f6"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f7"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255ba"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f8"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d0"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745f9"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.781Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474611"
+  },
+  "stock": 50,
+  "price": 3490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.376Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474612"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.427Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474613"
+  },
+  "stock": 50,
+  "price": 3490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.448Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474614"
+  },
+  "stock": 50,
+  "price": 4490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b9"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.477Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247462c"
+  },
+  "stock": 50,
+  "price": 2190000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247462d"
+  },
+  "stock": 50,
+  "price": 2490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255bf"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247462e"
+  },
+  "stock": 50,
+  "price": 2190000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cb"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247462f"
+  },
+  "stock": 50,
+  "price": 2490000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.797Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474646"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474647"
+  },
+  "stock": 50,
+  "price": 3490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474648"
+  },
+  "stock": 50,
+  "price": 2990000,
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cc"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474649"
+  },
+  "stock": 50,
+  "price": 3490000,
+  "productId": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255cf"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b5"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.806Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474660"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474661"
+  },
+  "stock": 50,
+  "price": 5990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255b6"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474662"
+  },
+  "stock": 50,
+  "price": 4990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d1"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474663"
+  },
+  "stock": 50,
+  "price": 5990000,
+  "productId": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "memoryId": {
+    "$oid": "690e349951f32de66fa255d2"
+  },
+  "colorId": {
+    "$oid": "690e349951f32de66fa255be"
+  },
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.812Z"
+  }
+}]

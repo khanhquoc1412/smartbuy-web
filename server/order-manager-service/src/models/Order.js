@@ -186,6 +186,21 @@ OrderSchema.methods.calculateTotal = function () {
 
 // ============ STATICS ============
 
+// Generate order number from _id and createdAt
+OrderSchema.statics.generateOrderNumber = function (orderId, createdAt) {
+  const date = createdAt.toISOString().slice(0, 10).replace(/-/g, "");
+  const id = orderId.toString().slice(-6).toUpperCase();
+  return `ORD-${date}-${id}`;
+};
+
+// Add orderNumber to orders array
+OrderSchema.statics.addOrderNumbers = function (orders) {
+  return orders.map(order => ({
+    ...order,
+    orderNumber: this.generateOrderNumber(order._id, order.createdAt)
+  }));
+};
+
 // Tìm orders theo user
 OrderSchema.statics.findByUser = function (userId, options = {}) {
   return this.find({ user: userId })

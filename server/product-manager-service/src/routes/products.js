@@ -63,6 +63,10 @@ router.post('/:productId/variants', variantsCtrl.create);
 router.put('/:productId/variants/:id', variantsCtrl.update);
 router.delete('/:productId/variants/:id', variantsCtrl.delete);
 
+// Stock Management (for order service)
+router.post('/variants/:variantId/reserve-stock', variantsCtrl.reserveStock);  // Trừ kho khi đặt hàng
+router.post('/variants/:variantId/release-stock', variantsCtrl.releaseStock);  // Cộng kho khi hủy đơn
+
 // Product Images
 router.post('/:productId/images/upload', upload.single('image'), imagesCtrl.upload); // Upload route
 router.get('/:productId/images', imagesCtrl.listByProduct);

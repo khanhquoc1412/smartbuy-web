@@ -172,7 +172,7 @@
               <td class="tw-p-2">{{ product.name }}</td>
               <td class="tw-p-2">{{ product.brand }}</td>
               <td class="tw-p-2">{{ product.category }}</td>
-              <td class="tw-p-2">{{ formatCurrency(product.price) }}</td>
+              <td class="tw-p-2 tw-text-crimson-600">{{ formatCurrency(product.price) }}</td>
               <td class="tw-p-2">
                 <span :class="product.status === 'Còn hàng' ? 'tw-text-emerald-600' : 'tw-text-stone-500'">
                   {{ product.status }}
@@ -919,7 +919,7 @@
           </div>
 
           <div class="tw-mb-4">
-            <label class="tw-block tw-mb-2 tw-font-medium">Giá bán <span class="tw-text-red-500">*</span></label>
+            <label class="tw-block tw-mb-2 tw-font-medium ">Giá bán <span class="tw-text-red-500">*</span></label>
             <input v-model.number="newProductVariant.price" type="number" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: 29990000">
           </div>
 

@@ -1,0 +1,1128 @@
+[{
+  "_id": {
+    "$oid": "690e349978453ce4b2474127"
+  },
+  "name": "iPhone 15",
+  "description": "iPhone 15 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/iPhone 15thường_15Plus/Hồng/iphone-15-128gb-hong.jpg",
+  "discountPercentage": 5,
+  "slug": "iphone-15",
+  "basePrice": 25990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.393Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.393Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474141"
+  },
+  "name": "iPhone 16",
+  "description": "iPhone 16 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/iPhone 16/Hồng/iphone-16-hong-1.jpg",
+  "discountPercentage": 3,
+  "slug": "iphone-16",
+  "basePrice": 28990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.415Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.415Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247416a"
+  },
+  "name": "iPhone 16 Pro Max",
+  "description": "iPhone 16 Pro Max - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/Iphone 16 promax/Bạc/iphone-16-pro-max-2-Titan-Sa-Mạc.webp",
+  "discountPercentage": 2,
+  "slug": "iphone-16-pro-max",
+  "basePrice": 39990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.431Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.431Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474195"
+  },
+  "name": "iPhone Air",
+  "description": "iPhone Air - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/iPhone Air/Trắng/iphone-air-trang-1.jpg",
+  "discountPercentage": 5,
+  "slug": "iphone-air",
+  "basePrice": 19990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.446Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.446Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741b0"
+  },
+  "name": "iPhone 13",
+  "description": "iPhone 13 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/Iphone13/Trắng/iphone-13-trang-1.jpg",
+  "discountPercentage": 10,
+  "slug": "iphone-13",
+  "basePrice": 17990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.456Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.456Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741cb"
+  },
+  "name": "iPhone 14",
+  "description": "iPhone 14 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/IPhone14/Trắng/iphone-14-trang-1.jpg",
+  "discountPercentage": 8,
+  "slug": "iphone-14",
+  "basePrice": 21990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.464Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.464Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24741e8"
+  },
+  "name": "iPhone 17 Pro",
+  "description": "iPhone 17 Pro - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/Iphone17 pro/Bạc/iphone-17-bac-1.jpg",
+  "discountPercentage": 0,
+  "slug": "iphone-17-pro",
+  "basePrice": 35990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.475Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.475Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474201"
+  },
+  "name": "iPhone 17 Pro Max",
+  "description": "iPhone 17 Pro Max - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/IPhoneImages/Iphone17 promax/Cam/iphone-17-pro-cam-1.jpg",
+  "discountPercentage": 0,
+  "slug": "iphone-17-pro-max",
+  "basePrice": 42990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.484Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.484Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474218"
+  },
+  "name": "Samsung Galaxy A06 5G",
+  "description": "Samsung Galaxy A06 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy A06 5G/Xanh lá/samsung-galaxy-a06-5g-xanh-1.jpg",
+  "discountPercentage": 5,
+  "slug": "samsung-galaxy-a06-5g",
+  "basePrice": 4290000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.494Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.494Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474238"
+  },
+  "name": "Samsung Galaxy A07",
+  "description": "Samsung Galaxy A07 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy A07/Bạc/samsung-galaxy-a07-tim-1.jpg",
+  "discountPercentage": 3,
+  "slug": "samsung-galaxy-a07",
+  "basePrice": 3390000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.505Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.505Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474256"
+  },
+  "name": "Samsung Galaxy A36 5G",
+  "description": "Samsung Galaxy A36 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy A36 5G/Tím/samsung-galaxy-a36-tim-1.jpg",
+  "discountPercentage": 8,
+  "slug": "samsung-galaxy-a36-5g",
+  "basePrice": 8990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.514Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.514Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474276"
+  },
+  "name": "Samsung Galaxy A56 5G",
+  "description": "Samsung Galaxy A56 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy A56 5G/Xanh lá/samsung-galaxy-a56-xam-1.jpg",
+  "discountPercentage": 10,
+  "slug": "samsung-galaxy-a56-5g",
+  "basePrice": 11990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.525Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.525Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474295"
+  },
+  "name": "Samsung Galaxy S24 5G",
+  "description": "Samsung Galaxy S24 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy S24 5G/Tím/samsung-galaxy-s24-tim-1.jpg",
+  "discountPercentage": 12,
+  "slug": "samsung-galaxy-s24-5g",
+  "basePrice": 21990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.532Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.532Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742b6"
+  },
+  "name": "Samsung Galaxy S25 FE",
+  "description": "Samsung Galaxy S25 FE - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy S25 FE/Trắng/samsung-galaxy-s25-fe-white-1.jpg",
+  "discountPercentage": 8,
+  "slug": "samsung-galaxy-s25-fe",
+  "basePrice": 15990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.543Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742dc"
+  },
+  "name": "Samsung Galaxy Z Flip7 5G",
+  "description": "Samsung Galaxy Z Flip7 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy Z Flip7 5G/Xanh Đậm/samsung-galaxy-z-flip7-xanh-1.jpg",
+  "discountPercentage": 5,
+  "slug": "samsung-galaxy-z-flip7-5g",
+  "basePrice": 26990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.552Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.552Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24742fd"
+  },
+  "name": "Samsung Galaxy Z Fold7 5G",
+  "description": "Samsung Galaxy Z Fold7 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/SamsungImages/Samsung Galaxy Z Fold7 5G/Xanh/samsung-galaxy-z-fold7-xanh-1.jpg",
+  "discountPercentage": 3,
+  "slug": "samsung-galaxy-z-fold7-5g",
+  "basePrice": 43990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.561Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.561Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247431f"
+  },
+  "name": "Xiaomi 14T 5G",
+  "description": "Xiaomi 14T 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi 14T 5G/Xanh dương/xiaomi-14t-xanh-1.jpg",
+  "discountPercentage": 10,
+  "slug": "xiaomi-14t-5g",
+  "basePrice": 12990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.569Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.569Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474332"
+  },
+  "name": "Xiaomi Redmi 14C",
+  "description": "Xiaomi Redmi 14C - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi 14C/Xanh lá/redmi-14c-xanh-la-1.jpg",
+  "discountPercentage": 5,
+  "slug": "xiaomi-redmi-14c",
+  "basePrice": 2990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.577Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.577Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247434c"
+  },
+  "name": "Xiaomi Redmi 15",
+  "description": "Xiaomi Redmi 15 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi 15/Tím/xiaomi-redmi-15-purple-1.jpg",
+  "discountPercentage": 7,
+  "slug": "xiaomi-redmi-15",
+  "basePrice": 3990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.585Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.585Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247436c"
+  },
+  "name": "Xiaomi Redmi A3",
+  "description": "Xiaomi Redmi A3 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi A3/Đen/xiaomi-redmi-a3-den-1.jpg",
+  "discountPercentage": 3,
+  "slug": "xiaomi-redmi-a3",
+  "basePrice": 1990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.596Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.596Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247437f"
+  },
+  "name": "Xiaomi Redmi A5",
+  "description": "Xiaomi Redmi A5 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi A5/Vàng/xiaomi-redmi-a5-vang-1.jpg",
+  "discountPercentage": 5,
+  "slug": "xiaomi-redmi-a5",
+  "basePrice": 2290000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.605Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.605Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474398"
+  },
+  "name": "Xiaomi Redmi Note 14 Pro",
+  "description": "Xiaomi Redmi Note 14 Pro - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi Note 14 Pro/Tím/xiaomi-redmi-note-14-pro-purple-1.jpg",
+  "discountPercentage": 12,
+  "slug": "xiaomi-redmi-note-14-pro",
+  "basePrice": 7990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.614Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.614Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743b8"
+  },
+  "name": "Xiaomi Redmi Note 14 Pro 5G",
+  "description": "Xiaomi Redmi Note 14 Pro 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi Note 14 Pro 5G/Tím/xiaomi-redmi-note-14-pro-purple-1.jpg",
+  "discountPercentage": 10,
+  "slug": "xiaomi-redmi-note-14-pro-5g",
+  "basePrice": 9490000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.630Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.630Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743d8"
+  },
+  "name": "Xiaomi Redmi Note 14 Pro+ 5G",
+  "description": "Xiaomi Redmi Note 14 Pro+ 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/XiaomiImages/Xiaomi Redmi Note 14 Pro+ 5G/Vàng/xiaomi-redmi-note-14-pro-plus-vang-1.jpg",
+  "discountPercentage": 8,
+  "slug": "xiaomi-redmi-note-14-pro-plus-5g",
+  "basePrice": 11990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.640Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.640Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24743ea"
+  },
+  "name": "OPPO A5",
+  "description": "OPPO A5 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO A5/Trắng/oppo-a5-white-1.jpg",
+  "discountPercentage": 5,
+  "slug": "oppo-a5",
+  "basePrice": 2990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.645Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.645Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474407"
+  },
+  "name": "OPPO A5 Pro",
+  "description": "OPPO A5 Pro - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO A5 Pro/Nâu/oppo-a5-pro-nau-1.jpg",
+  "discountPercentage": 7,
+  "slug": "oppo-a5-pro",
+  "basePrice": 4490000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.654Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.654Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474421"
+  },
+  "name": "OPPO A5i Pro",
+  "description": "OPPO A5i Pro - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO A5i Pro/Trắng/oppo-a5i-pro-trang-1.jpg",
+  "discountPercentage": 5,
+  "slug": "oppo-a5i-pro",
+  "basePrice": 3790000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.660Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.660Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247443e"
+  },
+  "name": "OPPO A60",
+  "description": "OPPO A60 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO A60/Xanh dương/oppo-a60-blue-1.jpg",
+  "discountPercentage": 8,
+  "slug": "oppo-a60",
+  "basePrice": 4990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.667Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.667Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247445b"
+  },
+  "name": "OPPO Find N3 Flip 5G",
+  "description": "OPPO Find N3 Flip 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO Find N3 Flip 5G/Hồng/oppo-find-n3-flip-pink-1.jpg",
+  "discountPercentage": 10,
+  "slug": "oppo-find-n3-flip-5g",
+  "basePrice": 22990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.676Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.676Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474479"
+  },
+  "name": "OPPO Find X8 Pro 5G",
+  "description": "OPPO Find X8 Pro 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO Find X8 Pro 5G/Trắng/oppo-find-x8-pro-trang-1.jpg",
+  "discountPercentage": 5,
+  "slug": "oppo-find-x8-pro-5g",
+  "basePrice": 32990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.683Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.683Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474495"
+  },
+  "name": "OPPO Reno14 F 5G",
+  "description": "OPPO Reno14 F 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/OppoImages/OPPO Reno14 F 5G/Hồng/oppo-reno14-f-pink-1.jpg",
+  "discountPercentage": 12,
+  "slug": "oppo-reno14-f-5g",
+  "basePrice": 8990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.692Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.692Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744b9"
+  },
+  "name": "vivo V30e",
+  "description": "vivo V30e - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/VivoImages/vivo V30e/Nâu/vivo-v30e-nau-1.jpg",
+  "discountPercentage": 10,
+  "slug": "vivo-v30e",
+  "basePrice": 8990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.699Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.699Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744d4"
+  },
+  "name": "vivo V40 Lite",
+  "description": "vivo V40 Lite - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/VivoImages/vivo V40 Lite/Bạc/vivo-v40-lite-bac-1.jpg",
+  "discountPercentage": 8,
+  "slug": "vivo-v40-lite",
+  "basePrice": 7990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.705Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.705Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24744f8"
+  },
+  "name": "vivo V50 Lite",
+  "description": "vivo V50 Lite - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/VivoImages/vivo V50 Lite/Tím/vivo-v50-lite-4g-tim-1.jpg",
+  "discountPercentage": 7,
+  "slug": "vivo-v50-lite",
+  "basePrice": 6990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.712Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.712Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474512"
+  },
+  "name": "vivo V60 5G",
+  "description": "vivo V60 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/VivoImages/vivo V60 5G/Tím/vivo-v60-tim-1.jpg",
+  "discountPercentage": 12,
+  "slug": "vivo-v60-5g",
+  "basePrice": 11990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.718Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.718Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247452d"
+  },
+  "name": "vivo Y19s",
+  "description": "vivo Y19s - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/VivoImages/vivo Y19s/Bạc/vivo-y19s-bac-1.jpg",
+  "discountPercentage": 5,
+  "slug": "vivo-y19s",
+  "basePrice": 3990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.726Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.726Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474547"
+  },
+  "name": "vivo Y19s Pro",
+  "description": "vivo Y19s Pro - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/VivoImages/vivo Y19s Pro/Bạc/vivo-y19s-pro-bac-1.jpg",
+  "discountPercentage": 7,
+  "slug": "vivo-y19s-pro",
+  "basePrice": 4990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.733Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.733Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474563"
+  },
+  "name": "realme 14 5G",
+  "description": "realme 14 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/RealmeImages/realme 14 5G/Bạc/realme-14-bac-1.jpg",
+  "discountPercentage": 10,
+  "slug": "realme-14-5g",
+  "basePrice": 5990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.741Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.741Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474580"
+  },
+  "name": "realme 14T 5G",
+  "description": "realme 14T 5G - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/RealmeImages/realme 14T 5G/Tím/realme-14t-purple-1.jpg",
+  "discountPercentage": 8,
+  "slug": "realme-14t-5g",
+  "basePrice": 7490000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.747Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.747Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247459c"
+  },
+  "name": "realme C71",
+  "description": "realme C71 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/RealmeImages/realme C71/Trắng/realme-c71-white-1.jpg",
+  "discountPercentage": 5,
+  "slug": "realme-c71",
+  "basePrice": 3990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.756Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.756Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745b7"
+  },
+  "name": "realme Note 60",
+  "description": "realme Note 60 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/RealmeImages/realme Note 60/Xanh/realme-note-60-xanh-1.jpg",
+  "discountPercentage": 3,
+  "slug": "realme-note-60",
+  "basePrice": 2990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.762Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.762Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745d2"
+  },
+  "name": "realme Note 60x",
+  "description": "realme Note 60x - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/RealmeImages/realme Note 60x/Xanh lá/realme-note-60x-green-1.jpg",
+  "discountPercentage": 5,
+  "slug": "realme-note-60x",
+  "basePrice": 3290000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.770Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.770Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b24745ed"
+  },
+  "name": "realme Note 70",
+  "description": "realme Note 70 - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/RealmeImages/realme Note 70/Vàng/realme-note-70-vang-1.jpg",
+  "discountPercentage": 7,
+  "slug": "realme-note-70",
+  "basePrice": 4490000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.778Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.778Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474608"
+  },
+  "name": "HONOR 400 Lite",
+  "description": "HONOR 400 Lite - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/honorImages/HONOR 400 Lite/Xanh lá/honor-400-lite-xanh-1.jpg",
+  "discountPercentage": 5,
+  "slug": "honor-400-lite",
+  "basePrice": 3490000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ae"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.786Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T09:32:01.323Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474623"
+  },
+  "name": "HONOR X5b Plus",
+  "description": "HONOR X5b Plus - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/honorImages/HONOR X5b Plus/Xanh dương/honor-x5b-plus-blue-1.jpg",
+  "discountPercentage": 3,
+  "slug": "honor-x5b-plus",
+  "basePrice": 2490000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ae"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.794Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.794Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b247463d"
+  },
+  "name": "HONOR X6c",
+  "description": "HONOR X6c - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/honorImages/HONOR X6c/Xanh lá/honor-x6c-green-1.jpg",
+  "discountPercentage": 5,
+  "slug": "honor-x6c",
+  "basePrice": 2990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ae"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.802Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.802Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e349978453ce4b2474657"
+  },
+  "name": "HONOR X8c",
+  "description": "HONOR X8c - Điện thoại chính hãng, giá tốt",
+  "thumbUrl": "/src/assets/images/honorImages/HONOR X8c/Trắng/honor-x8c-white-1.jpg",
+  "discountPercentage": 8,
+  "slug": "honor-x8c",
+  "basePrice": 4990000,
+  "brand": {
+    "$oid": "690e349951f32de66fa255ae"
+  },
+  "category": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.809Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.809Z"
+  },
+  "__v": 0
+}]

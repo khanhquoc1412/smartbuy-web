@@ -1,5 +1,7 @@
 const Order = require('../models/Order');
 const mongoose = require('mongoose');
+const emailService = require('../services/emailService');
+const axios = require('axios');
 
 // GET /api/orders - Get all orders with filters
 exports.getAllOrders = async (req, res) => {
@@ -56,11 +58,14 @@ exports.getAllOrders = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit))
-      .lean({ virtuals: true });
+      .lean();
+
+    // Add orderNumber to each order
+    const ordersWithNumber = Order.addOrderNumbers(orders);
 
     res.json({
       success: true,
-      items: orders,
+      items: ordersWithNumber,
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
@@ -259,6 +264,9 @@ exports.getOrderById = async (req, res) => {
       });
     }
 
+    // Add orderNumber
+    order.orderNumber = Order.generateOrderNumber(order._id, order.createdAt);
+
     res.json({
       success: true,
       data: order
@@ -298,10 +306,28 @@ exports.createOrder = async (req, res) => {
 
     await order.save();
 
+    // Gửi email xác nhận đơn hàng mới
+    try {
+      const userServiceUrl = process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006';
+      const userResponse = await axios.get(`${userServiceUrl}/api/users/internal/${order.user}`);
+      
+      if (userResponse.data && userResponse.data.data) {
+        const user = userResponse.data.data;
+        const customerEmail = user.email;
+        const customerName = user.userName || order.shippingAddress?.fullName || 'Khách hàng';
+        
+        // Gửi email không đồng bộ
+        emailService.sendNewOrderEmail(order, customerEmail, customerName)
+          .catch(err => console.error('Background email error:', err));
+      }
+    } catch (emailError) {
+      console.error('Error sending new order email:', emailError.message);
+    }
+
     res.status(201).json({
       success: true,
       message: 'Tạo đơn hàng thành công',
-      data: order
+      data: order.toJSON()
     });
   } catch (error) {
     console.error('Error creating order:', error);
@@ -345,10 +371,30 @@ exports.updateOrderStatus = async (req, res) => {
     order.addStatusHistory(status, null, 'admin', note);
     await order.save();
 
+    // Gửi email thông báo cho khách hàng
+    try {
+      // Lấy thông tin user từ user-manager-service (internal endpoint - no auth)
+      const userServiceUrl = process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006';
+      const userResponse = await axios.get(`${userServiceUrl}/api/users/internal/${order.user}`);
+      
+      if (userResponse.data && userResponse.data.data) {
+        const user = userResponse.data.data;
+        const customerEmail = user.email;
+        const customerName = user.userName || order.shippingAddress?.fullName || 'Khách hàng';
+        
+        // Gửi email (không chờ kết quả để không block response)
+        emailService.sendOrderStatusEmail(order, status, customerEmail, customerName)
+          .catch(err => console.error('Background email error:', err));
+      }
+    } catch (emailError) {
+      // Log lỗi nhưng không làm fail request
+      console.error('Error sending status email:', emailError.message);
+    }
+
     res.json({
       success: true,
       message: 'Cập nhật trạng thái thành công',
-      data: order
+      data: order.toJSON()
     });
   } catch (error) {
     console.error('Error updating order status:', error);
@@ -388,7 +434,7 @@ exports.updateOrder = async (req, res) => {
     res.json({
       success: true,
       message: 'Cập nhật đơn hàng thành công',
-      data: order
+      data: order.toJSON()
     });
   } catch (error) {
     console.error('Error updating order:', error);
@@ -423,6 +469,139 @@ exports.bulkDeleteOrders = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message || 'Lỗi xóa đơn hàng'
+    });
+  }
+};
+
+// POST /api/orders/:id/cancel - Cancel order with validation and refund
+exports.cancelOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'ID đơn hàng không hợp lệ'
+      });
+    }
+
+    if (!reason || reason.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Vui lòng nhập lý do hủy đơn'
+      });
+    }
+
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy đơn hàng'
+      });
+    }
+
+    // Validation: Không cho phép hủy đơn đã giao hoặc hoàn thành
+    const nonCancellableStatuses = ['shipping', 'delivered', 'completed', 'cancelled', 'returned'];
+    if (nonCancellableStatuses.includes(order.status)) {
+      const statusLabels = {
+        shipping: 'đang giao hàng',
+        delivered: 'đã giao hàng',
+        completed: 'đã hoàn thành',
+        cancelled: 'đã bị hủy',
+        returned: 'đã trả hàng'
+      };
+      return res.status(400).json({
+        success: false,
+        message: `Không thể hủy đơn hàng ${statusLabels[order.status] || order.status}`
+      });
+    }
+
+    // Xử lý hoàn tiền nếu đã thanh toán
+    let refundInfo = null;
+    if (order.paymentStatus === 'paid') {
+      // TODO: Tích hợp API hoàn tiền thực tế (VNPAY, MOMO, etc.)
+      // Hiện tại chỉ update trạng thái
+      order.paymentStatus = 'refunded';
+      
+      refundInfo = {
+        amount: order.totalPrice,
+        method: order.paymentMethod,
+        transactionId: order.paymentResult?.transactionId,
+        refundedAt: new Date()
+      };
+
+      // Log refund info
+      console.log(`💰 Hoàn tiền cho đơn ${order.orderNumber}:`, refundInfo);
+    }
+
+    // Hoàn kho (release stock) - Cộng lại số lượng sản phẩm
+    console.log(`📦 Đang hoàn ${order.orderItems.length} sản phẩm vào kho...`);
+    const productServiceUrl = process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:3005';
+    
+    for (const item of order.orderItems) {
+      try {
+        const variantId = item.product; // Đây là variantId trong seed data
+        const response = await axios.post(
+          `${productServiceUrl}/api/products/variants/${variantId}/release-stock`,
+          { qty: item.qty }
+        );
+        
+        if (response.data.success) {
+          console.log(`✅ Đã trả ${item.qty}x ${item.name} vào kho`);
+          console.log(`   Stock: ${response.data.data.previousStock} → ${response.data.data.currentStock}`);
+        }
+      } catch (stockError) {
+        console.error(`❌ Lỗi khi trả kho cho ${item.name}:`, stockError.message);
+        // Không dừng process, chỉ log lỗi
+      }
+    }
+
+    // Cập nhật trạng thái đơn hàng
+    order.status = 'cancelled';
+    order.cancelReason = reason;
+    order.addStatusHistory('cancelled', null, 'admin', `Hủy đơn: ${reason}`);
+    
+    if (refundInfo) {
+      order.adminNotes = `Đã hoàn tiền ${refundInfo.amount.toLocaleString('vi-VN')}₫ qua ${refundInfo.method}`;
+    }
+
+    await order.save();
+
+    // Gửi email thông báo hủy đơn
+    try {
+      const userServiceUrl = process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006';
+      const userResponse = await axios.get(`${userServiceUrl}/api/users/internal/${order.user}`);
+      
+      if (userResponse.data && userResponse.data.data) {
+        const user = userResponse.data.data;
+        const customerEmail = user.email;
+        const customerName = user.userName || order.shippingAddress?.fullName || 'Khách hàng';
+        
+        // Gửi email không đồng bộ
+        emailService.sendOrderStatusEmail(order, 'cancelled', customerEmail, customerName)
+          .catch(err => console.error('Background email error:', err));
+      }
+    } catch (emailError) {
+      console.error('Error sending cancellation email:', emailError.message);
+    }
+
+    res.json({
+      success: true,
+      message: refundInfo 
+        ? `Đơn hàng đã được hủy và hoàn tiền ${refundInfo.amount.toLocaleString('vi-VN')}₫`
+        : 'Đơn hàng đã được hủy thành công',
+      data: {
+        order: order.toJSON(),
+        refund: refundInfo
+      }
+    });
+  } catch (error) {
+    console.error('Error cancelling order:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Lỗi hủy đơn hàng'
     });
   }
 };

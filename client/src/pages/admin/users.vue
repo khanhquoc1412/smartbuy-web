@@ -173,6 +173,7 @@
             <th class="tw-p-2">Vai trò</th>
             <th class="tw-p-2">Trạng thái</th>
             <th class="tw-p-2">Xác thực</th>
+            <th class="tw-p-2">Địa chỉ</th>
             <th class="tw-p-2">Ngày tạo</th>
             <th class="tw-p-2">Ngày cập nhật</th>
             <th class="tw-p-2">Thao tác</th>
@@ -221,6 +222,14 @@
               >
                 ✗ Chưa xác thực
               </span>
+            </td>
+            <td class="tw-p-2 tw-text-center">
+              <button 
+                @click="openAddressModal(user)" 
+                class="tw-px-3 tw-py-1 tw-bg-indigo-100 hover:tw-bg-indigo-200 tw-text-indigo-700 tw-transition-colors tw-rounded-full tw-text-xs tw-font-semibold"
+              >
+                Xem địa chỉ
+              </button>
             </td>
             <td class="tw-p-2">{{ formatDate(user.createdAt) }}</td>
             <td class="tw-p-2">{{ formatDate(user.updatedAt) }}</td>
@@ -471,6 +480,206 @@
         </div>
       </div>
     </div>
+
+    <!-- Address Management Modal -->
+    <div v-if="showAddressModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-[900px] tw-max-h-[90vh] tw-overflow-y-auto">
+        <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+          <h3 class="tw-text-lg tw-font-semibold tw-text-crimson-600">
+            Quản lý địa chỉ - {{ selectedUser?.userName }}
+          </h3>
+          <button @click="closeAddressModal" class="tw-text-gray-500 hover:tw-text-gray-700">
+            <svg class="tw-w-6 tw-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Add Address Button -->
+        <button 
+          @click="openAddAddressForm" 
+          class="tw-mb-4 tw-px-4 tw-py-2 tw-bg-green-600 tw-text-white tw-rounded-lg hover:tw-bg-green-700 tw-transition-colors tw-font-medium tw-flex tw-items-center tw-gap-2"
+        >
+          <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Thêm địa chỉ mới
+        </button>
+
+        <!-- Address List -->
+        <div v-if="userAddresses.length === 0" class="tw-text-center tw-py-8 tw-text-gray-500">
+          Người dùng chưa có địa chỉ nào
+        </div>
+
+        <div v-else class="tw-space-y-4">
+          <div 
+            v-for="addr in userAddresses" 
+            :key="addr._id" 
+            class="tw-border tw-border-gray-200 tw-rounded-lg tw-p-4 tw-bg-gray-50 hover:tw-shadow-md tw-transition-shadow"
+          >
+            <div class="tw-flex tw-justify-between tw-items-start">
+              <div class="tw-flex-1">
+                <div class="tw-flex tw-items-center tw-gap-2 tw-mb-2">
+                  <span class="tw-font-semibold tw-text-lg">{{ addr.label }}</span>
+                  <span 
+                    v-if="addr.isDefault" 
+                    class="tw-px-2 tw-py-1 tw-bg-green-100 tw-text-green-700 tw-rounded-full tw-text-xs tw-font-semibold"
+                  >
+                    Mặc định
+                  </span>
+                </div>
+                
+                <div class="tw-space-y-1 tw-text-sm tw-text-gray-700">
+                  <p><strong>Họ tên:</strong> {{ addr.fullName }}</p>
+                  <p><strong>Số điện thoại:</strong> {{ addr.phone }}</p>
+                  <p>
+                    <strong>Địa chỉ:</strong> 
+                    {{ addr.address }}, {{ addr.ward }}, {{ addr.district }}, {{ addr.province }}
+                  </p>
+                  <p class="tw-text-xs tw-text-gray-500">
+                    Tạo: {{ formatDate(addr.createdAt) }} | 
+                    Cập nhật: {{ formatDate(addr.updatedAt) }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="tw-flex tw-flex-col tw-gap-2">
+                <button 
+                  v-if="!addr.isDefault"
+                  @click="setDefaultAddress(addr._id)" 
+                  class="tw-px-3 tw-py-1 tw-bg-blue-100 hover:tw-bg-blue-200 tw-text-blue-700 tw-transition-colors tw-rounded-lg tw-text-xs tw-font-semibold"
+                >
+                  Đặt mặc định
+                </button>
+                
+                <button 
+                  @click="openEditAddressForm(addr)" 
+                  class="tw-px-3 tw-py-1 tw-bg-amber-100 hover:tw-bg-amber-200 tw-text-amber-700 tw-transition-colors tw-rounded-lg tw-text-xs tw-font-semibold"
+                >
+                  Chỉnh sửa
+                </button>
+                
+                <button 
+                  @click="deleteAddress(addr._id)" 
+                  class="tw-px-3 tw-py-1 tw-bg-crimson-100 hover:tw-bg-crimson-200 tw-text-crimson-700 tw-transition-colors tw-rounded-lg tw-text-xs tw-font-semibold"
+                >
+                  Xóa
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Address Form Modal -->
+    <div v-if="showAddressFormModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-[60]">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-[600px] tw-max-h-[90vh] tw-overflow-y-auto">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4 tw-text-crimson-600">
+          {{ editingAddress._id ? 'Chỉnh sửa địa chỉ' : 'Thêm địa chỉ mới' }}
+        </h3>
+        
+        <div class="tw-space-y-4">
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Nhãn địa chỉ</label>
+            <input 
+              v-model="editingAddress.label" 
+              type="text" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Nhà riêng, Văn phòng, Nhà bạn gái..."
+            />
+          </div>
+
+          <div class="tw-grid tw-grid-cols-2 tw-gap-4">
+            <div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Họ và tên</label>
+              <input 
+                v-model="editingAddress.fullName" 
+                type="text" 
+                class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+                placeholder="Nguyễn Văn A"
+              />
+            </div>
+
+            <div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Số điện thoại</label>
+              <input 
+                v-model="editingAddress.phone" 
+                type="tel" 
+                class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+                placeholder="0901234567"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Tỉnh/Thành phố</label>
+            <input 
+              v-model="editingAddress.province" 
+              type="text" 
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Hồ Chí Minh"
+            />
+          </div>
+
+          <div class="tw-grid tw-grid-cols-2 tw-gap-4">
+            <div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Quận/Huyện</label>
+              <input 
+                v-model="editingAddress.district" 
+                type="text" 
+                class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+                placeholder="Quận 1"
+              />
+            </div>
+
+            <div>
+              <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Phường/Xã</label>
+              <input 
+                v-model="editingAddress.ward" 
+                type="text" 
+                class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+                placeholder="Phường Bến Nghé"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-1">Địa chỉ chi tiết</label>
+            <textarea 
+              v-model="editingAddress.address" 
+              rows="2"
+              class="tw-w-full tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500"
+              placeholder="Số nhà, tên đường..."
+            ></textarea>
+          </div>
+
+          <div class="tw-flex tw-items-center tw-justify-between tw-p-3 tw-bg-green-50 tw-rounded-lg">
+            <label class="tw-text-sm tw-font-medium tw-text-gray-700">Đặt làm địa chỉ mặc định</label>
+            <button 
+              @click="editingAddress.isDefault = !editingAddress.isDefault"
+              type="button"
+              :class="editingAddress.isDefault ? 'tw-bg-green-600' : 'tw-bg-gray-300'"
+              class="tw-relative tw-inline-flex tw-h-6 tw-w-11 tw-items-center tw-rounded-full tw-transition-colors focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-green-500 focus:tw-ring-offset-2"
+            >
+              <span 
+                :class="editingAddress.isDefault ? 'tw-translate-x-6' : 'tw-translate-x-1'"
+                class="tw-inline-block tw-h-4 tw-w-4 tw-transform tw-rounded-full tw-bg-white tw-transition-transform"
+              />
+            </button>
+          </div>
+        </div>
+        
+        <div class="tw-flex tw-gap-2 tw-justify-end tw-mt-6">
+          <button @click="closeAddressFormModal" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-400 tw-transition-colors">
+            Hủy
+          </button>
+          <button @click="saveAddress" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
+            {{ editingAddress._id ? 'Cập nhật' : 'Thêm' }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -484,6 +693,7 @@ Chart.register(...registerables)
 
 // API Base URL
 const API_URL = 'http://localhost:3000/api/users' // Through API Gateway
+const ADDRESS_API_URL = 'http://localhost:3000/api/addresses' // Address API
 
 // Chart refs
 const overviewChart = ref(null)
@@ -535,6 +745,23 @@ const editingUser = ref({
   isAdmin: false,
   isBlocked: false,
   isVerified: false
+})
+
+// Address management
+const showAddressModal = ref(false)
+const showAddressFormModal = ref(false)
+const selectedUser = ref(null)
+const userAddresses = ref([])
+const editingAddress = ref({
+  _id: '',
+  label: 'Nhà riêng',
+  fullName: '',
+  phone: '',
+  province: '',
+  district: '',
+  ward: '',
+  address: '',
+  isDefault: false
 })
 
 // Load users from API
@@ -998,6 +1225,139 @@ function showNotification(message, type = 'info') {
   notificationMessage.value = message
   notificationType.value = type
   showNotificationModal.value = true
+}
+
+// Address management functions
+async function openAddressModal(user) {
+  selectedUser.value = user
+  showAddressModal.value = true
+  await loadUserAddresses(user._id)
+}
+
+function closeAddressModal() {
+  showAddressModal.value = false
+  selectedUser.value = null
+  userAddresses.value = []
+}
+
+async function loadUserAddresses(userId) {
+  try {
+    const response = await axios.get(`${ADDRESS_API_URL}/user/${userId}`)
+    if (response.success) {
+      userAddresses.value = response.data
+    }
+  } catch (error) {
+    console.error('Error loading addresses:', error)
+    showNotification(error.response?.data?.message || 'Lỗi tải địa chỉ', 'error')
+  }
+}
+
+function openAddAddressForm() {
+  editingAddress.value = {
+    _id: '',
+    label: 'Nhà riêng',
+    fullName: selectedUser.value?.userName || '',
+    phone: '',
+    province: '',
+    district: '',
+    ward: '',
+    address: '',
+    isDefault: userAddresses.value.length === 0 // Tự động đặt mặc định nếu là địa chỉ đầu tiên
+  }
+  showAddressFormModal.value = true
+}
+
+function openEditAddressForm(address) {
+  editingAddress.value = { ...address }
+  showAddressFormModal.value = true
+}
+
+function closeAddressFormModal() {
+  showAddressFormModal.value = false
+  editingAddress.value = {
+    _id: '',
+    label: 'Nhà riêng',
+    fullName: '',
+    phone: '',
+    province: '',
+    district: '',
+    ward: '',
+    address: '',
+    isDefault: false
+  }
+}
+
+async function saveAddress() {
+  // Validate
+  if (!editingAddress.value.fullName || !editingAddress.value.phone || 
+      !editingAddress.value.province || !editingAddress.value.district || 
+      !editingAddress.value.ward || !editingAddress.value.address) {
+    showNotification('Vui lòng điền đầy đủ thông tin địa chỉ', 'warning')
+    return
+  }
+
+  // Validate phone number (10-11 digits)
+  const phoneRegex = /^[0-9]{10,11}$/
+  if (!phoneRegex.test(editingAddress.value.phone)) {
+    showNotification('Số điện thoại không đúng định dạng (10-11 số)', 'warning')
+    return
+  }
+
+  try {
+    let response
+    if (editingAddress.value._id) {
+      // Update existing address
+      response = await axios.put(
+        `${ADDRESS_API_URL}/${editingAddress.value._id}`, 
+        editingAddress.value
+      )
+    } else {
+      // Create new address
+      response = await axios.post(ADDRESS_API_URL, {
+        ...editingAddress.value,
+        userId: selectedUser.value._id
+      })
+    }
+
+    if (response.success) {
+      showNotification(response.message || 'Lưu địa chỉ thành công', 'success')
+      closeAddressFormModal()
+      await loadUserAddresses(selectedUser.value._id)
+    }
+  } catch (error) {
+    console.error('Error saving address:', error)
+    showNotification(error.response?.data?.message || 'Lỗi lưu địa chỉ', 'error')
+  }
+}
+
+async function setDefaultAddress(addressId) {
+  try {
+    const response = await axios.patch(`${ADDRESS_API_URL}/${addressId}/set-default`)
+    
+    if (response.success) {
+      showNotification('Đã đặt địa chỉ mặc định', 'success')
+      await loadUserAddresses(selectedUser.value._id)
+    }
+  } catch (error) {
+    console.error('Error setting default address:', error)
+    showNotification(error.response?.data?.message || 'Lỗi đặt địa chỉ mặc định', 'error')
+  }
+}
+
+async function deleteAddress(addressId) {
+  if (!confirm('Bạn có chắc muốn xóa địa chỉ này?')) return
+
+  try {
+    const response = await axios.delete(`${ADDRESS_API_URL}/${addressId}`)
+    
+    if (response.success) {
+      showNotification('Đã xóa địa chỉ', 'success')
+      await loadUserAddresses(selectedUser.value._id)
+    }
+  } catch (error) {
+    console.error('Error deleting address:', error)
+    showNotification(error.response?.data?.message || 'Lỗi xóa địa chỉ', 'error')
+  }
 }
 
 // Initialize

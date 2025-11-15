@@ -17,6 +17,9 @@ router.post('/', orderController.createOrder);
 // PATCH /api/orders/:id/status - Update order status
 router.patch('/:id/status', orderController.updateOrderStatus);
 
+// POST /api/orders/:id/cancel - Cancel order with validation and refund
+router.post('/:id/cancel', orderController.cancelOrder);
+
 // PATCH /api/orders/:id - Update order
 router.patch('/:id', orderController.updateOrder);
 

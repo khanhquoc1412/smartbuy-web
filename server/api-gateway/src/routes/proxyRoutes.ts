@@ -9,6 +9,7 @@ const services = {
   
   // ===== USER MANAGER SERVICE (port 3006) - Admin quản lý users =====
   users: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/users' },
+  addresses: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/addresses' },
   
   // ===== PRODUCT SERVICE (port 3001) - Backend cũ =====
   product: { url: process.env.PRODUCT_SERVICE_URL || 'http://localhost:3001', path: '/api/product' },
