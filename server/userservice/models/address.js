@@ -1,50 +1,62 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-    class Address extends Model {
+const mongoose = require("mongoose");
 
-        static associate(models) {
+const AddressSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+    label: {
+      type: String,
+      default: "Nhà riêng", // "Văn phòng", "Nhà bạn gái"...
+      trim: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    province: {
+      type: String,
+      required: true,
+    },
+    district: {
+      type: String,
+      required: true,
+    },
+    ward: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true, // Số nhà, tên đường
+    },
+    isDefault: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
-            this.hasMany(models.Order, {
-                foreignKey: "addressId",
-                as: "orders"
-            });
+// 🔹 Quan hệ với Order (1 address có nhiều orders)
+AddressSchema.virtual("orders", {
+  ref: "Order",
+  localField: "_id",
+  foreignField: "addressId",
+});
 
-            this.belongsTo(models.User, {
-                foreignKey: "userId",
-                as: 'user'
-            })
-        }
-    }
-    Address.init(
-        {
-            id: {
-                allowNull: false,
-                primaryKey: true,
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-            },
-            province: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            district: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            ward: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            houseNumber: {
-                type: DataTypes.STRING,
-            }
-        },
-        {
-            sequelize,
-            modelName: "Address",
-            timestamps: true,
-        }
-    );
-    return Address;
-};
+// 🔹 Đảm bảo virtuals được bao gồm khi convert sang JSON
+AddressSchema.set("toJSON", { virtuals: true });
+AddressSchema.set("toObject", { virtuals: true });
+
+module.exports =
+  mongoose.models.Address || mongoose.model("Address", AddressSchema);
