@@ -1,10 +1,9 @@
 <template>
   <div class="tw-p-6 tw-bg-white tw-min-h-screen">
-    <div class="tw-max-w-[1400px] tw-mx-auto">
-      <!-- Header -->
-      <div class="tw-mb-6">
-        <h1 class="tw-text-3xl tw-font-bold tw-text-crimson-600">Dashboard</h1>
-      </div>
+    <!-- Header -->
+    <div class="tw-mb-6">
+      <h1 class="tw-text-3xl tw-font-bold tw-text-crimson-600">Dashboard</h1>
+    </div>
 
       <!-- Top Statistics Cards - 6 cards -->
       <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-5 tw-gap-4 tw-mb-6">
@@ -343,7 +342,7 @@
         </div>
 
       </div>
-    </div>
+
   </div>
 </template>
 

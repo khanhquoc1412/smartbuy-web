@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const statsController = require('../controllers/statsController');
 const adminAuth = require('../middleware/adminAuth');
 
 // Internal API (no auth required) - for other services
@@ -9,7 +10,20 @@ router.get('/internal/:id', userController.getUserById);
 // Apply admin authentication to all other routes
 router.use(adminAuth);
 
-// Get user statistics
+// ============ STATS ENDPOINTS ============
+// GET /api/users/stats/overview - User overview statistics
+router.get('/stats/overview', statsController.getUsersOverview);
+
+// GET /api/users/stats/segments - Customer segments (VIP, Frequent, New)
+router.get('/stats/segments', statsController.getCustomerSegments);
+
+// GET /api/users/stats/top-customers - Top VIP customers
+router.get('/stats/top-customers', statsController.getTopCustomers);
+
+// GET /api/users/stats/activity - User activity timeline
+router.get('/stats/activity', statsController.getUserActivity);
+
+// Get user statistics (old endpoint)
 router.get('/stats', userController.getUserStats);
 
 // Get all users with filters

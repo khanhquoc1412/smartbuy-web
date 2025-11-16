@@ -8,6 +8,7 @@ const ctrl = require('../controllers/productsController');
 const variantsCtrl = require('../controllers/productVariantsController');
 const imagesCtrl = require('../controllers/productImagesController');
 const specsCtrl = require('../controllers/productSpecificationsController');
+const statsCtrl = require('../controllers/statsController');
 
 // Multer configuration for file upload
 const uploadsDir = path.join(__dirname, '..', '..', 'uploads');
@@ -45,6 +46,19 @@ const upload = multer({
 
 // Health
 router.get('/health', ctrl.health);
+
+// ============ STATS ENDPOINTS ============
+// GET /api/products/stats/overview - Product overview statistics
+router.get('/stats/overview', statsCtrl.getProductsOverview);
+
+// GET /api/products/stats/top-selling - Top selling products
+router.get('/stats/top-selling', statsCtrl.getTopSellingProducts);
+
+// GET /api/products/stats/by-category - Revenue by category
+router.get('/stats/by-category', statsCtrl.getRevenueByCategory);
+
+// GET /api/products/stats/inventory - Inventory status (low/normal/high)
+router.get('/stats/inventory', statsCtrl.getInventoryStatus);
 
 // CRUD Products
 router.get('/', ctrl.list);
