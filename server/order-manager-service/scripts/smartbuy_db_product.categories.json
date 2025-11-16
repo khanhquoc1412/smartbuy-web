@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "690e349951f32de66fa255a7"
+  },
+  "nameAscii": "dien-thoai",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.263Z"
+  },
+  "name": "Điện thoại",
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.263Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6916a3c4480c752c17f82672"
+  },
+  "name": "Phụ kiện điện thoại",
+  "nameAscii": "Phu kien",
+  "createdAt": {
+    "$date": "2025-11-14T03:36:36.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-14T03:36:36.438Z"
+  },
+  "__v": 0
+}]

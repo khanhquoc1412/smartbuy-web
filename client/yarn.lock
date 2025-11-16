@@ -368,6 +368,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@kurkle/color@^0.3.0":
+  version "0.3.4"
+  resolved "https://registry.npmjs.org/@kurkle/color/-/color-0.3.4.tgz"
+  integrity sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==
+
 "@mdi/font@^7.4.47":
   version "7.4.47"
   resolved "https://registry.npmjs.org/@mdi/font/-/font-7.4.47.tgz"
@@ -1125,6 +1130,13 @@ caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001737:
   version "1.0.30001741"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001741.tgz"
   integrity sha512-QGUGitqsc8ARjLdgAfxETDhRbJ0REsP6O3I96TAth/mVjh2cYzN2u+3AzPP3aVSm2FehEItaJw1xd+IGBXWeSw==
+
+chart.js@^4.1.1, chart.js@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.npmjs.org/chart.js/-/chart.js-4.5.1.tgz"
+  integrity sha512-GIjfiT9dbmHRiYi6Nl2yFCq7kkwdkp1W/lp2J99rX0yo9tgJGn3lKQATztIjb5tVtevcBtIdICNWqlq5+E8/Pw==
+  dependencies:
+    "@kurkle/color" "^0.3.0"
 
 chokidar@^3.5.3:
   version "3.5.3"
@@ -2489,6 +2501,11 @@ vite-plugin-vuetify@^2.1.2, vite-plugin-vuetify@>=2.1.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
+vue-chartjs@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.npmjs.org/vue-chartjs/-/vue-chartjs-5.3.3.tgz"
+  integrity sha512-jqxtL8KZ6YJ5NTv6XzrzLS7osyegOi28UGNZW0h9OkDL7Sh1396ht4Dorh04aKrl2LiSalQ84WtqiG0RIJb0tA==
+
 vue-demi@^0.14.10:
   version "0.14.10"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.10.tgz"
@@ -2538,7 +2555,7 @@ vue-tsc@^1.8.25:
     "@vue/language-core" "1.8.25"
     semver "^7.5.4"
 
-"vue@^2.0.0 || >=3.0.0", "vue@^2.6.0 || ^3.3.0", "vue@^2.6.0 || >=3.0.0", "vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.4, vue@^3.5.0, vue@^3.5.22, "vue@>= 3", "vue@>= 3.0.0 < 4", vue@3.5.22:
+"vue@^2.0.0 || >=3.0.0", "vue@^2.6.0 || ^3.3.0", "vue@^2.6.0 || >=3.0.0", "vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.4, vue@^3.5.0, vue@^3.5.22, "vue@>= 3", "vue@>= 3.0.0 < 4", vue@3.5.22:
   version "3.5.22"
   resolved "https://registry.npmjs.org/vue/-/vue-3.5.22.tgz"
   integrity sha512-toaZjQ3a/G/mYaLSbV+QsQhIdMo9x5rrqIpYRObsJ6T/J+RyCSFwN2LHNVH9v8uIcljDNa3QzPVdv3Y6b9hAJQ==

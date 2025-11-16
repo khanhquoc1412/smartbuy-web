@@ -134,10 +134,10 @@
                 <div v-for="memory in availableMemories" :key="memory._id" class="tw-relative tw-group">
                   <button @click="selectedMemoryId = memory._id"
                     :class="[
-                      'tw-px-4 tw-py-2 tw-rounded-lg tw-border-2 tw-transition-all tw-font-medium focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500',
+                      'tw-px-4 tw-py-2 tw-rounded-lg tw-border-2 tw-transition-all tw-font-medium ',
                       selectedMemoryId === memory._id
                         ? 'tw-border-blue-500 tw-bg-blue-50 tw-text-blue-700'
-                        : 'tw-border-stone-300 tw-bg-white tw-text-stone-700 hover:tw-border-red'
+                        : 'tw-border-stone-300 tw-bg-white tw-text-stone-700'
                     ]">
                     {{ memory.ram }} / {{ memory.rom }}
                   </button>
@@ -154,10 +154,10 @@
                 <div v-for="color in availableColors" :key="color._id" class="tw-relative tw-group">
                   <button @click="selectedVariantColorId = color._id"
                     :class="[
-                      'tw-px-4 tw-py-2 tw-rounded-lg tw-border-2 tw-transition-all tw-font-medium tw-flex tw-items-center tw-gap-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent',
+                      'tw-px-4 tw-py-2 tw-rounded-lg tw-border-2 tw-transition-all tw-font-medium tw-flex tw-items-center tw-gap-2',
                       selectedVariantColorId === color._id
                         ? 'tw-border-blue-500 tw-bg-blue-50 tw-text-blue-700'
-                        : 'tw-border-stone-300 tw-bg-white tw-text-stone-700 hover:tw-border-red'
+                        : 'tw-border-stone-300 tw-bg-white tw-text-stone-700'
                     ]">
                     <span class="tw-w-4 tw-h-4 tw-rounded-full tw-border tw-border-stone-400"
                       :style="{ backgroundColor: color.code }"></span>
@@ -202,7 +202,7 @@
             <!-- Layout 2 cột: Danh sách + Form chỉnh sửa -->
             <div v-if="selectedVariant" class="tw-grid tw-grid-cols-2 tw-gap-4 tw-mb-4">
               <!-- Cột trái: Hiển thị phiên bản đang chọn -->
-              <div class="tw-border-2 tw-border-blue-300 tw-rounded-lg tw-p-4 tw-bg-blue-50 hover:tw-border-red">
+              <div class="tw-border-2 tw-border-blue-300 tw-rounded-lg tw-p-4 tw-bg-blue-50">
                 <div class="tw-flex tw-items-center tw-justify-between tw-mb-3">
                   <h3 class="tw-text-sm tw-font-semibold tw-text-blue-800">
                     📦 Phiên bản đang chọn
@@ -234,7 +234,7 @@
               </div>
 
               <!-- Cột phải: Form chỉnh sửa giá và tồn kho -->
-              <div class="tw-border-2 tw-border-green-300 tw-rounded-lg tw-p-4 tw-bg-green-50 hover:tw-border-red">
+              <div class="tw-border-2 tw-border-green-300 tw-rounded-lg tw-p-4 tw-bg-green-50">
                 <h3 class="tw-text-sm tw-font-semibold tw-text-green-800 tw-mb-3">
                   ✏️ Chỉnh sửa giá và tồn kho
                 </h3>
@@ -280,7 +280,7 @@
                   <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
                     Danh mục <span class="tw-text-red-500">*</span>
                   </label>
-                  <select v-model="product.categoryId"
+                  <select v-model="product.category"
                     class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
                     <option value="">-- Chọn danh mục --</option>
                     <option v-for="cat in categories" :key="cat._id" :value="cat._id">{{ cat.name }}</option>
@@ -291,7 +291,7 @@
                   <label class="tw-block tw-text-sm tw-font-medium tw-text-stone-700 tw-mb-2">
                     Thương hiệu <span class="tw-text-red-500">*</span>
                   </label>
-                  <select v-model="product.brandId"
+                  <select v-model="product.brand"
                     class="tw-border tw-border-stone-300 tw-rounded-lg tw-p-3 tw-w-full focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent">
                     <option value="">-- Chọn thương hiệu --</option>
                     <option v-for="brand in brands" :key="brand._id" :value="brand._id">{{ brand.name }}</option>
@@ -375,7 +375,7 @@
             <!-- Thông số kỹ thuật của variant đã chọn -->
             <div v-else>
               <div class="tw-bg-purple-50 tw-border tw-border-purple-200 tw-rounded-lg tw-p-3 tw-mb-4">
-                <p class="tw-text-sm tw-text-purple-800">
+                <p class="tw-text-sm tw-text-stone-800">
                   📝 Thông số cho: <span class="tw-font-bold">{{ getColorName(selectedVariantColorId) }} - {{
                     getMemoryDisplay(selectedMemoryId) }}</span>
                 </p>
@@ -445,7 +445,7 @@
               </div>
 
               <button @click="addSpec"
-                class="tw-w-full tw-px-4 tw-py-2 tw-bg-stone-600 tw-text-white tw-rounded-lg hover:tw-bg-purple-700 tw-transition-colors tw-flex tw-items-center tw-justify-center tw-gap-2">
+                class="tw-w-full tw-px-4 tw-py-2 tw-bg-stone-600 tw-text-white tw-rounded-lg hover:tw-bg-stone-900 tw-transition-colors tw-flex tw-items-center tw-justify-center tw-gap-2">
                 <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
@@ -684,7 +684,7 @@
         <p class="tw-text-stone-600 tw-mb-6">{{ modalMessage }}</p>
         <div class="tw-flex tw-justify-end">
           <button @click="showSuccessModal = false"
-            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-green-700 tw-transition-colors">
+            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
             Đóng
           </button>
         </div>
@@ -724,7 +724,7 @@
             Hủy
           </button>
           <button @click="handleConfirm"
-            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-blue-700 tw-transition-colors">
+            class="tw-px-4 tw-py-2 tw-bg-red tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
             Xác nhận
           </button>
         </div>
@@ -842,8 +842,8 @@ const product = ref({
   discountPercentage: 0,
   thumbUrl: '',
   slug: '',
-  brandId: '',
-  categoryId: '',
+  brand: '',
+  category: '',
 })
 
 const selectedColorId = ref('')
@@ -1203,6 +1203,10 @@ async function loadProduct() {
     console.log('✅ Product data received:', productData)
 
     // Ensure product has required fields
+    // Extract IDs if brand/category are populated objects
+    const brandId = productData.brand?._id || productData.brand || ''
+    const categoryId = productData.category?._id || productData.category || ''
+    
     product.value = {
       name: productData.name || '',
       description: productData.description || '',
@@ -1210,8 +1214,8 @@ async function loadProduct() {
       discountPercentage: productData.discountPercentage || 0,
       thumbUrl: productData.thumbUrl || productData.image || '',
       slug: productData.slug || '',
-      brandId: productData.brand || productData.brandId || '',
-      categoryId: productData.category || productData.categoryId || '',
+      brand: brandId,
+      category: categoryId,
     }
 
     // Try to load product variants (may not exist yet)

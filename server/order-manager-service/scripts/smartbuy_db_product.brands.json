@@ -1,0 +1,77 @@
+[{
+  "_id": {
+    "$oid": "690e349951f32de66fa255a8"
+  },
+  "nameAscii": "apple",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.273Z"
+  },
+  "name": "Apple"
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255a9"
+  },
+  "nameAscii": "samsung",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.275Z"
+  },
+  "name": "Samsung"
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255aa"
+  },
+  "nameAscii": "xiaomi",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.277Z"
+  },
+  "name": "Xiaomi"
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255ab"
+  },
+  "nameAscii": "oppo",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.279Z"
+  },
+  "name": "OPPO"
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255ac"
+  },
+  "nameAscii": "vivo",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.280Z"
+  },
+  "name": "Vivo"
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255ad"
+  },
+  "nameAscii": "realme",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.281Z"
+  },
+  "name": "Realme"
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255ae"
+  },
+  "nameAscii": "honor",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.283Z"
+  },
+  "name": "HONOR"
+}]

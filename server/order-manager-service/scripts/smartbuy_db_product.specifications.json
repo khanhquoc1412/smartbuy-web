@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "690e349951f32de66fa255af"
+  },
+  "specName": "Màn hình",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.286Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.286Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255b0"
+  },
+  "specName": "Camera sau",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.288Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255b1"
+  },
+  "specName": "Camera trước",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.290Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.290Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255b2"
+  },
+  "specName": "Chip",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.292Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.292Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255b3"
+  },
+  "specName": "Pin",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.295Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.295Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690e349951f32de66fa255b4"
+  },
+  "specName": "Hệ điều hành",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-11-07T18:04:09.297Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T18:04:09.297Z"
+  }
+}]

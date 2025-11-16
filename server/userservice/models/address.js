@@ -10,7 +10,7 @@ const AddressSchema = new mongoose.Schema(
     },
     label: {
       type: String,
-      default: "Nhà riêng", // "Văn phòng", "Nhà bạn gái"...
+      default: "Nhà riêng",
       trim: true,
     },
     fullName: {
@@ -37,7 +37,7 @@ const AddressSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true, // Số nhà, tên đường
+      required: true,
     },
     isDefault: {
       type: Boolean,
@@ -47,14 +47,13 @@ const AddressSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 🔹 Quan hệ với Order (1 address có nhiều orders)
+// Virtual populate Orders
 AddressSchema.virtual("orders", {
   ref: "Order",
   localField: "_id",
   foreignField: "addressId",
 });
 
-// 🔹 Đảm bảo virtuals được bao gồm khi convert sang JSON
 AddressSchema.set("toJSON", { virtuals: true });
 AddressSchema.set("toObject", { virtuals: true });
 

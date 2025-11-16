@@ -1,0 +1,23 @@
+1. Admin nhấn "Đổi trạng thái" → Chọn "Đang giao" → OK
+   ↓
+2. Frontend gọi API: PATCH /api/orders/673abc.../status
+   Body: { status: "shipping", note: "Đã bàn giao cho GHN" }
+   ↓
+3. Backend (orderController):
+   ├─ Cập nhật order.status = "shipping"
+   ├─ Lưu vào MongoDB
+   ├─ Gọi user-manager-service để lấy email khách hàng
+   │  └─ GET http://localhost:3006/api/users/673xyz...
+   │     Response: { email: "khach@gmail.com", userName: "Nguyễn Văn A" }
+   ├─ Gọi emailService.sendOrderStatusEmail()
+   └─ Trả về response cho frontend (không chờ email)
+   ↓
+4. Email Service:
+   ├─ Tạo HTML email với icon 🚚 + thông tin đơn hàng
+   ├─ Subject: "Đơn hàng ORD-20251115-ABC123 đang được giao đến bạn"
+   ├─ Gửi qua Gmail SMTP
+   └─ Log: "✅ Email sent to khach@gmail.com"
+   ↓
+5. Khách hàng nhận email trong inbox Gmail với:
+   - Tiêu đề: "Đơn hàng ORD-xxx đang được giao đến bạn"
+   - Nội dung: Icon 🚚, chi tiết sản phẩm, địa chỉ, button "Theo dõi đơn hàng"

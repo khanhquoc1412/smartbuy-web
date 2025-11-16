@@ -12,120 +12,139 @@
     </div>
 
     <div v-if="activeTab === 'Sản phẩm'">
-      <div class="tw-flex tw-flex-wrap tw-gap-6 tw-mb-4 tw-items-start">
+      <!-- Action Buttons Row -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
         <input type="text" v-model="search" placeholder="Tìm kiếm sản phẩm..." class="tw-border tw-border-stone-300 tw-p-2 tw-rounded-lg tw-w-64 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500 focus:tw-border-transparent" />
-
-        <div class="tw-relative">
-          <button @click="toggleDropdown('category')"
-            class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
-            Danh mục
-            <span :class="openDropdown === 'category' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
-          </button>
-
-          <div v-if="openDropdown === 'category'"
-            class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
-            <div class="tw-flex tw-flex-wrap tw-gap-2 tw-mb-4">
-              <button v-for="c in categories" :key="c" @click="toggleCategory(c)"
-                class="tw-px-4 tw-py-2 tw-rounded-full tw-border tw-transition-colors" :class="tempCategories.includes(c)
-                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
-                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
-                {{ c }}
-              </button>
-            </div>
-            <div class="tw-flex tw-justify-between">
-              <button @click="closeDropdown" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors tw-border tw-border-stone-300">Đóng</button>
-              <button @click="applyFilters" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xem kết quả</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tw-relative">
-          <button @click="toggleDropdown('status')"
-            class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
-            Trạng thái
-            <span :class="openDropdown === 'status' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
-          </button>
-
-          <div v-if="openDropdown === 'status'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
-            <div class="tw-flex tw-flex-wrap tw-gap-2 tw-mb-4">
-              <button v-for="status in statuses" :key="status" @click="toggleStatus(status)"
-                class="tw-px-4 tw-py-2 tw-rounded-full tw-border tw-transition-colors" :class="tempStatuses.includes(status)
-                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
-                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
-                {{ status }}
-              </button>
-            </div>
-            <div class="tw-flex tw-justify-between">
-              <button @click="closeDropdown" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors tw-border tw-border-stone-300">Đóng</button>
-              <button @click="applyFilters" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xem kết quả</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tw-relative">
-          <button @click="toggleDropdown('brand')"
-            class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
-            Thương hiệu
-            <span :class="openDropdown === 'brand' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
-          </button>
-
-          <div v-if="openDropdown === 'brand'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
-            <div class="tw-flex tw-flex-wrap tw-gap-2 tw-mb-4">
-              <button v-for="b in brands" :key="b" @click="toggleBrand(b)"
-                class="tw-px-4 tw-py-2 tw-rounded-full tw-border tw-transition-colors" :class="tempBrands.includes(b)
-                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
-                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
-                {{ b }}
-              </button>
-            </div>
-            <div class="tw-flex tw-justify-between">
-              <button @click="closeDropdown" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors tw-border tw-border-stone-300">Đóng</button>
-              <button @click="applyFilters" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xem kết quả</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tw-relative">
-          <button @click="toggleDropdown('sort')"
-            class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
-            <span v-if="!selectedSort">Giá</span>
-            <span v-else class="tw-text-crimson-600 tw-font-medium">
-              {{ sortOptions.find(opt => opt.value === selectedSort)?.label }}
-            </span>
-            <span :class="openDropdown === 'sort' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
-          </button>
-
-          <div v-if="openDropdown === 'sort'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
-            <div class="tw-flex tw-flex-col tw-gap-2 tw-mb-4">
-              <button 
-                @click="selectedSort = ''; closeDropdown()"
-                class="tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition-colors tw-text-left"
-                :class="!selectedSort
-                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
-                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
-                Mặc định
-              </button>
-              <button 
-                v-for="option in sortOptions" 
-                :key="option.value" 
-                @click="selectedSort = option.value; closeDropdown()"
-                class="tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition-colors tw-text-left"
-                :class="selectedSort === option.value
-                  ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
-                  : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
-                {{ option.label }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tw-flex tw-gap-2 tw-self-end">
+        
+        <div class="tw-flex tw-gap-2">
           <button @click="showAddProductModal = true" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
             + Thêm sản phẩm
           </button>
           <button @click="deleteSelected" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors tw-font-medium">
             - Xóa sản phẩm
           </button>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="tw-bg-stone-50 tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-mb-4">
+        <div class="tw-flex tw-items-center tw-gap-4 tw-mb-3">
+          <h3 class="tw-text-base tw-font-bold tw-text-stone-700">Bộ lọc</h3>
+          <button 
+            @click="resetFilters"
+            class="tw-px-3 tw-py-1.5 tw-text-sm tw-bg-white tw-text-stone-700 tw-border tw-border-stone-300 tw-rounded-lg hover:tw-bg-stone-100 tw-transition-colors tw-font-medium tw-flex tw-items-center tw-gap-1"
+          >
+            <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Đặt lại bộ lọc
+          </button>
+        </div>
+
+        <div class="tw-flex tw-flex-wrap tw-gap-3">
+          <div class="tw-relative">
+            <button @click="toggleDropdown('category')"
+              class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+              Danh mục
+              <span :class="openDropdown === 'category' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
+            </button>
+
+            <div v-if="openDropdown === 'category'"
+              class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
+              <div class="tw-flex tw-flex-wrap tw-gap-2 tw-mb-4">
+                <button v-for="c in categories" :key="c" @click="toggleCategory(c)"
+                  class="tw-px-4 tw-py-2 tw-rounded-full tw-border tw-transition-colors" :class="tempCategories.includes(c)
+                    ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                    : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                  {{ c }}
+                </button>
+              </div>
+              <div class="tw-flex tw-justify-between">
+                <button @click="closeDropdown" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors tw-border tw-border-stone-300">Đóng</button>
+                <button @click="applyFilters" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xem kết quả</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tw-relative">
+            <button @click="toggleDropdown('status')"
+              class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+              Trạng thái
+              <span :class="openDropdown === 'status' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
+            </button>
+
+            <div v-if="openDropdown === 'status'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
+              <div class="tw-flex tw-flex-wrap tw-gap-2 tw-mb-4">
+                <button v-for="status in statuses" :key="status" @click="toggleStatus(status)"
+                  class="tw-px-4 tw-py-2 tw-rounded-full tw-border tw-transition-colors" :class="tempStatuses.includes(status)
+                    ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                    : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                  {{ status }}
+                </button>
+              </div>
+              <div class="tw-flex tw-justify-between">
+                <button @click="closeDropdown" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors tw-border tw-border-stone-300">Đóng</button>
+                <button @click="applyFilters" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xem kết quả</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tw-relative">
+            <button @click="toggleDropdown('brand')"
+              class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+              Thương hiệu
+              <span :class="openDropdown === 'brand' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
+            </button>
+
+            <div v-if="openDropdown === 'brand'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
+              <div class="tw-flex tw-flex-wrap tw-gap-2 tw-mb-4">
+                <button v-for="b in brands" :key="b" @click="toggleBrand(b)"
+                  class="tw-px-4 tw-py-2 tw-rounded-full tw-border tw-transition-colors" :class="tempBrands.includes(b)
+                    ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                    : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                  {{ b }}
+                </button>
+              </div>
+              <div class="tw-flex tw-justify-between">
+                <button @click="closeDropdown" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors tw-border tw-border-stone-300">Đóng</button>
+                <button @click="applyFilters" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xem kết quả</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tw-relative">
+            <button @click="toggleDropdown('sort')"
+              class="tw-flex tw-items-center tw-gap-2 tw-border tw-border-stone-300 tw-px-4 tw-py-2 tw-rounded-lg hover:tw-bg-stone-50 tw-transition-colors tw-bg-white">
+              <span v-if="!selectedSort">Giá</span>
+              <span v-else class="tw-text-crimson-600 tw-font-medium">
+                {{ sortOptions.find(opt => opt.value === selectedSort)?.label }}
+              </span>
+              <span :class="openDropdown === 'sort' ? 'tw-rotate-180' : ''" class="tw-transition-transform">▼</span>
+            </button>
+
+            <div v-if="openDropdown === 'sort'" class="tw-absolute tw-mt-2 tw-bg-white tw-shadow-lg tw-border tw-border-stone-200 tw-rounded-lg tw-p-4 tw-z-10 tw-w-64">
+              <div class="tw-flex tw-flex-col tw-gap-2 tw-mb-4">
+                <button 
+                  @click="selectedSort = ''; closeDropdown()"
+                  class="tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition-colors tw-text-left"
+                  :class="!selectedSort
+                    ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                    : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                  Mặc định
+                </button>
+                <button 
+                  v-for="option in sortOptions" 
+                  :key="option.value" 
+                  @click="selectedSort = option.value; closeDropdown()"
+                  class="tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition-colors tw-text-left"
+                  :class="selectedSort === option.value
+                    ? 'tw-bg-crimson-600 tw-text-white tw-border-crimson-600'
+                    : 'tw-bg-white tw-text-stone-700 tw-border-stone-300 hover:tw-bg-stone-50'">
+                  {{ option.label }}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -153,7 +172,7 @@
               <td class="tw-p-2">{{ product.name }}</td>
               <td class="tw-p-2">{{ product.brand }}</td>
               <td class="tw-p-2">{{ product.category }}</td>
-              <td class="tw-p-2">{{ formatCurrency(product.price) }}</td>
+              <td class="tw-p-2 tw-text-crimson-600">{{ formatCurrency(product.price) }}</td>
               <td class="tw-p-2">
                 <span :class="product.status === 'Còn hàng' ? 'tw-text-emerald-600' : 'tw-text-stone-500'">
                   {{ product.status }}
@@ -178,13 +197,15 @@
             <option v-for="n in [5, 10, 20]" :key="n" :value="n">{{ n }}</option>
           </select>
         </div>
-        <div class="tw-flex tw-gap-2">
-          <button @click="prevPage" :disabled="page === 1"
-            class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&lt;</button>
-          <span>Trang {{ page }}</span>
-          <button @click="nextPage" :disabled="page >= totalPages"
-            class="tw-px-2 tw-py-1 tw-border tw-border-stone-300 tw-rounded-md hover:tw-bg-stone-50 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">&gt;</button>
-        </div>
+        <div class="tw-flex tw-gap-2 tw-items-center">
+        <button @click="prevPage" :disabled="page === 1" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed">
+          Trước
+        </button>
+        <span class="tw-text-gray-600">Trang {{ page }} / {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="page === totalPages" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 disabled:tw-bg-gray-300 disabled:tw-cursor-not-allowed">
+          Sau
+        </button>
+      </div>
       </div>
     </div>
 
@@ -898,7 +919,7 @@
           </div>
 
           <div class="tw-mb-4">
-            <label class="tw-block tw-mb-2 tw-font-medium">Giá bán <span class="tw-text-red-500">*</span></label>
+            <label class="tw-block tw-mb-2 tw-font-medium ">Giá bán <span class="tw-text-red-500">*</span></label>
             <input v-model.number="newProductVariant.price" type="number" class="tw-w-full tw-border tw-rounded tw-px-3 tw-py-2" placeholder="VD: 29990000">
           </div>
 
@@ -964,6 +985,20 @@ function applyFilters() {
   selectedStatuses.value = [...tempStatuses.value]
   selectedBrands.value = [...tempBrands.value]
   selectedCategories.value = [...tempCategories.value]
+  openDropdown.value = null
+}
+
+// Reset all filters
+function resetFilters() {
+  selectedStatuses.value = []
+  selectedBrands.value = []
+  selectedCategories.value = []
+  selectedColors.value = []
+  selectedSort.value = ''
+  tempStatuses.value = []
+  tempBrands.value = []
+  tempCategories.value = []
+  search.value = ''
   openDropdown.value = null
 }
 

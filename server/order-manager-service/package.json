@@ -1,0 +1,34 @@
+{
+  "name": "order-manager-service",
+  "version": "1.0.0",
+  "description": "Order Manager Service for SmartBuy Microservices",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node scripts/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.10.0",
+    "helmet": "^7.0.0",
+    "joi": "^17.11.0",
+    "mongoose": "^7.5.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^7.0.10"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "microservice",
+    "order",
+    "management"
+  ],
+  "author": "SmartBuy Team",
+  "license": "MIT"
+}
