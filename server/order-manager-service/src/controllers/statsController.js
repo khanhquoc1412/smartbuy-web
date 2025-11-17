@@ -99,14 +99,20 @@ exports.getOverview = async (req, res) => {
     const current = currentStats[0] || { totalRevenue: 0, totalOrders: 0, uniqueCustomers: [] };
     const previous = previousStats[0] || { totalRevenue: 0, totalOrders: 0 };
 
-    // Tính % thay đổi
-    const revenueChange = previous.totalRevenue > 0 
-      ? ((current.totalRevenue - previous.totalRevenue) / previous.totalRevenue * 100).toFixed(1)
-      : 0;
+    // Tính % thay đổi - Xử lý trường hợp kỳ trước = 0
+    let revenueChange = 0;
+    if (previous.totalRevenue === 0 && current.totalRevenue > 0) {
+      revenueChange = 100; // Tăng 100% khi từ 0 lên có giá trị
+    } else if (previous.totalRevenue > 0) {
+      revenueChange = ((current.totalRevenue - previous.totalRevenue) / previous.totalRevenue * 100).toFixed(1);
+    }
 
-    const ordersChange = previous.totalOrders > 0
-      ? ((current.totalOrders - previous.totalOrders) / previous.totalOrders * 100).toFixed(1)
-      : 0;
+    let ordersChange = 0;
+    if (previous.totalOrders === 0 && current.totalOrders > 0) {
+      ordersChange = 100; // Tăng 100% khi từ 0 lên có giá trị
+    } else if (previous.totalOrders > 0) {
+      ordersChange = ((current.totalOrders - previous.totalOrders) / previous.totalOrders * 100).toFixed(1);
+    }
 
     // Average Order Value
     const aov = current.totalOrders > 0 
@@ -117,22 +123,55 @@ exports.getOverview = async (req, res) => {
       ? (previous.totalRevenue / previous.totalOrders)
       : 0;
 
-    const aovChange = previousAov > 0
-      ? ((aov - previousAov) / previousAov * 100).toFixed(1)
-      : 0;
+    let aovChange = 0;
+    if (previousAov === 0 && aov > 0) {
+      aovChange = 100; // Tăng 100% khi từ 0 lên có giá trị
+    } else if (previousAov > 0) {
+      aovChange = ((aov - previousAov) / previousAov * 100).toFixed(1);
+    }
+
+    // Tính số khách hàng mới của kỳ trước
+    const previousCustomersCount = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: previousStart, $lt: previousEnd },
+          status: { $nin: ['cancelled', 'payment_failed'] }
+        }
+      },
+      {
+        $group: {
+          _id: '$user'
+        }
+      }
+    ]);
+
+    let customersChange = 0;
+    const previousCustomers = previousCustomersCount.length || 0;
+    const currentCustomers = current.uniqueCustomers.length;
+    
+    if (previousCustomers === 0 && currentCustomers > 0) {
+      customersChange = 100; // Tăng 100% khi từ 0 lên có giá trị
+    } else if (previousCustomers > 0) {
+      customersChange = ((currentCustomers - previousCustomers) / previousCustomers * 100).toFixed(1);
+    }
 
     res.json({
       success: true,
       data: {
         totalRevenue: Math.round(current.totalRevenue),
+        previousRevenue: Math.round(previous.totalRevenue),
         revenueChange: parseFloat(revenueChange),
         totalOrders: current.totalOrders,
+        previousOrders: previous.totalOrders,
         ordersChange: parseFloat(ordersChange),
-        newCustomers: current.uniqueCustomers.length,
-        customersChange: 0, // Cần query riêng từ user-manager-service nếu muốn chính xác
-        averageOrderValue: parseInt(aov),
+        newCustomers: currentCustomers,
+        previousCustomers: previousCustomers,
+        customersChange: parseFloat(customersChange),
+        avgOrderValue: parseInt(aov),
+        previousAvgOrderValue: Math.round(previousAov),
         aovChange: parseFloat(aovChange),
-        dateRange: { start, end }
+        dateRange: { start, end },
+        previousDateRange: { start: previousStart, end: previousEnd }
       }
     });
   } catch (error) {
@@ -383,20 +422,34 @@ exports.getPaymentMethods = async (req, res) => {
     // Map sang tên tiếng Việt
     const methodMap = {
       'COD': 'Thanh toán khi nhận hàng',
-      'VNPAY': 'Chuyển khoản',
-      'MOMO': 'Ví điện tử',
-      'ZALOPAY': 'Ví điện tử',
-      'PAYPAL': 'Thẻ quốc tế',
-      'CREDIT_CARD': 'Thẻ quốc tế'
+      'VNPAY': 'VNPAY',
+      'MOMO': 'MoMo',
+      'ZALOPAY': 'ZaloPay',
+      'PAYPAL': 'PayPal',
+      'CREDIT_CARD': 'Thẻ tín dụng'
     };
 
-    const data = stats.map(item => ({
-      method: item._id,
-      label: methodMap[item._id] || item._id,
-      count: item.count,
-      totalValue: Math.round(item.totalValue),
-      percentage: 0 // Sẽ tính ở client
-    }));
+    // Nhóm các phương thức giống nhau lại
+    const groupedData = {};
+    
+    stats.forEach(item => {
+      const label = methodMap[item._id] || item._id;
+      
+      if (groupedData[label]) {
+        groupedData[label].count += item.count;
+        groupedData[label].totalValue += item.totalValue;
+      } else {
+        groupedData[label] = {
+          method: item._id,
+          label: label,
+          count: item.count,
+          totalValue: Math.round(item.totalValue),
+          percentage: 0
+        };
+      }
+    });
+
+    const data = Object.values(groupedData).sort((a, b) => b.count - a.count);
 
     const totalOrders = data.reduce((sum, item) => sum + item.count, 0);
     data.forEach(item => {

@@ -15,8 +15,12 @@ export const getUsersOverview = async (params: {
 /**
  * Lấy phân khúc khách hàng
  */
-export const getCustomerSegments = async () => {
-  const response = await $axios.get('/users/stats/segments')
+export const getCustomerSegments = async (params?: {
+  segment?: 'vip' | 'frequent' | 'new'
+  page?: number
+  limit?: number
+}) => {
+  const response = await $axios.get('/users/stats/segments', { params })
   return response
 }
 

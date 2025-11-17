@@ -36,7 +36,15 @@ exports.getTopSellingProducts = async (req, res) => {
       },
       {
         $addFields: {
-          totalStock: { $sum: '$variants.stock' },
+          totalStock: { 
+            $sum: {
+              $map: {
+                input: '$variants',
+                as: 'variant',
+                in: { $ifNull: ['$$variant.stock', 0] }
+              }
+            }
+          },
           avgPrice: { $avg: '$variants.price' },
           variantCount: { $size: '$variants' }
         }
@@ -48,10 +56,22 @@ exports.getTopSellingProducts = async (req, res) => {
         $limit: parseInt(limit)
       },
       {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'categoryInfo'
+        }
+      },
+      {
+        $unwind: { path: '$categoryInfo', preserveNullAndEmptyArrays: true }
+      },
+      {
         $project: {
           name: 1,
           thumbUrl: 1,
           brand: '$brandInfo.name',
+          category: '$categoryInfo.name',
           avgPrice: 1,
           totalStock: 1,
           // Mock số lượng đã bán (sẽ được thay bằng data thật từ Order)
@@ -68,8 +88,10 @@ exports.getTopSellingProducts = async (req, res) => {
         name: p.name,
         image: p.thumbUrl,
         brand: p.brand,
+        category: p.category,
         sold: Math.round(p.sold),
-        revenue: Math.round(p.revenue)
+        revenue: Math.round(p.revenue),
+        stock: p.totalStock // Thêm stock vào response
       }))
     });
   } catch (error) {
@@ -161,7 +183,7 @@ exports.getRevenueByCategory = async (req, res) => {
  */
 exports.getInventoryStatus = async (req, res) => {
   try {
-    const { lowThreshold = 10, highThreshold = 100 } = req.query;
+    const { lowThreshold = 10, highThreshold = 40 } = req.query;
 
     const inventoryStats = await ProductVariant.aggregate([
       {
@@ -176,7 +198,7 @@ exports.getInventoryStatus = async (req, res) => {
                 { 
                   $and: [
                     { $gte: ['$stock', parseInt(lowThreshold)] },
-                    { $lte: ['$stock', parseInt(highThreshold)] }
+                    { $lt: ['$stock', parseInt(highThreshold)] }
                   ]
                 }, 
                 1, 
@@ -185,7 +207,7 @@ exports.getInventoryStatus = async (req, res) => {
             }
           },
           highStock: {
-            $sum: { $cond: [{ $gt: ['$stock', parseInt(highThreshold)] }, 1, 0] }
+            $sum: { $cond: [{ $gte: ['$stock', parseInt(highThreshold)] }, 1, 0] }
           },
           totalVariants: { $sum: 1 },
           totalStock: { $sum: '$stock' }

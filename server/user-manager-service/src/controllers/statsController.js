@@ -1,4 +1,33 @@
 const User = require('../models/User');
+const mongoose = require('mongoose');
+
+// Tạo connection đến order database
+const orderDbUri = process.env.ORDER_DB_URI || 'mongodb://localhost:27017/smartbuy_db_order';
+const orderConnection = mongoose.createConnection(orderDbUri);
+
+// Define Order schema inline (giống với order-manager-service)
+const orderSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  orderItems: [{
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    name: String,
+    qty: Number,
+    price: Number,
+    image: String,
+    variant: {
+      color: String,
+      memory: String,
+      variantId: mongoose.Schema.Types.ObjectId
+    }
+  }],
+  totalPrice: { type: Number, required: true },
+  status: { 
+    type: String, 
+    enum: ['pending_payment', 'payment_failed', 'pending', 'confirmed', 'processing', 
+           'ready_to_ship', 'shipping', 'delivered', 'completed', 'cancelled', 'returned']       
+  },
+  createdAt: { type: Date, default: Date.now }
+}, { timestamps: true });const Order = orderConnection.model('Order', orderSchema);
 
 /**
  * GET /api/users/stats/overview
@@ -58,27 +87,127 @@ exports.getUsersOverview = async (req, res) => {
 /**
  * GET /api/users/stats/segments
  * Phân khúc khách hàng: VIP, Thường xuyên, Mới
- * Note: Cần data từ Order Service để phân loại chính xác
+ * Tích hợp với dữ liệu thật từ Order collection
  */
 exports.getCustomerSegments = async (req, res) => {
   try {
-    // TODO: Cần call Order Service để lấy thông tin đơn hàng của từng user
-    // Tạm thời mock data dựa trên số lượng user
-    const totalUsers = await User.countDocuments({ isAdmin: false });
+    const { segment, page = 1, limit = 10 } = req.query;
     
-    // Mock segments (sẽ được thay bằng logic thực từ Order data)
-    const segments = {
-      vip: Math.round(totalUsers * 0.15),        // 15% VIP
-      frequent: Math.round(totalUsers * 0.35),   // 35% Thường xuyên
-      new: Math.round(totalUsers * 0.50)         // 50% Mới
-    };
+    // Tính tổng chi tiêu và số đơn hàng của từng user
+    const customerStats = await Order.aggregate([
+      {
+        $match: {
+          status: { $in: ['completed', 'delivered'] } // Chỉ tính đơn hoàn thành
+        }
+      },
+      {
+        $group: {
+          _id: '$user',
+          totalSpent: { $sum: '$totalPrice' },
+          orderCount: { $sum: 1 },
+          lastOrderDate: { $max: '$createdAt' }
+        }
+      }
+    ]);
 
+    // Phân loại khách hàng
+    const VIP_THRESHOLD = 50000000; // 50 triệu
+    const FREQUENT_ORDER_COUNT = 5; // 5 đơn hàng
+    const NEW_CUSTOMER_DAYS = 30; // 30 ngày
+
+    const now = new Date();
+    const newCustomerDate = new Date(now.getTime() - NEW_CUSTOMER_DAYS * 24 * 60 * 60 * 1000);
+
+    const vipCustomers = [];
+    const frequentCustomers = [];
+    const newCustomers = [];
+
+    customerStats.forEach(customer => {
+      if (customer.totalSpent >= VIP_THRESHOLD) {
+        vipCustomers.push(customer._id);
+      } else if (customer.orderCount >= FREQUENT_ORDER_COUNT) {
+        // FIXED: Chỉ tính là "Thường xuyên" nếu KHÔNG phải VIP
+        frequentCustomers.push(customer._id);
+      } else {
+        newCustomers.push(customer._id);
+      }
+    });
+
+    // Nếu có query segment cụ thể, trả về danh sách khách hàng với phân trang
+    if (segment) {
+      let customerIds = [];
+      let segmentStats = [];
+      
+      if (segment === 'vip') {
+        customerIds = vipCustomers;
+        segmentStats = customerStats.filter(stat => 
+          vipCustomers.some(id => id.toString() === stat._id.toString())
+        );
+        // VIP: Sắp xếp theo totalSpent giảm dần (người chi nhiều nhất lên đầu)
+        segmentStats.sort((a, b) => b.totalSpent - a.totalSpent);
+      } else if (segment === 'frequent') {
+        customerIds = frequentCustomers;
+        segmentStats = customerStats.filter(stat => 
+          frequentCustomers.some(id => id.toString() === stat._id.toString())
+        );
+        // Thường xuyên: Sắp xếp theo orderCount giảm dần
+        segmentStats.sort((a, b) => b.orderCount - a.orderCount);
+      } else if (segment === 'new') {
+        customerIds = newCustomers;
+        segmentStats = customerStats.filter(stat => 
+          newCustomers.some(id => id.toString() === stat._id.toString())
+        );
+        // Mới: Sắp xếp theo lastOrderDate giảm dần (mới nhất lên đầu)
+        segmentStats.sort((a, b) => new Date(b.lastOrderDate) - new Date(a.lastOrderDate));
+      }
+
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      const paginatedStats = segmentStats.slice(skip, skip + parseInt(limit));
+      const paginatedIds = paginatedStats.map(stat => stat._id);
+
+      // Lấy thông tin chi tiết user
+      const users = await User.find({ _id: { $in: paginatedIds } })
+        .select('userName email avatarUrl createdAt')
+        .lean();
+
+      // Map với stats và giữ thứ tự đã sắp xếp
+      const customerDetails = paginatedStats.map((stat, index) => {
+        const user = users.find(u => u._id.toString() === stat._id.toString()) || {};
+        
+        return {
+          userId: stat._id,
+          name: user.userName || 'Khách hàng',
+          email: user.email || '',
+          avatar: user.avatarUrl || '',
+          totalOrders: stat.orderCount || 0,
+          totalSpent: stat.totalSpent || 0,
+          lastOrderDate: stat.lastOrderDate,
+          memberSince: user.createdAt,
+          ranking: skip + index + 1 // Thêm số thứ hạng (bắt đầu từ 1)
+        };
+      });
+
+      return res.json({
+        success: true,
+        data: {
+          customers: customerDetails,
+          pagination: {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            total: customerIds.length,
+            totalPages: Math.ceil(customerIds.length / parseInt(limit))
+          }
+        }
+      });
+    }
+
+    // Không có segment query, trả về tổng số của từng phân khúc
     res.json({
       success: true,
       data: [
-        { segment: 'VIP', count: segments.vip, description: 'Khách hàng có giá trị cao' },
-        { segment: 'Thường xuyên', count: segments.frequent, description: 'Mua hàng thường xuyên' },
-        { segment: 'Mới', count: segments.new, description: 'Khách hàng mới' }
+        { segment: 'VIP', count: vipCustomers.length, description: 'Chi tiêu ≥ 50 triệu' },
+        { segment: 'Thường xuyên', count: frequentCustomers.length, description: 'Đã mua ≥ 5 đơn' },
+        { segment: 'Mới', count: newCustomers.length, description: 'Khách hàng mới hoặc ít đơn' }
       ]
     });
   } catch (error) {
@@ -89,42 +218,66 @@ exports.getCustomerSegments = async (req, res) => {
 
 /**
  * GET /api/users/stats/top-customers
- * Lấy top khách hàng VIP
- * Note: Cần data từ Order Service để tính tổng chi tiêu
+ * Lấy top khách hàng VIP dựa trên tổng chi tiêu thực tế
  */
 exports.getTopCustomers = async (req, res) => {
   try {
     const { limit = 10 } = req.query;
 
-    // TODO: Call Order Service để lấy top customers theo tổng chi tiêu
-    // Tạm thời lấy random verified users
-    const topUsers = await User.find({ 
-      isAdmin: false, 
-      isVerified: true,
-      isBlocked: false 
-    })
-      .select('userName email avatarUrl createdAt')
-      .sort({ createdAt: 1 }) // Lấy user cũ nhất (giả sử là VIP)
-      .limit(parseInt(limit));
+    // Aggregate để tính tổng chi tiêu và số đơn của từng user
+    const topCustomerStats = await Order.aggregate([
+      {
+        $match: {
+          status: { $in: ['completed', 'delivered'] } // Chỉ tính đơn hoàn thành
+        }
+      },
+      {
+        $group: {
+          _id: '$user',
+          totalSpent: { $sum: '$totalPrice' },
+          totalOrders: { $sum: 1 },
+          lastOrderDate: { $max: '$createdAt' },
+          firstOrderDate: { $min: '$createdAt' }
+        }
+      },
+      {
+        $sort: { totalSpent: -1 }
+      },
+      {
+        $limit: parseInt(limit)
+      }
+    ]);
 
-    // Mock order data
-    const customersWithStats = topUsers.map((user, index) => ({
-      userId: user._id,
-      name: user.userName,
-      email: user.email,
-      avatar: user.avatarUrl,
-      // Mock data - sẽ được thay bằng data thật từ Order Service
-      totalOrders: Math.floor(Math.random() * 50) + 20,
-      totalSpent: Math.floor(Math.random() * 50000000) + 20000000,
-      memberSince: user.createdAt
-    }));
+    // Lấy thông tin chi tiết của user từ User collection
+    const userIds = topCustomerStats.map(stat => stat._id);
+    const users = await User.find({ _id: { $in: userIds } })
+      .select('userName email avatarUrl')
+      .lean();
 
-    // Sort by totalSpent
-    customersWithStats.sort((a, b) => b.totalSpent - a.totalSpent);
+    // Map user info với stats
+    const userMap = {};
+    users.forEach(user => {
+      userMap[user._id.toString()] = user;
+    });
+
+    const topCustomers = topCustomerStats.map(stat => {
+      const user = userMap[stat._id.toString()] || {};
+      return {
+        userId: stat._id,
+        name: user.userName || 'Khách hàng',
+        email: user.email || '',
+        avatar: user.avatarUrl || '',
+        totalOrders: stat.totalOrders,
+        totalSpent: stat.totalSpent,
+        orders: stat.totalOrders, // Thêm field này cho frontend
+        memberSince: stat.firstOrderDate,
+        lastOrder: stat.lastOrderDate
+      };
+    });
 
     res.json({
       success: true,
-      data: customersWithStats
+      data: topCustomers
     });
   } catch (error) {
     console.error('Error in getTopCustomers:', error);
