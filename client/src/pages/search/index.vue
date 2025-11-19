@@ -84,7 +84,7 @@ import {
   Pagination,
   Autoplay,
   EffectCube,
-} from "/swiper/types/modules";
+} from "swiper/modules";
 import { breakpoints } from "@utils/breackpoints";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -113,9 +113,9 @@ const router = useRouter();
 const {
   params: { keyword },
 } = useRoute();
-const keyword = computed(() => {
-  return (route.params.keyword as string) || (route.query.keyword as string) || "";
-});
+// const keyword = computed(() => {
+//   return (route.params.keyword as string) || (route.query.keyword as string) || "";
+// });
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
   limit: 12,

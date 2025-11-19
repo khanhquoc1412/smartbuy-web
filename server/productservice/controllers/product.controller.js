@@ -230,7 +230,7 @@ const { cloudinary } = require("../services/cloudinary");
 //           return unresolvedBrandFilter.test(combined);
 //         })
 //       : products;
-    
+
 //     // 🧱 Thêm variants & images
 //     const productsWithVariants = [];
 //     for (const p of filteredProducts) {
@@ -322,12 +322,12 @@ const { cloudinary } = require("../services/cloudinary");
 //       const catDoc = await Category.findOne({
 //         $or: [{ nameAscii: new RegExp(cp, "i") }, { name: new RegExp(cp, "i") }],
 //       }).lean();
-      
-//       console.log("📂 Category lookup:", { 
-//         param: cp, 
-//         found: catDoc ? { _id: catDoc._id, name: catDoc.name } : null 
+
+//       console.log("📂 Category lookup:", {
+//         param: cp,
+//         found: catDoc ? { _id: catDoc._id, name: catDoc.name } : null
 //       });
-      
+
 //       if (catDoc) {
 //         productCondition[categoryField] = catDoc._id;
 //         const count = await Product.countDocuments({ [categoryField]: catDoc._id });
@@ -345,12 +345,12 @@ const { cloudinary } = require("../services/cloudinary");
 //       const brandDoc = await Brand.findOne({
 //         $or: [{ nameAscii: new RegExp(bq, "i") }, { name: new RegExp(bq, "i") }],
 //       }).lean();
-      
-//       console.log("🏷️ Brand lookup:", { 
-//         param: bq, 
-//         found: brandDoc ? { _id: brandDoc._id, name: brandDoc.name } : null 
+
+//       console.log("🏷️ Brand lookup:", {
+//         param: bq,
+//         found: brandDoc ? { _id: brandDoc._id, name: brandDoc.name } : null
 //       });
-      
+
 //       if (brandDoc) {
 //         productCondition[brandField] = brandDoc._id;
 //       } else {
@@ -475,10 +475,16 @@ const getAll = async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
-    const { order, dir, brand: brandQuery, category: categoryQuery } = req.query;
+    const {
+      order,
+      dir,
+      brand: brandQuery,
+      category: categoryQuery,
+    } = req.query;
     const sort = order ? { [order]: dir === "desc" ? -1 : 1 } : {};
 
-    const escapeRegex = (s = "") => new RegExp(String(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
+    const escapeRegex = (s = "") =>
+      new RegExp(String(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
 
     const brandField = "brand";
     const categoryField = "category";
@@ -487,7 +493,8 @@ const getAll = async (req, res, next) => {
 
     // ✅ Keyword filter
     const keyword = req.params?.keyword || req.query?.keyword;
-    if (keyword) productCondition.name = { $regex: escapeRegex(String(keyword)) };
+    if (keyword)
+      productCondition.name = { $regex: escapeRegex(String(keyword)) };
 
     // ✅ Category filter
     let unresolvedCategoryRegex = null;
@@ -495,14 +502,17 @@ const getAll = async (req, res, next) => {
     if (categoryParam) {
       const cp = String(categoryParam).trim();
       const catDoc = await Category.findOne({
-        $or: [{ nameAscii: new RegExp(cp, "i") }, { name: new RegExp(cp, "i") }],
+        $or: [
+          { nameAscii: new RegExp(cp, "i") },
+          { name: new RegExp(cp, "i") },
+        ],
       }).lean();
-      
-      console.log("📂 Category lookup:", { 
-        param: cp, 
-        found: catDoc ? { _id: catDoc._id, name: catDoc.name } : null 
+
+      console.log("📂 Category lookup:", {
+        param: cp,
+        found: catDoc ? { _id: catDoc._id, name: catDoc.name } : null,
       });
-      
+
       if (catDoc) {
         productCondition[categoryField] = catDoc._id;
       } else {
@@ -516,14 +526,17 @@ const getAll = async (req, res, next) => {
     if (typeof brandQuery === "string" && brandQuery.trim() !== "") {
       const bq = brandQuery.trim();
       const brandDoc = await Brand.findOne({
-        $or: [{ nameAscii: new RegExp(bq, "i") }, { name: new RegExp(bq, "i") }],
+        $or: [
+          { nameAscii: new RegExp(bq, "i") },
+          { name: new RegExp(bq, "i") },
+        ],
       }).lean();
-      
-      console.log("🏷️ Brand lookup:", { 
-        param: bq, 
-        found: brandDoc ? { _id: brandDoc._id, name: brandDoc.name } : null 
+
+      console.log("🏷️ Brand lookup:", {
+        param: bq,
+        found: brandDoc ? { _id: brandDoc._id, name: brandDoc.name } : null,
       });
-      
+
       if (brandDoc) {
         productCondition[brandField] = brandDoc._id;
       } else {
@@ -550,14 +563,20 @@ const getAll = async (req, res, next) => {
       if (unresolvedBrandRegex) {
         filtered = filtered.filter((p) => {
           const val = p[brandField];
-          const name = typeof val === "string" ? val : (val && (val.name || val.nameAscii)) || "";
+          const name =
+            typeof val === "string"
+              ? val
+              : (val && (val.name || val.nameAscii)) || "";
           return unresolvedBrandRegex.test(String(name));
         });
       }
       if (unresolvedCategoryRegex) {
         filtered = filtered.filter((p) => {
           const val = p[categoryField];
-          const name = typeof val === "string" ? val : (val && (val.name || val.nameAscii)) || "";
+          const name =
+            typeof val === "string"
+              ? val
+              : (val && (val.name || val.nameAscii)) || "";
           return unresolvedCategoryRegex.test(String(name));
         });
       }
@@ -594,15 +613,26 @@ const getAll = async (req, res, next) => {
         basePrice: p.basePrice,
         discountPercentage: p.discountPercentage,
         thumbUrl: p.thumbUrl,
-        brandName: (p[brandField] && (p[brandField].name || p[brandField])) || null,
-        categoryName: (p[categoryField] && (p[categoryField].name || p[categoryField])) || null,
+        brandName:
+          (p[brandField] && (p[brandField].name || p[brandField])) || null,
+        categoryName:
+          (p[categoryField] && (p[categoryField].name || p[categoryField])) ||
+          null,
         productVariants: variants.map((v) => ({
           id: String(v._id),
           _id: v._id,
           price: v.price,
           stock: v.stock,
-          color: v.colorId ? { id: String(v.colorId._id), name: v.colorId.name } : null,
-          memory: v.memoryId ? { id: String(v.memoryId._id), ram: v.memoryId.ram, rom: v.memoryId.rom } : null,
+          color: v.colorId
+            ? { id: String(v.colorId._id), name: v.colorId.name }
+            : null,
+          memory: v.memoryId
+            ? {
+                id: String(v.memoryId._id),
+                ram: v.memoryId.ram,
+                rom: v.memoryId.rom,
+              }
+            : null,
         })),
         images: images.map((img) => ({
           id: String(img._id),
@@ -896,17 +926,150 @@ const getProductBySlug = async (req, res) => {
   }
 };
 
+// const getProductVariant = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     // ví dụ nếu bạn có model ProductVariant
+//     const variant = await ProductVariant.findById(id);
+//     if (!variant) return res.status(404).json({ message: "Variant not found" });
+//     res.status(StatusCodes.OK).json(variant);
+//   } catch (error) {
+//     res
+//       .status(StatusCodes.BAD_REQUEST)
+//       .json({ message: "Error fetching variant" });
+//   }
+// };
 const getProductVariant = async (req, res) => {
   try {
     const { id } = req.params;
-    // ví dụ nếu bạn có model ProductVariant
-    const variant = await ProductVariant.findById(id);
-    if (!variant) return res.status(404).json({ message: "Variant not found" });
-    res.status(StatusCodes.OK).json(variant);
+
+    console.log("🔍 Getting variant by ID:", id);
+
+    // Validate ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: "ID không hợp lệ",
+      });
+    }
+
+    const variant = await ProductVariant.findById(id)
+      .populate("productId")
+      .populate("colorId")
+      .populate("memoryId")
+      .lean();
+
+    if (!variant) {
+      return res.status(404).json({
+        success: false,
+        message: "Variant not found",
+      });
+    }
+
+    console.log("✅ Variant found");
+
+    res.status(200).json({
+      success: true,
+      data: {
+        _id: variant._id,
+        productId: variant.productId?._id,
+        price: variant.price,
+        stock: variant.stock,
+        colorId: variant.colorId,
+        memoryId: variant.memoryId,
+      },
+    });
   } catch (error) {
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "Error fetching variant" });
+    console.error("❌ Error getting variant:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    console.log("🔍 Getting product by ID:", id);
+
+    // Validate ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: "ID không hợp lệ",
+      });
+    }
+
+    // ✅ Tìm product và populate đầy đủ
+    const product = await Product.findById(id)
+      .populate("brand")
+      .populate("category")
+      .lean();
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // ✅ Lấy thêm variants, images, specs
+    const [variants, images, productSpecs] = await Promise.all([
+      ProductVariant.find({ productId: product._id })
+        .populate("colorId")
+        .populate("memoryId")
+        .lean(),
+      ProductImage.find({ productId: product._id }).lean(),
+      ProductSpecification.find({ productId: product._id })
+        .populate("specsId")
+        .lean(),
+    ]);
+
+    // ✅ Format response
+    const formattedProduct = {
+      _id: product._id,
+      id: String(product._id),
+      name: product.name,
+      description: product.description,
+      slug: product.slug,
+      basePrice: product.basePrice,
+      discountPercentage: product.discountPercentage,
+      thumbUrl: product.thumbUrl,
+      brandName: product.brand?.name,
+      categoryName: product.category?.name,
+      productVariants: variants.map((v) => ({
+        _id: v._id,
+        id: String(v._id),
+        price: v.price,
+        stock: v.stock,
+        colorId: v.colorId,
+        memoryId: v.memoryId,
+      })),
+      images: images.map((img) => ({
+        _id: img._id,
+        colorId: img.colorId,
+        imageUrl: img.imageUrl,
+        name: img.name,
+      })),
+      productSpecs: productSpecs.map((spec) => ({
+        specValue: spec.specValue,
+        specification: spec.specsId,
+      })),
+    };
+
+    console.log("✅ Product found:", product.name);
+
+    res.status(200).json({
+      success: true,
+      data: formattedProduct,
+    });
+  } catch (error) {
+    console.error("❌ Error getting product by ID:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -918,5 +1081,6 @@ module.exports = {
   addImageProduct,
   getProductSale,
   getProductBySlug, // ✅ export thêm
-  getProductVariant, // ✅ export thêm
+  getProductVariant,
+  getProductById, // ✅ export thêm
 };

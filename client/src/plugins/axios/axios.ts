@@ -43,3 +43,11 @@ export const productAxios = $axios;
 export const cartAxios = $axios;
 export const _axios = axios.create({ timeout: 3000 }); // Cho các external API không qua Gateway
 
+
+
+
+
+/**
+ * Axios Instance chính
+ * Tất cả requests đi qua API Gateway
+ */

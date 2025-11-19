@@ -11,6 +11,13 @@
           {{ getNameCategory(product?.categoryName) }}
           {{ product?.name }}
         </p> -->
+        <AddToCartModal
+          :is-open="showAddToCartModal"
+          :product-info="addedProductInfo"
+          :total-items="totalItems"
+          @close="showAddToCartModal = false"
+          @update-quantity="handleUpdateQuantity"
+        />
         <p>
           {{ getNameCategory(product?.categoryName) }}
           {{ productFullName }}
@@ -307,7 +314,7 @@ import Heading from "@/components/base/Heading.vue";
 // // Thay dòng này
 // import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";
 import { useGetProductDetails, useListProductsSale } from "@/api/product/query";
-import { useAddProductToCartMutation } from "@/api/cart/query";
+import { useAddToCartMutation } from "@/api/cart/query";
 import { formatMoney } from "@/utils/formatMoney";
 import { getNameCategory } from "@/utils/getNameCategory";
 import { getListVariant } from "@/utils/product/getListVariant";
@@ -320,6 +327,8 @@ import { useAuth } from "@/composables/useAuth";
 import { useCart } from "@/composables/useCart";
 import { useStorage } from "@vueuse/core";
 import { PRODUCT_GUEST } from "@/utils/constants";
+import AddToCartModal from "@/components/cart/AddToCartModal.vue";
+
 interface IProductSelected {
   id: string | null;
   variantId?: number | null;
@@ -504,46 +513,124 @@ const handleUpdateProductSelected = (colorId?: number, memoryId?: number) => {
     productSelected.memoryId = memoryId;
   }
 };
+
+const showAddToCartModal = ref(false);
+const addedProductInfo = ref<{
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+  color?: string;
+  memory?: string;
+  maxStock?: number;
+} | null>(null);
+
+// ✅ Get cart data
+const { totalItems, updateQuantity } = useCart();
+
+// ...existing code...
+
+// ✅ Handle update quantity từ modal
+const handleUpdateQuantity = async (newQuantity: number) => {
+  console.log("🔄 Updating quantity to:", newQuantity);
+  // Nếu cần update quantity trên server, gọi API ở đây
+  // await updateQuantity(cartItemId, newQuantity);
+};
+
+const selectedVariant = computed(() => {
+  if (!product.value?.productVariants) return null;
+
+  return product.value.productVariants.find((variant: any) => {
+    const colorId = variant.color?.id ?? variant.color?._id;
+    const memoryId = variant.memory?.id ?? variant.memory?._id;
+
+    return (
+      String(colorId) === String(productSelected.colorId) &&
+      String(memoryId) === String(productSelected.memoryId)
+    );
+  });
+});
+
+// ========== COMPUTED: Lấy ID của variant đang chọn ==========
+const selectedVariantId = computed(() => {
+  return selectedVariant.value?._id ?? selectedVariant.value?.id ?? null;
+});
+
+// ========== COMPUTED: Danh sách variant (để tiện sử dụng) ==========
+const variants = computed(() => {
+  return product.value?.productVariants ?? [];
+});
+
+// ...existing code...
+
 const handleAddToCart = async () => {
-  if (!loggedIn.value) {
-    router.push("/login");
+  if (!product.value) {
+    alert("❌ Không tìm thấy thông tin sản phẩm");
+    return;
   }
-  if (product.value?.productVariants) {
-    const variant = product.value?.productVariants?.find((variant) => {
-      return (
-        variant.color?.id === productSelected.colorId &&
-        variant.memory?.id === productSelected.memoryId
-      );
-    });
-    if (variant?.id) {
-      await addToCart({ userId: userId.value, productVariantId: variant?.id });
-    }
-  } else {
-    alert("Error ..");
+
+  if (!selectedVariant.value) {
+    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    return;
+  }
+
+  const payload = {
+    productId: String(product.value._id || product.value.id || ""),
+    variantId: String(
+      selectedVariant.value._id || selectedVariant.value.id || ""
+    ),
+    quantity: 1,
+  };
+
+  if (!payload.productId || !payload.variantId) {
+    alert("❌ Không tìm thấy ID sản phẩm hoặc phiên bản");
+    return;
+  }
+
+  try {
+    await addToCart(payload);
+
+    // ✅ Lưu thông tin sản phẩm vừa thêm (bao gồm stock)
+    addedProductInfo.value = {
+      name: product.value.name,
+      image: product.value.thumbUrl || "",
+      price: selectedVariant.value.price || 0,
+      quantity: 1,
+      color: selectedVariant.value.color?.name,
+      memory: `${selectedVariant.value.memory?.ram}/${selectedVariant.value.memory?.rom}`,
+      maxStock: selectedVariant.value.stock || 99,
+    };
+
+    // ✅ Hiển thị modal
+    showAddToCartModal.value = true;
+  } catch (error: any) {
+    console.error("❌ Error adding to cart:", error);
+    alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
   }
 };
+
 const handleBuyNow = async () => {
   if (userId) {
     await handleAddToCart();
     router.push("/cart");
   } else {
     const productForBuy = useStorage(PRODUCT_GUEST, "");
-    if (product.value?.productVariants) {
-      const variant = product.value?.productVariants?.find((variant) => {
-        return (
-          variant.color?.id === productSelected.colorId &&
-          variant.memory?.id === productSelected.memoryId
-        );
-      });
-      if (variant?.id) {
-        productForBuy.value = (variant?.id).toString();
-        router.push("/cart/checkout");
-      }
+
+    if (!selectedVariant.value) {
+      alert("❌ Vui lòng chọn phiên bản sản phẩm");
+      return;
+    }
+
+    const variantId = selectedVariant.value._id || selectedVariant.value.id;
+    if (variantId) {
+      productForBuy.value = String(variantId);
+      router.push("/cart/checkout");
     } else {
-      alert("Error ..");
+      alert("❌ Không tìm thấy thông tin sản phẩm");
     }
   }
 };
+
 onMounted(() => {
   setProductSelectedValues();
 });

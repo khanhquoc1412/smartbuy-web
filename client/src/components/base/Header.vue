@@ -92,7 +92,7 @@ import { useAuth } from "@composables/useAuth";
 import { useCart } from "@composables/useCart";
 
 const { loggedIn, user } = useAuth();
-const { totalItem } = useCart();
+const { totalItems } = useCart();
 const router = useRouter();
 const keyword = ref<string>("");
 const isScrolled = ref(false);

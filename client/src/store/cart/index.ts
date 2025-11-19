@@ -97,13 +97,10 @@
 import { defineStore } from "pinia";
 import state from "./state";
 import { USER_ID } from "@/utils/constants";
-
-// ⚡ Dùng cart.ts thay vì product.ts
 import { 
-  fetchUserCarts, 
-  addProductToCart, 
-  removeProductInCart, 
-  decreaseQuantity 
+  getCart,
+  removeItem,
+  updateQuantity,
 } from "@/api/cart/cart";
 
 const useCartStore = defineStore({
@@ -113,73 +110,133 @@ const useCartStore = defineStore({
     async getUserCarts(userId: string | number) {
       try {
         this.loadingCart = true;
-        const data = await fetchUserCarts(userId);
-
-        if (data) {
-          this.carts = data.carts;
-          this.totalItem = data.totalItem;
-          return Promise.resolve(data);
+        
+        const response = await getCart();
+        console.log('📥 Store getUserCarts:', response.data);
+        
+        const cartData = response.data?.data?.cart;
+        
+        if (cartData) {
+          // Map items từ backend sang cấu trúc cũ
+          this.carts = cartData.items.map((item: any) => ({
+            id: item._id || item.id,
+            quantity: item.quantity,
+            productVariant: {
+              id: item.variantId,
+              price: item.price,
+              productId: item.productId,
+              product: item.product,
+              color: item.variant?.color,
+              memory: item.variant?.memory,
+            }
+          }));
+          
+          this.totalItem = cartData.itemCount;
+          this.loadingCart = false;
+          
+          return Promise.resolve({
+            carts: this.carts,
+            totalItem: this.totalItem,
+          });
         }
+        
         this.loadingCart = false;
       } catch (error) {
+        console.error('❌ getUserCarts error:', error);
         this.loadingCart = false;
         return Promise.reject(error);
       }
     },
 
-    // Khi user chưa login
     addCartLocal(productVariantId: string | number) {
-      // bạn có thể lưu localStorage tạm ở đây
+      const localCart = JSON.parse(localStorage.getItem('cart_local') || '[]');
+      localCart.push({ productVariantId, quantity: 1 });
+      localStorage.setItem('cart_local', JSON.stringify(localCart));
     },
 
-    async removeFromCart(cartItemId: number) {
+    async removeFromCart(cartItemId: number | string) {
       const userId = localStorage.getItem(USER_ID);
       if (!userId || !cartItemId) {
         return;
       }
-      await removeProductInCart(cartItemId);
-      this.carts = this.carts.filter(cartItem => cartItem.id !== cartItemId);
+      
+      try {
+        await removeItem(String(cartItemId));
+        this.carts = this.carts.filter(
+          cartItem => String(cartItem.id) !== String(cartItemId)
+        );
+        this.totalItem = this.carts.length;
+      } catch (error) {
+        console.error('❌ Remove error:', error);
+      }
     },
 
-    increaseQuantity(cartItemId: number) {
+    async increaseQuantity(cartItemId: number | string) {
       const userId = localStorage.getItem(USER_ID);
       if (!userId || !cartItemId) {
         return;
       }
 
-      const cartItemUpdate = this.carts.find(cartItem => cartItem.id === cartItemId);
-      if (cartItemUpdate) {
-        addProductToCart(userId, cartItemUpdate.productVariant.id as number);
-      }
+      const cartItemUpdate = this.carts.find(
+        cartItem => String(cartItem.id) === String(cartItemId)
+      );
+      
+      if (!cartItemUpdate) return;
 
+      const newQuantity = cartItemUpdate.quantity + 1;
+
+      // Optimistic update
       this.carts = this.carts.map(cartItem => {
-        if (cartItem.id === cartItemId) {
-          return { ...cartItem, quantity: cartItem.quantity + 1 };
+        if (String(cartItem.id) === String(cartItemId)) {
+          return { ...cartItem, quantity: newQuantity };
         }
         return cartItem;
       });
-    },
 
-    decreaseQuantity(cartItemId: number) {
-      const userId = localStorage.getItem(USER_ID);
-      if (!userId || !cartItemId) {
-        return;
-      }
-
-      const cartItemUpdate = this.carts.find(cartItem => cartItem.id === cartItemId);
-      if (cartItemUpdate && cartItemUpdate.quantity > 1) {
-        decreaseQuantity(cartItemId);
-      }
-
-      this.carts = this.carts.map(cartItem => {
-        if (cartItem.id === cartItemId) {
-          if (cartItem.quantity <= 1) {
-            return cartItem;
+      try {
+        await updateQuantity(String(cartItemId), newQuantity);
+      } catch (error) {
+        // Rollback
+        this.carts = this.carts.map(cartItem => {
+          if (String(cartItem.id) === String(cartItemId)) {
+            return { ...cartItem, quantity: newQuantity - 1 };
           }
-          return { ...cartItem, quantity: cartItem.quantity - 1 };
+          return cartItem;
+        });
+      }
+    },
+
+    async decreaseQuantity(cartItemId: number | string) {
+      const userId = localStorage.getItem(USER_ID);
+      if (!userId || !cartItemId) {
+        return;
+      }
+
+      const cartItemUpdate = this.carts.find(
+        cartItem => String(cartItem.id) === String(cartItemId)
+      );
+      
+      if (!cartItemUpdate || cartItemUpdate.quantity <= 1) return;
+
+      const newQuantity = cartItemUpdate.quantity - 1;
+
+      this.carts = this.carts.map(cartItem => {
+        if (String(cartItem.id) === String(cartItemId)) {
+          return { ...cartItem, quantity: newQuantity };
         }
         return cartItem;
       });
+
+      try {
+        await updateQuantity(String(cartItemId), newQuantity);
+      } catch (error) {
+        this.carts = this.carts.map(cartItem => {
+          if (String(cartItem.id) === String(cartItemId)) {
+            return { ...cartItem, quantity: newQuantity + 1 };
+          }
+          return cartItem;
+        });
+      }
     }
   },
 });

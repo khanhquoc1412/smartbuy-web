@@ -24,7 +24,7 @@ const services = {
   specifications: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/api/specifications' },
   
   // ===== CART SERVICE (sẽ chuyển sang microservice) =====
-  carts: { url: process.env.CART_SERVICE_URL || 'http://localhost:5000', path: '/api/carts' },
+  carts: { url: process.env.CART_SERVICE_URL || 'http://localhost:3003', path: '/api/cart' },
   
   // ===== BRAND SERVICE (tạm thời từ monolithic) =====
   brand: { url: process.env.BRAND_SERVICE_URL || 'http://localhost:5000', path: '/api/brand' },
@@ -69,6 +69,7 @@ Object.values(services).forEach(service => {
     }
   };
   router.use(service.path, createProxyMiddleware(proxyOptions));
+  
 });
 
 export default router;

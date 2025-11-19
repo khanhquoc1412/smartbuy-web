@@ -1,79 +1,73 @@
-// import {
-//     useMutation,
-//     useQuery,
-// } from "vue-query";
-// import {
-//     addProductToCart,
-//     fetchUserCarts
-// } from "./cart";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import { 
+  addToCart,
+  getCart,
+  updateQuantity,
+  removeItem,
+} from './cart';
+import type { IAddToCartPayload } from '@/types/cart.types';
 
-// export const useGetUserCarts = (userId: string | number) => {
-//     return useQuery("user-carts", () =>
-//         fetchUserCarts(userId),
-//         {
-//             refetchOnWindowFocus: false,
-//         }
-//     );
-// };
-
-
-// export const useAddProductToCartMutation = () => {
-//     return useMutation(
-//         ["add-product-to-cart"],
-//         ({
-//             userId,
-//             productVariantId,
-//         }: {
-//             userId: string | number;
-//             productVariantId: string | number;
-//         }) => addProductToCart(userId, productVariantId)
-//     );
-// };
-
-
-
-
-
-import { useMutation, useQuery } from "vue-query";
-import { addProductToCart, fetchUserCarts, removeProductInCart, decreaseQuantity } from "./cart";
-
-// Lấy giỏ hàng của user
-export const useGetUserCarts = (userId: string | number) => {
-  return useQuery(
-    ["user-carts", userId],
-    () => fetchUserCarts(userId),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
+/**
+ * 🔄 Query: Lấy giỏ hàng
+ */
+export const useGetCartQuery = () => {
+  return useQuery({
+    queryKey: ['cart'],
+    queryFn: getCart,
+    retry: 1,
+    staleTime: 30000,
+  });
 };
 
-// Thêm sản phẩm vào giỏ
-export const useAddProductToCartMutation = () => {
-  return useMutation(
-    ["add-product-to-cart"],
-    ({
-      userId,
-      productVariantId,
-    }: {
-      userId: string | number;
-      productVariantId: string | number;
-    }) => addProductToCart(userId, productVariantId)
-  );
+/**
+ * ➕ Mutation: Thêm vào giỏ hàng
+ */
+export const useAddToCartMutation = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationKey: ['addToCart'],
+    mutationFn: (payload: IAddToCartPayload) => addToCart(payload),
+    onSuccess: () => {
+      // Invalidate để refetch cart
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cartCount'] });
+    },
+    onError: (error: any) => {
+      console.error('❌ Add to cart failed:', error.response?.data || error.message);
+    },
+  });
 };
 
-// Xóa sản phẩm trong giỏ
-export const useRemoveProductInCartMutation = () => {
-  return useMutation(
-    ["remove-product-in-cart"],
-    (cartItemId: string | number) => removeProductInCart(cartItemId)
-  );
+/**
+ * ✏️ Mutation: Cập nhật số lượng
+ */
+export const useUpdateQuantityMutation = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationKey: ['updateQuantity'],
+    mutationFn: ({ cartItemId, quantity }: { cartItemId: string; quantity: number }) => 
+      updateQuantity(cartItemId, quantity),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cartCount'] });
+    },
+  });
 };
 
-// Giảm số lượng sản phẩm trong giỏ
-export const useDecreaseQuantityMutation = () => {
-  return useMutation(
-    ["decrease-quantity"],
-    (cartItemId: string | number) => decreaseQuantity(cartItemId)
-  );
+/**
+ * 🗑️ Mutation: Xóa item
+ */
+export const useRemoveItemMutation = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationKey: ['removeItem'],
+    mutationFn: (cartItemId: string) => removeItem(cartItemId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['cartCount'] });
+    },
+  });
 };
