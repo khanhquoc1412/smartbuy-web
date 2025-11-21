@@ -246,7 +246,7 @@ const {
   };
 
   // Update quantity
- const updateQuantity = async (cartItemId: string, quantity: number) => {
+const updateQuantity = async (cartItemId: string, quantity: number) => {
   if (!requireAuth()) return;
   
   if (quantity < 1) {
@@ -309,8 +309,9 @@ const {
     throw error;
   }
 };
+
   // Remove item
-const removeItem = async (cartItemId: string) => {
+  const removeItem = async (cartItemId: string) => {
   if (!requireAuth()) return;
   
   isRemoving.value = true;
