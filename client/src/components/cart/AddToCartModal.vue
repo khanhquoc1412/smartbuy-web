@@ -273,6 +273,7 @@ interface ProductInfo {
   color?: string;
   memory?: string;
   maxStock?: number;
+  cartItemId?: string;
 }
 
 interface Props {
@@ -284,6 +285,7 @@ interface Props {
 interface Emits {
   (e: "close"): void;
   (e: "update-quantity", quantity: number): void;
+  (e: "view-cart", quantity: number): Promise<void>;
 }
 
 const props = defineProps<Props>();
@@ -342,21 +344,58 @@ const handleImageError = (e: Event) => {
 
 const close = () => {
   emit("close");
+  // Reset quantity sau khi đóng
+  setTimeout(() => {
+    localQuantity.value = props.productInfo?.quantity || 1;
+  }, 300);
 };
 
-const handleAddAndGoToCart = async () => {
-  // Nếu số lượng thay đổi, emit event để update
-  if (localQuantity.value !== props.productInfo?.quantity) {
-    isUpdating.value = true;
-    emit("update-quantity", localQuantity.value);
+// const handleAddAndGoToCart = async () => {
+//   // Nếu số lượng thay đổi, emit event để update
+//   if (localQuantity.value !== props.productInfo?.quantity) {
+//     isUpdating.value = true;
+//     emit("update-quantity", localQuantity.value);
 
-    // Giả lập delay để UX tốt hơn
-    await new Promise((resolve) => setTimeout(resolve, 300));
+//     // Giả lập delay để UX tốt hơn
+//     await new Promise((resolve) => setTimeout(resolve, 300));
+//     isUpdating.value = false;
+//   }
+
+//   close();
+//   router.push("/cart");
+// };
+const handleAddAndGoToCart = async () => {
+  try {
+    isUpdating.value = true;
+    
+    console.log('🛒 View cart clicked');
+    console.log('📊 Current quantity:', localQuantity.value);
+    console.log('📊 Initial quantity:', props.productInfo?.quantity);
+    
+    // ✅ Nếu quantity thay đổi, emit để parent update
+    if (localQuantity.value !== props.productInfo?.quantity) {
+      console.log('📝 Quantity changed, emitting update...');
+      
+      // ✅ Emit event với quantity mới
+      await emit("view-cart", localQuantity.value);
+      
+      console.log('✅ Quantity updated successfully');
+    } else {
+      console.log('ℹ️ Quantity unchanged, skipping update');
+    }
+    
+    // ✅ Đóng modal
+    close();
+    
+    // ✅ Redirect sang giỏ hàng
+    await router.push("/cart");
+    
+  } catch (error) {
+    console.error('❌ Error in handleAddAndGoToCart:', error);
+    alert('Có lỗi xảy ra khi cập nhật giỏ hàng');
+  } finally {
     isUpdating.value = false;
   }
-
-  close();
-  router.push("/cart");
 };
 </script>
 

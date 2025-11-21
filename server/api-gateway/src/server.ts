@@ -12,7 +12,7 @@ const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
 app.use(helmet());
-app.use(rateLimit({ windowMs: 15 * 60 * 10000, max: 1000 }));
+app.use(rateLimit({ windowMs: 15 * 60 * 10000, max: 10000 }));
 app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: true }));
 app.use(morgan('combined'));
 

@@ -151,7 +151,16 @@ const {
   const addCartError = ref<any>(null);
   const isUpdating = ref(false);
   const isRemoving = ref(false);
+  // ========== MODAL STATE ==========
+  const showAddToCartModal = ref(false);
+  const addedCartItemId = ref<string | null>(null);
+  const modalQuantity = ref(1);
 
+  // ✅ Update modal quantity
+  const updateModalQuantity = (newQuantity: number) => {
+    modalQuantity.value = newQuantity;
+    console.log('📝 Modal quantity updated to:', newQuantity);
+  };
   // ========== HELPER FUNCTIONS ==========
 
   // Get user cart
@@ -246,6 +255,69 @@ const {
   };
 
   // Update quantity
+// const updateQuantity = async (cartItemId: string, quantity: number) => {
+//   if (!requireAuth()) return;
+  
+//   if (quantity < 1) {
+//     alert('❌ Số lượng phải lớn hơn 0');
+//     return;
+//   }
+  
+//   isUpdating.value = true;
+  
+//   // ✅ Lưu previous state để rollback nếu lỗi
+//   const previousCart = cart.value;
+  
+//   try {
+//     // ✅ OPTIMISTIC UPDATE: Update UI ngay trước khi gọi API
+//     queryClient.setQueryData(['cart'], (old: any) => {
+//       if (!old || !old.items) return old;
+      
+//       return {
+//         ...old,
+//         items: old.items.map((item: any) => 
+//           item._id === cartItemId 
+//             ? { ...item, quantity } 
+//             : item
+//         ),
+//       };
+//     });
+    
+//     console.log('🔄 Updating quantity (optimistic):', { cartItemId, quantity });
+    
+//     // ✅ Call API
+//     const response = await updateCartItemAPI(cartItemId, quantity);
+//     console.log('✅ API confirmed update:', response);
+    
+//     // ✅ Invalidate để refetch data thật từ server
+//     await queryClient.invalidateQueries({ queryKey: ['cart'] });
+//     await queryClient.invalidateQueries({ queryKey: ['cartCount'] });
+    
+//     // ✅ Refetch để đảm bảo data sync
+//     await Promise.all([
+//       refetchCart(),
+//       refetchCartCount(),
+//     ]);
+    
+//     isUpdating.value = false;
+//     return response;
+    
+//   } catch (error: any) {
+//     console.error('❌ Error updating quantity, rolling back:', error);
+    
+//     // ✅ ROLLBACK: Khôi phục state cũ nếu lỗi
+//     queryClient.setQueryData(['cart'], previousCart);
+    
+//     isUpdating.value = false;
+    
+//     const errorMessage = 
+//       error?.response?.data?.message || 
+//       'Có lỗi xảy ra khi cập nhật số lượng';
+    
+//     alert(`❌ ${errorMessage}`);
+//     throw error;
+//   }
+// };
 const updateQuantity = async (cartItemId: string, quantity: number) => {
   if (!requireAuth()) return;
   
@@ -258,23 +330,63 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
   
   // ✅ Lưu previous state để rollback nếu lỗi
   const previousCart = cart.value;
+  const previousCount = cartCount.value;
   
   try {
-    // ✅ OPTIMISTIC UPDATE: Update UI ngay trước khi gọi API
+    // ✅ Tìm item hiện tại để biết quantity cũ
+    const currentItem = cart.value?.items?.find((item: any) => item._id === cartItemId);
+    const oldQuantity = currentItem?.quantity || 0;
+    const quantityDiff = quantity - oldQuantity;
+    
+    console.log('🔄 Quantity change:', { oldQuantity, newQuantity: quantity, diff: quantityDiff });
+    
+    // ✅ OPTIMISTIC UPDATE 1: Update cart items
     queryClient.setQueryData(['cart'], (old: any) => {
       if (!old || !old.items) return old;
       
+      const updatedItems = old.items.map((item: any) => 
+        item._id === cartItemId 
+          ? { ...item, quantity } 
+          : item
+      );
+      
+      // ✅ Tính lại total
+      const newTotalPrice = updatedItems.reduce((sum: number, item: any) => {
+        const itemPrice = item.quantity * item.priceAtAdd * (1 - (item.discountPercentage || 0) / 100);
+        return sum + itemPrice;
+      }, 0);
+      
+      const newItemCount = updatedItems.reduce((sum: number, item: any) => sum + item.quantity, 0);
+      
       return {
         ...old,
-        items: old.items.map((item: any) => 
-          item._id === cartItemId 
-            ? { ...item, quantity } 
-            : item
-        ),
+        items: updatedItems,
+        itemCount: newItemCount,
+        totalPrice: newTotalPrice,
+        finalTotal: newTotalPrice,
+      };
+    });
+    
+    // ✅ OPTIMISTIC UPDATE 2: Update cartCount
+    queryClient.setQueryData(['cartCount'], (old: any) => {
+      if (!old) return old;
+      
+      const currentCount = old.data?.count || 0;
+      const newCount = currentCount + quantityDiff;
+      
+      console.log('📊 CartCount update:', { currentCount, diff: quantityDiff, newCount });
+      
+      return {
+        ...old,
+        data: {
+          ...old.data,
+          count: Math.max(0, newCount),
+        },
       };
     });
     
     console.log('🔄 Updating quantity (optimistic):', { cartItemId, quantity });
+    console.log('✅ UI updated immediately');
     
     // ✅ Call API
     const response = await updateCartItemAPI(cartItemId, quantity);
@@ -298,6 +410,9 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
     
     // ✅ ROLLBACK: Khôi phục state cũ nếu lỗi
     queryClient.setQueryData(['cart'], previousCart);
+    queryClient.setQueryData(['cartCount'], previousCount);
+    
+    console.log('🔄 Rolled back to previous state');
     
     isUpdating.value = false;
     
@@ -311,26 +426,127 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
 };
 
   // Remove item
-  const removeItem = async (cartItemId: string) => {
+//   const removeItem = async (cartItemId: string) => {
+//   if (!requireAuth()) return;
+  
+//   isRemoving.value = true;
+  
+//   // ✅ Lưu previous state để rollback nếu lỗi
+//   const previousCart = cart.value;
+//   const previousCount = cartCount.value;
+  
+//   try {
+//     // ✅ OPTIMISTIC UPDATE: Xóa item khỏi UI ngay lập tức
+//     queryClient.setQueryData(['cart'], (old: any) => {
+//       if (!old || !old.items) return old;
+      
+//       // Filter ra item bị xóa
+//       const newItems = old.items.filter((item: any) => item._id !== cartItemId);
+      
+//       // Tính lại total
+//       const newTotalPrice = newItems.reduce((sum: number, item: any) => {
+//         return sum + (item.quantity * item.priceAtAdd * (1 - item.discountPercentage / 100));
+//       }, 0);
+      
+//       const newItemCount = newItems.reduce((sum: number, item: any) => sum + item.quantity, 0);
+      
+//       return {
+//         ...old,
+//         items: newItems,
+//         totalItems: newItems.length,
+//         itemCount: newItemCount,
+//         totalPrice: newTotalPrice,
+//         finalTotal: newTotalPrice,
+//       };
+//     });
+    
+//     // ✅ Update cart count optimistically
+//     queryClient.setQueryData(['cartCount'], (old: any) => {
+//       if (!old) return old;
+      
+//       const currentCount = old.data?.count || 0;
+//       const itemToRemove = previousCart?.items?.find((item: any) => item._id === cartItemId);
+//       const quantityToRemove = itemToRemove?.quantity || 1;
+      
+//       return {
+//         ...old,
+//         data: {
+//           ...old.data,
+//           count: Math.max(0, currentCount - quantityToRemove),
+//         },
+//       };
+//     });
+    
+//     console.log('🗑️ Removing item (optimistic):', cartItemId);
+//     console.log('✅ UI updated immediately');
+    
+//     // ✅ Call API để sync với backend
+//     const response = await removeCartItemAPI(cartItemId);
+//     console.log('✅ API confirmed removal:', response);
+    
+//     // ✅ Invalidate queries để refetch data thật từ server
+//     await queryClient.invalidateQueries({ queryKey: ['cart'] });
+//     await queryClient.invalidateQueries({ queryKey: ['cartCount'] });
+    
+//     // ✅ Refetch để đảm bảo sync với backend
+//     const [cartResult, countResult] = await Promise.all([
+//       refetchCart(),
+//       refetchCartCount(),
+//     ]);
+    
+//     console.log('✅ Refetch complete, data synced:', {
+//       cartItems: cartResult.data?.items?.length,
+//       totalCount: countResult.data?.data?.count,
+//     });
+    
+//     // ✅ Thông báo xóa thành công
+//     alert('✅ Đã xóa sản phẩm khỏi giỏ hàng!');
+    
+//     isRemoving.value = false;
+//     return response;
+    
+//   } catch (error: any) {
+//     console.error('❌ Error removing item, rolling back:', error);
+    
+//     // ✅ ROLLBACK: Khôi phục state cũ nếu API lỗi
+//     queryClient.setQueryData(['cart'], previousCart);
+//     queryClient.setQueryData(['cartCount'], previousCount);
+    
+//     console.log('🔄 Rolled back to previous state');
+    
+//     isRemoving.value = false;
+    
+//     const errorMessage = 
+//       error?.response?.data?.message || 
+//       'Có lỗi xảy ra khi xóa sản phẩm';
+    
+//     alert(`❌ ${errorMessage}`);
+//     throw error;
+//   }
+// };
+const removeItem = async (cartItemId: string) => {
   if (!requireAuth()) return;
   
   isRemoving.value = true;
   
-  // ✅ Lưu previous state để rollback nếu lỗi
   const previousCart = cart.value;
   const previousCount = cartCount.value;
   
   try {
-    // ✅ OPTIMISTIC UPDATE: Xóa item khỏi UI ngay lập tức
+    // ✅ Tìm item để biết quantity cần trừ
+    const itemToRemove = cart.value?.items?.find((item: any) => item._id === cartItemId);
+    const quantityToRemove = itemToRemove?.quantity || 1;
+    
+    console.log('🗑️ Removing item:', { cartItemId, quantity: quantityToRemove });
+    
+    // ✅ OPTIMISTIC UPDATE 1: Remove item from cart
     queryClient.setQueryData(['cart'], (old: any) => {
       if (!old || !old.items) return old;
       
-      // Filter ra item bị xóa
       const newItems = old.items.filter((item: any) => item._id !== cartItemId);
       
-      // Tính lại total
       const newTotalPrice = newItems.reduce((sum: number, item: any) => {
-        return sum + (item.quantity * item.priceAtAdd * (1 - item.discountPercentage / 100));
+        return sum + (item.quantity * item.priceAtAdd * (1 - (item.discountPercentage || 0) / 100));
       }, 0);
       
       const newItemCount = newItems.reduce((sum: number, item: any) => sum + item.quantity, 0);
@@ -345,47 +561,44 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
       };
     });
     
-    // ✅ Update cart count optimistically
+    // ✅ OPTIMISTIC UPDATE 2: Update cart count
     queryClient.setQueryData(['cartCount'], (old: any) => {
       if (!old) return old;
       
       const currentCount = old.data?.count || 0;
-      const itemToRemove = previousCart?.items?.find((item: any) => item._id === cartItemId);
-      const quantityToRemove = itemToRemove?.quantity || 1;
+      const newCount = Math.max(0, currentCount - quantityToRemove);
+      
+      console.log('📊 CartCount after remove:', { currentCount, removed: quantityToRemove, newCount });
       
       return {
         ...old,
         data: {
           ...old.data,
-          count: Math.max(0, currentCount - quantityToRemove),
+          count: newCount,
         },
       };
     });
     
-    console.log('🗑️ Removing item (optimistic):', cartItemId);
+    console.log('🗑️ Item removed (optimistic)');
     console.log('✅ UI updated immediately');
     
-    // ✅ Call API để sync với backend
+    // ✅ Call API
     const response = await removeCartItemAPI(cartItemId);
     console.log('✅ API confirmed removal:', response);
     
-    // ✅ Invalidate queries để refetch data thật từ server
+    // ✅ Invalidate và refetch
     await queryClient.invalidateQueries({ queryKey: ['cart'] });
     await queryClient.invalidateQueries({ queryKey: ['cartCount'] });
     
-    // ✅ Refetch để đảm bảo sync với backend
     const [cartResult, countResult] = await Promise.all([
       refetchCart(),
       refetchCartCount(),
     ]);
     
-    console.log('✅ Refetch complete, data synced:', {
+    console.log('✅ Refetch complete:', {
       cartItems: cartResult.data?.items?.length,
       totalCount: countResult.data?.data?.count,
     });
-    
-    // ✅ Thông báo xóa thành công
-    alert('✅ Đã xóa sản phẩm khỏi giỏ hàng!');
     
     isRemoving.value = false;
     return response;
@@ -393,7 +606,7 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
   } catch (error: any) {
     console.error('❌ Error removing item, rolling back:', error);
     
-    // ✅ ROLLBACK: Khôi phục state cũ nếu API lỗi
+    // ✅ ROLLBACK
     queryClient.setQueryData(['cart'], previousCart);
     queryClient.setQueryData(['cartCount'], previousCount);
     
@@ -409,7 +622,6 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
     throw error;
   }
 };
-
   // ========== COMPUTED ==========
 
  const totalItems = computed(() => {
@@ -497,6 +709,10 @@ const updateQuantity = async (cartItemId: string, quantity: number) => {
     cartError,
     isAddError: computed(() => !!addCartError.value),
     
+    showAddToCartModal,
+    modalQuantity,
+    addedCartItemId,
+    updateModalQuantity, 
     // Actions
     addToCart,
     getUserCarts,
