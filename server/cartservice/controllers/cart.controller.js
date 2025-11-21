@@ -14,168 +14,175 @@ class CartController {
    * @access  Private (requires auth)
    */
   async addToCart(req, res) {
-  try {
-    const userId = req.user._id || req.user.id;
-    const requestData = req.body;
+    try {
+      const userId = req.user._id || req.user.id;
+      const requestData = req.body;
 
-    console.log("📥 Add to cart request:", {
-      userId,
-      body: requestData,
-    });
+      console.log("📥 Add to cart request:", {
+        userId,
+        body: requestData,
+      });
 
-    // Validate request data
-    const { productId, variantId, quantity } =
-      cartService.validateAddToCartRequest(requestData);
+      // Validate request data
+      const { productId, variantId, quantity } =
+        cartService.validateAddToCartRequest(requestData);
 
-    // Get product and variant from Product Service
-    const { product, variant } = await cartService.validateVariant(
-      productId,
-      variantId
-    );
+      // Get product and variant from Product Service
+      const { product, variant } = await cartService.validateVariant(
+        productId,
+        variantId
+      );
 
-    console.log("✅ Product & Variant fetched:", {
-      productName: product.name,
-      productSlug: product.slug,
-      variantPrice: variant.price,
-      variantStock: variant.stock,
-    });
+      console.log("✅ Product & Variant fetched:", {
+        productName: product.name,
+        productSlug: product.slug,
+        variantPrice: variant.price,
+        variantStock: variant.stock,
+      });
 
-    // Check stock availability
-    cartService.checkStock(variant, quantity);
+      // Check stock availability
+      cartService.checkStock(variant, quantity);
 
-    // Get or create cart
-    const cart = await Cart.getOrCreateCart(userId);
+      // Get or create cart
+      const cart = await Cart.getOrCreateCart(userId);
 
-    // Check max items limit
-    cartService.canAddMoreItems(cart, config.MAX_ITEMS_PER_CART);
+      // Check max items limit
+      cartService.canAddMoreItems(cart, config.MAX_ITEMS_PER_CART);
 
-    // Build cart item data
-    const itemData = cartService.buildCartItemData(
-      product,
-      variant,
-      quantity
-    );
+      // Build cart item data
+      const itemData = cartService.buildCartItemData(
+        product,
+        variant,
+        quantity
+      );
 
-    console.log("✅ Built cart item data:", itemData);
+      console.log("✅ Built cart item data:", itemData);
 
-    // Add item to cart
-    cart.addItem(itemData);
-    await cart.save();
+      // Add item to cart
+      cart.addItem(itemData);
+      await cart.save();
 
-    console.log("✅ Added to cart successfully:", {
-      productName: product.name,
-      quantity,
-      totalItems: cart.totalItems,
-      totalPrice: cart.totalPrice,
-    });
+      console.log("✅ Added to cart successfully:", {
+        productName: product.name,
+        quantity,
+        totalItems: cart.totalItems,
+        totalPrice: cart.totalPrice,
+      });
 
-    // Format response
-    const formattedCart = cartService.formatCartResponse(cart);
+      // Format response
+      const formattedCart = cartService.formatCartResponse(cart);
 
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      message: "Đã thêm sản phẩm vào giỏ hàng",
-      data: formattedCart,
-    });
-  } catch (error) {
-    console.error("❌ Add to cart error:", error);
-    console.error("❌ Error stack:", error.stack);
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        message: "Đã thêm sản phẩm vào giỏ hàng",
+        data: formattedCart,
+      });
+    } catch (error) {
+      console.error("❌ Add to cart error:", error);
+      console.error("❌ Error stack:", error.stack);
 
-    // Handle specific errors
-    if (error.message.includes("Không thể kết nối")) {
-      return res.status(StatusCodes.SERVICE_UNAVAILABLE).json({
+      // Handle specific errors
+      if (error.message.includes("Không thể kết nối")) {
+        return res.status(StatusCodes.SERVICE_UNAVAILABLE).json({
+          success: false,
+          message: "Dịch vụ tạm thời không khả dụng",
+        });
+      }
+
+      return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
-        message: "Dịch vụ tạm thời không khả dụng",
+        message: error.message || "Lỗi khi thêm vào giỏ hàng",
       });
     }
-
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      success: false,
-      message: error.message || "Lỗi khi thêm vào giỏ hàng",
-    });
   }
-}
 
   /**
    * @route   GET /api/cart
    * @desc    Get user's cart
    * @access  Private (requires auth)
    */
- async  getCart(req, res) {
-  try {
-    const userId = req.user._id || req.user.id;
+  async getCart(req, res) {
+    try {
+      const userId = req.user._id || req.user.id;
 
-    console.log("📋 Get cart for user:", userId);
+      console.log("📋 Get cart for user:", userId);
 
-    // Get or create cart
-    const cart = await Cart.getOrCreateCart(userId);
+      const cart = await Cart.getOrCreateCart(userId);
 
-    console.log("✅ Cart found:", {
-      itemCount: cart.items?.length || 0,
-      totalPrice: cart.totalPrice,
-    });
+      console.log("✅ Cart found:", {
+        itemCount: cart.items?.length || 0,
+        totalPrice: cart.totalPrice,
+      });
 
-    // ✅ Format response để match với frontend expectations
-    const formattedResponse = {
-      items: cart.items || [],
-      totalItems: cart.items?.length || 0,
-      itemCount: cart.items?.length || 0, // Alias
-      totalPrice: cart.totalPrice || 0,
-      finalTotal: cart.finalTotal || cart.totalPrice || 0,
-      subtotal: cart.subtotal || 0,
-      discount: cart.discount || 0,
-      couponDiscount: cart.couponDiscount || 0,
-      couponCode: cart.couponCode || null,
-    };
+      // ✅ Build response data
+      const responseData = {
+        cart: {
+          items: cart.items || [],
+          totalItems: cart.items?.length || 0,
+          itemCount: cart.totalItems || 0,
+          totalPrice: cart.totalPrice || 0,
+          finalTotal: cart.finalTotal || cart.totalPrice || 0,
+          subtotal: cart.subtotal || 0,
+          discount: cart.discount || 0,
+          couponDiscount: cart.couponDiscount || 0,
+          couponCode: cart.couponCode || null,
+        },
+      };
 
-    console.log("📤 Sending response:", formattedResponse);
+      // ✅ Build final response
+      const finalResponse = {
+        success: true,
+        message: "Lấy giỏ hàng thành công",
+        data: responseData,
+      };
 
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      message: "Lấy giỏ hàng thành công",
-      data: formattedResponse,
-    });
-  } catch (error) {
-    console.error("❌ Get cart error:", error);
-    console.error("❌ Error stack:", error.stack);
+      console.log(
+        "📤 Sending FINAL response:",
+        JSON.stringify(finalResponse, null, 2)
+      );
 
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: error.message || "Lỗi khi lấy giỏ hàng",
-    });
+      return res.status(StatusCodes.OK).json(finalResponse);
+    } catch (error) {
+      console.error("❌ Get cart error:", error);
+      console.error("❌ Error stack:", error.stack);
+
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: error.message || "Lỗi khi lấy giỏ hàng",
+      });
+    }
   }
-}
 
-/**
- * ✅ Get cart count
- */
-async getCartCount(req, res) {
-  try {
-    const userId = req.user._id || req.user.id;
+  /**
+   * ✅ Get cart count
+   */
+  async getCartCount(req, res) {
+    try {
+      const userId = req.user._id || req.user.id;
 
-    console.log("📊 Get cart count for user:", userId);
+      console.log("📊 Get cart count for user:", userId);
 
-    const cart = await Cart.getOrCreateCart(userId);
-    const count = cart.items?.length || 0;
+      const cart = await Cart.getOrCreateCart(userId);
+      const count = cart.items?.length || 0;
 
-    console.log("✅ Cart count:", count);
+      console.log("✅ Cart count:", count);
 
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      data: {
-        count,
-        userId,
-      },
-    });
-  } catch (error) {
-    console.error("❌ Get cart count error:", error);
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        data: {
+          count,
+          userId,
+        },
+      });
+    } catch (error) {
+      console.error("❌ Get cart count error:", error);
 
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      message: error.message || "Lỗi khi lấy số lượng giỏ hàng",
-    });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        message: error.message || "Lỗi khi lấy số lượng giỏ hàng",
+      });
+    }
   }
-}
 
   /**
    * @route   PATCH /api/cart/item/:cartItemId
@@ -188,11 +195,20 @@ async getCartCount(req, res) {
       const { cartItemId } = req.params;
       const { quantity } = req.body;
 
-      console.log("🔄 Update quantity:", {
+      console.log("🔄 Update quantity request:", {
         userId,
         cartItemId,
         newQuantity: quantity,
+        bodyKeys: Object.keys(req.body),
       });
+
+      // ✅ Validate cartItemId
+      if (!cartItemId) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Thiếu ID sản phẩm",
+        });
+      }
 
       // Validate quantity
       if (typeof quantity !== "number" || quantity < 0 || quantity > 99) {
@@ -221,16 +237,69 @@ async getCartCount(req, res) {
         totalPrice: cart.totalPrice,
       });
 
-      // Format response
-      const formattedCart = cartService.formatCartResponse(cart);
+      // ✅ Transform response giống getCart
+      const transformedItems = cart.items.map((item) => ({
+        _id: item._id,
+        id: item._id,
+        productId: item.product,
+        variantId: item.variant.variantId,
+        quantity: item.quantity,
+        price: item.priceAtAdd,
+
+        productVariant: {
+          _id: item.variant.variantId,
+          price: item.variant.price,
+          stock: item.variant.stock,
+
+          color: item.variant.color
+            ? {
+                _id: item.variant.color.id,
+                name: item.variant.color.name,
+                hexCode: item.variant.color.code,
+              }
+            : null,
+
+          memory: item.variant.memory
+            ? {
+                _id: item.variant.memory.id,
+                ram: item.variant.memory.ram,
+                rom: item.variant.memory.rom,
+              }
+            : null,
+
+          product: {
+            _id: item.product,
+            name: item.productName,
+            slug: item.productSlug,
+            thumbUrl: item.thumbUrl,
+            discountPercentage: item.discountPercentage,
+          },
+        },
+      }));
+
+      const responseData = {
+        cart: {
+          items: transformedItems,
+          totalItems: cart.items?.length || 0,
+          itemCount: cart.totalItems || 0,
+          totalPrice: cart.totalPrice || 0,
+          finalTotal: cart.finalTotal || cart.totalPrice || 0,
+          subtotal: cart.subtotal || 0,
+          discount: cart.discount || 0,
+          couponDiscount: cart.couponDiscount || 0,
+          couponCode: cart.couponCode || null,
+        },
+      };
 
       return res.status(StatusCodes.OK).json({
         success: true,
         message: quantity === 0 ? "Đã xóa sản phẩm" : "Đã cập nhật số lượng",
-        data: formattedCart,
+        data: responseData,
       });
     } catch (error) {
       console.error("❌ Update quantity error:", error);
+      console.error("❌ Error stack:", error.stack);
+
       return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
         message: error.message || "Lỗi khi cập nhật số lượng",
@@ -248,7 +317,15 @@ async getCartCount(req, res) {
       const userId = req.user._id || req.user.id;
       const { cartItemId } = req.params;
 
-      console.log("🗑️ Remove item:", { userId, cartItemId });
+      console.log("🗑️ Remove item request:", { userId, cartItemId });
+
+      // ✅ Validate cartItemId
+      if (!cartItemId) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Thiếu ID sản phẩm",
+        });
+      }
 
       // Get cart
       const cart = await Cart.findByUserId(userId);
@@ -269,16 +346,69 @@ async getCartCount(req, res) {
         totalPrice: cart.totalPrice,
       });
 
-      // Format response
-      const formattedCart = cartService.formatCartResponse(cart);
+      // ✅ Transform response giống getCart
+      const transformedItems = cart.items.map((item) => ({
+        _id: item._id,
+        id: item._id,
+        productId: item.product,
+        variantId: item.variant.variantId,
+        quantity: item.quantity,
+        price: item.priceAtAdd,
+
+        productVariant: {
+          _id: item.variant.variantId,
+          price: item.variant.price,
+          stock: item.variant.stock,
+
+          color: item.variant.color
+            ? {
+                _id: item.variant.color.id,
+                name: item.variant.color.name,
+                hexCode: item.variant.color.code,
+              }
+            : null,
+
+          memory: item.variant.memory
+            ? {
+                _id: item.variant.memory.id,
+                ram: item.variant.memory.ram,
+                rom: item.variant.memory.rom,
+              }
+            : null,
+
+          product: {
+            _id: item.product,
+            name: item.productName,
+            slug: item.productSlug,
+            thumbUrl: item.thumbUrl,
+            discountPercentage: item.discountPercentage,
+          },
+        },
+      }));
+
+      const responseData = {
+        cart: {
+          items: transformedItems,
+          totalItems: cart.items?.length || 0,
+          itemCount: cart.totalItems || 0,
+          totalPrice: cart.totalPrice || 0,
+          finalTotal: cart.finalTotal || cart.totalPrice || 0,
+          subtotal: cart.subtotal || 0,
+          discount: cart.discount || 0,
+          couponDiscount: cart.couponDiscount || 0,
+          couponCode: cart.couponCode || null,
+        },
+      };
 
       return res.status(StatusCodes.OK).json({
         success: true,
         message: "Đã xóa sản phẩm khỏi giỏ hàng",
-        data: formattedCart,
+        data: responseData,
       });
     } catch (error) {
       console.error("❌ Remove item error:", error);
+      console.error("❌ Error stack:", error.stack);
+
       return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
         message: error.message || "Lỗi khi xóa sản phẩm",

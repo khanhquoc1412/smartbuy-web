@@ -54,6 +54,7 @@ export interface ICartData {
   itemCount: number;
   createdAt: string;
   updatedAt: string;
+   // Để tương thích với code cũ
 }
 
 // ========== CART RESPONSE ==========
@@ -63,6 +64,7 @@ export interface ICartResponse {
   data: {
     cart: ICartData;
   };
+   cart?: ICartData;
 }
 
 export interface INewCartResponse extends ICartResponse {}

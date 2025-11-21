@@ -5,8 +5,8 @@
       <div class="cart-title">Giỏ hàng của bạn</div>
       
       <!-- Loading State -->
-      <div v-if="isLoadingCart" class="cart-main tw-py-20 tw-flex tw-justify-center">
-        <p>Đang tải giỏ hàng...</p>
+      <div v-if="isLoadingCart || isUpdating || isRemoving" class="cart-main tw-py-20 tw-flex tw-justify-center">
+        <p>{{ isUpdating ? 'Đang cập nhật...' : isRemoving ? 'Đang xóa...' : 'Đang tải giỏ hàng...' }}</p>
       </div>
       
       <!-- Cart Items -->
@@ -175,15 +175,20 @@ import { getRealPrice } from "@/utils/product/getPriceAfterDiscount";
 import { useCart } from "@/composables/useCart";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import Modal from "@/components/common/Modal.vue";
+import router from "@/router";
 
 const { userId } = useAuth();
 const {
   cartItems,
   isLoadingCart,
   totalItem,
+  isUpdating,    // ✅ Thêm loading state
+  isRemoving,    // ✅ Thêm loading state
   getUserCarts,
   updateQuantity,
   removeItem,
+   refetchCart,      // ✅ Thêm refetchCart
+  refetchCartCount, // ✅ Thêm refetchCartCount
 } = useCart();
 
 const activeModalDeleteProductToCart = ref<boolean>(false);
@@ -200,6 +205,7 @@ const closeModal = (value: boolean) => {
 
 // Hàm tăng số lượng
 const handleIncreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
+  if (isUpdating.value) return; // Ngăn chặn nếu đang trong quá trình cập nhật
   try {
     await updateQuantity(cartItemId, currentQuantity + 1);
   } catch (error) {
@@ -209,6 +215,7 @@ const handleIncreaseQuantity = async (cartItemId: string, currentQuantity: numbe
 
 // Hàm giảm số lượng
 const handleDecreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
+  if (isUpdating.value || currentQuantity <= 1) return; // Ngăn chặn nếu đang trong quá trình cập nhật hoặc số lượng hiện tại là 1
   if (currentQuantity > 1) {
     try {
       await updateQuantity(cartItemId, currentQuantity - 1);
@@ -220,6 +227,7 @@ const handleDecreaseQuantity = async (cartItemId: string, currentQuantity: numbe
 
 // Hàm xóa item
 const handleRemoveItem = async () => {
+  if (isRemoving.value) return;
   try {
     await removeItem(currentCartItemId.value);
     closeModal(false);
@@ -229,10 +237,26 @@ const handleRemoveItem = async () => {
 };
 
 onMounted(async () => {
-  if (userId?.value) {
-    await getUserCarts(userId.value);
-  }
+  console.log('🔄 Cart page mounted, fetching cart...');
+  
+  // Force refetch cart data
+  await Promise.all([
+    refetchCart(),
+    refetchCartCount(),
+  ]);
 });
+import { ref, onMounted, watch } from 'vue'; // ✅ Thêm watch
+import { useRoute } from 'vue-router';
+const route = useRoute();
+watch(() => route.path, async (newPath) => {
+  if (newPath === '/cart' || newPath.startsWith('/cart/')) {
+    console.log('🔄 Navigated to cart, refetching...');
+    await Promise.all([
+      refetchCart(),
+      refetchCartCount(),
+    ]);
+  }
+}, { immediate: true });
 </script>
 
 <route lang="yaml">

@@ -22,13 +22,13 @@ export const getCartCount = async (): Promise<ICartCountResponse> => {
 };
 
 export const updateCartItemAPI = async (cartItemId: string, quantity: number) => {
-  const response = await cartAxios.put(`/cart/update/${cartItemId}`, { quantity });
-  return response.data;
+  // ✅ Sửa route từ /update/:id -> /item/:id
+  return cartAxios.patch(`/cart/item/${cartItemId}`, { quantity });
 };
 
 export const removeCartItemAPI = async (cartItemId: string) => {
-  const response = await cartAxios.delete(`/cart/remove/${cartItemId}`);
-  return response.data;
+  // ✅ Sửa route từ /remove/:id -> /item/:id
+  return cartAxios.delete(`/cart/item/${cartItemId}`);
 };
 
 export const validateCart = async (): Promise<ICartResponse> => {

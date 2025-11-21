@@ -230,27 +230,29 @@
               Tiếp tục mua hàng
             </button>
             <button
-              @click="handleAddAndGoToCart"
-              :disabled="isUpdating"
-              class="tw-flex-1 tw-px-6 tw-py-3 tw-bg-gradient-to-r tw-from-red-600 tw-to-red-700 tw-rounded-xl tw-font-semibold tw-text-white hover:tw-from-red-700 hover:tw-to-red-800 tw-shadow-lg hover:tw-shadow-xl tw-transition-all tw-duration-200 disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-justify-center tw-gap-2"
-            >
-              <svg
-                v-if="!isUpdating"
-                class="tw-w-5 tw-h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              <span v-if="isUpdating">Đang xử lý...</span>
-              Xem giỏ hàng
-            </button>
+  @click="handleAddAndGoToCart"
+  :disabled="isUpdating"
+  class="tw-flex-1 tw-px-6 tw-py-3 tw-rounded-xl tw-font-semibold tw-text-white tw-shadow-lg hover:tw-shadow-xl tw-transition-all tw-duration-200 disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-justify-center tw-gap-2"
+  style="background: linear-gradient(to right, #d70018, #b00014);"
+>
+  <svg
+    v-if="!isUpdating"
+    class="tw-w-5 tw-h-5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+    />
+  </svg>
+  <span class="tw-text-white tw-font-semibold">
+    {{ isUpdating ? "Đang xử lý..." : "Xem giỏ hàng" }}
+  </span>
+</button>
           </div>
         </div>
       </div>
