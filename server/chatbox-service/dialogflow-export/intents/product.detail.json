@@ -1,0 +1,593 @@
+{
+  "id": "9fbddbd9-8f59-4012-a187-ff99a9f62cf8",
+  "name": "product.detail",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product-name",
+          "dataType": "@product-name",
+          "isList": false,
+          "required": true,
+          "prompts": [],
+          "value": "$product-name",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Realme C67",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có tốt không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "50535375-1fa3-4b64-a29b-f4f997e0a664",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đánh giá ",
+          "userDefined": false
+        },
+        {
+          "text": "Vivo V30",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "4d9bb5ba-6d61-4ac7-9b7b-ebdbb249eb0d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OPPO A17k",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " giá bao nhiêu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "40af8e42-aa89-419f-8797-f3578ba125f2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Review ",
+          "userDefined": false
+        },
+        {
+          "text": "Realme C67",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "c43f6c30-83b2-4d6a-9243-379be972b5c8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Vivo V30",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có gì đặc biệt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "72f60442-86af-49ba-bede-e4c35d22b6ea",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thông số kỹ thuật của ",
+          "userDefined": false
+        },
+        {
+          "text": "OPPO A17k",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "6396a196-3758-40a8-a9eb-556a73e25974",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cho tôi xem chi tiết ",
+          "userDefined": false
+        },
+        {
+          "text": "OPPO Find N3 Flip",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "099a8f8a-ea45-4ed5-b774-a970d581c5d5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đánh giá ",
+          "userDefined": false
+        },
+        {
+          "text": "Mi 14T",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "4f2ce2b2-9ac7-4ac4-8b0e-10e970c1e9dc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " giá bao nhiêu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "38d630bd-764e-460b-b034-0b47b1051291",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Review ",
+          "userDefined": false
+        },
+        {
+          "text": "Redmi Note 13",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "4cce208b-d597-482f-b895-0adf697a13dd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có gì đặc biệt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ca30728e-88a0-40c0-98c9-06cf37224e06",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thông số kỹ thuật của ",
+          "userDefined": false
+        },
+        {
+          "text": "Redmi Note 13",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "2f6e8e37-6bf7-4c85-b85f-e67f2dc62243",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cho tôi xem chi tiết ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "37ae753a-7077-447d-83fd-c6c423af9f83",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi tiết ",
+          "userDefined": false
+        },
+        {
+          "text": "S24 Ultra",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "939c4af9-c81e-4510-a313-092f1edf6c44",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xem ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "c33e7e89-cc36-4037-a6d2-f7ac73ae35e1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Galaxy A54",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có tốt không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "b0b1fb44-a426-4aae-91fb-eed2ee5bad19",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đánh giá ",
+          "userDefined": false
+        },
+        {
+          "text": "S24 Ultra",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "96fd7134-0fd5-4f64-ab12-04abd40a1c91",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " giá bao nhiêu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "777fe941-7805-44ac-bd76-51a0da6528a2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Review ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung S24 Ultra",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "1454c9f0-d3fb-4438-9493-2e035f58ac33",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Galaxy A54",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có gì đặc biệt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "50b8f672-993a-4da1-ad61-65e34d8d3408",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thông số kỹ thuật của ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "966d3e64-be54-4bd1-9fbf-c626c3332739",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cho tôi xem chi tiết ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24 Ultra",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "354a9a45-c8a1-491e-87fb-956486fdcfe8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xem ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 16",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 1,
+      "id": "224f1a78-0117-431a-b258-7648be4af7fc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có tốt không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3ff415de-2238-44ec-933e-5e45647c3675",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đánh giá ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 16 Pro Max",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "fd652f4f-f3f3-4970-b175-9d416506730d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone 16",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " giá bao nhiêu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0653c67d-ace4-4b09-9528-18e3fcc2cf3b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Review ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "bbec5da3-427b-415d-95dd-3578d48c2f33",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone 16 Pro Max",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        },
+        {
+          "text": " có gì đặc biệt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2e9743e5-57e0-4739-8939-6766322adf0b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thông số kỹ thuật của ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 16",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "07b61810-7c46-43e9-849d-19e4c8ce8b0d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cho tôi xem chi tiết ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "e28eabb3-4f04-424c-af14-75379b5f1636",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

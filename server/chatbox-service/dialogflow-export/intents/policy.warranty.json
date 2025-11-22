@@ -1,0 +1,434 @@
+{
+  "id": "9887d66b-86b7-4da3-a398-dc68845105a9",
+  "name": "policy.warranty",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product-name",
+          "dataType": "@product-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$product-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "brand-name",
+          "dataType": "@brand-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$brand-name",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "type": "info",
+                  "title": "⚡ CHÍNH SÁCH BẢO HÀNH",
+                  "subtitle": "Bảo hành chính hãng 12-24 tháng"
+                },
+                {
+                  "type": "accordion",
+                  "title": "🏢 Bảo hành chính hãng",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "text": "• Điện thoại: 12-24 tháng (tùy hãng)\n• Phụ kiện: 6-12 tháng"
+                },
+                {
+                  "type": "accordion",
+                  "title": "🆕 Đổi mới 1-1",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "text": "• Trong 30 ngày đầu nếu lỗi NSX\n• Áp dụng cho sản phẩm Apple, Samsung"
+                },
+                {
+                  "type": "accordion",
+                  "title": "🔧 Trung tâm bảo hành",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "text": "• Apple: Apple Store, TTBH ủy quyền\n• Samsung: Samsung Service Center\n• Các hãng khác: TTBH chính hãng"
+                },
+                {
+                  "type": "button",
+                  "icon": {
+                    "type": "chevron_right",
+                    "color": "#FF0000"
+                  },
+                  "text": "📍 Tra cứu trung tâm bảo hành",
+                  "link": "https://smartbuy.com/warranty"
+                },
+                {
+                  "type": "chips",
+                  "options": [
+                    {"text": "Chính sách đổi trả"},
+                    {"text": "Chính sách giao hàng"},
+                    {"text": "Tìm điện thoại"}
+                  ]
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tra cứu bảo hành'",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8a35d9ce-3919-40d7-a09b-7a453557306f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Quy định bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "85fbff73-d555-4c5d-971b-02a454be4809",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cách bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "de79deec-cd64-4fe7-b63b-4584385d9deb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Máy lỗi bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "9f69ee41-bf8b-47d8-bef2-213bd9391caa",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Sửa chữa bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e98b3769-1948-4d01-9651-281181b57003",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chế độ đổi mới",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8f264011-bed9-47f4-a0f0-91576852b508",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành toàn quốc",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "7e456e43-60ca-43cf-8a96-5b831a065eb2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đổi mới 30 ngày",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e9fdcd15-829b-4da2-a2d0-7d7920a51873",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đổi mới 1-1",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "fca80d11-f1bc-49c5-9730-1ba151e1b57f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành ",
+          "userDefined": false
+        },
+        {
+          "text": "Apple",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "1f746cad-08d6-4efe-b2e9-4054c8b25c9a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "a26c63f0-9ef6-4639-a0f5-f0e83c31222a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "product-name",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "99c8700d-66a0-469b-9259-faee6c9b1c19",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "TTBH ở đâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "6d55ac33-20c9-4fab-8754-66a2bad1ec9d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trung tâm bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3341b17d-60aa-429b-893e-2665140532ea",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành 24 tháng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "91f850a5-5ecb-4c28-828c-1f4bed4cf74f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành 12 tháng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "230da9ce-b51a-456a-8f29-9ffe48b147f7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành 2 năm",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "31628fa1-18bf-4a51-bc1f-509c10f766b9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành 1 năm",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "45224c70-1627-4059-82ae-2d5d26a3ce7b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chế độ bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "a4a244e7-e0af-4bd4-8f5d-e600746c939a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thời gian bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8345413f-d80c-4e67-8539-dc946bd52a12",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành chính hãng không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4d1bc5b9-fc72-4b8b-8914-7ef0d6e5de41",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "842304fb-48de-4cf7-a7f0-524929cc1c4b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành ở đâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4ef6f2ed-1092-4da4-8a0a-96b5d61e2e18",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Bảo hành bao lâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "dc1f8470-00d3-4244-b325-bea12f7211ed",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chính sách bảo hành",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e63694ae-a2c8-4d4c-a980-c5c84a101c0d",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

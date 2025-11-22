@@ -1,0 +1,126 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "product-name",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "iphone-15",
+      "synonyms": [
+        "iphone-15",
+        "iPhone 15",
+        "ip 15",
+        "i phone 15",
+        "iphone15",
+        "iphone mười lăm"
+      ]
+    },
+    {
+      "value": "iphone-16",
+      "synonyms": [
+        "iphone-16",
+        "iPhone 16",
+        "ip 16",
+        "i phone 16",
+        "iphone16",
+        "iphone mười sáu"
+      ]
+    },
+    {
+      "value": "iphone-16-pro-max",
+      "synonyms": [
+        "iphone-16-pro-max",
+        "iPhone 16 Pro Max",
+        "ip 16 pro max",
+        "i phone 16 pm",
+        "iphone 16pm"
+      ]
+    },
+    {
+      "value": "galaxy-s24-ultra",
+      "synonyms": [
+        "galaxy-s24-ultra",
+        "Galaxy S24 Ultra",
+        "samsung s24 ultra",
+        "s24 ultra",
+        "s24u"
+      ]
+    },
+    {
+      "value": "galaxy-s24",
+      "synonyms": [
+        "galaxy-s24",
+        "Galaxy S24",
+        "samsung s24",
+        "s24"
+      ]
+    },
+    {
+      "value": "galaxy-a54",
+      "synonyms": [
+        "galaxy-a54",
+        "Galaxy A54",
+        "samsung a54",
+        "a54"
+      ]
+    },
+    {
+      "value": "xiaomi-14t",
+      "synonyms": [
+        "xiaomi-14t",
+        "Xiaomi 14T",
+        "mi 14t",
+        "xiaomi 14 t",
+        "14t"
+      ]
+    },
+    {
+      "value": "xiaomi-redmi-note-13",
+      "synonyms": [
+        "xiaomi-redmi-note-13",
+        "Redmi Note 13",
+        "redmi note 13",
+        "note 13"
+      ]
+    },
+    {
+      "value": "oppo-find-n3-flip",
+      "synonyms": [
+        "oppo-find-n3-flip",
+        "OPPO Find N3 Flip",
+        "oppo n3 flip",
+        "find n3 flip"
+      ]
+    },
+    {
+      "value": "oppo-a17k",
+      "synonyms": [
+        "oppo-a17k",
+        "OPPO A17k",
+        "oppo a17",
+        "a17k"
+      ]
+    },
+    {
+      "value": "vivo-v30",
+      "synonyms": [
+        "vivo-v30",
+        "Vivo V30",
+        "vivo v 30",
+        "v30"
+      ]
+    },
+    {
+      "value": "realme-c67",
+      "synonyms": [
+        "realme-c67",
+        "Realme C67",
+        "realme c 67",
+        "c67"
+      ]
+    }
+  ],
+  "id": "095386a9-49ed-4beb-b651-527003bae8df",
+  "isOverridable": false
+}

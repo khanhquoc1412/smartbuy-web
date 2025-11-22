@@ -1,0 +1,420 @@
+{
+  "id": "33a68362-e1c4-42c8-9535-b07ac03e6e0c",
+  "name": "order.cancel",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "order-status",
+          "dataType": "@order-status",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$order-status",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "order-id",
+          "dataType": "@order-id",
+          "isList": false,
+          "required": true,
+          "prompts": [],
+          "value": "$order-id",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không lấy đơn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "052f20b5-7f66-4767-b1ec-6085a6988444",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tôi đổi ý",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f67bbf42-6c9b-4ae3-a5c4-a60bf2a3be1f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Huỷ order",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5e31fa2a-56b2-497e-ab06-dc1d0297f6f2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không cần nữa",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "19823f0f-9fc7-4f04-8634-c5b9107458c5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không mua nữa",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e7c455fe-6523-400c-99a8-1ef1aee0bcd5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tôi muốn huỷ",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "c279b1e6-512e-4fd6-84d8-338dbccc0224",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Huỷ đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " hàng của tôi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "de7263d6-0220-4886-9f9c-f8dbf1685f16",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không lấy hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "befb544f-3cc2-44a9-b64c-e4fa7161bed4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không muốn mua nữa",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "351687f6-e64f-4d7a-96a3-41eaf9c2f554",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cancel order",
+          "userDefined": true,
+          "alias": "order-status",
+          "meta": "@order-status"
+        }
+      ],
+      "count": 0,
+      "id": "fd70463b-3cdc-4f0f-b1aa-5387cfa20836",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Huỷ đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        }
+      ],
+      "count": 0,
+      "id": "88461d9b-2a3b-4ea0-8204-3953520dc922",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hủy đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "09a4488d-6081-49c8-9a66-45fe60c1d98b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tôi muốn ",
+          "userDefined": false
+        },
+        {
+          "text": "hủy đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        }
+      ],
+      "count": 0,
+      "id": "72207306-9f1d-495e-b0b3-4804d262d336",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không lấy",
+          "userDefined": true,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241116-MNO678 nữa",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "2f59695e-30b0-4f40-beac-5f845805913d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Huỷ đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241117-JKL345",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "16e0e400-a0a4-432a-861b-0053540606b8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hủy",
+          "userDefined": true,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241120-GHI012",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "0e13d09e-c43b-4ac6-a073-b1a2625224ad",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không muốn mua",
+          "userDefined": true,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241119-DEF789",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        },
+        {
+          "text": " nữa",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "90dc30bc-fb9d-4b26-b7af-fbb304401055",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cancel order",
+          "userDefined": true,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241118-ABC456",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "64510dd8-4ddb-4af6-a514-7f75987be944",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hủy đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241115-XYZ123",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "50c672ae-433e-42df-931b-3176713ca578",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tôi muốn ",
+          "userDefined": false
+        },
+        {
+          "text": "hủy đơn",
+          "userDefined": false,
+          "alias": "order-status",
+          "meta": "@order-status"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241120-A1B2C3",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "40a28b03-c524-4fa9-84d7-f992134d724f",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

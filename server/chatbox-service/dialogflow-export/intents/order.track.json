@@ -1,0 +1,417 @@
+{
+  "id": "47d88e99-0870-4ae5-b598-63b7d9c7dba9",
+  "name": "order.track",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "order-id",
+          "dataType": "@order-id",
+          "isList": false,
+          "required": true,
+          "prompts": [
+            "Vui lòng cung cấp mã đơn hàng",
+            "Vui lòng cho mình biết mã đơn hàng của bạn (dạng ORD-YYYYMMDD-XXXXXX)",
+            "Bạn có thể tìm mã đơn hàng trong email xác nhận hoặc mục 'Đơn hàng của tôi' nhé!"
+          ],
+          "value": "$order-id",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Kiểm tra order",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ee83796e-8fe3-4dc4-a422-e97d42843906",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn hàng tôi mua",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "89a8456f-0233-4bfe-b628-30cc4964074f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Order của tôi",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "c338246b-266b-46d7-8414-5569b779e808",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xem trạng thái đơn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e9c5ddda-a683-4af0-8185-0a0362baaf07",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tra cứu đơn hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f910c4af-799d-4a9c-a352-30a47044c13a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Mã đơn hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ed9b5714-9c1b-41ec-839f-d93cd2d07158",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Kiểm tra tình trạng đơn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3b40c038-2655-4e15-adab-c1d505d65d22",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn hàng đến đâu rồi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "dbdc3df4-190c-453e-b75d-c40a62b3787b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xem đơn hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ff0b09f1-5b44-4e9b-9011-78f9d4fd4cbf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn hàng của tôi đâu rồi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f97d929d-9ffc-4288-9288-36e3ae4f19c2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tra đơn hàng của tôi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f8047fe5-d9ac-4e7c-8819-19a7a26a929f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Kiểm tra đơn hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "60120c5c-f958-42f4-ab12-3c8975f512f6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Kiểm tra mã đơn ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241116-PQR901",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "b72eb5f5-8994-478d-97ba-717734b73de2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "ORD-20241120-MNO678",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        },
+        {
+          "text": " đến đâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e59929bc-5da9-4084-aeec-f483033ce28b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xem đơn hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241117-JKL345",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "95f3fa6d-156c-490f-9d03-1a34f760f529",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241119-GHI012",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        },
+        {
+          "text": " đến đâu rồi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3b05136e-171d-4fe7-a84e-0da63aba75f3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Order ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241120-DEF789",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "a9403052-a1aa-445e-9bc7-7321b8643f39",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tra đơn ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241118-ABC456",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "05e5f4d2-4a4a-4639-9054-b265d4859a55",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241115-XYZ123",
+          "userDefined": true,
+          "alias": "order-id",
+          "meta": "@order-id"
+        },
+        {
+          "text": " của tôi đâu rồi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5c09292b-1508-486a-a021-4d3efe27d25f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Kiểm tra đơn hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20241120-A1B2C3",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "037f14af-0f10-4480-95d5-d53cb1e77a76",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20251119-ABC123",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        },
+        {
+          "text": " đang ở đâu",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "27b0ca86-c1eb-4bca-b1ad-6af3653fa87c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Order status",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "741fd01f-2590-429c-86fb-e770b040cff0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tra đơn ORD-20251119-XYZ789",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "3a79a3e9-6bb9-4633-bcd7-44e3094952f9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Kiểm tra đơn hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "ORD-20251119-ABC123",
+          "userDefined": false,
+          "alias": "order-id",
+          "meta": "@order-id"
+        }
+      ],
+      "count": 0,
+      "id": "082e2f0d-3742-45e8-8cb2-6ccb23cc3b20",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

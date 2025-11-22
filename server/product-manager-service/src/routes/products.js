@@ -47,6 +47,9 @@ const upload = multer({
 // Health
 router.get('/health', ctrl.health);
 
+// ============ SEARCH ENDPOINT (for Chatbot) ============
+router.get('/search', ctrl.search);
+
 // ============ STATS ENDPOINTS ============
 // GET /api/products/stats/overview - Product overview statistics
 router.get('/stats/overview', statsCtrl.getProductsOverview);

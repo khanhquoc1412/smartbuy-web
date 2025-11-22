@@ -1,0 +1,78 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "location",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "ha-noi",
+      "synonyms": [
+        "ha-noi",
+        "Hà Nội",
+        "Ha Noi",
+        "HN",
+        "thủ đô"
+      ]
+    },
+    {
+      "value": "ho-chi-minh",
+      "synonyms": [
+        "ho-chi-minh",
+        "Hồ Chí Minh",
+        "Ho Chi Minh",
+        "HCM",
+        "Sài Gòn",
+        "Saigon",
+        "SG"
+      ]
+    },
+    {
+      "value": "da-nang",
+      "synonyms": [
+        "da-nang",
+        "Đà Nẵng",
+        "Da Nang",
+        "DN"
+      ]
+    },
+    {
+      "value": "hai-phong",
+      "synonyms": [
+        "hai-phong",
+        "Hải Phòng",
+        "Hai Phong",
+        "HP"
+      ]
+    },
+    {
+      "value": "can-tho",
+      "synonyms": [
+        "can-tho",
+        "Cần Thơ",
+        "Can Tho",
+        "CT"
+      ]
+    },
+    {
+      "value": "noi-thanh",
+      "synonyms": [
+        "noi-thanh",
+        "nội thành",
+        "khu vực nội thành",
+        "trong thành phố"
+      ]
+    },
+    {
+      "value": "ngoai-thanh",
+      "synonyms": [
+        "ngoai-thanh",
+        "ngoại thành",
+        "vùng ven",
+        "ngoại ô"
+      ]
+    }
+  ],
+  "id": "fcf3e444-c0e4-44b9-b97c-f623674379dd",
+  "isOverridable": false
+}

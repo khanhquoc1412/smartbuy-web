@@ -1,0 +1,97 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "brand-name",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "apple",
+      "synonyms": [
+        "apple",
+        "Apple",
+        "iPhone",
+        "iPad",
+        "Mac",
+        "MacBook",
+        "Apple Inc",
+        "táo",
+        "táo khuyết",
+        "ip",
+        "apo",
+        "appo"
+      ]
+    },
+    {
+      "value": "samsung",
+      "synonyms": [
+        "samsung",
+        "Samsung",
+        "Galaxy",
+        "Sam Sung",
+        "SS",
+        "sam sung",
+        "Sam sung",
+        "Sâm Sốt"
+      ]
+    },
+    {
+      "value": "xiaomi",
+      "synonyms": [
+        "xiaomi",
+        "Xiaomi",
+        "Mi",
+        "Redmi",
+        "Poco",
+        "Tiểu Mễ",
+        "Siêu mì",
+        "Xao mi",
+        "Xao Mi",
+        "Xiaomi Mi"
+      ]
+    },
+    {
+      "value": "oppo",
+      "synonyms": [
+        "oppo",
+        "Oppo",
+        "OPPO",
+        "ốp pô",
+        "op po"
+      ]
+    },
+    {
+      "value": "vivo",
+      "synonyms": [
+        "vivo",
+        "Vivo",
+        "VIVO",
+        "vi vo",
+        "Vi Vo"
+      ]
+    },
+    {
+      "value": "realme",
+      "synonyms": [
+        "realme",
+        "Realme",
+        "Real me",
+        "Real Me",
+        "reo me",
+        "Reo Mi"
+      ]
+    },
+    {
+      "value": "honor",
+      "synonyms": [
+        "honor",
+        "HONOR",
+        "Honor",
+        "Hon or",
+        "Hoa Vi"
+      ]
+    }
+  ],
+  "id": "3ae8ce10-0993-4c95-8dbe-bcc8a140dbcd",
+  "isOverridable": false
+}

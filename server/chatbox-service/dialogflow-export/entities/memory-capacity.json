@@ -1,0 +1,126 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "memory-capacity",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "32gb",
+      "synonyms": [
+        "32gb",
+        "32GB",
+        "32 GB",
+        "32g",
+        "32 ghi ga"
+      ]
+    },
+    {
+      "value": "64gb",
+      "synonyms": [
+        "64gb",
+        "64GB",
+        "64 GB",
+        "64g"
+      ]
+    },
+    {
+      "value": "128gb",
+      "synonyms": [
+        "128gb",
+        "128GB",
+        "128 GB",
+        "128g",
+        "128 ghi ga"
+      ]
+    },
+    {
+      "value": "256gb",
+      "synonyms": [
+        "256gb",
+        "256GB",
+        "256 GB",
+        "256g",
+        "256 ghi ga"
+      ]
+    },
+    {
+      "value": "512gb",
+      "synonyms": [
+        "512gb",
+        "512GB",
+        "512 GB",
+        "512g",
+        "512 ghi ga"
+      ]
+    },
+    {
+      "value": "1tb",
+      "synonyms": [
+        "1tb",
+        "1TB",
+        "1 TB",
+        "1T",
+        "1 tera",
+        "1024GB"
+      ]
+    },
+    {
+      "value": "3gb-ram",
+      "synonyms": [
+        "3gb-ram",
+        "3GB RAM",
+        "3 GB RAM",
+        "RAM 3GB",
+        "3 ghi ga RAM"
+      ]
+    },
+    {
+      "value": "4gb-ram",
+      "synonyms": [
+        "4gb-ram",
+        "4GB RAM",
+        "4 GB RAM",
+        "RAM 4GB"
+      ]
+    },
+    {
+      "value": "6gb-ram",
+      "synonyms": [
+        "6gb-ram",
+        "6GB RAM",
+        "6 GB RAM",
+        "RAM 6GB"
+      ]
+    },
+    {
+      "value": "8gb-ram",
+      "synonyms": [
+        "8gb-ram",
+        "8GB RAM",
+        "8 GB RAM",
+        "RAM 8GB"
+      ]
+    },
+    {
+      "value": "12gb-ram",
+      "synonyms": [
+        "12gb-ram",
+        "12GB RAM",
+        "12 GB RAM",
+        "RAM 12GB"
+      ]
+    },
+    {
+      "value": "16gb-ram",
+      "synonyms": [
+        "16gb-ram",
+        "16GB RAM",
+        "16 GB RAM",
+        "RAM 16GB"
+      ]
+    }
+  ],
+  "id": "ac42a189-a128-4d75-bab2-67989ef41f6b",
+  "isOverridable": false
+}

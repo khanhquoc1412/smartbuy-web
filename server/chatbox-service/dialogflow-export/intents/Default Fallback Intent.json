@@ -1,0 +1,41 @@
+{
+  "id": "034ea84e-abb3-4e35-b302-b77c890e01ce",
+  "name": "Default Fallback Intent",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": true,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "input.unknown",
+      "affectedContexts": [],
+      "parameters": [],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": [
+            "Xin lỗi, tôi chưa hiểu ý bạn. Bạn có thể hỏi về sản phẩm, đơn hàng, hoặc chính sách của chúng tôi.",
+            "Tôi chưa được huấn luyện để trả lời câu này. Bạn cần hỗ trợ gì về sản phẩm không?"
+          ]
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

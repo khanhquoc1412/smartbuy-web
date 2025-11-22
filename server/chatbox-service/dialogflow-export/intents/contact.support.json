@@ -1,0 +1,520 @@
+{
+  "id": "2a512523-047b-4e3c-8889-53e570f1434b",
+  "name": "contact.support",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "type": "info",
+                  "subtitle": "Hỗ trợ khách hàng 24/7",
+                  "title": "📞 LIÊN HỆ HỖ TRỢ"
+                },
+                {
+                  "title": "☎️ Hotline: 1900.9999",
+                  "text": [
+                    "Thời gian: 8:00 - 22:00 (Tất cả các ngày)"
+                  ],
+                  "type": "description"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "list",
+                  "title": "Kênh liên hệ khác",
+                  "event": {
+                    "name": "",
+                    "parameters": {},
+                    "languageCode": ""
+                  }
+                },
+                {
+                  "type": "accordion",
+                  "title": "📧 Email",
+                  "subtitle": "Phản hồi trong 24h",
+                  "text": "support@smartbuy.com\n\n(Phản hồi trong 24h)"
+                },
+                {
+                  "icon": {
+                    "color": "#0084FF",
+                    "type": "chat"
+                  },
+                  "text": "💬 Chat Facebook",
+                  "type": "button",
+                  "link": "https://fb.com/smartbuy.vn"
+                },
+                {
+                  "icon": {
+                    "type": "phone",
+                    "color": "#0068FF"
+                  },
+                  "text": "📱 Zalo OA SmartBuy",
+                  "type": "button",
+                  "link": "https://zalo.me/smartbuy"
+                },
+                {
+                  "text": "📍 123 Nguyễn Huệ, Quận 1, HCM\n\n⏰ Giờ làm việc:\n• T2-T7: 8:00 - 20:00\n• CN: 9:00 - 18:00",
+                  "title": "🏢 Trụ sở chính",
+                  "subtitle": "Mở cửa: 8h - 22h (Hằng ngày)",
+                  "type": "accordion"
+                },
+                {
+                  "type": "chips",
+                  "options": [
+                    {
+                      "text": "Xem cửa hàng"
+                    },
+                    {
+                      "text": "Tìm điện thoại"
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nhân viên tư vấn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "172a91d8-9178-41a4-aca9-9ae13bc20032",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chăm sóc khách hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "b7cf2bb0-e949-433a-908f-906cee6ccfd7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hỗ trợ khách hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f94765f0-ca4e-461d-8e9e-813990ab51a1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Văn phòng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "40b7760d-e198-49a0-a87b-8f43167039c1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trự sở chính",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "eb79e7bb-b169-42d6-a388-7f54869663e5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trụ sở",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "fa4edc4b-9141-456c-9535-b24013fdfb43",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nhắn tin zalo",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "449a690c-12c4-46a2-9652-1524abca5ef1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Liên lạc",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f2f8aeea-3911-45bc-824b-cf3ad922cf37",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chat Facebook",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d04f943f-db08-4dca-bba6-d77156a76f18",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Zalo shop",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "12525983-11a1-4686-a830-4b8652c5ea5c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Facebook ",
+          "userDefined": false
+        },
+        {
+          "text": "Shop",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "3c323fa4-9d90-4613-93a6-a1bf29e5f48c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Email ",
+          "userDefined": false
+        },
+        {
+          "text": "Shop",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "e48fae17-6074-41d4-b029-0c1836c45710",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "SĐT liên ",
+          "userDefined": false
+        },
+        {
+          "text": "hệ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "45c8da7d-0804-4212-be7a-a41350cfea26",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "SĐT ",
+          "userDefined": false
+        },
+        {
+          "text": "shop",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "1fb60785-fcb6-40d6-88c3-e89a21ce0982",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hotline",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "55b96529-42f2-40e0-a0cb-073b33c6a889",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Gọi ",
+          "userDefined": false
+        },
+        {
+          "text": "shop",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "2e485ff3-1c06-4558-a298-157e3b50ee6d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Liên ",
+          "userDefined": false
+        },
+        {
+          "text": "hệ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "shop",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "6037bb1c-d102-4596-8b76-071c8fa6979c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Liên ",
+          "userDefined": false
+        },
+        {
+          "text": "hệ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "hỗ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " trợ",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3685a31b-0ca7-4785-8343-1b45ae5f2499",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tư",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " vấn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d4344646-e2b5-4e3b-9045-d10cd7f8124d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chat với ",
+          "userDefined": false
+        },
+        {
+          "text": "nhân",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " viên",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "1e28dc5d-3ac6-4301-92c9-25579dbcda64",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Email liên ",
+          "userDefined": false
+        },
+        {
+          "text": "hệ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "f9601502-d6b1-45a8-b695-9d5a445f9ca1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Số ",
+          "userDefined": false
+        },
+        {
+          "text": "điện thoại",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "6f058c5e-545b-4731-96ba-660653559308",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Gọi hotline",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "fd1edbfd-0b32-419f-8073-90e748e59a04",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hỗ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " trợ",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d5b395e2-f25d-41b1-9ce5-a33a208a7a5d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Liên ",
+          "userDefined": false
+        },
+        {
+          "text": "hệ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "40124b7d-8a3b-481f-a89e-25d6d815be45",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

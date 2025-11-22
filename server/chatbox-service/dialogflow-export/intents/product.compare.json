@@ -1,0 +1,671 @@
+{
+  "id": "c582372d-e110-4419-a2df-d91e4160afce",
+  "name": "product.compare",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product_1",
+          "dataType": "@product-name",
+          "isList": true,
+          "required": true,
+          "prompts": [],
+          "value": "$product_1",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product_2",
+          "dataType": "@product-name",
+          "isList": true,
+          "required": true,
+          "prompts": [],
+          "value": "$product_2",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "price-range",
+          "dataType": "@price-range",
+          "isList": true,
+          "required": false,
+          "prompts": [],
+          "value": "$price-range",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " hay ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": true,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "fa562b61-c4e3-4a6e-9c36-73f2309c213f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xiaomi",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " hay ",
+          "userDefined": false
+        },
+        {
+          "text": "OPPO",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "2b952b0c-740a-40e0-a888-63c9ae376582",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " hay ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung",
+          "userDefined": true,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "e28a33b9-8b9b-4bc2-ae9d-786586de493a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "So sánh ",
+          "userDefined": false
+        },
+        {
+          "text": "ip 15",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "s24",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "0f2c3c49-2af8-498e-b3db-6f708beea06e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": true,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "dưới 20 triệu",
+          "userDefined": true,
+          "alias": "price-range",
+          "meta": "@price-range"
+        },
+        {
+          "text": " với ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung",
+          "userDefined": true,
+          "alias": "product_2",
+          "meta": "@product-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "dưới 20 triệu",
+          "userDefined": true,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "43055709-fd1e-4f90-a3c8-a37dc44adad2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " khác gì ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung S24",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "c6c199b0-182d-499d-a4c1-3f9bf192751c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "So sánh ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy A54",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "b6e076d2-f95b-44d7-869a-2ac38777b766",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nên mua ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi",
+          "userDefined": true,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " hay ",
+          "userDefined": false
+        },
+        {
+          "text": "OPPO",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "cb13a5dc-0e33-453b-a19f-c90fd25f271f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OPPO A17k",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " với ",
+          "userDefined": false
+        },
+        {
+          "text": "Realme C67",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "53c18ba7-c4be-4f05-919a-6969a17f6f0e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cái nào tốt hơn giữa ",
+          "userDefined": false
+        },
+        {
+          "text": "Vivo V30",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "Realme C67",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "2f074218-f015-4ebc-9c14-5500430e05d9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung S24",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " khác gì ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "ff30b947-4d3e-4b01-a159-2f1992a36e79",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "So sánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "OPPO Find N3 Flip",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "590f1fc3-b2f2-4f86-8b24-c359d6d3a33a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "So sánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi 14T",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "Redmi Note 13",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "a795984e-6868-4c92-ac4e-c4a11ce722fc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nên mua ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " hay ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy A54",
+          "userDefined": true,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "2940b47b-496b-433e-b831-85042554a61c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone 16",
+          "userDefined": true,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " với ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 16 Pro Max",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "5cf1b5a6-4021-4594-9156-1438cc215aa4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " khác gì ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24 Ultra",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "737f74dc-a222-4515-8c85-4b8ee67eb4c8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "So sánh ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 16",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 1,
+      "id": "12bf7b88-00ef-4acf-bb72-4ccc20696038",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Nên mua ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " hay ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung S24",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "fc4db2b1-d46b-419a-8c35-b40e25a3da51",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone 16 Pro Max",
+          "userDefined": true,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " với ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24 Ultra",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "6798ef82-12bd-4f99-bd86-e0348e3e400b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cái nào tốt hơn giữa ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung S24",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "ce5594d8-4df2-48c1-bd34-6b2d863095fb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone 16",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " khác gì ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24 Ultra",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "f75caebf-13eb-403b-bde1-ede84e5aea72",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "So sánh ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone 15",
+          "userDefined": false,
+          "alias": "product_1",
+          "meta": "@product-name"
+        },
+        {
+          "text": " và ",
+          "userDefined": false
+        },
+        {
+          "text": "Galaxy S24",
+          "userDefined": false,
+          "alias": "product_2",
+          "meta": "@product-name"
+        }
+      ],
+      "count": 0,
+      "id": "0a1e8135-535c-404d-9291-f3d8dc034d4f",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

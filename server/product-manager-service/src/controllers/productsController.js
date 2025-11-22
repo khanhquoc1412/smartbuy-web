@@ -7,6 +7,130 @@ exports.health = (req, res) => {
   res.json({ success: true, service: 'product-service', timestamp: new Date().toISOString() });
 };
 
+/**
+ * Search products for chatbot
+ * Query params: brand, priceRange, category, color, memory, limit
+ */
+exports.search = async (req, res) => {
+  try {
+    const { brand, priceRange, category, color, memory, limit = 10 } = req.query;
+    
+    console.log('🔍 Chatbot search params:', { brand, priceRange, category, color, memory, limit });
+
+    // Build filter
+    const filter = {};
+    
+    // Match brand (case-insensitive)
+    if (brand) {
+      const Brand = require('../models/brand');
+      const brandDoc = await Brand.findOne({ name: new RegExp(brand, 'i') });
+      if (brandDoc) filter.brand = brandDoc._id;
+    }
+    
+    // Match category (case-insensitive)
+    if (category) {
+      const Category = require('../models/category');
+      const categoryDoc = await Category.findOne({ name: new RegExp(category, 'i') });
+      if (categoryDoc) filter.category = categoryDoc._id;
+    }
+
+    // Price range mapping
+    const priceRanges = {
+      'duoi-3-trieu': { $lt: 3000000 },
+      '3-5-trieu': { $gte: 3000000, $lt: 5000000 },
+      '5-10-trieu': { $gte: 5000000, $lt: 10000000 },
+      '10-15-trieu': { $gte: 10000000, $lt: 15000000 },
+      '15-20-trieu': { $gte: 15000000, $lt: 20000000 },
+      '20-30-trieu': { $gte: 20000000, $lt: 30000000 },
+      'tren-30-trieu': { $gte: 30000000 }
+    };
+
+    if (priceRange && priceRanges[priceRange]) {
+      filter.basePrice = priceRanges[priceRange];
+    }
+
+    console.log('📊 MongoDB filter:', JSON.stringify(filter));
+
+    // Aggregate with lookup
+    const pipeline = [
+      { $match: filter },
+      {
+        $lookup: {
+          from: 'brands',
+          localField: 'brand',
+          foreignField: '_id',
+          as: 'brandDoc'
+        }
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'categoryDoc'
+        }
+      },
+      {
+        $lookup: {
+          from: 'productvariants',
+          let: { productId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    { $eq: ['$productId', '$$productId'] },
+                    { $eq: [{ $toString: '$productId' }, { $toString: '$$productId' }] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'variants'
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          slug: 1,
+          basePrice: 1,
+          thumbUrl: 1,
+          brand: { $arrayElemAt: ['$brandDoc.name', 0] },
+          category: { $arrayElemAt: ['$categoryDoc.name', 0] },
+          variants: 1
+        }
+      },
+      { $limit: parseInt(limit) }
+    ];
+
+    const products = await Product.aggregate(pipeline);
+
+    console.log(`✅ Found ${products.length} products`);
+
+    res.json({
+      success: true,
+      data: {
+        products: products.map(p => ({
+          _id: String(p._id),
+          slug: p.slug || '',
+          name: p.name,
+          price: p.basePrice,
+          brand: p.brand || '',
+          category: p.category || '',
+          image: p.thumbUrl || '',
+          variants: p.variants || []
+        })),
+        total: products.length
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Search error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 exports.list = async (req, res) => {
   try {
     const { q } = req.query;

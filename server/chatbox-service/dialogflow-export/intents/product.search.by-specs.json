@@ -1,0 +1,1260 @@
+{
+  "id": "325ca643-8f5f-48b5-95b9-ea1bc9f2458f",
+  "name": "product.search.by-specs",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product-category",
+          "dataType": "@product-category",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$product-category",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product-spec",
+          "dataType": "@product-spec",
+          "isList": true,
+          "required": true,
+          "prompts": [],
+          "value": "$product-spec",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "brand-name",
+          "dataType": "@brand-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$brand-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "price-range",
+          "dataType": "@price-range",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$price-range",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": true,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "dung lượng pin",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " lớn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "9fe5a0be-dcfa-4130-b91c-f70b14e952c0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "dt",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin trâu",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        }
+      ],
+      "count": 0,
+      "id": "3f355d37-416b-483c-8273-63c2eec79532",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "giá rẻ",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "35f94329-d2b3-4d50-ada0-bc8190073f21",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " của ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "32675719-62c7-4cf4-bc89-a6cfd59d3891",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3d2029d5-2337-4f93-9545-3d1bab14c46c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e70d782e-779e-4ef0-bcd1-aac01d1383bc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " lâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e31e80bb-3826-40a0-b446-4f357881bb3c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " khỏe",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2fbbbb83-f18a-4251-8f10-3126f046b6f1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "7c69ca98-3ae5-4e1c-8f3e-ea270f31cf7e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": true,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "pin trâu",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        }
+      ],
+      "count": 0,
+      "id": "5630653c-4a3d-476b-8ac4-0bec6546592f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "dt",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "chip",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0a86f13f-4736-4b3c-b0c5-674734b171b6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chip",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " của ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "dfc2d04f-1d59-4afa-b133-90fa7e9915a6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "chip",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " mạnh",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "6ef051d1-5c45-4b76-8acb-1dbd21a08913",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "chip",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "a907f96b-b4af-4d8b-a16b-361604612fbd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "vi xử lý",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "cao cấp",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "7beecbb1-5376-49dc-a48c-7a705879d029",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "chip",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8f5cf05c-ec09-4cb9-977f-37909fadb2e7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "chip",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " mạnh",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4fdf2f60-efaa-477a-a93b-155b3b6dc60a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "dt",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "selfie",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8d4bad8d-2b97-43d4-91fd-766925ff5876",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Camera trước",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " của ",
+          "userDefined": false
+        },
+        {
+          "text": "Vivo",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "420d7b66-3ac8-428d-8575-d7eace74e6ae",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OPPO",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera selfie",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4ad3ea26-9ebf-4871-bb85-926cbcb4b279",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera trước",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "95d1e3f1-133b-42bf-87da-cc56be811ca3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera selfie",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "358f0fcb-de47-4e51-b472-0ffc985450e9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera chính",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8319c6f9-b298-42b2-93c8-d4fa5a851d26",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "dt",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "chụp hình",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "424905d0-a505-4299-888e-7e6eb18732cd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "giá rẻ",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "d63e5b50-a8e4-49fe-b86c-79bd72c69083",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Camera",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " của ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "28460b99-0051-4b6d-9bbf-7a07d87ab0ae",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tìm ",
+          "userDefined": false
+        },
+        {
+          "text": "điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "cao cấp",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "c3f73d51-e61b-41ad-b38e-d6ba0ae605ee",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " camera ",
+          "userDefined": false
+        },
+        {
+          "text": "chụp",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d2279a92-c0df-407f-9f40-03ed924d6f4e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "a50b85e1-96fb-496e-9214-5c073c0592d0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera sau",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " mạnh",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "187bfe33-df72-4e49-a4c0-9acdce6ca1ac",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4462b3dd-59cd-4bbc-82e0-e3316816f796",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "camera",
+          "userDefined": true,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "55aaa0fa-b14f-41ea-bfb1-c19866af3597",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "dt",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "23452fc8-854e-4910-bf68-a0b89b23152a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "giá rẻ",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "831b76b5-9507-4db7-94fd-df2f080b857a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " của ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "5234c813-a5b0-40a5-9ed1-2ffe965afa49",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tìm ",
+          "userDefined": false
+        },
+        {
+          "text": "điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "cao cấp",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "97bf8d53-4464-44c1-9d23-8b4a41c74ae2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "91b75783-8282-4724-baf5-9544c13ee431",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "63162fbb-9729-4ad3-8cb5-f12f3b3570f0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " lớn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e53a382e-0315-4d88-b9fd-5a149acee193",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "\"",
+          "userDefined": false
+        },
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " đẹp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2796c437-2a85-44fd-ab4c-fc30d9741cc3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "màn hình",
+          "userDefined": false,
+          "alias": "product-spec",
+          "meta": "@product-spec"
+        },
+        {
+          "text": " tốt",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "907dde2b-0b98-411d-b0be-07b86896d561",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}
