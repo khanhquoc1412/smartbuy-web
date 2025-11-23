@@ -9,12 +9,13 @@ const PRODUCT_SERVICE_URL = process.env.PRODUCT_SERVICE_URL || 'http://localhost
  */
 exports.searchProducts = async (filters) => {
   try {
-    const { category, priceRange, limit = 5 } = filters;
+    const { category, priceRange, brand, limit = 5 } = filters;
 
     const params = {
       limit,
       ...(category && { category }),
-      ...(priceRange && { priceRange })
+      ...(priceRange && { priceRange }),
+      ...(brand && { brand })
     };
 
     const response = await axios.get(`${PRODUCT_SERVICE_URL}/api/products/search`, {
@@ -63,13 +64,14 @@ exports.searchProductsByBrand = async (filters) => {
  */
 exports.searchProductsByPrice = async (filters) => {
   try {
-    const { minPrice, maxPrice, category, limit = 5 } = filters;
+    const { minPrice, maxPrice, category, brand, limit = 5 } = filters;
 
     const params = {
       limit,
       minPrice,
       maxPrice,
-      ...(category && { category })
+      ...(category && { category }),
+      ...(brand && { brand })
     };
 
     const response = await axios.get(`${PRODUCT_SERVICE_URL}/api/products/search`, {
@@ -80,6 +82,64 @@ exports.searchProductsByPrice = async (filters) => {
     return response.data?.data?.products || [];
   } catch (error) {
     console.error('Error searching products by price:', error.message);
+    return [];
+  }
+};
+
+/**
+ * Search products by color
+ * @param {Object} filters - Color filters
+ * @returns {Promise<Array>} List of products
+ */
+exports.searchProductsByColor = async (filters) => {
+  try {
+    const { color, brand, priceRange, category, limit = 5 } = filters;
+
+    const params = {
+      limit,
+      color,
+      ...(brand && { brand }),
+      ...(priceRange && { priceRange }),
+      ...(category && { category })
+    };
+
+    const response = await axios.get(`${PRODUCT_SERVICE_URL}/api/products/search`, {
+      params,
+      timeout: 5000
+    });
+
+    return response.data?.data?.products || [];
+  } catch (error) {
+    console.error('Error searching products by color:', error.message);
+    return [];
+  }
+};
+
+/**
+ * Search products by memory capacity
+ * @param {Object} filters - Memory filters
+ * @returns {Promise<Array>} List of products
+ */
+exports.searchProductsByMemory = async (filters) => {
+  try {
+    const { memory, brand, priceRange, category, limit = 5 } = filters;
+
+    const params = {
+      limit,
+      memory,
+      ...(brand && { brand }),
+      ...(priceRange && { priceRange }),
+      ...(category && { category })
+    };
+
+    const response = await axios.get(`${PRODUCT_SERVICE_URL}/api/products/search`, {
+      params,
+      timeout: 5000
+    });
+
+    return response.data?.data?.products || [];
+  } catch (error) {
+    console.error('Error searching products by memory:', error.message);
     return [];
   }
 };

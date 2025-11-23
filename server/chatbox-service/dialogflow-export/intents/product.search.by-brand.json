@@ -13,7 +13,7 @@
   "liveAgentHandoff": false,
   "parentId": null,
   "followUpIntents": [],
-  "priority": 500000,
+  "priority": 600000,
   "responses": [
     {
       "action": "",

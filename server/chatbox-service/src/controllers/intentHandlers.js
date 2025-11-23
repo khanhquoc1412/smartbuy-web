@@ -13,44 +13,94 @@ const formatters = require('../utils/formatters');
  * PARAMETERS:
  * - product-category (optional): Loại sản phẩm (ví dụ: "điện thoại")
  * - price-range (optional): Khoảng giá (ví dụ: "dưới-5-trieu", "5-10-trieu")
+ * - brand-name (optional): Thương hiệu (ví dụ: "apple", "samsung")
+ * - min-price (optional): Giá tối thiểu (số, đơn vị triệu)
+ * - max-price (optional): Giá tối đa (số, đơn vị triệu)
  * 
  * RESPONSE: 
  * - Rich content cards hiển thị danh sách sản phẩm
  * - Suggestion chips gợi ý thương hiệu và mức giá
  * 
- * API CALL: GET /api/products/search?category=...&priceRange=...&limit=5
+ * API CALL: GET /api/products/search?category=...&priceRange=...&brand=...&limit=5
  */
 exports.handleProductSearch = async (parameters, queryResult) => {
   try {
     const category = parameters['product-category'];
-    const priceRange = parameters['price-range'];
+    let priceRange = parameters['price-range'];
+    const brand = parameters['brand-name'];
+    let minPrice = parameters['min-price'] || parameters['min_price'];
+    let maxPrice = parameters['max-price'] || parameters['max_price'];
 
-    console.log(`🔍 Searching products - Category: ${category}, Price: ${priceRange}`);
+    console.log(`🔍 Searching products:`, { category, priceRange, brand, minPrice, maxPrice });
 
-    // Call product service
-    const products = await productService.searchProducts({
-      category,
-      priceRange,
-      limit: 5
-    });
+    // Parse price-range nếu có format "X-Y triệu" và chưa có min/max
+    if (priceRange) {
+      const priceMatch = priceRange.match(/(\d+)-(\d+)\s*(triệu|tr|củ)/i);
+      if (priceMatch && !minPrice && !maxPrice) {
+        minPrice = parseInt(priceMatch[1]);
+        maxPrice = parseInt(priceMatch[2]);
+        priceRange = null; // Clear priceRange, sẽ dùng min/max
+        console.log(`📊 Parsed price range "${parameters['price-range']}" → ${minPrice}-${maxPrice} triệu`);
+      }
+    }
+
+    // Convert triệu → VND nếu có min/max price
+    let useNumericPrice = false;
+    if (minPrice || maxPrice) {
+      if (minPrice) minPrice = minPrice * 1000000;
+      if (maxPrice) maxPrice = maxPrice * 1000000;
+      
+      // Fix: Dialogflow đôi khi extract sai thứ tự (VD: "10-20 triệu" → min=20, max=10)
+      if (minPrice && maxPrice && minPrice > maxPrice) {
+        console.log(`⚠️ Swapping min/max: ${minPrice} <-> ${maxPrice}`);
+        [minPrice, maxPrice] = [maxPrice, minPrice];
+      }
+      
+      useNumericPrice = true;
+      console.log(`💰 Using numeric price: ${minPrice || 0} - ${maxPrice || 'unlimited'} VND`);
+    }
+
+    // Call appropriate API based on parameters
+    let products;
+    if (useNumericPrice) {
+      // Use numeric price API
+      if (!minPrice) minPrice = 0;
+      if (!maxPrice) maxPrice = 100000000;
+      
+      products = await productService.searchProductsByPrice({
+        minPrice,
+        maxPrice,
+        category,
+        brand,
+        limit: 5
+      });
+    } else {
+      // Use priceRange API
+      products = await productService.searchProducts({
+        category,
+        priceRange,
+        brand,
+        limit: 5
+      });
+    }
 
     if (!products || products.length === 0) {
       return {
-        fulfillmentText: `Xin lỗi, hiện tại chúng tôi không có điện thoại nào phù hợp với tiêu chí tìm kiếm. Bạn có thể thử tìm với thương hiệu hoặc mức giá khác không?`,
+        fulfillmentText: `Xin lỗi, hiện tại chúng tôi không có ${brand ? brand + ' ' : ''}điện thoại nào phù hợp với tiêu chí tìm kiếm. Bạn có thể thử tìm với thương hiệu hoặc mức giá khác không?`,
         fulfillmentMessages: [
           {
             text: {
-              text: [`Không tìm thấy điện thoại phù hợp. Bạn muốn xem thương hiệu nào? (iPhone, Samsung, Oppo, Xiaomi...)`]
+              text: [`Không tìm thấy ${brand ? brand + ' ' : ''}điện thoại phù hợp. Bạn muốn xem thương hiệu nào? (iPhone, Samsung, Oppo, Xiaomi...)`]
             }
           },
           {
             payload: {
               richContent: [
                 [{ type: 'chips', options: [
-                  { text: '🍎 iPhone' },
-                  { text: '📱 Samsung' },
-                  { text: '🔵 Oppo' },
-                  { text: '📲 Xiaomi' }
+                  { text: 'Điện thoại iPhone' },
+                  { text: 'Điện thoại Samsung' },
+                  { text: 'Điện thoại Oppo' },
+                  { text: 'Điện thoại Xiaomi' }
                 ]}]
               ]
             }
@@ -63,7 +113,7 @@ exports.handleProductSearch = async (parameters, queryResult) => {
     const productCards = products.map(product => ({
       type: 'info',
       title: product.name,
-      subtitle: `💰 ${formatters.formatPrice(product.price)}${product.brand ? ` • ${product.brand.name}` : ''}`,
+      subtitle: `💰 ${formatters.formatPrice(product.price)}${product.brand ? ` • ${product.brand}` : ''}`,
       image: {
         src: {
           rawUrl: product.image || 'https://via.placeholder.com/300'
@@ -72,15 +122,35 @@ exports.handleProductSearch = async (parameters, queryResult) => {
       actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
     }));
 
-    const responseText = `🔍 Tìm thấy ${products.length} sản phẩm ${category || 'phù hợp'}\n\n✨ Xem chi tiết bằng cách nhấn vào sản phẩm bên dưới:`;
+    // Build header text with dynamic info
+    let headerParts = [`🔍 Tìm thấy ${products.length} sản phẩm`];
+    if (brand) headerParts.push(brand);
+    if (useNumericPrice) {
+      headerParts.push(`\n📊 Khoảng giá: ${formatters.formatPrice(minPrice)} - ${formatters.formatPrice(maxPrice)}`);
+    } else if (priceRange) {
+      const priceRangeText = {
+        'duoi-3-trieu': 'dưới 3 triệu',
+        'duoi-5-trieu': 'dưới 5 triệu',
+        'duoi-10-trieu': 'dưới 10 triệu',
+        '3-5-trieu': '3-5 triệu',
+        '5-10-trieu': '5-10 triệu',
+        '10-15-trieu': '10-15 triệu',
+        '15-20-trieu': '15-20 triệu',
+        '20-30-trieu': '20-30 triệu'
+      };
+      headerParts.push(`\n📊 Khoảng giá: ${priceRangeText[priceRange] || priceRange}`);
+    }
+    headerParts.push('\n\n✨ Xem chi tiết bằng cách nhấn vào sản phẩm bên dưới:');
+
+    const responseText = headerParts.join(' ');
 
     // Suggestion chips
     const suggestionChips = [
       { type: 'chips', options: [
-        { text: '🍎 iPhone' },
-        { text: '📱 Samsung' },
-        { text: '💰 Điện thoại dưới 5 triệu' },
-        { text: '🎁 Khuyến mãi' }
+        { text: 'Điện thoại iPhone' },
+        { text: 'Điện thoại Samsung' },
+        { text: 'Điện thoại dưới 5 triệu' },
+        { text: 'Khuyến mãi' }
       ]}
     ];
 
@@ -158,7 +228,9 @@ exports.handleProductSearchByBrand = async (parameters, queryResult) => {
       actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
     }));
 
-    const headerText = `🔍 Tìm thấy ${products.length} sản phẩm ${brand}\n\n✨ Nhấn vào sản phẩm để xem chi tiết:`;
+    const headerParts = [`🔍 Tìm thấy ${products.length} sản phẩm ${brand}`];
+    headerParts.push('\n\n✨ Nhấn vào sản phẩm để xem chi tiết:');
+    const headerText = headerParts.join('\n');
 
     return {
       fulfillmentText: headerText,
@@ -174,16 +246,16 @@ exports.handleProductSearchByBrand = async (parameters, queryResult) => {
               productCards,
               [{ type: 'divider' }],
               [{ type: 'chips', options: [
-                { text: '🔍 Tìm thương hiệu khác' },
-                { text: '💰 Lọc theo giá' },
-                { text: '🏠 Trang chủ' }
+                { text: 'Tìm thương hiệu khác' },
+                { text: 'Lọc theo giá' },
+                { text: 'Chính sách mua hàng' }
               ]}]
             ]
           }
         }
       ]
     };
-
+  
   } catch (error) {
     console.error('Error in handleProductSearchByBrand:', error);
     return {
@@ -210,29 +282,150 @@ exports.handleProductSearchByBrand = async (parameters, queryResult) => {
  */
 exports.handleProductSearchByPrice = async (parameters, queryResult) => {
   try {
-    const minPrice = parameters['min_price'];
-    const maxPrice = parameters['max_price'];
+    // Check nếu có priceRange (string) hoặc min/max price (number)
+    const priceRange = parameters['price-range'];
+    const brand = parameters['brand-name'];
+    let minPrice = parameters['min-price'] || parameters['min_price'];
+    let maxPrice = parameters['max-price'] || parameters['max_price'];
     const category = parameters['product-category'];
 
-    console.log(`🔍 Searching products - Price: ${minPrice}-${maxPrice}, Category: ${category}`);
+    console.log(`🔍 Search by price params:`, { priceRange, brand, minPrice, maxPrice, category });
+
+    // Nếu có priceRange (VD: "5-10-trieu"), ưu tiên dùng priceRange
+    if (priceRange) {
+      // Nếu priceRange không match với entity chuẩn, parse từ text
+      // VD: "5-15 triệu" → minPrice=5M, maxPrice=15M
+      const priceMatch = priceRange.match(/(\d+)-(\d+)\s*(triệu|tr|củ)/i);
+      if (priceMatch && !minPrice && !maxPrice) {
+        minPrice = parseInt(priceMatch[1]) * 1000000;
+        maxPrice = parseInt(priceMatch[2]) * 1000000;
+        console.log(`📊 Parsed price range "${priceRange}" → ${minPrice}-${maxPrice}`);
+        // Fall through to numeric handling below
+      } else {
+        // Dùng API với priceRange (backend đã có logic xử lý)
+        const products = await productService.searchProducts({
+          priceRange,
+          brand,
+          category,
+          limit: 5
+        });
+
+        if (!products || products.length === 0) {
+          return {
+            fulfillmentText: `Không tìm thấy sản phẩm${brand ? ` ${brand}` : ''} trong khoảng giá này. Bạn muốn xem khoảng giá khác không?`
+          };
+        }
+
+        // Map priceRange to display text
+        const priceRangeText = {
+          // Khoảng giá cụ thể
+          '3-5-trieu': '3-5 triệu',
+          '5-10-trieu': '5-10 triệu',
+          '10-15-trieu': '10-15 triệu',
+          '15-20-trieu': '15-20 triệu',
+          '20-30-trieu': '20-30 triệu',
+          // Dưới X triệu (entity value)
+          'duoi-3-trieu': 'dưới 3 triệu',
+          'duoi-5-trieu': 'dưới 5 triệu',
+          'duoi-10-trieu': 'dưới 10 triệu',
+          'duoi-15-trieu': 'dưới 15 triệu',
+          'duoi-20-trieu': 'dưới 20 triệu',
+          'duoi-30-trieu': 'dưới 30 triệu',
+          // Trên X triệu (entity value)
+          'tren-20-trieu': 'trên 20 triệu',
+          'tren-30-trieu': 'trên 30 triệu',
+          // Text tự do fallback
+          'dưới 3 triệu': 'dưới 3 triệu',
+          'dưới 5 triệu': 'dưới 5 triệu',
+          'dưới 10 triệu': 'dưới 10 triệu',
+          'dưới 15 triệu': 'dưới 15 triệu',
+          'dưới 20 triệu': 'dưới 20 triệu',
+          'dưới 30 triệu': 'dưới 30 triệu',
+          'trên 20 triệu': 'trên 20 triệu',
+          'trên 30 triệu': 'trên 30 triệu'
+        };
+
+        const productCards = products.map(product => ({
+          type: 'info',
+          title: product.name,
+          subtitle: `💰 ${formatters.formatPrice(product.price)}${product.brand ? ` • ${product.brand}` : ''}`,
+          image: {
+            src: {
+              rawUrl: product.image || 'https://via.placeholder.com/300'
+            }
+          },
+          actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
+        }));
+
+        const headerParts = [`💰 Tìm thấy ${products.length} sản phẩm${brand ? ` ${brand}` : ''}`];
+        headerParts.push(`📊 Khoảng giá: ${priceRangeText[priceRange] || priceRange}`);
+        headerParts.push('\n✨ Các sản phẩm phù hợp với ngân sách của bạn:');
+        const headerText = headerParts.join('\n');
+
+        return {
+          fulfillmentText: headerText,
+          fulfillmentMessages: [
+            {
+              text: {
+                text: [headerText]
+              }
+            },
+            {
+              payload: {
+                richContent: [
+                  productCards,
+                  [{ type: 'divider' }],
+                  [{ type: 'chips', options: [
+                    { text: 'Dưới 5 triệu' },
+                    { text: '5-10 triệu' },
+                    { text: '10-20 triệu' },
+                    { text: 'Trên 20 triệu' }
+                  ]}]
+                ]
+              }
+            }
+          ]
+        };
+      }
+    }
+
+    // Nếu không có priceRange, dùng minPrice/maxPrice
+    // Dialogflow gửi giá theo triệu (VD: 10 = 10 triệu)
+    // Cần convert sang VND (10 triệu = 10,000,000 VND)
+    if (minPrice) minPrice = minPrice * 1000000;
+    if (maxPrice) maxPrice = maxPrice * 1000000;
+
+    // Fix: Dialogflow đôi khi extract sai thứ tự (VD: "10-20 triệu" → min=20, max=10)
+    // Swap nếu min > max
+    if (minPrice && maxPrice && minPrice > maxPrice) {
+      console.log(`⚠️ Swapping min/max: ${minPrice} <-> ${maxPrice}`);
+      [minPrice, maxPrice] = [maxPrice, minPrice];
+    }
+
+    // Default values nếu không có
+    if (!minPrice) minPrice = 0;
+    if (!maxPrice) maxPrice = 100000000; // 100 triệu
+
+    console.log(`🔍 Searching products - Price: ${minPrice}-${maxPrice} VND, Brand: ${brand}, Category: ${category}`);
 
     const products = await productService.searchProductsByPrice({
       minPrice,
       maxPrice,
       category,
+      brand,
       limit: 5
     });
 
     if (!products || products.length === 0) {
       return {
-        fulfillmentText: `Không tìm thấy sản phẩm nào trong khoảng giá ${formatters.formatPrice(minPrice)} - ${formatters.formatPrice(maxPrice)}. Bạn muốn xem khoảng giá khác không?`
+        fulfillmentText: `Không tìm thấy sản phẩm${brand ? ` ${brand}` : ''} trong khoảng giá ${formatters.formatPrice(minPrice)} - ${formatters.formatPrice(maxPrice)}. Bạn muốn xem khoảng giá khác không?`
       };
     }
 
     const productCards = products.map(product => ({
       type: 'info',
       title: product.name,
-      subtitle: `💰 ${formatters.formatPrice(product.price)}${product.brand ? ` • ${product.brand.name}` : ''}`,
+      subtitle: `💰 ${formatters.formatPrice(product.price)}${product.brand ? ` • ${product.brand}` : ''}`,
       image: {
         src: {
           rawUrl: product.image || 'https://via.placeholder.com/300'
@@ -241,7 +434,10 @@ exports.handleProductSearchByPrice = async (parameters, queryResult) => {
       actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
     }));
 
-    const headerText = `💰 Tìm thấy ${products.length} sản phẩm\n📊 Khoảng giá: ${formatters.formatPrice(minPrice)} - ${formatters.formatPrice(maxPrice)}\n\n✨ Các sản phẩm phù hợp với ngân sách của bạn:`;
+    const headerParts = [`💰 Tìm thấy ${products.length} sản phẩm${brand ? ` ${brand}` : ''}`];
+    headerParts.push(`📊 Khoảng giá: ${formatters.formatPrice(minPrice)} - ${formatters.formatPrice(maxPrice)}`);
+    headerParts.push('\n✨ Các sản phẩm phù hợp với ngân sách của bạn:');
+    const headerText = headerParts.join('\n');
 
     return {
       fulfillmentText: headerText,
@@ -257,10 +453,10 @@ exports.handleProductSearchByPrice = async (parameters, queryResult) => {
               productCards,
               [{ type: 'divider' }],
               [{ type: 'chips', options: [
-                { text: '💵 Dưới 5 triệu' },
-                { text: '💸 5-10 triệu' },
-                { text: '💎 10-20 triệu' },
-                { text: '👑 Trên 20 triệu' }
+                { text: 'Dưới 5 triệu' },
+                { text: '5-10 triệu' },
+                { text: '10-20 triệu' },
+                { text: 'Trên 20 triệu' }
               ]}]
             ]
           }
@@ -304,20 +500,22 @@ exports.handleProductDetail = async (parameters, queryResult) => {
       };
     }
 
-    const detailText = `
-📱 ${product.name}
-💰 Giá: ${formatters.formatPrice(product.price)}
-📦 Tình trạng: ${product.inStock ? 'Còn hàng' : 'Hết hàng'}
-⭐ Đánh giá: ${product.rating || 'Chưa có'}/5
-🔥 ${product.discount ? `Giảm ${product.discount}%` : 'Không giảm giá'}
-    `.trim();
+    // Build detailed info sections
+    const priceInfo = `💰 **Giá bán:** ${formatters.formatPrice(product.price)}`;
+    const stockInfo = `📦 **Tình trạng:** ${product.inStock ? 'Còn hàng ✅' : 'Hết hàng ❌'}`;
+    const ratingInfo = `⭐ **Đánh giá:** ${product.rating || 'Chưa có đánh giá'}/5`;
+    const discountInfo = product.discount 
+      ? `🔥 **Khuyến mãi:** Giảm ${product.discount}%` 
+      : `💎 **Giá gốc:** Không có chương trình giảm giá`;
+
+    const fulfillmentText = `🔥 Thông tin chi tiết về sản phẩm 🔥`;
 
     return {
-      fulfillmentText: detailText,
+      fulfillmentText: fulfillmentText,
       fulfillmentMessages: [
         {
           text: {
-            text: [detailText]
+            text: [fulfillmentText]
           }
         },
         {
@@ -326,8 +524,36 @@ exports.handleProductDetail = async (parameters, queryResult) => {
               [
                 {
                   type: 'info',
+                  title: `💰 Giá bán`,
+                  subtitle: formatters.formatPrice(product.price)
+                }
+              ],
+              [
+                {
+                  type: 'info',
+                  title: `📦 Tình trạng`,
+                  subtitle: product.inStock ? 'Còn hàng ✅' : 'Hết hàng ❌'
+                }
+              ],
+              [
+                {
+                  type: 'info',
+                  title: `⭐ Đánh giá`,
+                  subtitle: `${product.rating || 'Chưa có đánh giá'}/5`
+                }
+              ],
+              [
+                {
+                  type: 'info',
+                  title: product.discount ? `🔥 Khuyến mãi` : `💎 Giá gốc`,
+                  subtitle: product.discount ? `Giảm ${product.discount}%` : 'Không có chương trình giảm giá'
+                }
+              ],
+              [
+                {
+                  type: 'info',
                   title: product.name,
-                  subtitle: formatters.formatPrice(product.price),
+                  subtitle: `💰 ${formatters.formatPrice(product.price)} • ${product.inStock ? '✅ Còn hàng' : '❌ Hết hàng'}`,
                   image: {
                     src: {
                       rawUrl: product.image || 'https://via.placeholder.com/300'
@@ -335,7 +561,12 @@ exports.handleProductDetail = async (parameters, queryResult) => {
                   },
                   actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
                 }
-              ]
+              ],
+              [{ type: 'divider' }],
+              [{ type: 'chips', options: [
+                { text: '📱 Tìm sản phẩm khác' },
+                { text: '🎁 Xem khuyến mãi' }
+              ]}]
             ]
           }
         }
@@ -396,16 +627,16 @@ exports.handleOrderTrack = async (parameters, queryResult, session) => {
     // Format order items for accordion
     const orderItems = order.orderItems || [];
     const itemsList = orderItems.map((item, index) => 
-      `${index + 1}. ${item.name}\n   • Số lượng: ${item.qty}\n   • Giá: ${formatters.formatPrice(item.price)}`
-    ).join('\n\n');
+      `${index + 1}. ${item.name}<br/>   • Số lượng: ${item.qty}<br/>   • Giá: ${formatters.formatPrice(item.price)}`
+    ).join('<br/><br/>');
 
-    const headerText = `📦 **THÔNG TIN ĐƠN HÀNG**\n\n🔖 Mã đơn: **${orderNumber}**\n📍 Trạng thái: **${statusText}**\n💰 Tổng tiền: **${formatters.formatPrice(order.totalPrice)}**\n📅 Ngày đặt: ${formatters.formatDate(order.createdAt)}${order.shippingInfo?.trackingNumber ? `\n🚚 Mã vận đơn: ${order.shippingInfo.trackingNumber}` : ''}`;
+    const headerText = `📦 **THÔNG TIN ĐƠN HÀNG** 📦`;
 
     const richContent = [
       [{
         type: 'info',
         title: `Đơn hàng ${orderNumber}`,
-        subtitle: `${statusText} • ${formatters.formatPrice(order.totalPrice)}`
+        subtitle: `${statusText} • Tổng tiền: ${formatters.formatPrice(order.totalPrice)}`
       }],
       [{ type: 'divider' }]
     ];
@@ -427,16 +658,18 @@ exports.handleOrderTrack = async (parameters, queryResult, session) => {
         type: 'accordion',
         title: '📍 Địa chỉ giao hàng',
         subtitle: `${addr.fullName} - ${addr.phone}`,
-        text: `👤 ${addr.fullName}\n📱 ${addr.phone}\n🏠 ${addr.address}, ${addr.ward}, ${addr.district}, ${addr.province}`
+        text: `👤 ${addr.fullName}<br/>📱 ${addr.phone}<br/>🏠 ${addr.address}, ${addr.ward}, ${addr.district}, ${addr.province}`
       }]);
     }
 
     richContent.push(
       [{ type: 'divider' }],
       [{ type: 'chips', options: [
-        { text: '❌ Hủy đơn hàng' },
+        { 
+          text: '🌐 Quản lý đơn hàng',
+          link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/orders`
+        },
         { text: '📞 Liên hệ hỗ trợ' },
-        { text: '🏠 Trang chủ' }
       ]}]
     );
 
@@ -469,90 +702,103 @@ exports.handleOrderTrack = async (parameters, queryResult, session) => {
  * TRIGGER: "Hủy đơn hàng", "Huỷ đơn ORD-20251115-E4AED6", "Không muốn mua nữa"
  * 
  * PARAMETERS:
- * - order-id (required): Mã đơn hàng cần hủy
+ * - order-id (optional): Mã đơn hàng cần hủy
  * 
  * RESPONSE:
- * - Thành công: Hiển thị thông tin hoàn tiền (3-5 ngày)
- * - Thất bại: Hiển thị lý do + hotline hỗ trợ
- * - Chips: Xem đơn hàng khác, Tiếp tục mua sắm
+ * - Hướng dẫn user đến trang quản lý đơn hàng để hủy an toàn
+ * - Hoặc liên hệ hotline để được hỗ trợ
+ * - Chips: Link đến trang đơn hàng, Gọi hotline
  * 
  * LOGIC:
- * 1. Gọi orderService.getOrderByNumber() để tìm đơn
- * 2. Kiểm tra trạng thái có thể hủy (pending, confirmed, processing)
- * 3. Gọi API PATCH /api/orders/:id/status với status='cancelled'
- * 
- * API CALL: 
- * - GET /api/orders?search=... (tìm đơn)
- * - PATCH /api/orders/:id/status (hủy đơn)
+ * Không hủy trực tiếp qua chatbox vì:
+ * - Không xác thực được người dùng
+ * - Rủi ro bảo mật cao
+ * - Cần confirm và xác nhận rõ ràng
  */
 exports.handleOrderCancel = async (parameters, queryResult, session) => {
   try {
     const orderId = parameters['order-id'];
 
-    console.log(`❌ Canceling order - ID: ${orderId}`);
+    console.log(`❌ Order cancel request - ID: ${orderId}`);
 
-    if (!orderId) {
-      return {
-        fulfillmentText: 'Vui lòng cung cấp mã đơn hàng bạn muốn hủy.'
-      };
-    }
+    const headerParts = ['❌ **YÊU CẦU HỦY ĐƠN HÀNG**'];
+    headerParts.push('\nĐể đảm bảo an toàn và xác thực, vui lòng:');
+    const headerText = headerParts.join('\n');
 
-    const result = await orderService.cancelOrder(orderId);
+    const guideText = `📱 **CÁCH HỦY ĐƠN HÀNG:**<br/><br/>**1️⃣ Qua website:**<br/>• Đăng nhập tài khoản<br/>• Vào "Đơn hàng của tôi"<br/>• Chọn đơn cần hủy → Nhấn "Hủy đơn"<br/>• Xác nhận và hoàn tiền 3-5 ngày<br/><br/>**2️⃣ Qua hotline:**<br/>• Gọi: 1900-xxxx (miễn phí)<br/>• Cung cấp mã đơn: ${orderId || '(chưa có)'}`;
 
-    if (result.success) {
-      const successText = `✅ **HỦY ĐƠN THÀNH CÔNG**\n\n🔖 Mã đơn: ${orderId}\n\n💳 Hoàn tiền:\n• Thời gian: 3-5 ngày làm việc\n• Phương thức: Hoàn về tài khoản gốc\n\n📞 Cần hỗ trợ? Liên hệ: 1900-xxxx`;
-      
-      return {
-        fulfillmentText: successText,
-        fulfillmentMessages: [
-          {
-            text: {
-              text: [successText]
-            }
-          },
-          {
-            payload: {
-              richContent: [
-                [{ type: 'divider' }],
-                [{ type: 'chips', options: [
-                  { text: '📦 Xem đơn hàng khác' },
-                  { text: '🛍️ Tiếp tục mua sắm' },
-                  { text: '📞 Liên hệ hỗ trợ' }
-                ]}]
-              ]
-            }
-          }
+    const richContent = [
+      [{
+        type: 'accordion',
+        title: '📱 Hướng dẫn hủy đơn hàng',
+        subtitle: '👇 Nhấn để xem chi tiết',
+        text: guideText
+      }],
+      [{ type: 'divider' }],
+      [{
+        type: 'info',
+        title: '⚠️ Lưu ý quan trọng',
+        subtitle: 'Vì sao không thể hủy trực tiếp qua chatbox?'
+      }],
+      [{
+        type: 'description',
+        title: 'Lý do bảo mật:',
+        text: [
+          '🔒 Cần xác thực người dùng',
+          '✅ Tránh hủy nhầm hoặc lợi dụng',
+          '💳 Đảm bảo quy trình hoàn tiền chính xác',
+          '📋 Lưu lại lịch sử hủy đơn'
         ]
-      };
+      }],
+      [{ type: 'divider' }]
+    ];
+
+    // Add chips with links
+    const chips = [{
+      type: 'chips',
+      options: []
+    }];
+
+    if (orderId) {
+      chips[0].options.push({
+        text: '🌐 Mở trang đơn hàng',
+        link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/orders`
+      });
     } else {
-      const errorText = `❌ **KHÔNG THỂ HỦY ĐƠN**\n\n${result.message || 'Đơn hàng không thể hủy ở trạng thái hiện tại'}\n\n📞 Vui lòng liên hệ: 1900-xxxx`;
-      
-      return {
-        fulfillmentText: errorText,
-        fulfillmentMessages: [
-          {
-            text: {
-              text: [errorText]
-            }
-          },
-          {
-            payload: {
-              richContent: [
-                [{ type: 'chips', options: [
-                  { text: '📦 Kiểm tra đơn hàng' },
-                  { text: '📞 Gọi hotline' }
-                ]}]
-              ]
-            }
-          }
-        ]
-      };
+      chips[0].options.push({
+        text: '🌐 Xem đơn hàng của tôi',
+        link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/orders`
+      });
     }
+
+    chips[0].options.push(
+      { text: '📞 Gọi hotline 1900-xxxx' },
+      { text: '💬 Chat với CSKH' },
+      { text: '📦 Tra cứu đơn hàng' }
+    );
+
+    richContent.push(chips);
+
+    return {
+      fulfillmentText: headerText + '\n\n1️⃣ Vào website → Đơn hàng của tôi → Hủy đơn\n2️⃣ Gọi hotline: 1900-xxxx',
+      fulfillmentMessages: [
+        {
+          text: {
+            text: [headerText]
+          }
+        },
+        {
+          payload: {
+            richContent
+          }
+        }
+      ]
+    };
 
   } catch (error) {
     console.error('Error in handleOrderCancel:', error);
     return {
-      fulfillmentText: 'Có lỗi xảy ra khi hủy đơn hàng.'
+      fulfillmentText: 'Vui lòng liên hệ hotline 1900-xxxx để được hỗ trợ hủy đơn hàng.'
     };
   }
 };
@@ -583,12 +829,13 @@ exports.handlePromotionCheck = async (parameters, queryResult) => {
 
     // TODO: Call promotion service
     const promotions = [
-      { title: 'Flash Sale 12.12', discount: '50%', code: 'FLASH1212', desc: 'Giảm đến 50% cho tất cả sản phẩm\nÁp dụng: Tất cả danh mục\nThời gian: 12/12/2025' },
-      { title: 'Giảm 1 triệu cho iPhone', discount: '1.000.000đ', code: 'IPHONE1M', desc: 'Giảm ngay 1 triệu đồng\nÁp dụng: Dòng iPhone 15, 16\nĐơn tối thiểu: 15 triệu' },
-      { title: 'Trả góp 0% - Không lãi suất', discount: 'Trả góp 0%', code: 'TRAGOP0', desc: 'Trả góp 0% lãi suất\nÁp dụng: Tất cả điện thoại\nThời gian: 6-12 tháng' }
+      { title: '🔥 Flash Sale 12.12', discount: '50%', code: 'FLASH1212', desc: 'Giảm đến 50% cho tất cả sản phẩm<br/>Áp dụng: Tất cả danh mục<br/>Thời gian: 12/12/2025' },
+      { title: '🎁 Giảm 1 triệu cho iPhone', discount: '1.000.000đ', code: 'IPHONE1M', desc: 'Giảm ngay 1 triệu đồng<br/>Áp dụng: Dòng iPhone 15, 16<br/>Đơn tối thiểu: 15 triệu' },
+      { title: '🎉Trả góp 0% - Không lãi suất', discount: 'Trả góp 0%', code: 'TRAGOP0', desc: 'Trả góp 0% lãi suất<br/>Áp dụng: Tất cả điện thoại<br/>Thời gian: 6-12 tháng' }
     ];
 
-    const headerText = `🎁 **CHƯƠNG TRÌNH KHUYẾN MÃI**\n\n🔥 Đang có ${promotions.length} chương trình hot!\n\n👇 Nhấn để xem chi tiết:`;
+    const headerParts = ['🎁 CHƯƠNG TRÌNH KHUYẾN MÃI'];
+    const headerText = headerParts.join('\n');
 
     const promoAccordions = promotions.map(promo => ({
       type: 'accordion',
@@ -616,8 +863,8 @@ exports.handlePromotionCheck = async (parameters, queryResult) => {
                 subtitle: 'Nhập mã tại trang thanh toán để nhận ưu đãi'
               }],
               [{ type: 'chips', options: [
-                { text: '🛍️ Mua ngay' },
-                { text: '📱 Xem sản phẩm' }
+                { text: 'Chính sách giao hàng' },
+                { text: 'Xem thêm điện thoại' }
               ]}]
             ]
           }
@@ -659,8 +906,13 @@ exports.handlePromotionCheck = async (parameters, queryResult) => {
  */
 exports.handlePriceCompare = async (parameters, queryResult) => {
   try {
-    const product1Name = parameters['product-name-1'];
-    const product2Name = parameters['product-name-2'];
+    // Extract product parameters (Dialogflow uses product_1 and product_2)
+    const product1Param = parameters['product_1'] || parameters['product-name-1'];
+    const product2Param = parameters['product_2'] || parameters['product-name-2'];
+    
+    // Handle array format from Dialogflow
+    const product1Name = Array.isArray(product1Param) ? product1Param[0] : product1Param;
+    const product2Name = Array.isArray(product2Param) ? product2Param[0] : product2Param;
 
     console.log(`⚖️ Comparing products - ${product1Name} vs ${product2Name}`);
 
@@ -683,11 +935,12 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
     const cheaper = product1.price < product2.price ? product1 : product2;
     const moreExpensive = product1.price < product2.price ? product2 : product1;
 
-    const headerText = `⚖️ **SO SÁNH SẢN PHẨM**\n\n💡 ${cheaper.name} **rẻ hơn** ${formatters.formatPrice(priceDiff)}`;
+    const headerParts = ['⚖️ **SO SÁNH SẢN PHẨM** ⚖️'];
+    const headerText = headerParts.join('\n');
 
-    const product1Details = `📱 **${product1.name}**\n\n💰 Giá: ${formatters.formatPrice(product1.price)}\n⭐ Đánh giá: ${product1.rating || 'N/A'}/5\n📦 Tình trạng: ${product1.inStock ? 'Còn hàng' : 'Hết hàng'}`;
+    const product1Details = `📱 **${product1.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product1.price)}<br/>⭐ Đánh giá: ${product1.rating || 'N/A'}/5<br/>📦 Tình trạng: ${product1.inStock ? 'Còn hàng' : 'Hết hàng'}`;
     
-    const product2Details = `📱 **${product2.name}**\n\n💰 Giá: ${formatters.formatPrice(product2.price)}\n⭐ Đánh giá: ${product2.rating || 'N/A'}/5\n📦 Tình trạng: ${product2.inStock ? 'Còn hàng' : 'Hết hàng'}`;
+    const product2Details = `📱 **${product2.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product2.price)}<br/>⭐ Đánh giá: ${product2.rating || 'N/A'}/5<br/>📦 Tình trạng: ${product2.inStock ? 'Còn hàng' : 'Hết hàng'}`;
 
     return {
       fulfillmentText: headerText,
@@ -763,18 +1016,20 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
     const brand = parameters['brand-name'];
     const priceRange = parameters['price-range'];
     
-    console.log(`🎨 Searching products - Color: ${colors}, Brand: ${brand}`);
+    console.log(`🎨 Searching products - Color: ${colors}, Brand: ${brand}, PriceRange: ${priceRange}`);
 
-    // TODO: Implement color search in product service
-    // For now, search by brand and filter by color manually
-    const products = await productService.searchProductsByBrand({
+    // Call product service with color parameter
+    const products = await productService.searchProductsByColor({
+      color: Array.isArray(colors) ? colors[0] : colors,
       brand: brand || undefined,
+      priceRange: priceRange || undefined,
       category: 'dien-thoai',
       limit: 5
     });
 
+    const colorText = Array.isArray(colors) ? colors.join(', ') : colors;
+
     if (!products || products.length === 0) {
-      const colorText = Array.isArray(colors) ? colors.join(', ') : colors;
       return {
         fulfillmentText: `Xin lỗi, hiện tại chúng tôi không có điện thoại màu ${colorText}${brand ? ` của ${brand}` : ''}. Bạn muốn xem màu khác không?`,
         fulfillmentMessages: [
@@ -799,11 +1054,10 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
       };
     }
 
-    const colorText = Array.isArray(colors) ? colors.join(', ') : colors;
     const productCards = products.map(product => ({
       type: 'info',
       title: product.name,
-      subtitle: `💰 ${formatters.formatPrice(product.price)} • 🎨 ${colorText}${product.brand ? ` • ${product.brand.name}` : ''}`,
+      subtitle: `💰 ${formatters.formatPrice(product.price)} • 🎨 ${colorText}${product.brand ? ` • ${product.brand}` : ''}`,
       image: {
         src: {
           rawUrl: product.image || 'https://via.placeholder.com/300'
@@ -812,7 +1066,9 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
       actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
     }));
 
-    const headerText = `🎨 Tìm thấy ${products.length} điện thoại màu ${colorText}\n\n✨ Nhấn vào sản phẩm để xem chi tiết:`;
+    const headerParts = [`🎨 Tìm thấy ${products.length} điện thoại màu ${colorText}${brand ? ` ${brand}` : ''}`];
+    headerParts.push('\n✨ Nhấn vào sản phẩm để xem chi tiết:');
+    const headerText = headerParts.join('\n');
 
     return {
       fulfillmentText: headerText,
@@ -831,7 +1087,6 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
                 { text: '⚫ Xem màu đen' },
                 { text: '⚪ Xem màu trắng' },
                 { text: '🔵 Xem màu xanh' },
-                { text: '🏠 Trang chủ' }
               ]}]
             ]
           }
@@ -870,8 +1125,9 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
     
     console.log(`💾 Searching products - Memory: ${memory}, Brand: ${brand}`);
 
-    // TODO: Implement memory search in product service
-    const products = await productService.searchProductsByBrand({
+    // Call specialized memory search service
+    const products = await productService.searchProductsByMemory({
+      memory: memory,
       brand: brand || undefined,
       category: 'dien-thoai',
       limit: 5
@@ -902,10 +1158,15 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
       };
     }
 
+    // Determine if searching for RAM or ROM
+    const isRamSearch = memory.toLowerCase().includes('ram');
+    const displayMemory = memory.toUpperCase();
+    const memoryEmoji = isRamSearch ? '🧠' : '💾';
+    
     const productCards = products.map(product => ({
       type: 'info',
       title: product.name,
-      subtitle: `💰 ${formatters.formatPrice(product.price)} • 💾 ${memory.toUpperCase()}${product.brand ? ` • ${product.brand.name}` : ''}`,
+      subtitle: `💰 ${formatters.formatPrice(product.price)} • ${memoryEmoji} ${displayMemory}${product.brand ? ` • ${product.brand}` : ''}`,
       image: {
         src: {
           rawUrl: product.image || 'https://via.placeholder.com/300'
@@ -914,7 +1175,9 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
       actionLink: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product.slug || product._id}`
     }));
 
-    const headerText = `💾 Tìm thấy ${products.length} điện thoại ${memory.toUpperCase()}\n\n✨ Nhấn vào sản phẩm để xem chi tiết:`;
+    const headerParts = [`${memoryEmoji} Tìm thấy ${products.length} điện thoại ${displayMemory}`];
+    headerParts.push('\n\n✨ Nhấn vào sản phẩm để xem chi tiết:');
+    const headerText = headerParts.join('\n');
 
     return {
       fulfillmentText: headerText,
@@ -930,10 +1193,12 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
               productCards,
               [{ type: 'divider' }],
               [{ type: 'chips', options: [
-                { text: '💾 128GB' },
-                { text: '💾 256GB' },
-                { text: '💾 512GB' },
-                { text: '🏠 Trang chủ' }
+                { text: '128GB Rom' },
+                { text: '256GB Rom' },
+                { text: '512GB Rom' },
+                { text: '4GB Ram' },
+                { text: '8GB Ram' },
+                { text: '12GB Ram' }
               ]}]
             ]
           }
@@ -975,11 +1240,11 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
         items: [
           {
             title: '⚡ Giao hàng nhanh',
-            text: '• Nội thành: 2-4 giờ\n• Ngoại thành: 1-2 ngày\n• Tỉnh xa: 2-3 ngày\n• Miễn phí ship đơn > 500k'
+            text: '• Nội thành: 2-4 giờ<br/>• Ngoại thành: 1-2 ngày<br/>• Tỉnh xa: 2-3 ngày<br/>• Miễn phí ship đơn > 500k'
           },
           {
             title: '📦 Kiểm tra hàng',
-            text: '• Được mở hộp kiểm tra trước khi nhận\n• Từ chối nếu sản phẩm không đúng\n• Đổi trả ngay nếu có lỗi'
+            text: '• Được mở hộp kiểm tra trước khi nhận<br/>• Từ chối nếu sản phẩm không đúng<br/>• Đổi trả ngay nếu có lỗi'
           }
         ],
         hotline: '1900-xxxx'
@@ -990,11 +1255,11 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
         items: [
           {
             title: '⏰ Thời gian đổi trả',
-            text: '• 7 ngày đầu: Đổi trả miễn phí\n• Lỗi nhà sản xuất: Đổi mới 100%\n• Đổi ý: Hoàn 90% giá trị'
+            text: '• 7 ngày đầu: Đổi trả miễn phí<br/>• Lỗi nhà sản xuất: Đổi mới 100%<br/>• Đổi ý: Hoàn 90% giá trị'
           },
           {
             title: '📝 Điều kiện',
-            text: '• Còn nguyên hộp, phụ kiện\n• Chưa qua sử dụng\n• Có hóa đơn mua hàng'
+            text: '• Còn nguyên hộp, phụ kiện<br/>• Chưa qua sử dụng<br/>• Có hóa đơn mua hàng'
           }
         ],
         hotline: '1900-xxxx'
@@ -1005,11 +1270,11 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
         items: [
           {
             title: '⏱️ Thời gian bảo hành',
-            text: '• Điện thoại: 12 tháng\n• Pin, sạc: 6 tháng\n• Phụ kiện: 3 tháng\n• Bảo hành tại nhà sản xuất'
+            text: '• Điện thoại: 12 tháng<br/>• Pin, sạc: 6 tháng<br/>• Phụ kiện: 3 tháng<br/>• Bảo hành tại nhà sản xuất'
           },
           {
             title: '🔧 Dịch vụ bảo hành',
-            text: '• Miễn phí vệ sinh máy\n• Kiểm tra định kỳ\n• Hỗ trợ kỹ thuật 24/7\n• Bảo hành tận nơi (VIP)'
+            text: '• Miễn phí vệ sinh máy<br/>• Kiểm tra định kỳ<br/>• Hỗ trợ kỹ thuật 24/7<br/>• Bảo hành tận nơi (VIP)'
           }
         ],
         hotline: '1900-xxxx'
@@ -1020,15 +1285,15 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
         items: [
           {
             title: '💵 Thanh toán khi nhận hàng (COD)',
-            text: '• Thanh toán tiền mặt khi nhận\n• Không mất phí COD\n• An toàn, tiện lợi'
+            text: '• Thanh toán tiền mặt khi nhận<br/>• Không mất phí COD<br/>• An toàn, tiện lợi'
           },
           {
             title: '💳 Thanh toán online',
-            text: '• Ví điện tử: MoMo, ZaloPay, VNPay\n• Thẻ tín dụng/ghi nợ\n• Chuyển khoản ngân hàng\n• Giảm thêm 2% khi thanh toán online'
+            text: '• Ví điện tử: MoMo, ZaloPay, VNPay<br/>• Thẻ tín dụng/ghi nợ<br/>• Chuyển khoản ngân hàng<br/>• Giảm thêm 2% khi thanh toán online'
           },
           {
             title: '🏦 Trả góp 0%',
-            text: '• Trả góp qua thẻ tín dụng\n• Lãi suất 0%\n• Thời gian: 6-12 tháng\n• Duyệt nhanh trong 15 phút'
+            text: '• Trả góp qua thẻ tín dụng<br/>• Lãi suất 0%<br/>• Thời gian: 6-12 tháng<br/>• Duyệt nhanh trong 15 phút'
           }
         ],
         hotline: '1900-xxxx'
@@ -1049,7 +1314,9 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
       text: item.text
     }));
 
-    const headerText = `${policy.icon} **${policy.title}**\n\n👇 Nhấn để xem chi tiết:`;
+    const headerParts = [`${policy.icon} **${policy.title}**`];
+    headerParts.push('\n👇 Nhấn để xem chi tiết:');
+    const headerText = headerParts.join('\n');
 
     return {
       fulfillmentText: headerText,
@@ -1072,7 +1339,6 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
               [{ type: 'chips', options: [
                 { text: '📞 Gọi hotline' },
                 { text: '💬 Chat với tư vấn viên' },
-                { text: '🏠 Trang chủ' }
               ]}]
             ]
           }
@@ -1107,7 +1373,9 @@ exports.handleContactSupport = async (parameters, queryResult) => {
   try {
     console.log(`📞 Contact support request`);
 
-    const headerText = `📞 **LIÊN HỆ HỖ TRỢ**\n\n🎧 Chúng tôi luôn sẵn sàng hỗ trợ bạn!`;
+    const headerParts = ['📞 **LIÊN HỆ HỖ TRỢ**'];
+    headerParts.push('\n\n🎧 Chúng tôi luôn sẵn sàng hỗ trợ bạn!');
+    const headerText = headerParts.join('\n');
 
     return {
       fulfillmentText: headerText,
@@ -1124,32 +1392,33 @@ exports.handleContactSupport = async (parameters, queryResult) => {
                 type: 'accordion',
                 title: '📞 Hotline - 1900-xxxx',
                 subtitle: 'Hỗ trợ 24/7 - Miễn phí cuộc gọi',
-                text: '• Hỗ trợ 24/7\n• Miễn phí cuộc gọi\n• Tư vấn viên chuyên nghiệp'
+                text: '• Hỗ trợ 24/7<br/>• Miễn phí cuộc gọi<br/>• Tư vấn viên chuyên nghiệp'
               }],
               [{
                 type: 'accordion',
                 title: '💬 Chat trực tuyến',
                 subtitle: 'Phản hồi trong 1 phút',
-                text: '• Phản hồi trong 1 phút\n• Hỗ trợ qua Facebook, Zalo\n• Chat ngay trên website'
+                text: '• Phản hồi trong 1 phút<br/>• Hỗ trợ qua Facebook, Zalo<br/>• Chat ngay trên website'
               }],
               [{
                 type: 'accordion',
                 title: '📧 Email - support@smartbuy.vn',
                 subtitle: 'Phản hồi trong 24h',
-                text: '• Phản hồi trong 24h\n• Gửi khiếu nại, góp ý\n• Hỗ trợ kỹ thuật'
+                text: '• Phản hồi trong 24h<br/>• Gửi khiếu nại, góp ý<br/>• Hỗ trợ kỹ thuật'
               }],
               [{
                 type: 'accordion',
                 title: '🏢 Địa chỉ showroom',
                 subtitle: 'Mở cửa: 8h - 22h (Hằng ngày)',
-                text: '• 123 Đường ABC, Quận 1, TP.HCM\n• 456 Đường XYZ, Quận Hai Bà Trưng, Hà Nội\n• Mở cửa: 8h - 22h (Hằng ngày)'
+                text: '• 123 Đường ABC, Quận 1, TP.HCM<br/>• 456 Đường XYZ, Quận Hai Bà Trưng, Hà Nội<br/>• Mở cửa: 8h - 22h (Hằng ngày)'
               }],
               [{ type: 'divider' }],
               [{ type: 'chips', options: [
                 { text: '📞 Gọi ngay 1900-xxxx' },
-                { text: '💬 Chat Facebook' },
+                { text: '💬 Chat Facebook',
+                  link: 'https://www.facebook.com/nguyen.van.phap.648220'
+                },
                 { text: '💬 Chat Zalo' },
-                { text: '🏠 Trang chủ' }
               ]}]
             ]
           }

@@ -9,16 +9,24 @@ exports.health = (req, res) => {
 
 /**
  * Search products for chatbot
- * Query params: brand, priceRange, category, color, memory, limit
+ * Query params: brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit
  */
 exports.search = async (req, res) => {
   try {
-    const { brand, priceRange, category, color, memory, limit = 10 } = req.query;
+    const { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit = 10 } = req.query;
     
-    console.log('🔍 Chatbot search params:', { brand, priceRange, category, color, memory, limit });
+    console.log('🔍 Chatbot search params:', { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit });
 
     // Build filter
     const filter = {};
+    
+    // Search by keyword (name or slug)
+    if (keyword) {
+      filter.$or = [
+        { name: new RegExp(keyword, 'i') },
+        { slug: new RegExp(keyword, 'i') }
+      ];
+    }
     
     // Match brand (case-insensitive)
     if (brand) {
@@ -34,22 +42,122 @@ exports.search = async (req, res) => {
       if (categoryDoc) filter.category = categoryDoc._id;
     }
 
-    // Price range mapping
+    // Price range mapping (string-based)
     const priceRanges = {
-      'duoi-3-trieu': { $lt: 3000000 },
+      // Khoảng giá cụ thể
       '3-5-trieu': { $gte: 3000000, $lt: 5000000 },
       '5-10-trieu': { $gte: 5000000, $lt: 10000000 },
       '10-15-trieu': { $gte: 10000000, $lt: 15000000 },
       '15-20-trieu': { $gte: 15000000, $lt: 20000000 },
       '20-30-trieu': { $gte: 20000000, $lt: 30000000 },
-      'tren-30-trieu': { $gte: 30000000 }
+      // Dưới X triệu (entity value)
+      'duoi-3-trieu': { $lt: 3000000 },
+      'duoi-5-trieu': { $lt: 5000000 },
+      'duoi-10-trieu': { $lt: 10000000 },
+      'duoi-15-trieu': { $lt: 15000000 },
+      'duoi-20-trieu': { $lt: 20000000 },
+      'duoi-30-trieu': { $lt: 30000000 },
+      // Trên X triệu (entity value)
+      'tren-20-trieu': { $gte: 20000000 },
+      'tren-30-trieu': { $gte: 30000000 },
+      // Text tự do fallback (nếu entity không match)
+      'dưới 3 triệu': { $lt: 3000000 },
+      'dưới 5 triệu': { $lt: 5000000 },
+      'dưới 10 triệu': { $lt: 10000000 },
+      'dưới 15 triệu': { $lt: 15000000 },
+      'dưới 20 triệu': { $lt: 20000000 },
+      'dưới 30 triệu': { $lt: 30000000 },
+      'trên 20 triệu': { $gte: 20000000 },
+      'trên 30 triệu': { $gte: 30000000 }
     };
 
     if (priceRange && priceRanges[priceRange]) {
       filter.basePrice = priceRanges[priceRange];
     }
 
+    // Price filter (number-based) - has higher priority than priceRange
+    if (minPrice || maxPrice) {
+      filter.basePrice = {};
+      if (minPrice) filter.basePrice.$gte = parseInt(minPrice);
+      if (maxPrice) filter.basePrice.$lte = parseInt(maxPrice);
+    }
+
     console.log('📊 MongoDB filter:', JSON.stringify(filter));
+
+    // If color filter is provided, find colorId first
+    let colorId = null;
+    if (color) {
+      const Color = require('../models/color');
+      const colorDoc = await Color.findOne({ name: new RegExp(color, 'i') });
+      if (colorDoc) {
+        colorId = colorDoc._id;
+        console.log(`🎨 Found color: ${colorDoc.name} (${colorId})`);
+      } else {
+        console.log(`⚠️ Color "${color}" not found in database`);
+        // Return empty result if color doesn't exist
+        return res.json({
+          success: true,
+          data: {
+            products: [],
+            total: 0
+          }
+        });
+      }
+    }
+
+    // If memory filter is provided, find memoryId first
+    let memoryId = null;
+    if (memory) {
+      const Memory = require('../models/memory');
+      
+      // DEBUG: Log all available memories
+      const allMemories = await Memory.find({}).select('rom ram _id');
+      console.log('🔍 Available memories in database:', allMemories.map(m => ({ rom: m.rom, ram: m.ram, id: String(m._id) })));
+      
+      // Normalize memory: "512gb" -> "512GB", "4gb-ram" -> "4GB"
+      const normalizedMemory = memory.replace(/\s/g, '').toUpperCase();
+      console.log(`🔍 Searching for memory: "${memory}" -> normalized: "${normalizedMemory}"`);
+      
+      let memoryDoc = null;
+      
+      // Check if searching for RAM (contains "RAM" suffix)
+      if (normalizedMemory.includes('RAM') || normalizedMemory.includes('-RAM')) {
+        // Extract RAM value: "4GB-RAM" -> "4GB"
+        const ramValue = normalizedMemory.replace(/-?RAM$/i, '');
+        console.log(`🔍 Searching for RAM: "${ramValue}"`);
+        
+        memoryDoc = await Memory.findOne({ 
+          ram: new RegExp(`^${ramValue}$`, 'i') 
+        });
+        
+        if (memoryDoc) {
+          memoryId = memoryDoc._id;
+          console.log(`💾 Found memory by RAM: ROM=${memoryDoc.rom}, RAM=${memoryDoc.ram} (${memoryId})`);
+        }
+      } else {
+        // Search by ROM field (storage capacity like "512GB")
+        memoryDoc = await Memory.findOne({ 
+          rom: new RegExp(`^${normalizedMemory}$`, 'i') 
+        });
+        
+        if (memoryDoc) {
+          memoryId = memoryDoc._id;
+          console.log(`💾 Found memory by ROM: ROM=${memoryDoc.rom}, RAM=${memoryDoc.ram} (${memoryId})`);
+        }
+      }
+      
+      if (!memoryDoc) {
+        console.log(`⚠️ Memory "${memory}" not found in database`);
+        // Return empty result if memory doesn't exist
+        return res.json({
+          success: true,
+          data: {
+            products: [],
+            total: 0
+          }
+        });
+      }
+    }
 
     // Aggregate with lookup
     const pipeline = [
@@ -84,21 +192,52 @@ exports.search = async (req, res) => {
                   ]
                 }
               }
-            }
+            },
+            // Filter by colorId if provided (ObjectId reference)
+            ...(colorId ? [{
+              $match: {
+                colorId: colorId
+              }
+            }] : []),
+            // Filter by memoryId if provided (ObjectId reference)
+            ...(memoryId ? [{
+              $match: {
+                memoryId: memoryId
+              }
+            }] : [])
           ],
           as: 'variants'
         }
       },
+      // Only keep products that have matching color variants
+      ...(colorId ? [{ $match: { 'variants.0': { $exists: true } } }] : []),
+      // Only keep products that have matching memory variants
+      ...(memoryId ? [{ $match: { 'variants.0': { $exists: true } } }] : []),
       {
         $project: {
           _id: 1,
           name: 1,
           slug: 1,
           basePrice: 1,
+          discountPercentage: 1,
           thumbUrl: 1,
           brand: { $arrayElemAt: ['$brandDoc.name', 0] },
           category: { $arrayElemAt: ['$categoryDoc.name', 0] },
-          variants: 1
+          variants: 1,
+          // Calculate total stock from all variants
+          totalStock: { $sum: '$variants.stock' },
+          // Calculate selling price: basePrice - (basePrice * discountPercentage / 100)
+          sellingPrice: {
+            $subtract: [
+              '$basePrice',
+              {
+                $multiply: [
+                  '$basePrice',
+                  { $divide: [{ $ifNull: ['$discountPercentage', 0] }, 100] }
+                ]
+              }
+            ]
+          }
         }
       },
       { $limit: parseInt(limit) }
@@ -115,10 +254,14 @@ exports.search = async (req, res) => {
           _id: String(p._id),
           slug: p.slug || '',
           name: p.name,
-          price: p.basePrice,
+          price: Math.round(p.sellingPrice || p.basePrice), // Use calculated selling price
+          basePrice: p.basePrice,
+          discount: p.discountPercentage || 0,
           brand: p.brand || '',
           category: p.category || '',
           image: p.thumbUrl || '',
+          inStock: (p.totalStock || 0) > 0, // Check if total stock > 0
+          stock: p.totalStock || 0,
           variants: p.variants || []
         })),
         total: products.length

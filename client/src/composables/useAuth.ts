@@ -4,6 +4,7 @@ import { ACCESS_TOKEN_KEY, USER_ID, REFRESH_TOKEN_KEY } from "@/utils/constants"
 import { storeToRefs } from "pinia";
 import { useStorage } from "@vueuse/core";
 import { ILoginBody, IRegisterBody } from "@/types/auth.types";
+import { IUser } from "@/types/user.types";
 
 
 export const useAuth = () => {
@@ -94,7 +95,11 @@ export const useAuth = () => {
 
   const signOut = () => {
     accessToken.value = null;
+    refreshToken.value = null;
     userId.value = null;
+    loggedIn.value = false;
+    user.value = {} as IUser;
+    localStorage.clear();
     router.push("/login");
 };
 
