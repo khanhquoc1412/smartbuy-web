@@ -165,7 +165,7 @@ watch([() => params.value.brand], ([newBrand]) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 });
 
 const handleSort = async (dir: string) => {
@@ -190,7 +190,7 @@ const handleSort = async (dir: string) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 
 // const handleSort = async (dir: string) => {
@@ -231,7 +231,7 @@ const updateHandler = async (newPage: number) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 </script>
 <route lang="yaml">

@@ -19,12 +19,25 @@ exports.getAllOrders = async (req, res) => {
     // Build filter
     const filter = {};
 
-    // Search by order number or customer name
+    // Check if search looks like order ID
+    let isSearchingByOrderId = false;
+    let searchUpperCase = '';
+    
     if (search) {
-      filter.$or = [
-        { 'shippingAddress.fullName': { $regex: search, $options: 'i' } },
-        { 'shippingAddress.phone': { $regex: search, $options: 'i' } }
-      ];
+      // Check if search contains order ID pattern (ORD-YYYYMMDD-XXXXXX or just XXXXXX)
+      const orderIdPattern = /(?:ORD-\d{8}-)?([A-F0-9]{2,})/i;
+      const match = search.match(orderIdPattern);
+      
+      if (match) {
+        isSearchingByOrderId = true;
+        searchUpperCase = search.toUpperCase();
+      } else {
+        // Normal search by name or phone
+        filter.$or = [
+          { 'shippingAddress.fullName': { $regex: search, $options: 'i' } },
+          { 'shippingAddress.phone': { $regex: search, $options: 'i' } }
+        ];
+      }
     }
 
     // Filter by order status
@@ -48,7 +61,44 @@ exports.getAllOrders = async (req, res) => {
       }
     }
 
-    // Pagination
+    // If searching by order ID, get all matching orders and filter in JS
+    if (isSearchingByOrderId) {
+      const allOrders = await Order.find(filter)
+        .sort({ createdAt: -1 })
+        .lean();
+      
+      // Generate orderNumber and filter
+      const matchedOrders = allOrders.filter(order => {
+        const orderNumber = Order.generateOrderNumber(order._id, order.createdAt);
+        return orderNumber.includes(searchUpperCase);
+      });
+      
+      const totalItems = matchedOrders.length;
+      const totalPages = Math.ceil(totalItems / parseInt(limit));
+      const skip = (page - 1) * parseInt(limit);
+      
+      // Apply pagination
+      const paginatedOrders = matchedOrders.slice(skip, skip + parseInt(limit));
+      
+      // Add orderNumber to results
+      const ordersWithNumber = paginatedOrders.map(order => ({
+        ...order,
+        orderNumber: Order.generateOrderNumber(order._id, order.createdAt)
+      }));
+      
+      return res.json({
+        success: true,
+        items: ordersWithNumber,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          totalItems,
+          totalPages
+        }
+      });
+    }
+
+    // Normal query (not searching by order ID)
     const skip = (page - 1) * limit;
     const totalItems = await Order.countDocuments(filter);
     const totalPages = Math.ceil(totalItems / limit);

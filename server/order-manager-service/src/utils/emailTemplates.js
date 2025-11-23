@@ -165,7 +165,7 @@ const generateOrderEmailTemplate = ({
               </p>
               <p style="margin: 0; color: #9ca3af; font-size: 13px;">
                 Nếu bạn có thắc mắc, vui lòng liên hệ: 
-                <a href="mailto:phapn460@smartbuy.vn" style="color: #dc2626; text-decoration: none;">support@smartbuy.vn</a>
+                <a href="mailto:phapn460@gmail.com" style="color: #dc2626; text-decoration: none;">support@smartbuy.vn</a>
               </p>
               <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                 <p style="margin: 0; color: #9ca3af; font-size: 12px;">

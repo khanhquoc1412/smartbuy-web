@@ -3,7 +3,7 @@ import { createApp } from "vue";
 import router from "./router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import library from '@/plugins/fontAwesomeIcons'
-import { VueQueryPlugin } from "vue-query";
+import { VueQueryPlugin,QueryClient } from "@tanstack/vue-query";
 import { createPinia } from     "pinia";
 import mitt from    "mitt";
 import axios from "axios";
@@ -23,6 +23,17 @@ library
 // api interceptors
 interceptors(axios);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+      gcTime: 0,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      retry: 1,
+    },
+  },
+});
 //define libs
 const pinia = createPinia();
 const emitter = mitt();
@@ -34,7 +45,7 @@ app.provide("emitter", emitter);
 
 //use libs
 app.use(pinia)
-app.use(VueQueryPlugin)
+app.use(VueQueryPlugin, { queryClient })
 app.use(router)
 app.use(vuetify)
 app.component('font-awesome-icon', FontAwesomeIcon)

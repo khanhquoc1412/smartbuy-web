@@ -96,6 +96,7 @@ export const useAuth = () => {
     accessToken.value = null;
     userId.value = null;
     router.push("/login");
+    window.location.reload();
 };
 
 
