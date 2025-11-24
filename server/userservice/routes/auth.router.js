@@ -92,5 +92,6 @@ router.get(
 
 // Optional: Logout (clear token ở frontend, optional ở backend)
 router.post("/logout", auth, authController.logout);
+router.post("/change-password", auth, authController.changePassword); // ✅ New route
 
 module.exports = router;

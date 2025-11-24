@@ -10,7 +10,10 @@ import {
     faStar,
     faMobile,
     faLaptop,
-    faCalendarDays
+    faCalendarDays,
+    faPenToSquare,  // ✅ THÊM import
+    faTrashCan,      // ✅ THÊM import
+    faCircleCheck,   // ✅ THÊM import
 
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -30,6 +33,10 @@ library.add(faUserSecret,
     faStar,
     faMobile,
     faLaptop,
+    faUser,
+  faPenToSquare,  // ✅ Thêm vào library
+  faTrashCan,     // ✅ Thêm vào library
+  faCircleCheck,  // ✅ Thêm vào library
 )
 
 export default library

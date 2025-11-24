@@ -11,6 +11,14 @@
           {{ getNameCategory(product?.categoryName) }}
           {{ product?.name }}
         </p> -->
+        <AddToCartModal
+          :is-open="showAddToCartModal"
+          :product-info="addedProductInfo"
+          :total-items="totalItems"
+          @close="showAddToCartModal = false"
+          @update-quantity="handleUpdateQuantity"
+          @view-cart="handleViewCart"
+        />
         <p>
           {{ getNameCategory(product?.categoryName) }}
           {{ productFullName }}
@@ -307,7 +315,7 @@ import Heading from "@/components/base/Heading.vue";
 // // Thay dòng này
 // import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";
 import { useGetProductDetails, useListProductsSale } from "@/api/product/query";
-import { useAddProductToCartMutation } from "@/api/cart/query";
+import { useAddToCartMutation } from "@/api/cart/query";
 import { formatMoney } from "@/utils/formatMoney";
 import { getNameCategory } from "@/utils/getNameCategory";
 import { getListVariant } from "@/utils/product/getListVariant";
@@ -320,6 +328,8 @@ import { useAuth } from "@/composables/useAuth";
 import { useCart } from "@/composables/useCart";
 import { useStorage } from "@vueuse/core";
 import { PRODUCT_GUEST } from "@/utils/constants";
+import AddToCartModal from "@/components/cart/AddToCartModal.vue";
+
 interface IProductSelected {
   id: string | null;
   variantId?: number | null;
@@ -340,7 +350,7 @@ const productFullName = computed(() => {
   );
   // Ghép cấu hình nếu có
   if (variant?.memory?.ram && variant?.memory?.rom) {
-    name += ` ${variant.memory.ram}GB/${variant.memory.rom}GB`;
+    name += ` ${variant.memory.ram}/${variant.memory.rom}`;
   }
   // Ghép màu nếu có
   if (variant?.color?.name) {
@@ -504,46 +514,291 @@ const handleUpdateProductSelected = (colorId?: number, memoryId?: number) => {
     productSelected.memoryId = memoryId;
   }
 };
-const handleAddToCart = async () => {
-  if (!loggedIn.value) {
-    router.push("/login");
-  }
-  if (product.value?.productVariants) {
-    const variant = product.value?.productVariants?.find((variant) => {
-      return (
-        variant.color?.id === productSelected.colorId &&
-        variant.memory?.id === productSelected.memoryId
-      );
-    });
-    if (variant?.id) {
-      await addToCart({ userId: userId.value, productVariantId: variant?.id });
+const { totalItems, updateQuantity, cart, refetchCart } = useCart();
+
+const showAddToCartModal = ref(false);
+const addedProductInfo = ref<{
+  name: string;
+  image: string;
+  price: number;
+  quantity: number;
+  color?: string;
+  memory?: string;
+  maxStock?: number;
+  cartItemId?: string;
+} | null>(null);
+
+// ✅ Get cart data
+
+// ...existing code...
+
+// ✅ Handle update quantity từ modal
+const handleUpdateQuantity = async (newQuantity: number) => {
+  console.log("🔄 Updating quantity to:", newQuantity);
+  // Nếu cần update quantity trên server, gọi API ở đây
+  // await updateQuantity(cartItemId, newQuantity);
+  // updateModalQuantity(newQuantity); // ✅ Gọi method từ useCart composable
+};
+
+const handleViewCart = async (newQuantity: number) => {
+  try {
+    console.log(
+      "🛒 [PARENT] handleViewCart called with quantity:",
+      newQuantity
+    );
+    console.log("📊 [PARENT] addedProductInfo:", addedProductInfo.value);
+    console.log(
+      "📊 [PARENT] Cart item ID:",
+      addedProductInfo.value?.cartItemId
+    );
+
+    const itemId = addedProductInfo.value?.cartItemId;
+
+    if (!itemId) {
+      console.error("❌ [PARENT] No cart item ID found");
+      alert("❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.");
+      return;
     }
-  } else {
-    alert("Error ..");
+
+    // ✅ Only update if quantity changed and > 1
+    if (newQuantity > 1) {
+      console.log(`📝 [PARENT] Updating quantity from 1 to ${newQuantity}...`);
+
+      await updateQuantity(itemId, newQuantity);
+
+      console.log("✅ [PARENT] Quantity updated successfully");
+    } else {
+      console.log("ℹ️ [PARENT] Quantity = 1, no update needed");
+    }
+  } catch (error) {
+    console.error("❌ [PARENT] Error updating cart item:", error);
+    alert("Có lỗi xảy ra khi cập nhật số lượng");
+    throw error;
   }
 };
-const handleBuyNow = async () => {
-  if (userId) {
-    await handleAddToCart();
-    router.push("/cart");
-  } else {
-    const productForBuy = useStorage(PRODUCT_GUEST, "");
-    if (product.value?.productVariants) {
-      const variant = product.value?.productVariants?.find((variant) => {
-        return (
-          variant.color?.id === productSelected.colorId &&
-          variant.memory?.id === productSelected.memoryId
-        );
+
+const selectedVariant = computed(() => {
+  if (!product.value?.productVariants) return null;
+
+  return product.value.productVariants.find((variant: any) => {
+    const colorId = variant.color?.id ?? variant.color?._id;
+    const memoryId = variant.memory?.id ?? variant.memory?._id;
+
+    return (
+      String(colorId) === String(productSelected.colorId) &&
+      String(memoryId) === String(productSelected.memoryId)
+    );
+  });
+});
+
+// ========== COMPUTED: Lấy ID của variant đang chọn ==========
+const selectedVariantId = computed(() => {
+  return selectedVariant.value?._id ?? selectedVariant.value?.id ?? null;
+});
+
+// ========== COMPUTED: Danh sách variant (để tiện sử dụng) ==========
+const variants = computed(() => {
+  return product.value?.productVariants ?? [];
+});
+
+// ...existing code...
+
+// const handleAddToCart = async () => {
+//   if (!product.value) {
+//     alert("❌ Không tìm thấy thông tin sản phẩm");
+//     return;
+//   }
+
+//   if (!selectedVariant.value) {
+//     alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+//     return;
+//   }
+
+//   const payload = {
+//     productId: String(product.value._id || product.value.id || ""),
+//     variantId: String(
+//       selectedVariant.value._id || selectedVariant.value.id || ""
+//     ),
+//     quantity: 1,
+//   };
+
+//   if (!payload.productId || !payload.variantId) {
+//     alert("❌ Không tìm thấy ID sản phẩm hoặc phiên bản");
+//     return;
+//   }
+
+//   try {
+//     await addToCart(payload);
+
+//     // ✅ Lưu thông tin sản phẩm vừa thêm (bao gồm stock)
+//     addedProductInfo.value = {
+//       name: product.value.name,
+//       image: product.value.thumbUrl || "",
+//       price: selectedVariant.value.price || 0,
+//       quantity: 1,
+//       color: selectedVariant.value.color?.name,
+//       memory: `${selectedVariant.value.memory?.ram}/${selectedVariant.value.memory?.rom}`,
+//       maxStock: selectedVariant.value.stock || 99,
+//     };
+
+//     // ✅ Hiển thị modal
+//     showAddToCartModal.value = true;
+//   } catch (error: any) {
+//     console.error("❌ Error adding to cart:", error);
+//     alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+//   }
+// };
+
+const handleAddToCart = async () => {
+  if (!product.value) {
+    alert("❌ Không tìm thấy thông tin sản phẩm");
+    return;
+  }
+
+  if (!selectedVariant.value) {
+    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    return;
+  }
+
+  const payload = {
+    productId: String(product.value._id || product.value.id || ""),
+    variantId: String(
+      selectedVariant.value._id || selectedVariant.value.id || ""
+    ),
+    quantity: 1,
+  };
+
+  if (!payload.productId || !payload.variantId) {
+    alert("❌ Không tìm thấy ID sản phẩm hoặc phiên bản");
+    return;
+  }
+
+  try {
+    // ✅ STEP 1: Add to cart
+    console.log("🛒 [STEP 1] Adding to cart...");
+    await addToCart(payload);
+
+    console.log("✅ [STEP 1] Added to cart successfully");
+
+    // ✅ STEP 2: Refetch cart to get updated data with item IDs
+    console.log("🔄 [STEP 2] Refetching cart to get cart item ID...");
+    await refetchCart();
+
+    console.log("✅ [STEP 2] Cart refetched");
+    console.log("📦 [STEP 2] Cart data:", cart.value);
+    console.log("📦 [STEP 2] Cart items:", cart.value?.items);
+
+    // ✅ STEP 3: Find the added item from cart
+    let cartItemId: string | null = null;
+
+    if (
+      cart.value?.items &&
+      Array.isArray(cart.value.items) &&
+      cart.value.items.length > 0
+    ) {
+      console.log(`📦 [STEP 3] Found ${cart.value.items.length} items in cart`);
+
+      // ✅ Tìm item theo variantId
+      const addedItem = cart.value.items.find((item: any) => {
+        const itemVariantId = String(item.variantId?._id || item.variantId);
+        const targetVariantId = String(payload.variantId);
+
+        console.log(`🔍 Comparing: ${itemVariantId} === ${targetVariantId}`);
+
+        return itemVariantId === targetVariantId;
       });
-      if (variant?.id) {
-        productForBuy.value = (variant?.id).toString();
-        router.push("/cart/checkout");
+
+      if (addedItem) {
+        cartItemId = String(addedItem._id || addedItem.id || "");
+        console.log("✅ [STEP 3] Found item by variantId:", cartItemId);
+        console.log("📦 [STEP 3] Item details:", addedItem);
+      } else {
+        console.warn("⚠️ [STEP 3] No item matched variantId, using last item");
+        const lastItem = cart.value.items[cart.value.items.length - 1];
+        cartItemId = String(lastItem?._id || lastItem?.id || "");
+        console.log("⚠️ [STEP 3] Last item ID:", cartItemId);
       }
     } else {
-      alert("Error ..");
+      console.error("❌ [STEP 3] Cart items is empty or not an array");
+    }
+
+    console.log("💾 [FINAL] Cart item ID:", cartItemId);
+
+    // ✅ STEP 4: Save product info with cartItemId
+    addedProductInfo.value = {
+      name: product.value.name,
+      image: product.value.thumbUrl || "",
+      price: selectedVariant.value.price || 0,
+      quantity: 1,
+      color: selectedVariant.value.color?.name,
+      memory: `${selectedVariant.value.memory?.ram}/${selectedVariant.value.memory?.rom}`,
+      maxStock: selectedVariant.value.stock || 99,
+      cartItemId: cartItemId || undefined,
+    };
+
+    if (!cartItemId) {
+      console.error("❌ [FINAL] No cartItemId found, update will NOT work");
+      console.error("❌ [FINAL] addedProductInfo:", addedProductInfo.value);
+    } else {
+      console.log("✅ [FINAL] Cart item ID saved:", cartItemId);
+    }
+
+    // ✅ STEP 5: Show modal
+    showAddToCartModal.value = true;
+  } catch (error: any) {
+    console.error("❌ Error adding to cart:", error);
+    alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+  }
+};
+
+const handleBuyNow = async () => {
+  if (!product.value) {
+    alert("❌ Không tìm thấy thông tin sản phẩm");
+    return;
+  }
+
+  if (!selectedVariant.value) {
+    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    return;
+  }
+
+  if (userId.value) {
+    // User đã login → Thêm vào cart → Chuyển sang checkout
+    try {
+      const payload = {
+        productId: String(product.value._id || product.value.id || ""),
+        variantId: String(
+          selectedVariant.value._id || selectedVariant.value.id || ""
+        ),
+        quantity: 1,
+      };
+
+      console.log("🛒 Thêm vào giỏ hàng để mua ngay...");
+      await addToCart(payload);
+
+      // Refetch giỏ hàng
+      await refetchCart();
+
+      // Chuyển sang trang checkout
+      await router.push("/cart/checkout");
+    } catch (error: any) {
+      console.error("❌ Error in buy now:", error);
+      alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+    }
+  } else {
+    // Guest → Lưu variantId vào localStorage → Chuyển checkout
+    const productForBuy = useStorage(PRODUCT_GUEST, "");
+    const variantId = selectedVariant.value._id || selectedVariant.value.id;
+
+    if (variantId) {
+      productForBuy.value = String(variantId);
+      await router.push("/cart/checkout");
+    } else {
+      alert("❌ Không tìm thấy thông tin sản phẩm");
     }
   }
 };
+
 onMounted(() => {
   setProductSelectedValues();
 });

@@ -101,6 +101,7 @@ export const useAuth = () => {
     user.value = {} as IUser;
     localStorage.clear();
     router.push("/login");
+    window.location.reload();
 };
 
 

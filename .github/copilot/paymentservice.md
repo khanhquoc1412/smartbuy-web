@@ -21,5 +21,5 @@ paymentservice/
 | GET | /payment/:id | Xem chi tiết thanh toán |
 
 ## Ghi chú
-- Hỗ trợ phương thức COD, chuyển khoản, Momo.
+- Hỗ trợ phương thức VNplay, chuyển khoản, Momo.
 - Khi thanh toán thành công → gửi callback tới order-service.

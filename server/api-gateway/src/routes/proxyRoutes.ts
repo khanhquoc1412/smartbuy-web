@@ -6,7 +6,10 @@ const router = Router();
 const services = {
   // ===== USER SERVICE (port 3005) - Backend cũ =====
   auth: { url: process.env.USER_SERVICE_URL || 'http://localhost:3005', path: '/api/auth' },
-  
+ userAddresses: { // ✅ User addresses - PATH MỚI
+    url: process.env.USER_SERVICE_URL || 'http://localhost:3005',
+    path: '/api/user/addresses' // 
+  },
   // ===== USER MANAGER SERVICE (port 3006) - Admin quản lý users =====
   users: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/users' },
   addresses: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/addresses' },
@@ -24,8 +27,11 @@ const services = {
   specifications: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/api/specifications' },
   
   // ===== CART SERVICE (sẽ chuyển sang microservice) =====
-  carts: { url: process.env.CART_SERVICE_URL || 'http://localhost:5000', path: '/api/carts' },
-  
+  carts: { url: process.env.CART_SERVICE_URL || 'http://localhost:3003', path: '/api/cart' },
+    // ===== ORDER SERVICE (sẽ chuyển sang microservice) =====
+  userorders: { url: process.env.ORDER_SERVICE_URL || 'http://localhost:3004', path: '/api/order' },
+  // ===== PAYMENT SERVICE (sẽ chuyển sang microservice) =====
+  payments: { url: process.env.PAYMENT_SERVICE_URL || 'http://localhost:3002', path: '/api/payments' },
   // ===== BRAND SERVICE (tạm thời từ monolithic) =====
   brand: { url: process.env.BRAND_SERVICE_URL || 'http://localhost:5000', path: '/api/brand' },
   
@@ -71,6 +77,7 @@ Object.values(services).forEach(service => {
     }
   };
   router.use(service.path, createProxyMiddleware(proxyOptions));
+  
 });
 
 export default router;

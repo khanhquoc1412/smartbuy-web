@@ -3,20 +3,27 @@
     <BreadScrumb name-page="Giỏ hàng" />
     <Container class="cart-section tw-flex tw-gap-8 tw-flex-col">
       <div class="cart-title">Giỏ hàng của bạn</div>
+      
+      <!-- Loading State -->
+      <div v-if="isLoadingCart || isUpdating || isRemoving" class="cart-main tw-py-20 tw-flex tw-justify-center">
+        <p>{{ isUpdating ? 'Đang cập nhật...' : isRemoving ? 'Đang xóa...' : 'Đang tải giỏ hàng...' }}</p>
+      </div>
+      
+      <!-- Cart Items -->
       <div
+        v-else-if="cartItems.length > 0"
         class="cart-main tw-flex tw-flex-col tw-gap-5 tw-pb-20"
-        v-if="carts.length > 0"
       >
         <div
           class="cart-product tw-flex tw-justify-between tw-gap-3"
-          v-for="cartItem in carts"
-          :key="cartItem.id"
+          v-for="cartItem in cartItems"
+          :key="cartItem._id"
         >
           <div class="cart-product__left tw-flex tw-gap-3">
             <div class="product-img">
               <img
                 class="tw-w-full tw-h-full tw-object-cover"
-                :src="cartItem.productVariant.product?.thumbUrl"
+                :src="cartItem.productVariant?.product?.thumbUrl"
                 alt=""
               />
             </div>
@@ -24,30 +31,38 @@
               class="product-desc tw-py-2 tw-flex tw-flex-col tw-justify-between"
             >
               <router-link
-                :to="`/product/${cartItem.productVariant.product?.slug}`"
+                :to="`/product/${cartItem.productVariant?.product?.slug}`"
                 class="product-desc--name tw-cursor-pointer hover:tw-text-red tw-transition-all"
               >
-                {{ cartItem.productVariant.product?.name }}
+                {{ cartItem.productVariant?.product?.name }}
               </router-link>
               <div class="product-desc--option tw-justify-self-start">
                 <span>
-                  {{ cartItem.productVariant.memory?.ram }}/{{
-                    cartItem.productVariant.memory?.rom
+                  {{ cartItem.productVariant?.memory?.ram }}/{{
+                    cartItem.productVariant?.memory?.rom
                   }}
                 </span>
                 <span> - </span>
                 <span>
-                  {{ cartItem.productVariant.color?.name }}
+                  {{ cartItem.productVariant?.color?.name }}
                 </span>
               </div>
               <div class="product-desc__price tw-flex tw-gap-2">
                 <div class="product-desc__price--show">
-                  {{ formatMoney(cartItem.productVariant.price) }}
+                  {{ formatMoney(cartItem.productVariant?.price || 0) }}
                 </div>
-                <div class="product-desc__price--throw">
+                <div 
+                  class="product-desc__price--throw"
+                  v-if="cartItem.productVariant?.product?.discountPercentage"
+                >
                   {{
-                    formatMoney(getRealPrice(cartItem.productVariant.price,
-                      cartItem.productVariant.product?.discountPercentage as number)) }}
+                    formatMoney(
+                      getRealPrice(
+                        cartItem.productVariant.price,
+                        cartItem.productVariant.product.discountPercentage
+                      )
+                    )
+                  }}
                 </div>
               </div>
             </div>
@@ -57,7 +72,7 @@
           >
             <div
               class="remove-btn hover:tw-opacity-75 tw-transition-all"
-              @click="activeModal"
+              @click="activeModal(cartItem._id)"
             >
               <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -75,7 +90,7 @@
               <div
                 :class="{ 'tw-opacity-60': cartItem.quantity === 1 }"
                 class="minus tw-cursor-pointer"
-                @click="decreaseQuantity(cartItem.id)"
+                @click="handleDecreaseQuantity(cartItem._id, cartItem.quantity)"
               >
                 -
               </div>
@@ -84,28 +99,19 @@
               </div>
               <div
                 class="plus tw-cursor-pointer"
-                @click="increaseQuantity(cartItem.id)"
+                @click="handleIncreaseQuantity(cartItem._id, cartItem.quantity)"
               >
                 +
               </div>
             </div>
           </div>
-          <Modal
-            :content="`Xóa ${cartItem.productVariant.product?.name} khỏi giỏ hàng?`"
-            :is-active="activeModalDeleteProductToCart"
-            @updateIsActive="closeModal"
-            @confirmAction="
-              () => {
-                removeFromCart(cartItem.id);
-                closeModal(false);
-              }
-            "
-          />
         </div>
       </div>
+      
+      <!-- Empty Cart -->
       <div
-        class="cart-main tw-py-20 tw-flex tw-gap-3 tw-flex-col tw-items-center tw-justify-center"
         v-else
+        class="cart-main tw-py-20 tw-flex tw-gap-3 tw-flex-col tw-items-center tw-justify-center"
       >
         <div class="nothing-in-cart">
           <img
@@ -119,15 +125,17 @@
           <span>Hãy chọn thêm sản phẩm để mua sắm nhé</span>
         </div>
       </div>
+      
+      <!-- Sticky Bottom Bar -->
       <div id="stickyBottomBar" class="tw-fixed">
         <div
-          v-if="carts.length > 0"
+          v-if="cartItems.length > 0"
           class="price-info tw-flex tw-justify-between"
         >
           <div class="price-term tw-flex tw-flex-col tw-gap-2">
             <p class="tw-block">Tổng tiền sản phẩm:</p>
             <span class="tw-block">
-              {{ formatMoney(getTotalAmount(carts)) }}
+              {{ formatMoney(getTotalAmount(cartItems)) }}
             </span>
           </div>
           <router-link
@@ -147,49 +155,116 @@
         </router-link>
       </div>
     </Container>
+    
+    <!-- Modal Delete (Outside Loop) -->
+    <Modal
+      :content="`Xóa sản phẩm khỏi giỏ hàng?`"
+      :is-active="activeModalDeleteProductToCart"
+      @updateIsActive="closeModal"
+      @confirmAction="handleRemoveItem"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import Container from "@components/base/Container.vue";
 import BreadScrumb from "@/components/base/BreadScrumb.vue";
-import { useGetUserCarts } from "@/api/cart/query";
 import { useAuth } from "@/composables/useAuth";
 import { formatMoney } from "@/utils/formatMoney";
 import { getRealPrice } from "@/utils/product/getPriceAfterDiscount";
-import { IUserCarts } from "@/types/cart.types";
 import { useCart } from "@/composables/useCart";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import Modal from "@/components/common/Modal.vue";
+import router from "@/router";
+
 const { userId } = useAuth();
 const {
-  carts,
-  addToCart,
+  cartItems,
   isLoadingCart,
   totalItem,
+  isUpdating,    // ✅ Thêm loading state
+  isRemoving,    // ✅ Thêm loading state
   getUserCarts,
-  increaseQuantity,
-  removeFromCart,
-  decreaseQuantity,
+  updateQuantity,
+  removeItem,
+   refetchCart,      // ✅ Thêm refetchCart
+  refetchCartCount, // ✅ Thêm refetchCartCount
 } = useCart();
+
 const activeModalDeleteProductToCart = ref<boolean>(false);
-const activeModal = () => {
+const currentCartItemId = ref<string>('');
+
+const activeModal = (cartItemId: string) => {
+  currentCartItemId.value = cartItemId;
   activeModalDeleteProductToCart.value = true;
 };
+
 const closeModal = (value: boolean) => {
   activeModalDeleteProductToCart.value = value;
 };
-onMounted(async () => {
-  if (userId) {
-    await getUserCarts(userId.value);
+
+// Hàm tăng số lượng
+const handleIncreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
+  if (isUpdating.value) return; // Ngăn chặn nếu đang trong quá trình cập nhật
+  try {
+    await updateQuantity(cartItemId, currentQuantity + 1);
+  } catch (error) {
+    console.error('Error increasing quantity:', error);
   }
+};
+
+// Hàm giảm số lượng
+const handleDecreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
+  if (isUpdating.value || currentQuantity <= 1) return; // Ngăn chặn nếu đang trong quá trình cập nhật hoặc số lượng hiện tại là 1
+  if (currentQuantity > 1) {
+    try {
+      await updateQuantity(cartItemId, currentQuantity - 1);
+    } catch (error) {
+      console.error('Error decreasing quantity:', error);
+    }
+  }
+};
+
+// Hàm xóa item
+const handleRemoveItem = async () => {
+  if (isRemoving.value) return;
+  try {
+    await removeItem(currentCartItemId.value);
+    closeModal(false);
+  } catch (error) {
+    console.error('Error removing item:', error);
+  }
+};
+
+onMounted(async () => {
+  console.log('🔄 Cart page mounted, fetching cart...');
+  
+  // Force refetch cart data
+  await Promise.all([
+    refetchCart(),
+    refetchCartCount(),
+  ]);
 });
+import { ref, onMounted, watch } from 'vue'; // ✅ Thêm watch
+import { useRoute } from 'vue-router';
+const route = useRoute();
+watch(() => route.path, async (newPath) => {
+  if (newPath === '/cart' || newPath.startsWith('/cart/')) {
+    console.log('🔄 Navigated to cart, refetching...');
+    await Promise.all([
+      refetchCart(),
+      refetchCartCount(),
+    ]);
+  }
+}, { immediate: true });
 </script>
+
 <route lang="yaml">
 name: Giỏ hàng
 meta:
   layout: "cartLayout"
 </route>
+
 <style lang="scss">
 .app-cart {
   min-height: calc(100vh - 80px);
@@ -307,7 +382,6 @@ meta:
       font-size: 14px;
       font-weight: 500;
       color: $white;
-      // max-width: 600px;
       padding: 10px;
       background-color: $red;
       width: 100%;

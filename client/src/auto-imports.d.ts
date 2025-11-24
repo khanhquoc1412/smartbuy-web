@@ -68,6 +68,7 @@ declare global {
   const toValue: typeof import('vue').toValue
   const triggerRef: typeof import('vue').triggerRef
   const unref: typeof import('vue').unref
+  const useAddress: typeof import('./composables/useAddress').useAddress
   const useAsyncState: typeof import('@vueuse/core').useAsyncState
   const useAttrs: typeof import('vue').useAttrs
   const useAuth: typeof import('./composables/useAuth').useAuth
@@ -80,6 +81,8 @@ declare global {
   const useLoading: typeof import('./composables/useLoading').default
   const useModel: typeof import('vue').useModel
   const useOrder: typeof import('./composables/useOrder').useOrder
+  const usePayment: typeof import('./composables/usePayment').usePayment
+  const useProductFilter: typeof import('./composables/useProductTest').useProductFilter
   const useProductTest: typeof import('./composables/useProductTest').useProductTest
   const useRoute: typeof import('vue-router').useRoute
   const useRouter: typeof import('vue-router').useRouter

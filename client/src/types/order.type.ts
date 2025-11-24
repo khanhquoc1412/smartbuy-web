@@ -3,9 +3,16 @@ import { ICart } from "./cart.types";
 import { IPayment } from "./payment.type";
 import { IProductVariant } from "./product.types";
 
+export interface IShippingAddress {
+    province: string;
+    district: string;
+    ward: string;
+    houseNumber: string;
+}
+
 export interface IOrderInfor {
     carts: ICart[],
-    address?: IAddress,
+    address?: IShippingAddress,
     userAddressId?: string,
     paymentId: number,
     userName?: string,
@@ -13,7 +20,7 @@ export interface IOrderInfor {
 }
 export interface IOrderInforGuest {
     productVariantId: number | string,
-    address?: IAddress,
+    address?: IShippingAddress,
     paymentId: number,
     userName?: string,
     phoneNumber?: string,

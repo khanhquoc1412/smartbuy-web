@@ -17,6 +17,13 @@ export default function interceptors(axios: AxiosInstance) {
 
   axios.interceptors.request.use(
     (config) => {
+      console.log('🌐 AXIOS REQUEST INTERCEPTOR:');
+      console.log('  Method:', config.method?.toUpperCase());
+      console.log('  URL:', config.url);
+      console.log('  Headers:', config.headers);
+      console.log('  Data (BEFORE):', config.data); // ✅ DEBUG
+      console.log('  Data type:', typeof config.data);
+      
       const access_token = localStorage.getItem(ACCESS_TOKEN_KEY);
       if (access_token && config.headers) {
         config.headers["authorization"] = `Bearer ${access_token}`;

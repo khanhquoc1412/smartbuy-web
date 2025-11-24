@@ -1,29 +1,55 @@
 require("dotenv").config();
-// Load .env đầu tiên
+
 const express = require("express");
-const connectDB = require("./config/connectDB"); // Kết nối MongoDB
+const connectDB = require("./config/connectDB");
 require("./config/passport");
-// Init Passport cho social login
 
 const app = express();
-const PORT = process.env.PORT || 3005; // Default 3005 nếu không có env
+const PORT = process.env.PORT || 3005;
 
-// Middleware chung (từ thư mục middleware của bạn)
-const { corsMiddleware, auth } = require("./middleware"); // Giả sử bạn có index.js trong middleware
+// Middleware
+const { corsMiddleware } = require("./middleware");
 app.use(corsMiddleware);
-app.use(express.json()); // Parse JSON body
-app.use(express.urlencoded({ extended: true })); // Parse form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes (từ auth.router.js)
-const authRouter = require("./routes/auth.router");
-app.use("/api/auth", authRouter); // Ví dụ: /api/auth/login, /api/auth/google
+// ===== ROUTES =====
+const authRouter = require("./routes/auth.router"); // ✅ Auth routes
+const addressRouter = require("./routes/address.router"); // ✅ Address routes
+
+app.use("/api/auth", authRouter);
+app.use("/api/user/addresses", addressRouter); // ✅ Mount address routes
+
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ 
+    success: true, 
+    message: "User service is running",
+    port: PORT,
+    database: "smartbuy_db",
+    routes: ["/api/auth", "/api/user/addresses"]
+  });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error("❌ Error:", err);
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || "Something went wrong!"
+  });
+});
 
 // Connect DB
 connectDB();
 
-// Listen server
+// Listen
 app.listen(PORT, () => {
-  console.log(`User Service running on port ${PORT}`);
+  console.log(`🚀 User Service running on port ${PORT}`);
+  console.log(`📊 Database: smartbuy_db`);
+  console.log(`🔗 Routes:`);
+  console.log(`   - /api/auth`);
+  console.log(`   - /api/user/addresses`);
 });
 
-module.exports = app; // Export nếu cần test
+module.exports = app;

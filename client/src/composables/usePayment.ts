@@ -1,0 +1,100 @@
+import { ref } from 'vue';
+import { useCreatePayment, CreatePaymentPayload } from '@/api/payment/query';
+
+export const usePayment = () => {
+  const { mutateAsync: createPaymentMutation, isPending, isError } = useCreatePayment();
+  
+  const paymentUrl = ref<string | null>(null);
+  const paymentData = ref<any>(null);
+
+  /**
+   * Tạo payment và redirect đến payment gateway
+   */
+  const createAndRedirectPayment = async (payload: CreatePaymentPayload) => {
+    try {
+      console.log('🔄 Creating payment...', payload);
+      
+      const response = await createPaymentMutation(payload);
+      
+      if (!response.success) {
+        throw new Error(response.message || 'Tạo thanh toán thất bại');
+      }
+
+      paymentData.value = response.data;
+      
+      // Nếu có paymentUrl (VNPAY, MOMO, etc.) → redirect
+      if (response.data.paymentUrl) {
+        paymentUrl.value = response.data.paymentUrl;
+        console.log('✅ Payment URL:', paymentUrl.value);
+        
+        // Redirect sang payment gateway
+        window.location.href = paymentUrl.value;
+        return { success: true, data: response.data };
+      }
+      
+      // Nếu COD → không cần redirect
+      if (payload.paymentMethod === 'COD') {
+        console.log('✅ COD payment created successfully');
+        return { success: true, data: response.data, message: 'Đơn hàng COD được tạo thành công' };
+      }
+
+      return { success: true, data: response.data };
+    } catch (error: any) {
+      console.error('❌ Payment error:', error);
+      throw error;
+    }
+  };
+
+  /**
+   * Tạo payment cho VNPAY
+   */
+  const createVNPayPayment = async (
+    orderId: string,
+    userId: string,
+    amount: number,
+    customerInfo: { name: string; phone: string; email?: string },
+    bankCode?: string
+  ) => {
+    return createAndRedirectPayment({
+      orderId,
+      userId,
+      amount,
+      paymentMethod: 'VNPAY',
+      customerInfo,
+      description: `Thanh toán đơn hàng ${orderId}`,
+      bankCode,
+    });
+  };
+
+  /**
+   * Tạo payment cho COD
+   */
+  const createCODPayment = async (
+    orderId: string,
+    userId: string,
+    amount: number,
+    customerInfo: { name: string; phone: string; email?: string }
+  ) => {
+    return createAndRedirectPayment({
+      orderId,
+      userId,
+      amount,
+      paymentMethod: 'COD',
+      customerInfo,
+      description: `Thanh toán khi nhận hàng - Đơn ${orderId}`,
+    });
+  };
+
+  return {
+    // Methods
+    createAndRedirectPayment,
+    createVNPayPayment,
+    createCODPayment,
+    
+    // States
+    paymentUrl,
+    paymentData,
+    isLoading: isPending,
+    isError,
+  };
+};

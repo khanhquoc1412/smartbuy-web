@@ -41,8 +41,20 @@
           <ProductSkeleton v-for="n in 5" :key="n" />
         </ProductBox>
         <ProductBox v-else>
-          <div v-for="product in data?.products" :key="product.id">
+          <!-- <div v-for="product in data?.products" :key="product.id">
             <product-item :product="product" :path="product.slug" />
+          </div> -->
+          <div
+            v-for="item in productVariantsList"
+            :key="
+              item.product.id + '-' + (item.variant?.id ?? item.variant?._id)
+            "
+          >
+            <ProductItem
+              :product="item.product"
+              :variant="item.variant"
+              :path="item.product.slug"
+            />
           </div>
         </ProductBox>
         <div
@@ -78,16 +90,8 @@ import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import noen_1 from "@/assets/images/gif/noen-1.gif";
 import Heading from "@/components/base/Heading.vue";
 import { fBrands, fOptions, fPrices } from "@utils/filter-sort/filter";
-import {
-  Swiper,
-  SwiperSlide,
-} from "swiper/vue";
-import {
-  Navigation,
-  Pagination,
-  Autoplay,
-  EffectCube,
-} from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, Autoplay, EffectCube } from "swiper/modules";
 import { breakpoints } from "@utils/breackpoints";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -100,16 +104,34 @@ import VPagination from "@/components/base/VPagination.vue";
 import ProductBox from "@/components/product/ProductBox.vue";
 import ProductSkeleton from "@/components/base/ProductSkeleton.vue";
 
+import { computed, unref } from "vue";
+
+const productVariantsList = computed(() => {
+  const arr = unref(data)?.products ?? [];
+  return arr.flatMap((p: any) => {
+    const variants =
+      p.productVariants && p.productVariants.length
+        ? p.productVariants
+        : [undefined];
+    return variants.map((v: any) => ({ product: p, variant: v }));
+  });
+});
+
 const modules = [Navigation, Pagination, Autoplay, EffectCube];
 interface iSort {
   label: string;
   order?: string;
   dir?: string;
 }
+// const sortOptions: iSort[] = [
+//   { label: "Mới nhất", dir: "" },
+//   { label: "Giá tăng dần", dir: "ASC" },
+//   { label: "Giá giảm dần", dir: "DESC" },
+// ];
 const sortOptions: iSort[] = [
   { label: "Mới nhất", dir: "" },
-  { label: "Giá tăng dần", dir: "ASC" },
-  { label: "Giá giảm dần", dir: "DESC" },
+  { label: "Giá tăng dần", dir: "asc" },
+  { label: "Giá giảm dần", dir: "desc" },
 ];
 const route = useRoute();
 const router = useRouter();
@@ -118,7 +140,7 @@ const {
 } = useRoute();
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
-  limit: 2,
+  limit: 12,
   brand: route?.query?.brand ? (route.query.brand as string) : "",
   order: route?.query?.order ? (route.query.order as string) : "",
   dir: route?.query?.dir ? (route.query.dir as string) : "",
@@ -143,8 +165,9 @@ watch([() => params.value.brand], ([newBrand]) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 });
+
 const handleSort = async (dir: string) => {
   if (dir.length <= 0) {
     const { order, dir, ...restQuery } = route.query;
@@ -154,7 +177,7 @@ const handleSort = async (dir: string) => {
     params.value.dir = "";
     params.value.order = "";
   } else {
-    params.value.dir = dir.toLowerCase();
+    params.value.dir = dir;
     params.value.order = "basePrice";
     params.value.page = 1;
 
@@ -162,13 +185,38 @@ const handleSort = async (dir: string) => {
       query: {
         ...route.query,
         order: "basePrice",
-        dir: dir.toLowerCase(),
+        dir: dir,
         page: 1,
       },
     });
   }
-  refetch.value();
+  refetch();
 };
+
+// const handleSort = async (dir: string) => {
+//   if (dir.length <= 0) {
+//     const { order, dir, ...restQuery } = route.query;
+//     router.replace({
+//       query: restQuery,
+//     });
+//     params.value.dir = "";
+//     params.value.order = "";
+//   } else {
+//     params.value.dir = dir.toLowerCase();
+//     params.value.order = "basePrice";
+//     params.value.page = 1;
+
+//     router.replace({
+//       query: {
+//         ...route.query,
+//         order: "basePrice",
+//         dir: dir.toLowerCase(),
+//         page: 1,
+//       },
+//     });
+//   }
+//   refetch.value();
+// };
 const updateHandler = async (newPage: number) => {
   if (newPage === 1) {
     const { page, ...restQuery } = route.query;
@@ -183,7 +231,7 @@ const updateHandler = async (newPage: number) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 </script>
 <route lang="yaml">

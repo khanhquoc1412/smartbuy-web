@@ -1,56 +1,64 @@
 const { UnauthorizedError } = require("../../src/errors");
-const { jwtVerify } = require("../../src/utils/jwt");
+const { jwtVerify } = require("../../src/utils/jwt"); // ❓ Nếu có file jwt.js
+// HOẶC
+const jwt = require("jsonwebtoken"); // ❓ Nếu không có file jwt.js
+
 const { getAccessTokenFromHeaders } = require("../../src/utils/header");
 const { StatusCodes } = require("http-status-codes");
-const { User } = require("../models/user");
 
 const auth = (req, res, next) => {
   try {
     const { accessToken } = getAccessTokenFromHeaders(req.headers);
-    console.log(accessToken);
-    if (!accessToken) throw new UnauthorizedError("unauthorized");
-    const { id } = jwtVerify(accessToken);
-    req.id = id;
-    next();
-  } catch (error) {
-    console.log(error);
-    if (error instanceof UnauthorizedError) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
-        message: error.message,
-        status: error.statusCode,
-      });
-    }
-    return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: "unauthorized",
-      status: StatusCodes.UNAUTHORIZED,
-    });
-  }
-};
 
-const authPermission = async (req, res, next) => {
-  try {
-    const { accessToken } = getAccessTokenFromHeaders(req.headers);
-    console.log(accessToken);
-    if (!accessToken) throw new UnauthorizedError("unauthorized");
-    const { id } = jwtVerify(accessToken);
-    const user = await User.findOne({ where: { email } });
-    if (!user.isAdmin) throw new UnauthorizedError("unauthorized");
+    console.log(
+      "🔐 Auth middleware - Token:",
+      accessToken ? "EXISTS" : "MISSING"
+    );
+
+    if (!accessToken) {
+      throw new UnauthorizedError("Unauthorized - No token provided");
+    }
+
+    // ✅ Verify token
+    let decoded;
+    if (typeof jwtVerify === "function") {
+      // Nếu có utils jwt
+      decoded = jwtVerify(accessToken);
+    } else {
+      // Nếu không có, dùng trực tiếp jwt
+      decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+    }
+
+    console.log("✅ Token decoded:", decoded);
+
+    // ✅ FIX: Set req.user với userId
+    req.user = {
+      userId: decoded.id || decoded.userId, // ✅ Support cả 2 format
+      id: decoded.id || decoded.userId, // ✅ Backward compatible
+    };
+
+    console.log("✅ req.user set:", req.user);
+
     next();
   } catch (error) {
+    console.error("❌ Auth middleware error:", error.message);
+
     if (error instanceof UnauthorizedError) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
         message: error.message,
         status: error.statusCode,
       });
     }
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Lỗi server",
-      status: StatusCodes.BAD_REQUEST,
+
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      success: false,
+      message: "Unauthorized - Invalid token",
+      status: StatusCodes.UNAUTHORIZED,
     });
   }
 };
 
 module.exports = {
   auth,
-  authPermission,
 };

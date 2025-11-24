@@ -16,6 +16,78 @@ const {
 } = require("../../src/errors");
 const mailer = require("../services/mailer"); // Giả định services/mailer.js
 
+const changePassword = async (req, res) => {
+  try {
+    const userId = req.user.id; // From auth middleware
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+    // ✅ Validate required fields
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      throw new BadRequestError("Thiếu thông tin");
+    }
+
+    // ✅ Validate new passwords match
+    if (newPassword !== confirmNewPassword) {
+      throw new BadRequestError("Mật khẩu mới không khớp");
+    }
+
+    // ✅ Validate password length
+    if (newPassword.length < 6) {
+      throw new BadRequestError("Mật khẩu phải có ít nhất 6 ký tự");
+    }
+
+    // ✅ Check if new password is different from current
+    if (currentPassword === newPassword) {
+      throw new BadRequestError("Mật khẩu mới phải khác mật khẩu hiện tại");
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError("Không tìm thấy người dùng");
+    }
+
+    // ✅ Verify current password
+    const isMatch = await comparePassword(currentPassword, user.password);
+    if (!isMatch) {
+      throw new UnauthorizedError("Mật khẩu hiện tại không đúng");
+    }
+
+    // ✅ Update password (will auto-hash in pre-save hook)
+    user.password = newPassword;
+
+    // ✅ Optional: Clear refresh token (force re-login on other devices)
+    // user.refreshToken = null;
+
+    await user.save();
+
+    console.log("✅ Password changed for user:", user.email);
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Đổi mật khẩu thành công",
+      status: StatusCodes.OK,
+    });
+  } catch (error) {
+    console.error("❌ Change password error:", error);
+    if (
+      error instanceof UnauthorizedError ||
+      error instanceof BadRequestError ||
+      error instanceof NotFoundError
+    ) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message,
+        status: error.statusCode,
+      });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Lỗi server",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
 const register = async (req, res) => {
   try {
     const { email, password, userName, confirmPassword } = req.body;
@@ -241,6 +313,7 @@ const refreshToken = async (req, res) => {
 
     const decoded = jwtVerifyRefreshToken(refreshToken);
     const user = await User.findById(decoded.id);
+
     if (!user || user.refreshToken !== refreshToken) {
       throw new UnauthorizedError("Invalid refresh token");
     }
@@ -251,7 +324,8 @@ const refreshToken = async (req, res) => {
 
     res.status(StatusCodes.OK).json({
       accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
+
+      refreshToken: user.refreshToken,
     });
   } catch (error) {
     console.log(error);
@@ -401,10 +475,11 @@ const logout = async (req, res) => {
 
     user.refreshToken = null;
     await user.save();
-
+    
     res.status(StatusCodes.OK).json({
       message: "Đăng xuất thành công",
       status: StatusCodes.OK,
+      
     });
   } catch (error) {
     console.log(error);
@@ -425,4 +500,5 @@ module.exports = {
   resetPassword,
   resetPasswordForm,
   logout,
+  changePassword,
 };
