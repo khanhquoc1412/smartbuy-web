@@ -1,4 +1,4 @@
-import { loginMutation, registerMutation, forgotPasswordMutation, loginUserSuccessMutation } from "@/api/auth/query";
+import { loginMutation, registerMutation, forgotPasswordMutation, loginUserSuccessMutation, } from "@/api/auth/query";
 import useAuthStore from "@/store/auth";
 import { ACCESS_TOKEN_KEY, USER_ID, REFRESH_TOKEN_KEY } from "@/utils/constants";
 import { storeToRefs } from "pinia";
@@ -21,7 +21,7 @@ export const useAuth = () => {
         error: signInError,
         mutateAsync: loginMutateAsync,
 
-    } = loginMutation();
+    } = loginMutation() as any;
 
     const signIn = async ({ email, password }: ILoginBody) => {
         start();
@@ -50,7 +50,7 @@ export const useAuth = () => {
         error: signInUserSucessError,
         mutateAsync: loginUserSucessMutateAsync,
 
-    } = loginUserSuccessMutation();
+    } = loginUserSuccessMutation() as any;
 
     //login gg & fb
     const signInUserSuccess = async (id: string | number) => {
@@ -77,7 +77,7 @@ export const useAuth = () => {
         isLoading: isRegisterLoading,
         error: registerError,
         mutateAsync: registerMutateAsync,
-    } = registerMutation();
+    } = registerMutation() as any;
     const register = async ({ userName, email, password, confirmPassword }: IRegisterBody) => {
         start();
         try {
@@ -110,7 +110,7 @@ export const useAuth = () => {
         isLoading: isForgotPasswordLoading,
         error: forgotPasswordError,
         mutateAsync: forgotPasswordMutateAsync,
-    } = forgotPasswordMutation();
+    } = forgotPasswordMutation() as any;
 
     const forgotPassword = async (email: string) => {
         start()
