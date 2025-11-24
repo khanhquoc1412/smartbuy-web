@@ -1,0 +1,716 @@
+{
+  "id": "5bc59f95-8cee-4b4c-b773-0a1d618554ac",
+  "name": "promotion.check",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "promotion-type",
+          "dataType": "@promotion-type",
+          "isList": true,
+          "required": false,
+          "prompts": [],
+          "value": "$promotion-type",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "brand-name",
+          "dataType": "@brand-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$brand-name",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tích điểm",
+          "userDefined": true,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "88c33d49-6e34-4f84-ac5c-563c91eecbf0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hoàn xu",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "31978ba8-d56a-4fef-8a74-32cbd6438757",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cashback",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "bc46e7bf-e70b-48fd-a2ef-555452f54533",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Free ship",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "a29b436d-bde3-4dcf-8e04-e805be291f76",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Miễn phí ship",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "93a9d04c-f724-42ea-a670-82b26c637f0e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "hoàn tiền",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "a6c0eca8-853b-4bf1-acef-54d4209f474e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tặng kèm",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " gì",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "9563e743-65d7-447e-84a6-e2796551a40c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "quà tặng",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8a1c24c2-d0d7-4db0-be51-a38149cb3124",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả góp 0%",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "34fa3070-da7b-487a-862f-a32a433aadc7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá trực tiếp",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "68ef1851-7843-4fc3-8b5e-9acced3c77aa",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Galaxy",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "khuyến mãi",
+          "userDefined": true,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "0cc25f66-8d82-40bd-8e1f-3d1672e823f8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Apple",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "sale",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "46905156-28d5-480d-85f3-4acfee3d96b0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Realme",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "43aeeba2-4185-4fbd-b43d-abd28739fa31",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Vivo",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "khuyến mãi",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " gì",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4fb0f0c4-c12d-484a-b558-063169a0417b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "OPPO",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " có ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f0299e12-3441-4700-846e-0f53bfeb1b89",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Khuyến mãi",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "de1094b7-4053-4350-8a8a-81618d3ad977",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " có ",
+          "userDefined": false
+        },
+        {
+          "text": "sale",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3d53e566-8adf-46fa-be79-dc2193a885d0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Khuyến mãi",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "8cd99ddd-07e1-4bca-9c76-a0814a6c1ac9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " có ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "40a6efa9-acfb-4c4e-8601-ba17f214219e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Khuyến mãi",
+          "userDefined": true,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "d03c1465-04ce-4696-b46d-049e0cc8ed08",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giá sốc",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "77204df0-dd41-483c-b71d-e0c66805f0a7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giờ vàng",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "65be8323-65cd-4845-b799-86c9985f6dd6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Sale sốc",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "e859b154-e633-442d-a5e0-b0234abd88e5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Ưu đãi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3872ea91-3bcc-41b3-9d05-fcc9a696c984",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e2ea566d-a886-4dfb-a0f1-80963e073063",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Khuyến mãi",
+          "userDefined": true,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " hôm nay",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "c4a73dc0-1539-4f7c-afba-d6b79567c06c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Mã giảm",
+          "userDefined": true,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "2053c680-5cd8-4574-944c-a19f12651fa9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Voucher",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "aeeba088-7539-4761-8bf1-ac4620e9e667",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " gì",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "61080f44-cfd9-46a7-8a06-79f0d1ef203b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "sale",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " gì không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "266ff28c-a028-4fba-b52b-8c5ce2ef19ab",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Ưu đãi",
+          "userDefined": true,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " gì hot",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "03ff37f4-6e2d-4572-8b43-5b97c34a62d3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Mã ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "ed473e67-c17c-493c-8c48-f264940440ed",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Flash sale",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " hôm nay",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "6c6b28e7-a2b3-409d-ba55-c113c3943071",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có khuyến mãi gì không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "8f15413f-5094-48ea-824a-6ed10fb705af",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

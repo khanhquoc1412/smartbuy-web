@@ -1,0 +1,29 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": false,
+  "name": "product-category",
+  "automatedExpansion": false,
+  "entries": [
+    {
+      "value": "dien-thoai",
+      "synonyms": [
+        "dien-thoai",
+        "điện thoại",
+        "smartphone",
+        "phone",
+        "di động",
+        "mobile",
+        "điện thoại di động",
+        "điện thoại thông minh",
+        "smart phone",
+        "dt",
+        "đt",
+        "dien thoai",
+        "dien-thoai-di-dong"
+      ]
+    }
+  ],
+  "id": "ca3fba27-74eb-45f9-bc0d-6603b482526d",
+  "isOverridable": false
+}

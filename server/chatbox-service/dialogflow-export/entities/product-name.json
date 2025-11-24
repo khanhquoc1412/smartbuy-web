@@ -1,0 +1,195 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "product-name",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "iphone-15",
+      "synonyms": ["iphone-15", "iPhone 15", "ip 15", "i phone 15", "iphone15", "iphone mười lăm"]
+    },
+    {
+      "value": "iphone-16",
+      "synonyms": ["iphone-16", "iPhone 16", "ip 16", "i phone 16", "iphone16", "iphone mười sáu"]
+    },
+    {
+      "value": "iphone-16-pro-max",
+      "synonyms": ["iphone-16-pro-max", "iPhone 16 Pro Max", "ip 16 pro max", "i phone 16 pm", "iphone 16pm"]
+    },
+    {
+      "value": "iphone-air",
+      "synonyms": ["iphone-air", "iPhone Air", "ip air", "i phone air"]
+    },
+    {
+      "value": "iphone-13",
+      "synonyms": ["iphone-13", "iPhone 13", "ip 13", "i phone 13", "iphone13", "iphone mười ba"]
+    },
+    {
+      "value": "iphone-14",
+      "synonyms": ["iphone-14", "iPhone 14", "ip 14", "i phone 14", "iphone14", "iphone mười bốn"]
+    },
+    {
+      "value": "iphone-17-pro",
+      "synonyms": ["iphone-17-pro", "iPhone 17 Pro", "ip 17 pro", "i phone 17 pro"]
+    },
+    {
+      "value": "iphone-17-pro-max",
+      "synonyms": ["iphone-17-pro-max", "iPhone 17 Pro Max", "ip 17 pro max", "i phone 17 pm"]
+    },
+    {
+      "value": "samsung-galaxy-a06-5g",
+      "synonyms": ["samsung-galaxy-a06-5g", "Samsung Galaxy A06 5G", "samsung a06", "a06 5g", "galaxy a06"]
+    },
+    {
+      "value": "samsung-galaxy-a07",
+      "synonyms": ["samsung-galaxy-a07", "Samsung Galaxy A07", "samsung a07", "a07", "galaxy a07"]
+    },
+    {
+      "value": "samsung-galaxy-a36-5g",
+      "synonyms": ["samsung-galaxy-a36-5g", "Samsung Galaxy A36 5G", "samsung a36", "a36 5g", "galaxy a36"]
+    },
+    {
+      "value": "samsung-galaxy-a56-5g",
+      "synonyms": ["samsung-galaxy-a56-5g", "Samsung Galaxy A56 5G", "samsung a56", "a56 5g", "galaxy a56"]
+    },
+    {
+      "value": "samsung-galaxy-s24-5g",
+      "synonyms": ["samsung-galaxy-s24-5g", "Samsung Galaxy S24 5G", "samsung s24", "s24", "galaxy s24"]
+    },
+    {
+      "value": "samsung-galaxy-s25-fe",
+      "synonyms": ["samsung-galaxy-s25-fe", "Samsung Galaxy S25 FE", "samsung s25 fe", "s25 fe", "galaxy s25 fe"]
+    },
+    {
+      "value": "samsung-galaxy-z-flip7-5g",
+      "synonyms": ["samsung-galaxy-z-flip7-5g", "Samsung Galaxy Z Flip7 5G", "z flip7", "flip7", "galaxy flip7"]
+    },
+    {
+      "value": "samsung-galaxy-z-fold7-5g",
+      "synonyms": ["samsung-galaxy-z-fold7-5g", "Samsung Galaxy Z Fold7 5G", "z fold7", "fold7", "galaxy fold7"]
+    },
+    {
+      "value": "xiaomi-14t-5g",
+      "synonyms": ["xiaomi-14t-5g", "Xiaomi 14T 5G", "mi 14t", "xiaomi 14 t", "14t"]
+    },
+    {
+      "value": "xiaomi-redmi-14c",
+      "synonyms": ["xiaomi-redmi-14c", "Xiaomi Redmi 14C", "redmi 14c", "redmi 14 c"]
+    },
+    {
+      "value": "xiaomi-redmi-15",
+      "synonyms": ["xiaomi-redmi-15", "Xiaomi Redmi 15", "redmi 15", "redmi mười lăm"]
+    },
+    {
+      "value": "xiaomi-redmi-a3",
+      "synonyms": ["xiaomi-redmi-a3", "Xiaomi Redmi A3", "redmi a3", "redmi a 3"]
+    },
+    {
+      "value": "xiaomi-redmi-a5",
+      "synonyms": ["xiaomi-redmi-a5", "Xiaomi Redmi A5", "redmi a5", "redmi a 5"]
+    },
+    {
+      "value": "xiaomi-redmi-note-14-pro",
+      "synonyms": ["xiaomi-redmi-note-14-pro", "Xiaomi Redmi Note 14 Pro", "redmi note 14 pro", "note 14 pro"]
+    },
+    {
+      "value": "xiaomi-redmi-note-14-pro-5g",
+      "synonyms": ["xiaomi-redmi-note-14-pro-5g", "Xiaomi Redmi Note 14 Pro 5G", "redmi note 14 pro 5g"]
+    },
+    {
+      "value": "xiaomi-redmi-note-14-pro-plus-5g",
+      "synonyms": ["xiaomi-redmi-note-14-pro-plus-5g", "Xiaomi Redmi Note 14 Pro+ 5G", "redmi note 14 pro plus"]
+    },
+    {
+      "value": "oppo-a5",
+      "synonyms": ["oppo-a5", "OPPO A5", "oppo a 5", "a5"]
+    },
+    {
+      "value": "oppo-a5-pro",
+      "synonyms": ["oppo-a5-pro", "OPPO A5 Pro", "oppo a5 pro", "a5 pro"]
+    },
+    {
+      "value": "oppo-a5i-pro",
+      "synonyms": ["oppo-a5i-pro", "OPPO A5i Pro", "oppo a5i pro", "a5i pro"]
+    },
+    {
+      "value": "oppo-a60",
+      "synonyms": ["oppo-a60", "OPPO A60", "oppo a 60", "a60"]
+    },
+    {
+      "value": "oppo-find-n5",
+      "synonyms": ["oppo-find-n5", "OPPO Find N5", "find n5", "oppo n5"]
+    },
+    {
+      "value": "oppo-find-x8",
+      "synonyms": ["oppo-find-x8", "OPPO Find X8", "find x8", "oppo x8"]
+    },
+    {
+      "value": "oppo-reno-13-pro-5g",
+      "synonyms": ["oppo-reno-13-pro-5g", "OPPO Reno 13 Pro 5G", "reno 13 pro", "reno13 pro"]
+    },
+    {
+      "value": "vivo-v40-se",
+      "synonyms": ["vivo-v40-se", "Vivo V40 SE", "vivo v 40 se", "v40 se"]
+    },
+    {
+      "value": "vivo-v40-lite",
+      "synonyms": ["vivo-v40-lite", "Vivo V40 Lite", "vivo v 40 lite", "v40 lite"]
+    },
+    {
+      "value": "vivo-y19s",
+      "synonyms": ["vivo-y19s", "Vivo Y19s", "vivo y 19s", "y19s"]
+    },
+    {
+      "value": "vivo-y28s-5g",
+      "synonyms": ["vivo-y28s-5g", "Vivo Y28s 5G", "vivo y 28s", "y28s"]
+    },
+    {
+      "value": "vivo-y300-pro-5g",
+      "synonyms": ["vivo-y300-pro-5g", "Vivo Y300 Pro 5G", "vivo y 300 pro", "y300 pro"]
+    },
+    {
+      "value": "realme-12-5g",
+      "synonyms": ["realme-12-5g", "Realme 12 5G", "realme 12", "realme mười hai"]
+    },
+    {
+      "value": "realme-13-pro-5g",
+      "synonyms": ["realme-13-pro-5g", "Realme 13 Pro 5G", "realme 13 pro", "realme mười ba pro"]
+    },
+    {
+      "value": "realme-c75",
+      "synonyms": ["realme-c75", "Realme C75", "realme c 75", "c75"]
+    },
+    {
+      "value": "realme-note-60",
+      "synonyms": ["realme-note-60", "Realme Note 60", "realme note 60", "note 60"]
+    },
+    {
+      "value": "honor-200-5g",
+      "synonyms": ["honor-200-5g", "HONOR 200 5G", "honor 200", "honor hai trăm"]
+    },
+    {
+      "value": "honor-200-lite-5g",
+      "synonyms": ["honor-200-lite-5g", "HONOR 200 Lite 5G", "honor 200 lite"]
+    },
+    {
+      "value": "honor-200-pro-5g",
+      "synonyms": ["honor-200-pro-5g", "HONOR 200 Pro 5G", "honor 200 pro"]
+    },
+    {
+      "value": "honor-magic-v3",
+      "synonyms": ["honor-magic-v3", "HONOR Magic V3", "magic v3", "honor v3"]
+    },
+    {
+      "value": "honor-x7c-5g",
+      "synonyms": ["honor-x7c-5g", "HONOR X7c 5G", "honor x7c", "x7c"]
+    },
+    {
+      "value": "honor-x9c-5g",
+      "synonyms": ["honor-x9c-5g", "HONOR X9c 5G", "honor x9c", "x9c"]
+    }
+  ],
+  "id": "095386a9-49ed-4beb-b651-527003bae8df",
+  "isOverridable": false
+}

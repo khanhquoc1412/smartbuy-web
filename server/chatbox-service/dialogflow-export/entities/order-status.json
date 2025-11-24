@@ -1,0 +1,107 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": false,
+  "name": "order-status",
+  "automatedExpansion": false,
+  "entries": [
+    {
+      "value": "pending_payment",
+      "synonyms": [
+        "pending_payment",
+        "chờ thanh toán",
+        "chưa thanh toán",
+        "pending payment"
+      ]
+    },
+    {
+      "value": "payment_failed",
+      "synonyms": [
+        "payment_failed",
+        "thanh toán thất bại",
+        "thanh toán lỗi",
+        "payment failed"
+      ]
+    },
+    {
+      "value": "pending",
+      "synonyms": [
+        "pending",
+        "chờ xác nhận",
+        "đang chờ",
+        "chờ shop duyệt"
+      ]
+    },
+    {
+      "value": "confirmed",
+      "synonyms": [
+        "confirmed",
+        "đã xác nhận",
+        "shop đã duyệt",
+        "đã duyệt"
+      ]
+    },
+    {
+      "value": "processing",
+      "synonyms": [
+        "processing",
+        "đang chuẩn bị",
+        "đang đóng gói",
+        "đang xử lý"
+      ]
+    },
+    {
+      "value": "ready_to_ship",
+      "synonyms": [
+        "ready_to_ship",
+        "sẵn sàng giao",
+        "chờ shipper",
+        "chờ lấy hàng"
+      ]
+    },
+    {
+      "value": "shipping",
+      "synonyms": [
+        "shipping",
+        "đang giao",
+        "đang ship",
+        "đang vận chuyển"
+      ]
+    },
+    {
+      "value": "delivered",
+      "synonyms": [
+        "delivered",
+        "đã giao",
+        "đã nhận hàng",
+        "giao thành công"
+      ]
+    },
+    {
+      "value": "completed",
+      "synonyms": [
+        "completed",
+        "hoàn thành",
+        "đã hoàn thành"
+      ]
+    },
+    {
+      "value": "cancelled",
+      "synonyms": [
+        "cancelled",
+        "đã hủy",
+        "hủy đơn"
+      ]
+    },
+    {
+      "value": "returned",
+      "synonyms": [
+        "returned",
+        "đã trả hàng",
+        "trả lại"
+      ]
+    }
+  ],
+  "id": "d2d188a3-d4ac-4f7c-9f2e-ea6dbe0f12a6",
+  "isOverridable": false
+}

@@ -1,0 +1,323 @@
+{
+  "id": "f609d2b4-88d8-409b-8379-52d9f4194809",
+  "name": "product.search.by-memory",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "brand-name",
+          "dataType": "@brand-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$brand-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "memory-capacity",
+          "dataType": "@memory-capacity",
+          "isList": false,
+          "required": true,
+          "prompts": [
+            "Bạn muốn tìm loại bộ nhớ nào?"
+          ],
+          "value": "$memory-capacity",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product-category",
+          "dataType": "@product-category",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$product-category",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "color-name",
+          "dataType": "@color-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$color-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "promotion-type",
+          "dataType": "@promotion-type",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$promotion-type",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "32gb",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        }
+      ],
+      "count": 0,
+      "id": "2bf4ea9a-151d-4593-8882-060e9ce423d0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Apple",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "64gb",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        }
+      ],
+      "count": 0,
+      "id": "4884b9f4-e986-4337-9445-b9683037acdb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Smartphone",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " có bộ nhớ ",
+          "userDefined": false
+        },
+        {
+          "text": "128GB",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        }
+      ],
+      "count": 0,
+      "id": "965a839e-b9cd-43b4-916c-662ed5550980",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "Xiaomi",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "64gb",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "không",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "74aa9fc2-74ad-4832-aa62-40d8eb896d65",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "128gb",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "b296ac38-1a0a-4d9d-b45c-3d2791d79ac5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tìm",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "32gb",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        }
+      ],
+      "count": 0,
+      "id": "df828dd7-5d6e-4126-ab01-cbbcac0f2605",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " có dung lượng ",
+          "userDefined": false
+        },
+        {
+          "text": "3gb ram",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        }
+      ],
+      "count": 0,
+      "id": "43151054-2945-455b-8b72-62659f7247e0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Redmi",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " có ",
+          "userDefined": false
+        },
+        {
+          "text": "16gb Ram",
+          "userDefined": false,
+          "alias": "memory-capacity",
+          "meta": "@memory-capacity"
+        }
+      ],
+      "count": 0,
+      "id": "b3d84da9-2d1b-4103-ac06-c8c3f8302e72",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

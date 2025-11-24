@@ -1,0 +1,17 @@
+{
+  "isRegexp": true,
+  "isEnum": false,
+  "allowFuzzyExtraction": false,
+  "name": "order-id",
+  "automatedExpansion": false,
+  "entries": [
+    {
+      "value": "ORD-\\d{8}-[A-F0-9]{6}",
+      "synonyms": [
+        "ORD-\\d{8}-[A-F0-9]{6}"
+      ]
+    }
+  ],
+  "id": "7f852d58-1fb5-4f07-b302-be84a4cc10c7",
+  "isOverridable": false
+}

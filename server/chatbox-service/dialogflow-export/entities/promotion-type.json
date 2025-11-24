@@ -1,0 +1,71 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "promotion-type",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "giam-gia",
+      "synonyms": [
+        "giam-gia",
+        "giảm giá",
+        "discount",
+        "sale",
+        "giảm giá trực tiếp"
+      ]
+    },
+    {
+      "value": "tra-gop",
+      "synonyms": [
+        "tra-gop",
+        "trả góp",
+        "góp",
+        "trả góp 0%",
+        "trả góp không lãi"
+      ]
+    },
+    {
+      "value": "qua-tang",
+      "synonyms": [
+        "qua-tang",
+        "quà tặng",
+        "tặng kèm",
+        "gift",
+        "freegift",
+        "quà tặng kèm"
+      ]
+    },
+    {
+      "value": "hoan-tien",
+      "synonyms": [
+        "hoan-tien",
+        "hoàn tiền",
+        "cashback",
+        "hoàn xu"
+      ]
+    },
+    {
+      "value": "mien-phi-ship",
+      "synonyms": [
+        "mien-phi-ship",
+        "miễn phí ship",
+        "free ship",
+        "miễn phí vận chuyển",
+        "ship 0đ"
+      ]
+    },
+    {
+      "value": "flash-sale",
+      "synonyms": [
+        "flash-sale",
+        "flash sale",
+        "giờ vàng",
+        "sale sốc",
+        "giá sốc"
+      ]
+    }
+  ],
+  "id": "b1cc6d3f-1b7b-449e-88ed-6d0d7f3ba680",
+  "isOverridable": false
+}

@@ -1,0 +1,409 @@
+{
+  "id": "8e121664-e0da-4bdd-888f-b22d0b3c7b23",
+  "name": "policy.return",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "title": "🔄 CHÍNH SÁCH ĐỔI TRẢ",
+                  "subtitle": "Đổi trả trong 7 ngày - 100% miễn phí với sản phẩm lỗi",
+                  "type": "info"
+                },
+                {
+                  "type": "accordion",
+                  "text": "• Đổi trả trong 7 ngày kể từ khi nhận hàng\n• Giữ nguyên hộp, phụ kiện đầy đủ\n• Máy chưa qua sử dụng (với lỗi do NSX)",
+                  "title": "✅ Điều kiện đổi trả",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "text": "• Đổi trả 100% miễn phí với sản phẩm lỗi\n• Shop chịu phí ship 2 chiều",
+                  "type": "accordion",
+                  "title": "🆓 Miễn phí đổi trả",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "text": "• Hoàn tiền sau 3-5 ngày làm việc\n• Chuyển khoản về tài khoản đã thanh toán",
+                  "title": "💰 Chính sách hoàn tiền",
+                  "type": "accordion",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "text": [
+                    "Thời gian: 8:00 - 22:00 (Tất cả các ngày)"
+                  ],
+                  "title": "📞 Hotline hỗ trợ: 1900.9999",
+                  "type": "description"
+                },
+                {
+                  "type": "chips",
+                  "options": [
+                    {
+                      "text": "Chính sách bảo hành"
+                    },
+                    {
+                      "text": "Chính sách giao hàng"
+                    },
+                    {
+                      "text": "Tìm điện thoại"
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hàng bị hỏng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "84a570cd-ab19-422d-8244-bc0b39b4217a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Máy bị lỗi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "c3cd86e4-2a2d-4ead-bcd5-a7390aa9e28b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Không vừa ý đổi được không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "de206860-b9cc-4e12-bb41-d0b7afc0bafd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả sản phẩm",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ae51af8e-bfa6-4e3d-ba8f-47ce83123808",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đổi sản phẩm",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "424eb290-3947-49b2-a5c5-e8e67e0e4952",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cách trả hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "b1c876f4-65ab-450f-a04a-61017b9f2f64",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cách đổi hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2eebbf4b-d235-44c7-a974-928b9c6e7ea0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thời gian đổi trả",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "24d72ec0-c06e-425f-a3b6-1b751eae2af6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "7 ngày đổi trả",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "79083aa1-1bbb-4d49-bc17-7cdb07f9f949",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Miễn phí đổi trả",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4abecd98-b994-4aef-bf3d-43826878542f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có mất ",
+          "userDefined": false
+        },
+        {
+          "text": "phí",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " đổi trả không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "c0dfd460-ecc3-4df9-a667-8cf8d78a7b0e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Phí",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " đổi trả",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "29c5bda7-2616-482b-a085-813c908f2fcd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hoàn tiền khi nào",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "b6eeb5be-e835-4d34-8763-00005f9dec5f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Máy lỗi đổi được không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "83a22253-3201-4570-8ea3-b05031c1759d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điều kiện đổi trả",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "b197615c-5110-4033-a014-aceb68f36f36",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả hàng lỗi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f1525748-8c7e-42a6-8d70-d5fda0b3342e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đổi máy lỗi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "902a8167-1fac-427e-898e-e33b18bd7403",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chính sách trả hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "44d51d23-d725-4e37-af86-e39fd93fe66d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chính sách đổi hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d1923884-b74c-4838-9beb-e4389a8230e5",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đổi hàng như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "57159039-6542-48c7-99e9-b451d7acefed",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả hàng được không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "44f94fdd-751b-4dbd-b320-1fb605ad65b3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hoàn tiền như thế nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5e438611-144a-430a-91d9-be0245f513e9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Sản phẩm lỗi thì sao",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2d73a60a-29fe-4998-b449-31a8ce2ed665",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đổi trả trong bao lâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "cf8153de-dc2c-46b0-99e4-4e6aa882ecec",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chính sách đổi trả",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2da44d6e-8de8-4249-b53c-64478398b16f",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

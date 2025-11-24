@@ -1,0 +1,611 @@
+{
+  "id": "ecabcc4e-b225-4405-80cd-d3f069e7ac56",
+  "name": "policy.payment",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "promotion-type",
+          "dataType": "@promotion-type",
+          "isList": true,
+          "required": false,
+          "prompts": [],
+          "value": "$promotion-type",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "color-name",
+          "dataType": "@color-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$color-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "payment-method",
+          "dataType": "@payment-method",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$payment-method",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "title": "💳 PHƯƠNG THỨC THANH TOÁN",
+                  "subtitle": "Đa dạng hình thức - An toàn & Tiện lợi",
+                  "type": "info"
+                },
+                {
+                  "type": "accordion",
+                  "text": "• Ship COD toàn quốc\n• Thanh toán khi nhận hàng\n• Kiểm tra hàng trước khi thanh toán",
+                  "title": "💰 Tiền mặt (COD)",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "type": "accordion",
+                  "text": "• VNPAY, MoMo, ZaloPay\n• Visa, Mastercard, JCB\n• Internet Banking",
+                  "title": "💳 Chuyển khoản / Ví điện tử",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "text": "• Home Credit, FE Credit\n• Thẻ tín dụng các ngân hàng\n• Duyệt nhanh trong 15 phút",
+                  "title": "📱 Trả góp 0% lãi suất",
+                  "type": "accordion",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "type": "description",
+                  "text": [
+                    "• Giảm thêm 2-5%",
+                    "• Hoàn xu, tích điểm thành viên"
+                  ],
+                  "title": "🎁 Ưu đãi thanh toán online"
+                },
+                {
+                  "options": [
+                    {
+                      "text": "Tìm điện thoại"
+                    },
+                    {
+                      "text": "Chính sách giao hàng"
+                    }
+                  ],
+                  "type": "chips"
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tích điểm",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "28e7b9cc-a3f8-4cf9-822b-c6c68c59ae55",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cashback",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "56f022a0-480c-4666-8b61-2e05d2d30d13",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hoàn tiền",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " khi thanh toán",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "362c014b-fd61-45a5-9026-7032eadadeb3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "giảm giá",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " khi thanh toán online không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "499783a0-2986-4c4c-9cfc-77446eec6a53",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán trực tuyến",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5a02fc04-13ba-4118-bed5-955d51a27f79",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả góp",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " FE Credit",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "459269ed-768c-4d5c-b285-913ebd715e3c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả góp",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " Home Credit",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "276d5969-c25c-4a2b-a675-5c547640f73b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả góp",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "thẻ tín dụng",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "8f7fc940-1838-41d8-a561-e567c6d69c08",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Góp không lãi",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "6a3080d4-2f7b-42c9-a666-020eb199cbc1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả góp 0%",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "80305822-d595-4639-8e39-aa5c65092b49",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Ví điện tử",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "dd7289bd-9585-4052-b9cc-aeddd96bf362",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Internet Banking",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "051b126f-9520-4ac3-98ef-5d7300f409bb",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "chuyển khoản",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        }
+      ],
+      "count": 0,
+      "id": "b9faecc2-409c-4049-9e79-abc523907c4e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "thẻ Visa",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 1,
+      "id": "06bf04cd-35c4-4096-a969-2dd7054af22e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "thẻ tín dụng",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "62dcc799-f9bb-4ab1-b779-328f68567a23",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "PayPal",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "5e21ddaa-e823-4b9b-ac17-5adabbc8ff75",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "ZaloPay",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "77aad915-55c4-4e53-81ac-44a31bcfbf96",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "VNPAY",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "26585d3e-792a-4236-8bb5-6064aa4b721e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "MoMo",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "b8207c3b-db30-42db-8c44-68126b5ab6e7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cách thanh toán",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "1db9796f-2cfc-43b5-8f85-b3ba0acc6415",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả tiền như nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2fe2ba26-b012-47b3-96ef-7da8cb4424ed",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán khi nhận hàng",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "19767848-bd15-4316-9494-604a22bf3423",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "tiền mặt",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "92d9bab2-016a-410e-a194-8d42a15e668f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "COD",
+          "userDefined": false,
+          "alias": "payment-method",
+          "meta": "@payment-method"
+        }
+      ],
+      "count": 0,
+      "id": "1ef21fe6-33b6-4805-90eb-7b0b37fc56aa",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Phương thức thanh toán",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "4d949e49-ec5d-4953-9369-8293bfe493d9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán ",
+          "userDefined": false
+        },
+        {
+          "text": "bằng",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " thẻ",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "21976a48-53b9-4270-b41c-e069b921d50a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Trả góp",
+          "userDefined": false,
+          "alias": "promotion-type",
+          "meta": "@promotion-type"
+        },
+        {
+          "text": " được không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "f2bc44c1-9747-493d-847d-c7bd62dc0a0b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán online",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "3489826d-2958-4351-9b42-b3e2f9dce16e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có những hình thức thanh toán nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e5e7d387-63c9-4014-9137-492cd2e45622",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thanh toán như thế nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "a6adca9e-21cd-4f7c-b58d-ddcb9ec1b406",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

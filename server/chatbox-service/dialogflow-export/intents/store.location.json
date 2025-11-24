@@ -1,0 +1,702 @@
+{
+  "id": "706fedf0-638a-45ed-8887-d09e41d45a96",
+  "name": "store.location",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "location",
+          "dataType": "@location",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$location",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "title": "🏪 HỆ THỐNG CỬA HÀNG SMARTBUY",
+                  "type": "info",
+                  "subtitle": "5 chi nhánh trên toàn quốc"
+                },
+                {
+                  "text": "• 123 Trần Duy Hưng, Cầu Giấy\n• 456 Giải Phóng, Hai Bà Trưng\n\n☎️ Hotline: 024.xxxx.xxxx",
+                  "title": "📍 Hà Nội (2 chi nhánh)",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "type": "accordion"
+                },
+                {
+                  "title": "📍 Hồ Chí Minh (2 chi nhánh)",
+                  "type": "accordion",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "text": "• 789 Nguyễn Văn Linh, Quận 7\n• 321 Lê Văn Việt, Quận 9\n\n☎️ Hotline: 028.xxxx.xxxx"
+                },
+                {
+                  "type": "accordion",
+                  "title": "📍 Đà Nẵng (1 chi nhánh)",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "text": "• 147 Hùng Vương, Hải Châu\n\n☎️ Hotline: 0236.xxxx.xxxx"
+                },
+                {
+                  "text": "🗺️ Xem bản đồ chi nhánh",
+                  "icon": {
+                    "type": "location_on",
+                    "color": "#DC143C"
+                  },
+                  "type": "button",
+                  "link": "https://smartbuy.com/stores"
+                },
+                {
+                  "options": [
+                    {
+                      "text": "Liên hệ hotline"
+                    },
+                    {
+                      "text": "Tìm điện thoại"
+                    }
+                  ],
+                  "type": "chips"
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Shop gần nhà",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "c13e7758-b7dc-4b87-a16e-06cb2e4e25d3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa hàng quận 1",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "be9c916d-f32a-4450-a6e3-a77060ff16af",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa hàng toàn quốc",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "222580e5-2063-41a5-a4a0-aee99c8a2535",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa hàng tỉnh",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "238d4d5a-34d7-4e2e-b998-618e9457271e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi nhánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Cần Thơ",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "ed9004d7-df76-4dca-aae4-9983f92248b2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có cửa hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "Hải Phòng",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ada85aec-286b-4948-98c4-610192e0a0b1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Địa chỉ cửa hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "Đà Nẵng",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "a16adb03-f29e-46dc-a52f-ba7a63922731",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "DN",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "35633c2a-8cc7-4830-bc78-44afcf783b01",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có cửa hàng ",
+          "userDefined": false
+        },
+        {
+          "text": "Đà Nẵng",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "03b1fa6c-9923-46fc-b8c2-5321a1ccb748",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi nhánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Đà Nẵng",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "cdb2ca1f-ef4e-462b-bda1-2b9623aec603",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi nhánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Saigon",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "79ee0fb7-c6b8-49ee-9bce-bb03784114de",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Địa chỉ cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "HCM",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "2d02f4af-aff6-4341-a417-39b663d96dd0",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "SG",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "772c9ee8-9493-4876-83b7-d3f377807952",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "HCM",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "aa4112db-6534-4ebc-b1a2-a6a9c363360b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "Sài Gòn",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "không",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "ce2d4f1b-2327-4630-a39a-42cf832b91db",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi nhánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Hồ Chí Minh",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "b1fdcbe9-1901-40b5-b06d-82c5c75698bd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi nhánh ",
+          "userDefined": false
+        },
+        {
+          "text": "HN",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "d4a66b96-4197-422a-b65f-077c7d0ab8cd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Địa chỉ cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "Hà Nội",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "1dddcdf8-f99a-4097-a257-2eb65b35b0da",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "thủ đô",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "770f79ad-e7d5-421e-9da1-b9b993426a61",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "HN",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "04aa5379-232e-4812-8fa0-86248cd3f735",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "Hà Nội",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "không",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "2876cf4a-b327-4b2a-bc07-ec9da373637a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chi nhánh ",
+          "userDefined": false
+        },
+        {
+          "text": "Hà Nội",
+          "userDefined": false,
+          "alias": "location",
+          "meta": "@location"
+        }
+      ],
+      "count": 0,
+      "id": "5045ac2d-b1cc-49c3-8890-dca495e9c29e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hệ",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " thống cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "88771206-920f-4f2e-9aa6-22440d4f48c9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " SmartBuy",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "54df8990-81a8-4013-aa9a-35ce20ae4fcf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Xem cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "de235770-a9a7-4121-8e4c-49789f90f563",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        },
+        {
+          "text": " gần tôi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0a0d7a6f-9ecb-486f-b549-faea5b7f1f41",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Địa chỉ cửa ",
+          "userDefined": false
+        },
+        {
+          "text": "hàng",
+          "userDefined": false,
+          "meta": "@sys.ignore",
+          "alias": null
+        }
+      ],
+      "count": 0,
+      "id": "1e2091f1-1242-486b-a16b-59adaf900217",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cửa hàng ở đâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "6a51f197-ff3b-4799-b206-9a5748dacccd",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

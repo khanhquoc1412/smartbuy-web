@@ -1,0 +1,75 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": false,
+  "name": "payment-method",
+  "automatedExpansion": false,
+  "entries": [
+    {
+      "value": "cod",
+      "synonyms": [
+        "cod",
+        "COD",
+        "Ship COD",
+        "tiền mặt",
+        "trả tiền khi nhận hàng",
+        "thanh toán khi nhận hàng",
+        "cash"
+      ]
+    },
+    {
+      "value": "vnpay",
+      "synonyms": [
+        "vnpay",
+        "VNPAY",
+        "VNPay",
+        "VN Pay",
+        "ví điện tử VNPAY"
+      ]
+    },
+    {
+      "value": "momo",
+      "synonyms": [
+        "momo",
+        "MOMO",
+        "MoMo",
+        "Momo",
+        "ví MoMo",
+        "Ví Momo"
+      ]
+    },
+    {
+      "value": "zalopay",
+      "synonyms": [
+        "zalopay",
+        "ZALOPAY",
+        "ZaloPay",
+        "Zalo Pay",
+        "ví ZaloPay"
+      ]
+    },
+    {
+      "value": "paypal",
+      "synonyms": [
+        "paypal",
+        "PAYPAL",
+        "PayPal",
+        "Pay Pal"
+      ]
+    },
+    {
+      "value": "credit_card",
+      "synonyms": [
+        "credit_card",
+        "thẻ tín dụng",
+        "credit card",
+        "thẻ visa",
+        "thẻ master",
+        "visa",
+        "mastercard"
+      ]
+    }
+  ],
+  "id": "a78ebd7e-c334-4592-8651-7ce453a95464",
+  "isOverridable": false
+}

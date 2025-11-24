@@ -1,0 +1,98 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": false,
+  "name": "price-range",
+  "automatedExpansion": false,
+  "entries": [
+    {
+      "value": "duoi-3-trieu",
+      "synonyms": [
+        "duoi-3-trieu",
+        "dưới 3 triệu",
+        "<3tr",
+        "dưới 3tr",
+        "giá rẻ",
+        "bình dân",
+        "học sinh",
+        "dưới ba triệu",
+        "dưới 3 củ"
+      ]
+    },
+    {
+      "value": "3-5-trieu",
+      "synonyms": [
+        "3-5-trieu",
+        "từ 3 đến 5 triệu",
+        "3-5tr",
+        "tầm 3 triệu",
+        "tầm 5 triệu",
+        "khoảng 3 triệu",
+        "khoảng 5 triệu",
+        "3 đến 5 củ"
+      ]
+    },
+    {
+      "value": "5-10-trieu",
+      "synonyms": [
+        "5-10-trieu",
+        "từ 5 đến 10 triệu",
+        "5-10tr",
+        "tầm 10 triệu",
+        "giá vừa phải",
+        "tầm trung",
+        "tầm 7 triệu",
+        "5 đến 10 củ",
+        "dưới 10 triệu"
+      ]
+    },
+    {
+      "value": "10-15-trieu",
+      "synonyms": [
+        "10-15-trieu",
+        "từ 10 đến 15 triệu",
+        "10-15tr",
+        "tầm 15 triệu",
+        "khoảng 12 triệu",
+        "10 đến 15 củ"
+      ]
+    },
+    {
+      "value": "15-20-trieu",
+      "synonyms": [
+        "15-20-trieu",
+        "từ 15 đến 20 triệu",
+        "15-20tr",
+        "tầm 20 triệu",
+        "khoảng 18 triệu",
+        "15 đến 20 củ"
+      ]
+    },
+    {
+      "value": "20-30-trieu",
+      "synonyms": [
+        "20-30-trieu",
+        "từ 20 đến 30 triệu",
+        "20-30tr",
+        "tầm 25 triệu",
+        "cao cấp",
+        "flagship",
+        "20 đến 30 củ"
+      ]
+    },
+    {
+      "value": "tren-30-trieu",
+      "synonyms": [
+        "tren-30-trieu",
+        "trên 30 triệu",
+        ">30tr",
+        "siêu cao cấp",
+        "ultra flagship",
+        "sang chảnh",
+        "trên 30 củ"
+      ]
+    }
+  ],
+  "id": "cfbdd625-8cee-4645-903a-e4868c3664d5",
+  "isOverridable": false
+}

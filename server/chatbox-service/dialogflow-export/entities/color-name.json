@@ -1,0 +1,129 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "color-name",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "den",
+      "synonyms": [
+        "den",
+        "đen",
+        "black",
+        "đen bóng",
+        "đen nhám",
+        "đen mờ"
+      ]
+    },
+    {
+      "value": "trang",
+      "synonyms": [
+        "trang",
+        "trắng",
+        "white",
+        "trắng ngà",
+        "trắng sáng"
+      ]
+    },
+    {
+      "value": "xanh",
+      "synonyms": [
+        "xanh",
+        "blue",
+        "xanh dương",
+        "xanh da trời"
+      ]
+    },
+    {
+      "value": "hong",
+      "synonyms": [
+        "hong",
+        "hồng",
+        "pink",
+        "hồng nhạt",
+        "hồng đậm"
+      ]
+    },
+    {
+      "value": "xam",
+      "synonyms": [
+        "xam",
+        "xám",
+        "gray",
+        "grey",
+        "xám đậm",
+        "xám nhạt"
+      ]
+    },
+    {
+      "value": "vang",
+      "synonyms": [
+        "vang",
+        "vàng",
+        "yellow",
+        "vàng kim",
+        "gold"
+      ]
+    },
+    {
+      "value": "bac",
+      "synonyms": [
+        "bac",
+        "bạc",
+        "silver",
+        "bạc sáng"
+      ]
+    },
+    {
+      "value": "cam",
+      "synonyms": [
+        "cam",
+        "orange"
+      ]
+    },
+    {
+      "value": "xanh-la",
+      "synonyms": [
+        "xanh-la",
+        "xanh lá",
+        "green",
+        "xanh lá cây"
+      ]
+    },
+    {
+      "value": "xanh-luu-ly",
+      "synonyms": [
+        "xanh-luu-ly",
+        "xanh lưu ly",
+        "blue glass"
+      ]
+    },
+    {
+      "value": "xanh-mong-ket",
+      "synonyms": [
+        "xanh-mong-ket",
+        "xanh mồng két",
+        "turquoise"
+      ]
+    },
+    {
+      "value": "do",
+      "synonyms": [
+        "do",
+        "đỏ",
+        "red"
+      ]
+    },
+    {
+      "value": "tim",
+      "synonyms": [
+        "tim",
+        "tím",
+        "violet"
+      ]
+    }
+  ],
+  "id": "48a9b4af-e7fb-42cb-a446-195829ad4e1b",
+  "isOverridable": false
+}

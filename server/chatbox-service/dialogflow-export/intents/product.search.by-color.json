@@ -1,0 +1,345 @@
+{
+  "id": "ea48fea8-a109-4202-9357-12de904ddff8",
+  "name": "product.search.by-color",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "product-category",
+          "dataType": "@product-category",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$product-category",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "color-name",
+          "dataType": "@color-name",
+          "isList": true,
+          "required": true,
+          "prompts": [
+            "Bạn muốn tìm điện thoại màu gì?"
+          ],
+          "value": "$color-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "brand-name",
+          "dataType": "@brand-name",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$brand-name",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "max-price",
+          "dataType": "@sys.number-integer",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$max-price",
+          "outputDialogContexts": []
+        },
+        {
+          "noInputPromptMessages": [],
+          "noMatchPromptMessages": [],
+          "promptMessages": [],
+          "defaultValue": "",
+          "name": "price-range",
+          "dataType": "@price-range",
+          "isList": false,
+          "required": false,
+          "prompts": [],
+          "value": "$price-range",
+          "outputDialogContexts": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "tím",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "giá rẻ",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "516adaf7-df53-4fb5-af8c-9c4fe8ecdc0e",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Oppo",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "hồng",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "từ 10 đến 15 triệu",
+          "userDefined": false,
+          "alias": "price-range",
+          "meta": "@price-range"
+        }
+      ],
+      "count": 0,
+      "id": "e15d45e7-8344-4e3b-a69b-a25eb40fd9b6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Honnor",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "xanh",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "5",
+          "userDefined": true,
+          "alias": "max-price",
+          "meta": "@sys.number-integer"
+        },
+        {
+          "text": " triệu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ebcc4ecf-e9cd-456c-afc2-89225a354caf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tìm ",
+          "userDefined": false
+        },
+        {
+          "text": "điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "tím",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        }
+      ],
+      "count": 0,
+      "id": "c138069f-e142-4378-841f-85d8e4119035",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Vàng",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " ",
+          "userDefined": false
+        },
+        {
+          "text": "apple",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        }
+      ],
+      "count": 0,
+      "id": "a93317f2-89eb-45b5-8123-94ccbc088a65",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có ",
+          "userDefined": false
+        },
+        {
+          "text": "iPhone",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "trắng",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        },
+        {
+          "text": " không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0e3d480e-537f-4e41-93ca-993c02b416bc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Samsung",
+          "userDefined": false,
+          "alias": "brand-name",
+          "meta": "@brand-name"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "hồng",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        }
+      ],
+      "count": 0,
+      "id": "7683a473-d89a-4101-834a-50e87d5dee60",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Điện thoại",
+          "userDefined": false,
+          "alias": "product-category",
+          "meta": "@product-category"
+        },
+        {
+          "text": " màu ",
+          "userDefined": false
+        },
+        {
+          "text": "đen",
+          "userDefined": false,
+          "alias": "color-name",
+          "meta": "@color-name"
+        }
+      ],
+      "count": 0,
+      "id": "1bf63f5f-f643-49b3-b5e0-dc2030ae33bc",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": true
+}

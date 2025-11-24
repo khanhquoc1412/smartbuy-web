@@ -1,0 +1,374 @@
+{
+  "id": "23cfbeb6-fc74-451c-b882-8bc63baf442c",
+  "name": "policy.shipping",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "subtitle": "Giao hàng toàn quốc - Hỗ trợ COD",
+                  "type": "info",
+                  "title": "📦 CHÍNH SÁCH GIAO HÀNG"
+                },
+                {
+                  "title": "✅ Phí ship",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "type": "accordion",
+                  "text": "• Miễn phí với đơn từ 500.000đ\n• 30.000đ với đơn dưới 500.000đ"
+                },
+                {
+                  "text": "• Nội thành HCM/HN: 1-2 ngày\n• Ngoại thành: 3-5 ngày\n• Vùng xa: 5-7 ngày",
+                  "type": "accordion",
+                  "title": "⏰ Thời gian giao hàng",
+                  "subtitle": "👇 Nhấn để xem chi tiết"
+                },
+                {
+                  "title": "🚚 Đơn vị vận chuyển",
+                  "subtitle": "👇 Nhấn để xem chi tiết",
+                  "type": "accordion",
+                  "text": "• Giao Hàng Nhanh\n• Viettel Post\n• J&T Express"
+                },
+                {
+                  "type": "chips",
+                  "options": [
+                    {
+                      "text": "Chính sách đổi trả"
+                    },
+                    {
+                      "text": "Chính sách bảo hành"
+                    },
+                    {
+                      "text": "Tìm điện thoại"
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng tỉnh",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ac5896a7-775e-4202-b5de-52288050dbfd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng Sài Gòn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d20fe744-b0fe-4236-82a8-d0576383121b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng Hà Nội",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "83275d0f-f488-491d-8562-052f7c9ea22a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cước ship",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "62f5b64d-4b5e-4a5c-b9f7-8286e89d0aa8",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Phí giao hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "0953c040-ef1e-40a9-b0ce-2410fdc58dff",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Shipper nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "34627d11-cea2-4c80-956c-6e21a9206daf",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng bằng gì",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d5fa67b7-699e-4698-b159-a87a7e6f9639",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Đơn vị vận chuyển",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5f43208b-fa52-4562-a97e-bce63bd32c18",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng tận nơi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e5cf9053-0508-491f-9677-dc6f75358bbd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Thời gian giao hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "26171a27-87b2-4eee-abd6-b9d5416f2c3d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có giao COD không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "0367e300-5728-4404-9787-952ae8760bd9",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng nhanh không",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "b1d5fb65-99d2-469d-b2ae-e76a107ebb4d",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Ship miễn phí",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "6978f02a-c851-43ea-b604-1994379a8a84",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Free ship",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "b435188e-be94-4cf6-a436-8ad55f8a6e37",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Miễn phí vận chuyển",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "d47a80e3-c5ed-443e-8030-80d8673d0e9c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng toàn quốc không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "1fa51a1a-46eb-45ae-818d-f794ab61d774",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Ship COD",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "fd832067-084e-4174-befb-4568838c4514",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng như thế nào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "ea70bc97-243f-4c2f-b2fd-ce3676023024",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Free ship không",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "be22a660-87c7-46f6-b18d-3136d6ddd84c",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có COD không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "2f3db957-3a5b-404d-a54c-c2cd5fc2abd1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Có giao hàng miễn phí không",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5eb10e11-487d-45b5-b5de-21cc8302858a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Phí ship bao nhiêu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5398a31b-1065-45d4-aead-e7929ba5c7fc",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Giao hàng mất bao lâu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "9308f65e-5b2b-4f04-9141-604ce450c393",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chính sách giao hàng",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "e6db0dfe-c04c-467d-a11c-0726db055512",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

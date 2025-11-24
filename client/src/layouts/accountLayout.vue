@@ -109,7 +109,7 @@ const sidebarItems = ref<ISideBarItem[]>([
         path: "/account/change-password",
     },
 ]);
-const { user } = useAuth()
+const { user, signOut } = useAuth()
 const isAdmin = computed(() => (user.value as any)?.isAdmin === true || (user.value as any)?.isAdmin === 'true' || (user.value as any)?.role === 'admin')
 const sidebarItemsWithAdmin = computed<ISideBarItem[]>(() => {
     const base = [...sidebarItems.value]
@@ -132,8 +132,7 @@ const closeModal = (value: boolean) => {
     activeModalSignOut.value = value
 }
 const handleLogout = () => {
-    localStorage.clear()
-    router.push({ path: '/login' })
+    signOut()
 }
 </script>
 

@@ -1,0 +1,342 @@
+{
+  "id": "822f79c6-0287-4ed9-8bf4-29c535e0d2c2",
+  "name": "Default Welcome Intent",
+  "auto": true,
+  "condition": "",
+  "conditionalFollowupEvents": [],
+  "conditionalResponses": [],
+  "context": [],
+  "contexts": [],
+  "endInteraction": false,
+  "events": [
+    {
+      "name": "WELCOME"
+    }
+  ],
+  "fallbackIntent": false,
+  "liveAgentHandoff": false,
+  "parentId": null,
+  "followUpIntents": [],
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "input.welcome",
+      "affectedContexts": [],
+      "parameters": [],
+      "defaultResponsePlatforms": {},
+      "messages": [
+        {
+          "type": "message",
+          "condition": "",
+          "speech": []
+        },
+        {
+          "type": "custom_payload",
+          "condition": "",
+          "payload": {
+            "richContent": [
+              [
+                {
+                  "type": "info",
+                  "subtitle": "Trợ lý mua sắm điện thoại thông minh của bạn!",
+                  "image": {
+                    "src": {
+                      "rawUrl": "https://i.imgur.com/smartbuy-logo.png"
+                    }
+                  },
+                  "title": "Xin chào! 👋 Tôi là SmartBuy Assistant"
+                },
+                {
+                  "text": [
+                    "📱 Tìm kiếm điện thoại (Hãng, giá, màu sắc)",
+                    "📦 Tra cứu đơn hàng",
+                    "🎁 Xem chương trình khuyến mãi",
+                    "📋 Tư vấn chính sách (Giao hàng, đổi trả, bảo hành)"
+                  ],
+                  "title": "💬 Tôi có thể giúp bạn:",
+                  "type": "description"
+                },
+                {
+                  "options": [
+                    {
+                      "text": "Tìm iPhone dưới 20tr"
+                    },
+                    {
+                      "text": "Điện thoại Samsung giá rẻ"
+                    },
+                    {
+                      "text": "Tra đơn hàng"
+                    },
+                    {
+                      "text": "Khuyến mãi hot"
+                    }
+                  ],
+                  "type": "chips"
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "resetContexts": false
+    }
+  ],
+  "rootParentId": null,
+  "templates": [],
+  "userSays": [
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Alo",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "52a6b52d-153e-4cba-b9f0-f8a785ce6650",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Alooo",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "227da430-0704-48c1-86ee-e2ed66cfc246",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tìm điện thoại",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "02d11933-c16d-4175-b2e5-a80f44138571",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Shop ơi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "c134661e-9a6f-46af-93d4-26fb37b005e4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Chào shop",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "fabe5613-b998-48dc-b16d-570df8ecb948",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Cho tôi hỏiw",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "266b59c2-a620-400f-ab9f-94c257b60597",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Tôi muốn mua điện thoại",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "937ade80-32f7-4022-ab21-e1c840e06e7b",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hey",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "3b40a91c-3d56-4f08-ac03-be8e047f9bdd",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hi",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "268df341-6e3a-4e7f-8b28-899e5fb04746",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "Hello",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "5193bf01-6631-4f5a-9079-198edfd5c64f",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "xin chào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "b935911d-9744-40c9-9709-8f06ec069e86",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chào bạn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "83f5a2bb-8589-4882-b12a-8949fe4a438a",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chào cậu",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "7a5e4060-2936-43aa-b7f4-ce5312920ad1",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chào đằng ấy",
+          "userDefined": false
+        }
+      ],
+      "count": 1,
+      "id": "d8e85f49-1919-4717-a4b9-68cafc233ac3",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "xin chào, lại là tôi đây",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "01d79072-285a-4af8-9b23-d7d275778fb4",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "lâu lắm không gặp",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "523f50cc-4ccb-4b9b-b6cb-e7184b0998f7",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chào nhé",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "aa226f9b-5bc9-427f-a40c-4bc0c9f8b4a6",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chào mừng bạn",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "aa567306-7be9-4d83-9ba6-e99b6eabdcd2",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "chào",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "07c68d65-4263-4250-a65b-3ee06b08e597",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "xin chào đằng ấy",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "15550479-7cb5-462c-aa0e-095784902251",
+      "updated": null
+    },
+    {
+      "isTemplate": false,
+      "data": [
+        {
+          "text": "xin chào nhé",
+          "userDefined": false
+        }
+      ],
+      "count": 0,
+      "id": "c0f6e86c-098c-47a1-94a8-035ca61c9dc3",
+      "updated": null
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+}

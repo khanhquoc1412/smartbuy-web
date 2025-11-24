@@ -190,7 +190,7 @@ import DashboardCustomizer from '@/components/common/DashboardCustomizer.vue'
 
 const router = useRouter()
 const route = useRoute()
-const { user } = useAuth()
+const { user, signOut } = useAuth()
 
 const drawer = ref(true)
 const showCustomizer = ref(false)
@@ -327,9 +327,8 @@ function closeModal() {
 }
 
 function handleLogout() {
-  localStorage.clear()
   activeModalSignOut.value = false
-  router.push('/login')
+  signOut()
 }
 
 function Account() {

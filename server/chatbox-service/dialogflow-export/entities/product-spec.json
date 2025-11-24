@@ -1,0 +1,92 @@
+{
+  "isRegexp": false,
+  "isEnum": false,
+  "allowFuzzyExtraction": true,
+  "name": "product-spec",
+  "automatedExpansion": true,
+  "entries": [
+    {
+      "value": "man-hinh",
+      "synonyms": [
+        "man-hinh",
+        "màn hình",
+        "screen",
+        "display",
+        "kích thước màn hình",
+        "độ phân giải"
+      ]
+    },
+    {
+      "value": "camera-sau",
+      "synonyms": [
+        "camera-sau",
+        "camera sau",
+        "camera chính",
+        "main camera",
+        "rear camera"
+      ]
+    },
+    {
+      "value": "camera-truoc",
+      "synonyms": [
+        "camera-truoc",
+        "camera trước",
+        "camera selfie",
+        "front camera",
+        "camera tự sướng"
+      ]
+    },
+    {
+      "value": "chip",
+      "synonyms": [
+        "chip",
+        "vi xử lý",
+        "processor",
+        "CPU",
+        "chipset"
+      ]
+    },
+    {
+      "value": "pin",
+      "synonyms": [
+        "pin",
+        "battery",
+        "dung lượng pin",
+        "thời lượng pin",
+        "pin trâu"
+      ]
+    },
+    {
+      "value": "ram",
+      "synonyms": [
+        "ram",
+        "RAM",
+        "bộ nhớ tạm",
+        "bộ nhớ đệm"
+      ]
+    },
+    {
+      "value": "rom",
+      "synonyms": [
+        "rom",
+        "ROM",
+        "bộ nhớ trong",
+        "internal storage",
+        "dung lượng lưu trữ"
+      ]
+    },
+    {
+      "value": "he-dieu-hanh",
+      "synonyms": [
+        "he-dieu-hanh",
+        "hệ điều hành",
+        "OS",
+        "operating system",
+        "iOS",
+        "Android"
+      ]
+    }
+  ],
+  "id": "1d760eb1-0ed0-4180-82dd-f5ce392051dc",
+  "isOverridable": false
+}
