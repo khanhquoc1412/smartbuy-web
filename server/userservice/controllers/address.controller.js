@@ -10,20 +10,22 @@ const { NotFoundError, BadRequestError } = require("../../src/errors");
 exports.getAddresses = async (req, res, next) => {
   try {
     const userId = req.user.userId; // ✅ Đổi từ id -> userId
-    
-    const addresses = await Address.find({ userId })
-      .sort({ isDefault: -1, createdAt: -1 });
+
+    const addresses = await Address.find({ userId }).sort({
+      isDefault: -1,
+      createdAt: -1,
+    });
 
     res.status(StatusCodes.OK).json({
       success: true,
-      message: 'Lấy danh sách địa chỉ thành công',
-      data: { 
+      message: "Lấy danh sách địa chỉ thành công",
+      data: {
         addresses: addresses || [],
         total: addresses?.length || 0,
       },
     });
   } catch (error) {
-    console.error('❌ Get addresses error:', error);
+    console.error("❌ Get addresses error:", error);
     next(error);
   }
 };
@@ -39,18 +41,18 @@ exports.getAddress = async (req, res, next) => {
     const { addressId } = req.params;
 
     const address = await Address.findOne({ _id: addressId, userId });
-    
+
     if (!address) {
-      throw new NotFoundError('Không tìm thấy địa chỉ');
+      throw new NotFoundError("Không tìm thấy địa chỉ");
     }
 
     res.status(StatusCodes.OK).json({
       success: true,
-      message: 'Lấy thông tin địa chỉ thành công',
+      message: "Lấy thông tin địa chỉ thành công",
       data: { address },
     });
   } catch (error) {
-    console.error('❌ Get address error:', error);
+    console.error("❌ Get address error:", error);
     next(error);
   }
 };
@@ -60,23 +62,56 @@ exports.getAddress = async (req, res, next) => {
  * @route   GET /api/user/addresses/default
  * @access  Private
  */
-exports.getDefaultAddress = async (req, res, next) => {
+// exports.getDefaultAddress = async (req, res, next) => {
+//   try {
+//     const userId = req.user.userId; // ✅ Đổi
+
+//     console.log("🔔 getDefaultAddress called", {
+//       userId,
+//       hasAuthHeader: !!req.headers?.authorization,
+//     });
+
+//     const defaultAddress = await Address.findOne({ userId, isDefault: true });
+
+//     console.log("🔍 defaultAddress lookup result for user:", userId, {
+//       found: !!defaultAddress,
+//       addressId: defaultAddress?._id || null,
+//       // Do not print the full address object if you care about PII in logs
+//     });
+
+//     res.status(StatusCodes.OK).json({
+//       success: true,
+//       message: defaultAddress
+//         ? "Lấy địa chỉ mặc định thành công"
+//         : "Chưa có địa chỉ mặc định",
+//       data: { address: defaultAddress || null },
+//     });
+//   } catch (error) {
+//     console.error("❌ Get default address error:", error);
+//     next(error);
+//   }
+// };
+
+exports.getDefaultAddress = async (req, res) => {
   try {
-    const userId = req.user.userId; // ✅ Đổi
+    const userId = req.user?.userId || req.user?.id;
+    console.log('🔔 getDefaultAddress called for userId:', userId, 'authorization present:', !!req.headers.authorization);
 
-    const defaultAddress = await Address.findOne({ userId, isDefault: true });
+    // tìm address mặc định
+    let address = await Address.findOne({ userId, isDefault: true });
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      message: defaultAddress ? 'Lấy địa chỉ mặc định thành công' : 'Chưa có địa chỉ mặc định',
-      data: { address: defaultAddress || null },
-    });
-  } catch (error) {
-    console.error('❌ Get default address error:', error);
-    next(error);
+    // nếu không có -> fallback sang address gần nhất (updatedAt/createdAt)
+    if (!address) {
+      console.log('🔍 no isDefault found for user, falling back to latest address');
+      address = await Address.findOne({ userId }).sort({ updatedAt: -1, createdAt: -1 });
+    }
+
+    return res.status(StatusCodes.OK).json({ success: true, data: { address: address || null } });
+  } catch (err) {
+    console.error('getDefaultAddress error:', err);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Server error' });
   }
 };
-
 /**
  * @desc    Add new address
  * @route   POST /api/user/addresses
@@ -85,22 +120,22 @@ exports.getDefaultAddress = async (req, res, next) => {
 exports.addAddress = async (req, res, next) => {
   try {
     const userId = req.user.userId; // ✅ Từ auth middleware
-    const { 
+    const {
       label,
-      fullName, 
-      phone, 
-      province, 
-      district, 
-      ward, 
+      fullName,
+      phone,
+      province,
+      district,
+      ward,
       address,
-      isDefault 
+      isDefault,
     } = req.body;
 
-    console.log('📝 Add address request:', { userId, body: req.body });
+    console.log("📝 Add address request:", { userId, body: req.body });
 
     // Validation
     if (!fullName || !phone || !province || !district || !ward || !address) {
-      throw new BadRequestError('Thiếu thông tin địa chỉ bắt buộc');
+      throw new BadRequestError("Thiếu thông tin địa chỉ bắt buộc");
     }
 
     // Nếu set làm default
@@ -115,7 +150,7 @@ exports.addAddress = async (req, res, next) => {
     // Tạo address mới
     const newAddress = await Address.create({
       userId,
-      label: label || 'Nhà riêng',
+      label: label || "Nhà riêng",
       fullName,
       phone,
       province,
@@ -125,15 +160,15 @@ exports.addAddress = async (req, res, next) => {
       isDefault: shouldBeDefault,
     });
 
-    console.log('✅ Address created:', newAddress);
+    console.log("✅ Address created:", newAddress);
 
     res.status(StatusCodes.CREATED).json({
       success: true,
-      message: 'Thêm địa chỉ thành công',
+      message: "Thêm địa chỉ thành công",
       data: { address: newAddress },
     });
   } catch (error) {
-    console.error('❌ Add address error:', error);
+    console.error("❌ Add address error:", error);
     next(error);
   }
 };
@@ -150,31 +185,31 @@ exports.updateAddress = async (req, res, next) => {
     const updates = req.body;
 
     const address = await Address.findOne({ _id: addressId, userId });
-    
+
     if (!address) {
-      throw new NotFoundError('Không tìm thấy địa chỉ');
+      throw new NotFoundError("Không tìm thấy địa chỉ");
     }
 
     // ✅ Validate phone if provided
     if (updates.phone) {
       const phoneRegex = /^[0-9]{10,11}$/;
       if (!phoneRegex.test(updates.phone)) {
-        throw new BadRequestError('Số điện thoại không hợp lệ');
+        throw new BadRequestError("Số điện thoại không hợp lệ");
       }
     }
 
     // ✅ Update allowed fields
     const allowedFields = [
-      'label',
-      'fullName', 
-      'phone', 
-      'province', 
-      'district', 
-      'ward', 
-      'address'
+      "label",
+      "fullName",
+      "phone",
+      "province",
+      "district",
+      "ward",
+      "address",
     ];
-    
-    allowedFields.forEach(field => {
+
+    allowedFields.forEach((field) => {
       if (updates[field] !== undefined) {
         address[field] = updates[field];
       }
@@ -188,15 +223,15 @@ exports.updateAddress = async (req, res, next) => {
 
     await address.save();
 
-    console.log('✅ Address updated:', address._id);
+    console.log("✅ Address updated:", address._id);
 
     res.status(StatusCodes.OK).json({
       success: true,
-      message: 'Cập nhật địa chỉ thành công',
+      message: "Cập nhật địa chỉ thành công",
       data: { address },
     });
   } catch (error) {
-    console.error('❌ Update address error:', error);
+    console.error("❌ Update address error:", error);
     next(error);
   }
 };
@@ -212,23 +247,25 @@ exports.deleteAddress = async (req, res, next) => {
     const { addressId } = req.params;
 
     const address = await Address.findOne({ _id: addressId, userId });
-    
+
     if (!address) {
-      throw new NotFoundError('Không tìm thấy địa chỉ');
+      throw new NotFoundError("Không tìm thấy địa chỉ");
     }
 
     const wasDefault = address.isDefault;
-    
+
     await address.deleteOne();
-    console.log('✅ Address deleted:', addressId);
+    console.log("✅ Address deleted:", addressId);
 
     // ✅ Nếu xóa địa chỉ default, set địa chỉ đầu tiên làm default
     if (wasDefault) {
-      const firstAddress = await Address.findOne({ userId }).sort({ createdAt: 1 });
+      const firstAddress = await Address.findOne({ userId }).sort({
+        createdAt: 1,
+      });
       if (firstAddress) {
         firstAddress.isDefault = true;
         await firstAddress.save();
-        console.log('✅ New default address set:', firstAddress._id);
+        console.log("✅ New default address set:", firstAddress._id);
       }
     }
 
@@ -236,14 +273,14 @@ exports.deleteAddress = async (req, res, next) => {
 
     res.status(StatusCodes.OK).json({
       success: true,
-      message: 'Xóa địa chỉ thành công',
-      data: { 
+      message: "Xóa địa chỉ thành công",
+      data: {
         addresses: remainingAddresses,
         total: remainingAddresses.length,
       },
     });
   } catch (error) {
-    console.error('❌ Delete address error:', error);
+    console.error("❌ Delete address error:", error);
     next(error);
   }
 };
@@ -259,27 +296,27 @@ exports.setDefaultAddress = async (req, res, next) => {
     const { addressId } = req.params;
 
     const address = await Address.findOne({ _id: addressId, userId });
-    
+
     if (!address) {
-      throw new NotFoundError('Không tìm thấy địa chỉ');
+      throw new NotFoundError("Không tìm thấy địa chỉ");
     }
 
     // ✅ Bỏ default của tất cả
     await Address.updateMany({ userId }, { isDefault: false });
-    
+
     // ✅ Set address này làm default
     address.isDefault = true;
     await address.save();
 
-    console.log('✅ Default address set:', address._id);
+    console.log("✅ Default address set:", address._id);
 
     res.status(StatusCodes.OK).json({
       success: true,
-      message: 'Đặt địa chỉ mặc định thành công',
+      message: "Đặt địa chỉ mặc định thành công",
       data: { address },
     });
   } catch (error) {
-    console.error('❌ Set default address error:', error);
+    console.error("❌ Set default address error:", error);
     next(error);
   }
 };

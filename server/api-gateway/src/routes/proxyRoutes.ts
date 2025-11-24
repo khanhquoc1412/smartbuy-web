@@ -28,7 +28,10 @@ const services = {
   
   // ===== CART SERVICE (sẽ chuyển sang microservice) =====
   carts: { url: process.env.CART_SERVICE_URL || 'http://localhost:3003', path: '/api/cart' },
-  
+    // ===== ORDER SERVICE (sẽ chuyển sang microservice) =====
+  userorders: { url: process.env.ORDER_SERVICE_URL || 'http://localhost:3004', path: '/api/order' },
+  // ===== PAYMENT SERVICE (sẽ chuyển sang microservice) =====
+  payments: { url: process.env.PAYMENT_SERVICE_URL || 'http://localhost:3002', path: '/api/payments' },
   // ===== BRAND SERVICE (tạm thời từ monolithic) =====
   brand: { url: process.env.BRAND_SERVICE_URL || 'http://localhost:5000', path: '/api/brand' },
   

@@ -53,11 +53,25 @@ export const useAddressQuery = (addressId: MaybeRefOrGetter<string>) => {
 /**
  * Query: Get default address
  */
+// export const useDefaultAddressQuery = () => {
+//   return useQuery({
+//     queryKey: addressKeys.default(),
+//     queryFn: () => getDefaultAddress(),
+//     select: (response) => response.data.address,
+//   });
+// };
 export const useDefaultAddressQuery = () => {
   return useQuery({
     queryKey: addressKeys.default(),
     queryFn: () => getDefaultAddress(),
-    select: (response) => response.data.address,
+    select: (res) => {
+      // res có thể là axios response, hoặc res.data, hoặc { address: ... }
+      const body = res?.data ?? res;
+      // nếu backend trả { success, data: { address } } hoặc { address } hoặc trực tiếp address
+      return body?.data?.address ?? body?.address ?? body ?? null;
+    },
+    // optional: không cache lâu để test
+    staleTime: 0,
   });
 };
 

@@ -15,7 +15,18 @@ export const getAddress = async (id: string) => {
 
 // GET /api/user/addresses/default
 export const getDefaultAddress = async () => {
-  const response = await userAxios.get('/user/addresses/default');
+  // Bypass potential proxy/browser caching by sending no-cache header
+  // and a timestamp query param to ensure we get fresh data (avoid 304 responses)
+  const response = await userAxios.get('/user/addresses/default', {
+    headers: {
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+    },
+    params: {
+      _ts: Date.now(),
+    },
+  });
+
   return response.data;
 };
 

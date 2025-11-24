@@ -8,7 +8,7 @@
 
 ### Kiến trúc Service
 ```
-order-manager-service (Port: 3003)
+orderservice (Port: 3002)
 ├── src/
 │   ├── models/Order.js          # Schema đơn hàng
 │   ├── controllers/orderController.js  # Logic xử lý

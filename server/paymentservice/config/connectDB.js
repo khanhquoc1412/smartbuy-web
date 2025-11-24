@@ -13,7 +13,7 @@ const connectDB = async () => {
 
     const conn = await mongoose.connect(config.MONGO_URI, options);
 
-    console.log(`✅ MongoDB Order Database Connected: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Payment Database Connected: ${conn.connection.host}`);
     console.log(`📦 Database Name: ${conn.connection.name}`);
 
     // Event listeners

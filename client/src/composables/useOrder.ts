@@ -14,11 +14,12 @@ export const useOrder = () => {
     const orderProduct = async (orderInfo: IOrderInfor) => {
         start();
         try {
-            await orderMutateAsync(orderInfo);
-            if (orderData && orderData.value) {
-                //Đặt hàng thành công
-                router.push("/account/order");
-            }
+            const response = await orderMutateAsync(orderInfo);
+            // Trả về response với cấu trúc { data: Order }
+            return response;
+        } catch (error) {
+            console.error('❌ Order error:', error);
+            throw error;
         } finally {
             finish();
         }
@@ -34,11 +35,12 @@ export const useOrder = () => {
     const orderProductGuest = async (orderInfo: IOrderInforGuest) => {
         start();
         try {
-            await orderGuestMutateAsync(orderInfo);
-            if (orderData && orderData.value) {
-                //Order guest thành công
-                router.push("/cart/checkout/thank-you");
-            }
+            const response = await orderGuestMutateAsync(orderInfo);
+            // Trả về response với cấu trúc { data: Order }
+            return response;
+        } catch (error) {
+            console.error('❌ Order guest error:', error);
+            throw error;
         } finally {
             finish();
         }
