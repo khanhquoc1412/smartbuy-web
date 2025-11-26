@@ -19,5 +19,6 @@ router.get("/sale", productController.getProductSale);
 router.post("/create", productController.createProduct);
 router.get("/:slug", productController.getProductBySlug);
 router.post("/add/image", upload.any(), productController.addImageProduct);
+// router.get("/:slug/reviews", productController.getProductReviewsBySlug);
 
 module.exports = router;

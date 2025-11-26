@@ -178,17 +178,17 @@
     <div class="tw-bg-white tw-rounded-lg tw-shadow-md tw-border tw-border-stone-200 tw-overflow-hidden">
       <div class="tw-overflow-x-auto">
         <table class="tw-w-full">
-          <thead class="tw-bg-stone-100 tw-border-b tw-border-stone-200">
+          <thead class="tw-bg-crimson-600 tw-border-b tw-border-stone-200">
             <tr>
-              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Khách hàng</th>
-              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Sản phẩm</th>
-              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Đánh giá</th>
-              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Nội dung</th>
-              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Hình ảnh</th>
-              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Hữu ích</th>
-              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Trạng thái</th>
-              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Thời gian</th>
-              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-stone-600 tw-uppercase tw-tracking-wider">Thao tác</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Khách hàng</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Sản phẩm</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Đánh giá</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Nội dung</th>
+              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Hình ảnh</th>
+              <!-- <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Hữu ích</th> -->
+              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Trạng thái</th>
+              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Thời gian</th>
+              <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-white tw-uppercase tw-tracking-wider">Thao tác</th>
             </tr>
           </thead>
           <tbody class="tw-divide-y tw-divide-stone-200">
@@ -243,14 +243,14 @@
                 </span>
                 <span v-else class="tw-text-stone-400">-</span>
               </td>
-              <td class="tw-px-4 tw-py-3 tw-text-center">
+              <!-- <td class="tw-px-4 tw-py-3 tw-text-center">
                 <span class="tw-inline-flex tw-items-center tw-gap-1 tw-px-2 tw-py-1 tw-bg-blue-100 tw-text-blue-700 tw-rounded-full tw-text-xs tw-font-medium">
                   <svg class="tw-w-3 tw-h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                   </svg>
                   {{ review.helpfulCount }}
                 </span>
-              </td>
+              </td> -->
               <td class="tw-px-4 tw-py-3 tw-text-center">
                 <span 
                   class="tw-inline-flex tw-items-center tw-px-2 tw-py-1 tw-rounded-full tw-text-xs tw-font-medium"
@@ -476,6 +476,82 @@
         </div>
       </div>
     </div>
+
+    <!-- Show Review Modal -->
+    <div v-if="showShowModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50" @click.self="showShowModal = false">
+      <div class="tw-bg-white tw-rounded-lg tw-shadow-xl tw-max-w-md tw-w-full tw-mx-4">
+        <div class="tw-p-6">
+          <h2 class="tw-text-xl tw-font-bold tw-text-stone-900 tw-mb-4">Hiện lại đánh giá</h2>
+          <p class="tw-text-stone-600 tw-mb-4">Bạn có chắc muốn hiện lại đánh giá này?</p>
+          <div class="tw-flex tw-gap-2 tw-justify-end">
+            <button @click="showShowModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors">Hủy</button>
+            <button @click="confirmShowReview" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xác nhận hiện</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Review Modal -->
+    <div v-if="showDeleteModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50" @click.self="showDeleteModal = false">
+      <div class="tw-bg-white tw-rounded-lg tw-shadow-xl tw-max-w-md tw-w-full tw-mx-4">
+        <div class="tw-p-6">
+          <h2 class="tw-text-xl tw-font-bold tw-text-stone-900 tw-mb-4">Xóa đánh giá</h2>
+          <p class="tw-text-stone-600 tw-mb-4">Bạn có chắc muốn xóa đánh giá của <strong>{{ reviewToDelete?.userName }}</strong>? Hành động này không thể hoàn tác!</p>
+          <div class="tw-flex tw-gap-2 tw-justify-end">
+            <button @click="showDeleteModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-200 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-300 tw-transition-colors">Hủy</button>
+            <button @click="confirmDeleteReview" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">Xác nhận xóa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div
+      v-if="showToast"
+      class="tw-fixed tw-top-4 tw-right-4 tw-z-50 tw-bg-white tw-rounded-lg tw-shadow-xl tw-border tw-border-stone-200 tw-p-4 tw-min-w-[300px] tw-max-w-md tw-animate-slide-in"
+    >
+      <div class="tw-flex tw-items-center tw-gap-3">
+        <div
+          class="tw-flex-shrink-0 tw-w-10 tw-h-10 tw-rounded-full tw-flex tw-items-center tw-justify-center"
+          :class="toastType === 'success' ? 'tw-bg-green-100' : 'tw-bg-crimson-100'"
+        >
+          <svg
+            v-if="toastType === 'success'"
+            class="tw-w-6 tw-h-6 tw-text-green-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <svg
+            v-else
+            class="tw-w-6 tw-h-6 tw-text-crimson-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+        <div class="tw-flex-1">
+          <p
+            class="tw-font-medium"
+            :class="toastType === 'success' ? 'tw-text-green-900' : 'tw-text-crimson-900'"
+          >
+            {{ toastMessage }}
+          </p>
+        </div>
+        <button
+          @click="showToast = false"
+          class="tw-flex-shrink-0 tw-text-gray-400 hover:tw-text-gray-600 tw-transition"
+        >
+          <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -518,6 +594,9 @@ const showHideModal = ref(false);
 const selectedReview = ref<Review | null>(null);
 const reviewToHide = ref<Review | null>(null);
 const hideReason = ref('');
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref<'success' | 'error'>('success');
 
 // Computed
 const visibleCount = computed(() => {
@@ -530,8 +609,13 @@ const hiddenCount = computed(() => {
 
 const visiblePages = computed(() => {
   const pages: (number | string)[] = [];
-  const total = pagination.value.pages;
-  const current = pagination.value.page;
+  const total = pagination.value.pages || 0;
+  const current = pagination.value.page || 1;
+  
+  // Nếu không có trang nào hoặc chỉ có 1 trang, không hiển thị pagination
+  if (total <= 1) {
+    return [];
+  }
   
   if (total <= 7) {
     for (let i = 1; i <= total; i++) {
@@ -558,6 +642,16 @@ const visiblePages = computed(() => {
   return pages;
 });
 
+// Toast notification function
+const showToastNotification = (message: string, type: 'success' | 'error', duration: number = 3000) => {
+  toastMessage.value = message;
+  toastType.value = type;
+  showToast.value = true;
+  setTimeout(() => {
+    showToast.value = false;
+  }, duration);
+};
+
 // Methods
 const loadReviews = async () => {
   loading.value = true;
@@ -576,14 +670,14 @@ const loadReviews = async () => {
     console.log('Reviews response:', response);
     reviews.value = response.data.reviews;
     pagination.value = {
-      page: response.data.currentPage,
-      limit: response.data.limit,
-      total: response.data.total,
-      pages: response.data.totalPages
+      page: response.data.pagination.page,
+      limit: response.data.pagination.limit,
+      total: response.data.pagination.total,
+      pages: response.data.pagination.pages
     };
   } catch (error) {
     console.error('Error loading reviews:', error);
-    alert('Có lỗi khi tải danh sách đánh giá');
+    showToastNotification('Có lỗi khi tải danh sách đánh giá', 'error');
   } finally {
     loading.value = false;
   }
@@ -668,40 +762,57 @@ const confirmHideReview = async () => {
     });
     
     showHideModal.value = false;
-    alert('Đã ẩn đánh giá thành công');
+    showToastNotification('Đã ẩn đánh giá thành công', 'success', 1500);
     refreshData();
   } catch (error) {
     console.error('Error hiding review:', error);
-    alert('Có lỗi khi ẩn đánh giá');
+    showToastNotification('Có lỗi khi ẩn đánh giá', 'error');
   }
 };
 
-const showReview = async (review: Review) => {
-  if (!confirm('Bạn có chắc muốn hiện lại đánh giá này?')) return;
-  
+
+const reviewToShow = ref<Review | null>(null);
+const showShowModal = ref(false);
+
+const showReview = (review: Review) => {
+  reviewToShow.value = review;
+  showShowModal.value = true;
+};
+
+const confirmShowReview = async () => {
+  if (!reviewToShow.value) return;
   try {
-    await toggleReviewVisibility(review._id, {
+    await toggleReviewVisibility(reviewToShow.value._id, {
       isVisible: true
     });
-    
-    alert('Đã hiện đánh giá thành công');
+    showShowModal.value = false;
+    showToastNotification('Đã hiện đánh giá thành công', 'success', 1500);
     refreshData();
   } catch (error) {
     console.error('Error showing review:', error);
-    alert('Có lỗi khi hiện đánh giá');
+    showToastNotification('Có lỗi khi hiện đánh giá', 'error');
   }
 };
 
-const deleteReviewConfirm = async (review: Review) => {
-  if (!confirm(`Bạn có chắc muốn xóa đánh giá của ${review.userName}? Hành động này không thể hoàn tác!`)) return;
-  
+
+const reviewToDelete = ref<Review | null>(null);
+const showDeleteModal = ref(false);
+
+const deleteReviewConfirm = (review: Review) => {
+  reviewToDelete.value = review;
+  showDeleteModal.value = true;
+};
+
+const confirmDeleteReview = async () => {
+  if (!reviewToDelete.value) return;
   try {
-    await deleteReview(review._id);
-    alert('Đã xóa đánh giá thành công');
+    await deleteReview(reviewToDelete.value._id);
+    showDeleteModal.value = false;
+    showToastNotification('Đã xóa đánh giá thành công', 'success', 1500);
     refreshData();
   } catch (error) {
     console.error('Error deleting review:', error);
-    alert('Có lỗi khi xóa đánh giá');
+    showToastNotification('Có lỗi khi xóa đánh giá', 'error');
   }
 };
 

@@ -20,7 +20,7 @@ app.use(morgan('combined'));
 app.use((req, res, next) => {
   const contentType = req.headers['content-type'] || '';
   if (!contentType.includes('multipart/form-data')) {
-    express.json({ limit: '10mb' })(req, res, next);
+    express.json({ limit: '50mb' })(req, res, next);
   } else {
     next();
   }
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   const contentType = req.headers['content-type'] || '';
   if (!contentType.includes('multipart/form-data')) {
-    express.urlencoded({ extended: true, limit: '10mb' })(req, res, next);
+    express.urlencoded({ extended: true, limit: '50mb' })(req, res, next);
   } else {
     next();
   }

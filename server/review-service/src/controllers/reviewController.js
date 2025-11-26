@@ -3,7 +3,31 @@ const Review = require("../models/review");
 // Tạo review mới
 exports.createReview = async (req, res) => {
   try {
-    const { userId, productId, rating, comment, userName, isVerifiedPurchase, images } = req.body;
+    const { userId, productId, productName, rating, comment, userName, images } = req.body;
+
+    // Validate required fields
+    if (!userId || !productId || !productName || !rating || !comment || !userName) {
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu thông tin bắt buộc",
+      });
+    }
+
+    // Validate rating
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Đánh giá phải từ 1 đến 5 sao",
+      });
+    }
+
+    // Validate comment length
+    if (comment.trim().length < 15) {
+      return res.status(400).json({
+        success: false,
+        message: "Nội dung đánh giá phải có tối thiểu 15 ký tự",
+      });
+    }
 
     // Kiểm tra user đã review sản phẩm này chưa
     const existingReview = await Review.findOne({ userId, productId });
@@ -17,10 +41,10 @@ exports.createReview = async (req, res) => {
     const review = new Review({
       userId,
       productId,
+      productName,
       rating,
-      comment,
+      comment: comment.trim(),
       userName,
-      isVerifiedPurchase: isVerifiedPurchase || false,
       images: images || [],
     });
 
@@ -32,6 +56,7 @@ exports.createReview = async (req, res) => {
       data: review,
     });
   } catch (error) {
+    console.error("Error creating review:", error);
     res.status(500).json({
       success: false,
       message: "Lỗi khi tạo đánh giá",
@@ -140,10 +165,12 @@ exports.getAllReviews = async (req, res) => {
       success: true,
       data: {
         reviews,
-        currentPage: parseInt(page),
-        totalPages: Math.ceil(total / parseInt(limit)),
-        total,
-        limit: parseInt(limit),
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / parseInt(limit)),
+        },
       },
     });
   } catch (error) {

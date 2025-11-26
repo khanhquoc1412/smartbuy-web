@@ -10,6 +10,7 @@ const Color = require("../models/color");
 const Memory = require("../models/memory");
 const { NotFoundError, BadRequestError } = require("../errors");
 const { cloudinary } = require("../services/cloudinary");
+// const axios = require('axios');
 
 // const getAll = async (req, res, next) => {
 //   try {
@@ -1073,6 +1074,21 @@ const getProductById = async (req, res) => {
   }
 };
 
+// // Lấy review cho sản phẩm theo slug
+// const getProductReviewsBySlug = async (req, res, next) => {
+//   try {
+//     const { slug } = req.params;
+//     // Gọi sang review-service (giả sử chạy ở http://localhost:5006)
+//     const response = await axios.get(`http://localhost:5006/api/reviews/product/${slug}`, {
+//       params: req.query // truyền các query như page, limit, sort
+//     });
+//     return res.status(200).json(response.data);
+//   } catch (error) {
+//     console.error('Error fetching product reviews:', error.message);
+//     return res.status(500).json({ success: false, message: 'Không thể lấy đánh giá sản phẩm' });
+//   }
+// };
+
 module.exports = {
   getAll,
   createProduct,
@@ -1083,4 +1099,5 @@ module.exports = {
   getProductBySlug, // ✅ export thêm
   getProductVariant,
   getProductById, // ✅ export thêm
+  // getProductReviewsBySlug, // Thêm controller getProductReviewsBySlug
 };

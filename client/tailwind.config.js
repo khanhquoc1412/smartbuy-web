@@ -11,6 +11,9 @@ export default {
       lg: "1024px",
       xl: "1200px",
       "2xl": "1480px",
+      "3xl": "1920px",
+      "4xl": "2560px",
+      "5xl": "3840px",
     },
     colors: {
       transparent: 'transparent',
@@ -236,6 +239,11 @@ export default {
       "2xl": "1.75rem", // 28px
       "3xl": "2rem", // 32px
       "4xl": "2.375rem", // 38px
+      "5xl": "3rem", // 48px
+      "6xl": "3.75rem", // 60px
+      "7xl": "4.5rem", // 72px
+      "8xl": "6rem", // 96px
+      "9xl": "8rem", // 128px
       "13px": "13px",
     },
     fontWeight: {

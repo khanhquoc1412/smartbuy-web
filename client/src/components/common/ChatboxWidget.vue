@@ -32,7 +32,7 @@ const createMessenger = () => {
     --df-messenger-button-titlebar-color: #DC143C;
     --df-messenger-send-icon: #DC143C;
     --df-messenger-user-message: #333333;
-    z-index: 999;
+    z-index: 1000;
   `;
   
   document.body.appendChild(dfMessenger);

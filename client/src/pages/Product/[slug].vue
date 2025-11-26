@@ -288,6 +288,13 @@
         </div>
       </div>
     </Container>
+
+    <!-- Product Reviews Section -->
+    <ProductReviews
+      v-if="product"
+      :product-id="String(product._id || product.id || '')"
+      :product-name="productFullName"
+    />
   </div>
 </template>
 
@@ -311,6 +318,7 @@ import {
 } from "swiper/types";
 import { breakpoints } from "@utils/breackpoints";
 import ProductItem from "@/components/product/ProductItem.vue";
+import ProductReviews from "@/components/product/ProductReviews.vue";
 import Heading from "@/components/base/Heading.vue";
 // // Thay dòng này
 // import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";

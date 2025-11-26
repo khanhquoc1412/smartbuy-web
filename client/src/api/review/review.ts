@@ -32,10 +32,12 @@ export interface ReviewsResponse {
   success: boolean;
   data: {
     reviews: Review[];
-    currentPage: number;
-    totalPages: number;
-    total: number;
-    limit: number;
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      pages: number;
+    };
     stats?: ReviewStats;
   };
 }
@@ -130,4 +132,17 @@ export const getReviewsStats = async (): Promise<StatsResponse> => {
 // Đánh dấu hữu ích
 export const markReviewHelpful = async (reviewId: string) => {
   return await $axios.post(`/reviews/${reviewId}/helpful`) as any;
+};
+
+// Tạo review mới
+export const createReview = async (data: {
+  userId: string;
+  productId: string;
+  productName: string;
+  rating: number;
+  comment: string;
+  userName: string;
+  images?: string[];
+}) => {
+  return await $axios.post('/reviews', data) as any;
 };
