@@ -25,7 +25,7 @@ const generateOrderEmailTemplate = ({
     <tr>
       <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
         <div style="display: flex; align-items: center;">
-          <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 12px;" />
+          
           <div>
             <div style="font-weight: 500; color: #111827;">${item.name}</div>
             ${item.variant ? `<div style="font-size: 12px; color: #6b7280; margin-top: 4px;">

@@ -500,10 +500,24 @@ exports.handleProductDetail = async (parameters, queryResult) => {
       };
     }
 
+
+    // Lấy trực tiếp averageRating từ review-service
+    let ratingText = 'Chưa có đánh giá nào';
+    try {
+      const axios = require('axios');
+      const reviewRes = await axios.get(`http://localhost:3000/api/reviews/product/${product._id}`);
+      const stats = reviewRes.data.data.stats;
+      
+        ratingText = stats.averageRating.toFixed(1) + ' sao từ ' + stats.totalReviews + ' đánh giá';
+       
+    } catch (err) {
+      console.error('Không lấy được rating từ review-service:', err?.message || err);
+    }
+
     // Build detailed info sections
     const priceInfo = `💰 **Giá bán:** ${formatters.formatPrice(product.price)}`;
     const stockInfo = `📦 **Tình trạng:** ${product.inStock ? 'Còn hàng ✅' : 'Hết hàng ❌'}`;
-    const ratingInfo = `⭐ **Đánh giá:** ${product.rating || 'Chưa có đánh giá'}/5`;
+    const ratingInfo = `⭐ **Đánh giá:** ${ratingText}`;
     const discountInfo = product.discount 
       ? `🔥 **Khuyến mãi:** Giảm ${product.discount}%` 
       : `💎 **Giá gốc:** Không có chương trình giảm giá`;
@@ -539,7 +553,7 @@ exports.handleProductDetail = async (parameters, queryResult) => {
                 {
                   type: 'info',
                   title: `⭐ Đánh giá`,
-                  subtitle: `${product.rating || 'Chưa có đánh giá'}/5`
+                  subtitle: ratingText
                 }
               ],
               [
