@@ -209,6 +209,16 @@
             </div>
           </div>
           <div class="product-btn tw-flex tw-gap-3 tw-w-full tw-py-2">
+            <WishlistButton
+              v-if="product"
+              :product-id="String(product._id || product.id)"
+              :variant-id="selectedVariantId ? String(selectedVariantId) : undefined"
+              :color-id="productSelected.colorId || undefined"
+              :memory-id="productSelected.memoryId || undefined"
+              :is-in-wishlist="isInWishlist"
+              @update="handleWishlistUpdate"
+              class="tw-self-center"
+            />
             <div class="btn-buy--now tw-flex-1" @click="handleBuyNow">
               Mua ngay
             </div>
@@ -217,10 +227,6 @@
               <span> Thêm vào giỏ hàng </span>
             </div>
             <div class="btn-add disable" v-else>
-              <!-- <img :src="cartColorIcon" alt="">
-              <span>
-                Loading ...
-              </span> -->
               <LoadIcon />
             </div>
           </div>
@@ -337,6 +343,8 @@ import { useCart } from "@/composables/useCart";
 import { useStorage } from "@vueuse/core";
 import { PRODUCT_GUEST } from "@/utils/constants";
 import AddToCartModal from "@/components/cart/AddToCartModal.vue";
+import WishlistButton from "@/components/wishlist/WishlistButton.vue";
+import { $axios } from "@/plugins/axios/axios";
 
 interface IProductSelected {
   id: string | null;
@@ -344,8 +352,11 @@ interface IProductSelected {
   colorId?: number | null;
   memoryId?: number | null;
 }
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
 
 const productFullName = computed(() => {
   if (!product.value) return "";
@@ -395,7 +406,6 @@ const {
   params: { slug },
 } = useRoute();
 
-const router = useRouter();
 const { userId, loggedIn } = useAuth();
 const { addToCart, isAddLoading, isAddError } = useCart();
 const {
@@ -411,6 +421,44 @@ const productSelected = reactive<IProductSelected>({
   colorId: null,
   memoryId: null,
 });
+
+// Wishlist Logic
+const wishlistItems = ref<any[]>([]);
+const fetchWishlist = async () => {
+  if (!loggedIn.value) return;
+  try {
+    const res = await $axios.get('/user/wishlist');
+    wishlistItems.value = res.data.data?.items || res.data.items || [];
+  } catch (e) {
+    console.error("Error fetching wishlist", e);
+  }
+};
+
+const isInWishlist = computed(() => {
+  if (!product.value) return false;
+  return wishlistItems.value.some((item: any) => {
+    const sameProduct = String(item.product) === String(product.value._id || product.value.id);
+    if (!sameProduct) return false;
+    
+    // If variant is selected, check exact match
+    if (selectedVariantId.value) {
+      return String(item.variantId) === String(selectedVariantId.value);
+    }
+    
+    // If color/memory selected
+    if (productSelected.colorId && productSelected.memoryId) {
+      return String(item.colorId) === String(productSelected.colorId) && 
+             String(item.memoryId) === String(productSelected.memoryId);
+    }
+    
+    return true;
+  });
+});
+
+const handleWishlistUpdate = () => {
+  fetchWishlist();
+};
+
 
 const sameId = (a: any, b: any) => {
   if (a === undefined || a === null || b === undefined || b === null)
@@ -801,58 +849,35 @@ const handleBuyNow = async () => {
     if (variantId) {
       productForBuy.value = String(variantId);
       await router.push("/cart/checkout");
-    } else {
-      alert("❌ Không tìm thấy thông tin sản phẩm");
     }
   }
 };
 
+// Lifecycle hooks
 onMounted(() => {
-  setProductSelectedValues();
-});
-const route = useRoute();
-
-watch(product, () => {
-  setProductSelectedValues && setProductSelectedValues();
+  if (product.value) {
+    setProductSelectedValues();
+  }
+  fetchWishlist();
 });
 
-// watch(
-//   () => route.params.slug,
-//   (newSlug, oldSlug) => {
-//     if (newSlug && newSlug !== oldSlug) {
-//       // Ép reload toàn trang để re-init component (Swiper, dữ liệu, v.v.)
+watch(() => product.value, (newVal) => {
+  if (newVal) {
+    setProductSelectedValues();
+  }
+});
 
-//     }
-//   }
-// );
+watch(() => route.query, () => {
+  if (product.value) {
+    setProductSelectedValues();
+  }
+});
+
 watch(
   () => route.params.slug,
   async (newSlug, oldSlug) => {
     if (!newSlug || newSlug === oldSlug) return;
     window.location.reload();
-    try {
-      // clear old thumbs instance to avoid "reading 'classList' of undefined" in Swiper modules
-      thumbsSwiper.value = null;
-
-      // fetch product detail for new slug
-
-      // set selection (color/memory) based on new data / query
-      setProductSelectedValues && setProductSelectedValues();
-
-      // wait DOM to update so Swiper can re-init safely
-      await nextTick();
-
-      // if you keep a direct swiper ref, try to update it (optional)
-      if (swiperRef.value?.update) {
-        try {
-          swiperRef.value.update();
-        } catch (e) {
-          /* ignore */
-        }
-      }
-    } catch (err) {
-      console.error("Failed to reload product details:", err);
-    }
   }
 );
 </script>

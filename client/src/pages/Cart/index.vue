@@ -23,7 +23,7 @@
             <div class="product-img">
               <img
                 class="tw-w-full tw-h-full tw-object-cover"
-                :src="cartItem.productVariant?.product?.thumbUrl"
+                :src="cartItem.thumbUrl || cartItem.productVariant?.product?.thumbUrl"
                 alt=""
               />
             </div>
@@ -176,6 +176,8 @@ import { useCart } from "@/composables/useCart";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import Modal from "@/components/common/Modal.vue";
 import router from "@/router";
+import { ref, onMounted, watch } from 'vue'; // ✅ Thêm watch
+import { useRoute } from 'vue-router';
 
 const { userId } = useAuth();
 const {
@@ -245,8 +247,7 @@ onMounted(async () => {
     refetchCartCount(),
   ]);
 });
-import { ref, onMounted, watch } from 'vue'; // ✅ Thêm watch
-import { useRoute } from 'vue-router';
+
 const route = useRoute();
 watch(() => route.path, async (newPath) => {
   if (newPath === '/cart' || newPath.startsWith('/cart/')) {

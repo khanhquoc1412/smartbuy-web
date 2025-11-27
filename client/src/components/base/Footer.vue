@@ -26,17 +26,17 @@
         </div>
         <div class="footer-col tw-flex tw-flex-col tw-gap-4">
           <div class="item title tw-font-bold">Hỗ trợ</div>
-          <div class="item text">x2-Giao Long - Giao Thuy - Nam Dinh.</div>
+          <div class="item text">B21100966-2025 Ninh Kiều - Cần Thơ.</div>
           <div class="item text">khanhquoc1412@gmail.com</div>
           <div class="item text">+8436-999-9999</div>
         </div>
         <div class="footer-col tw-flex tw-flex-col tw-gap-4">
           <div class="item title tw-font-bold">Tài khoản</div>
-          <div class="item">Tài khoản của tôi</div>
-          <div class="item">Login/Register</div>
-          <div class="item">Giỏ hàng</div>
-          <div class="item">Shop</div>
-          <div class="item">Sản phẩm yêu thích</div>
+          <router-link to="/account" class="item">Tài khoản của tôi</router-link>
+          <router-link to="/login" class="item">Login/Register</router-link>
+          <router-link to="/cart" class="item">Giỏ hàng</router-link>
+          <router-link to="/product" class="item">Shop</router-link>
+          <router-link to="/account/wish-list" class="item">Sản phẩm yêu thích</router-link>
         </div>
         <div class="footer-col tw-flex tw-flex-col tw-gap-4">
           <div class="item title tw-font-bold">Thông tin và chính sách</div>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="footer-bottom tw-flex tw-justify-center tw-pt-2 tw-text-sm">
-        <span> C. Copyright 2023 </span>
+        <span> C. Copyright 2025 </span>
       </div>
     </Container>
   </footer>

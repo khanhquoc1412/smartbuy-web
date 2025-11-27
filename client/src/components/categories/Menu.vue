@@ -108,16 +108,16 @@ const menuItems = ref<IMenuItem[]>([
   {
     id: 7,
     icon: iconStore,
-    label: "Hệ thống cửa hàng",
+    label: "Lịch sử đơn hàng",
     navIcon: false,
-    pathName: "/product",
+    pathName: "/account/order",
   },
   {
     id: 9,
     icon: iconSecure,
     label: "Chính sách",
     navIcon: false,
-    pathName: "/product",
+    pathName: "/policy",
   },
 ]);
 </script>

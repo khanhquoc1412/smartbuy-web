@@ -494,8 +494,11 @@ const getAll = async (req, res, next) => {
 
     // ✅ Keyword filter
     const keyword = req.params?.keyword || req.query?.keyword;
-    if (keyword)
-      productCondition.name = { $regex: escapeRegex(String(keyword)) };
+    if (keyword) {
+      const regex = new RegExp(escapeRegex(String(keyword)), "i");
+      productCondition.name = { $regex: regex };
+      console.log(`🔎 Searching for keyword: "${keyword}" -> Regex: ${regex}`);
+    }
 
     // ✅ Category filter
     let unresolvedCategoryRegex = null;
@@ -629,10 +632,10 @@ const getAll = async (req, res, next) => {
             : null,
           memory: v.memoryId
             ? {
-                id: String(v.memoryId._id),
-                ram: v.memoryId.ram,
-                rom: v.memoryId.rom,
-              }
+              id: String(v.memoryId._id),
+              ram: v.memoryId.ram,
+              rom: v.memoryId.rom,
+            }
             : null,
         })),
         images: images.map((img) => ({

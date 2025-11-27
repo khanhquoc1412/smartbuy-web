@@ -253,18 +253,18 @@ class CartController {
 
           color: item.variant.color
             ? {
-                _id: item.variant.color.id,
-                name: item.variant.color.name,
-                hexCode: item.variant.color.code,
-              }
+              _id: item.variant.color.id,
+              name: item.variant.color.name,
+              hexCode: item.variant.color.code,
+            }
             : null,
 
           memory: item.variant.memory
             ? {
-                _id: item.variant.memory.id,
-                ram: item.variant.memory.ram,
-                rom: item.variant.memory.rom,
-              }
+              _id: item.variant.memory.id,
+              ram: item.variant.memory.ram,
+              rom: item.variant.memory.rom,
+            }
             : null,
 
           product: {
@@ -362,18 +362,18 @@ class CartController {
 
           color: item.variant.color
             ? {
-                _id: item.variant.color.id,
-                name: item.variant.color.name,
-                hexCode: item.variant.color.code,
-              }
+              _id: item.variant.color.id,
+              name: item.variant.color.name,
+              hexCode: item.variant.color.code,
+            }
             : null,
 
           memory: item.variant.memory
             ? {
-                _id: item.variant.memory.id,
-                ram: item.variant.memory.ram,
-                rom: item.variant.memory.rom,
-              }
+              _id: item.variant.memory.id,
+              ram: item.variant.memory.ram,
+              rom: item.variant.memory.rom,
+            }
             : null,
 
           product: {
@@ -644,8 +644,8 @@ class CartController {
               item.quantity = variant.stock;
               item.subtotal = Math.round(
                 item.priceAtAdd *
-                  variant.stock *
-                  (1 - item.discountPercentage / 100)
+                variant.stock *
+                (1 - item.discountPercentage / 100)
               );
             }
             hasChanges = true;
@@ -654,6 +654,27 @@ class CartController {
           // Update variant info
           item.variant.stock = variant.stock;
           item.variant.price = currentPrice;
+
+          // ✅ Update variant image if changed
+          const colorId = variant.colorId || variant.color;
+          let variantImage = product.thumbUrl || "";
+          if (colorId && product.images && Array.isArray(product.images)) {
+            const matchedImage = product.images.find(
+              (img) => String(img.colorId) === String(colorId._id || colorId.id)
+            );
+            if (matchedImage) {
+              variantImage = matchedImage.imageUrl;
+            }
+          }
+
+          if (item.thumbUrl !== variantImage) {
+            console.log(
+              `🖼️ Image changed for ${item.productName}: ${item.thumbUrl} → ${variantImage}`
+            );
+            item.thumbUrl = variantImage;
+            hasChanges = true;
+          }
+
         } catch (error) {
           console.error(
             `❌ Error syncing item ${item.productName}:`,

@@ -37,7 +37,11 @@ const auth = (req, res, next) => {
       id: decoded.id || decoded.userId, // ✅ Backward compatible
     };
 
+    // ✅ FIX: Set req.userId for backward compatibility
+    req.userId = decoded.id || decoded.userId;
+
     console.log("✅ req.user set:", req.user);
+    console.log("✅ req.userId set:", req.userId);
 
     next();
   } catch (error) {

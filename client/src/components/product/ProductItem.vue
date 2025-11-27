@@ -117,7 +117,8 @@ const linkTo = computed(() => {
 });
 const productFullName = computed(() => {
   let name = product?.name ?? "";
-  const v = props.variant;
+  // ✅ Use passed variant OR fallback to defaultVariant
+  const v = props.variant || defaultVariant.value;
 
   let memStr = "";
   if (v?.memory) {

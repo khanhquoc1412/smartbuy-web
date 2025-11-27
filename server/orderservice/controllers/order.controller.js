@@ -63,8 +63,16 @@ exports.getUserOrders = async (req, res, next) => {
     const userId = req.user.id;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+
+    // Handle status: có thể là string hoặc array
+    let status = req.query.status;
+
+    // Nếu client gửi "status=a&status=b&status=c", express sẽ parse thành array
+    // Nếu gửi "status=a", express sẽ parse thành string
+    // Ta giữ nguyên để service xử lý
+
     const filters = {
-      status: req.query.status,
+      status: status,
       paymentStatus: req.query.paymentStatus,
     };
 

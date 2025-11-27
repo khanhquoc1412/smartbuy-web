@@ -10,6 +10,10 @@ const services = {
     url: process.env.USER_SERVICE_URL || 'http://localhost:3005',
     path: '/api/user/addresses' // 
   },
+  wishlist: { // ✅ Wishlist
+    url: process.env.USER_SERVICE_URL || 'http://localhost:3005',
+    path: '/api/user/wishlist'
+  },
   // ===== USER MANAGER SERVICE (port 3006) - Admin quản lý users =====
   users: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/users' },
   addresses: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/addresses' },

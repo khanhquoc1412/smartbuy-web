@@ -4,7 +4,7 @@ import { IPayment } from "./payment.type";
 import { IParams, IProductVariant } from "./product.types";
 
 export interface IOrderParams extends IParams {
-  status?: string;
+  status?: string | string[]; // Hỗ trợ filter theo 1 hoặc nhiều status
   paymentStatus?: string;
   startDate?: string;
   endDate?: string;

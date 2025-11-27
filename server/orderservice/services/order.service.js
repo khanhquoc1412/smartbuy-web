@@ -227,8 +227,13 @@ class OrderService {
       const query = { user: userId };
 
       // Filter theo status
+      // Hỗ trợ cả string và array
       if (filters.status) {
-        query.status = filters.status;
+        if (Array.isArray(filters.status)) {
+          query.status = { $in: filters.status };
+        } else {
+          query.status = filters.status;
+        }
       }
 
       // Filter theo paymentStatus

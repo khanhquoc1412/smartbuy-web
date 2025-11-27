@@ -110,12 +110,6 @@ const sortOptions: iSort[] = [
 ];
 const route = useRoute();
 const router = useRouter();
-const {
-  params: { keyword },
-} = useRoute();
-// const keyword = computed(() => {
-//   return (route.params.keyword as string) || (route.query.keyword as string) || "";
-// });
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
   limit: 12,
@@ -123,8 +117,12 @@ const params = ref<IParams>({
   order: route?.query?.order ? (route.query.order as string) : "",
   dir: route?.query?.dir ? (route.query.dir as string) : "",
 });
+
+// ✅ Tạo computed để track keyword thay đổi
+const searchKeyword = computed(() => (route.query.keyword as string) || "");
+
 const { data, refetch, isLoading, isFetching } = useGetProductByKeyword(
-  keyword as string,
+  searchKeyword,
   params
 );
 watch([() => params.value.brand], ([newBrand]) => {
@@ -143,7 +141,7 @@ watch([() => params.value.brand], ([newBrand]) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 });
 const handleSort = async (dir: string) => {
   if (dir.length <= 0) {
@@ -167,7 +165,7 @@ const handleSort = async (dir: string) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 const updateHandler = async (newPage: number) => {
   if (newPage === 1) {
@@ -183,7 +181,7 @@ const updateHandler = async (newPage: number) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 </script>
 <route lang="yaml">

@@ -14,11 +14,13 @@ import {
     faPenToSquare,  // ✅ THÊM import
     faTrashCan,      // ✅ THÊM import
     faCircleCheck,   // ✅ THÊM import
+    faHeart,         // ✅ THÊM heart icon (solid)
 
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
     faUser,
+    faHeart as faHeartRegular,  // ✅ THÊM heart icon (regular)
 
 } from '@fortawesome/free-regular-svg-icons'
 
@@ -34,9 +36,11 @@ library.add(faUserSecret,
     faMobile,
     faLaptop,
     faUser,
-  faPenToSquare,  // ✅ Thêm vào library
-  faTrashCan,     // ✅ Thêm vào library
-  faCircleCheck,  // ✅ Thêm vào library
+    faPenToSquare,  // ✅ Thêm vào library
+    faTrashCan,     // ✅ Thêm vào library
+    faCircleCheck,  // ✅ Thêm vào library
+    faHeart,          // ✅ Thêm heart solid
+    faHeartRegular,   // ✅ Thêm heart regular
 )
 
 export default library

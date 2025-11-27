@@ -224,14 +224,14 @@ export const useGetProductsByCategory = (
 
 // ✅ Search Products by Keyword - GIỮ NGUYÊN LOGIC FILTER
 export const useGetProductByKeyword = (
-  keyword: string,
+  keyword: string | Ref<string>,
   params?: Ref<IParams>,
   enabled?: boolean
 ) => {
   return useQuery({
-    queryKey: ["products-search", keyword, params?.value],  // ✅ Watch params
-    queryFn: () => fetchProductByKeyword(keyword, params?.value),
-    enabled: enabled && !!keyword,
+    queryKey: ["products-search", keyword, params?.value],  // ✅ Watch params & keyword
+    queryFn: () => fetchProductByKeyword(unref(keyword), params?.value),
+    enabled: enabled && !!unref(keyword),
     refetchOnWindowFocus: false,
   });
 };

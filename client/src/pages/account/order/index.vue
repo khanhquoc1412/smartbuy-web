@@ -144,16 +144,40 @@ const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
 interface IOrderStatus {
   id: number;
   title: string;
-  value?: string;
+  value?: string | string[]; // Hỗ trợ cả string và array
 }
 
 const listOrderStatus: IOrderStatus[] = [
-  { id: 0, title: "Tất cả", value: undefined },
-  { id: 1, title: "Chờ xác nhận", value: "pending" },
-  { id: 2, title: "Đã xác nhận", value: "confirmed" },
-  { id: 3, title: "Đang giao hàng", value: "shipping" },
-  { id: 4, title: "Đã giao hàng", value: "delivered" }, // hoặc 'completed' tùy logic
-  { id: 5, title: "Đã hủy", value: "cancelled" },
+  { 
+    id: 0, 
+    title: "Tất cả", 
+    value: undefined 
+  },
+  { 
+    id: 1, 
+    title: "Chờ xác nhận", 
+    value: ["pending_payment", "payment_failed", "pending"] 
+  },
+  { 
+    id: 2, 
+    title: "Đã xác nhận", 
+    value: ["confirmed", "processing", "ready_to_ship"] 
+  },
+  { 
+    id: 3, 
+    title: "Đang giao hàng", 
+    value: ["shipping"] 
+  },
+  { 
+    id: 4, 
+    title: "Đã giao hàng", 
+    value: ["delivered", "completed"] 
+  },
+  { 
+    id: 5, 
+    title: "Đã hủy", 
+    value: ["cancelled", "returned"] 
+  },
 ];
 
 const currentTab = ref(0);
@@ -203,14 +227,17 @@ const handleTabChange = (item: IOrderStatus) => {
 // Helper to get status text
 const getStatusText = (status: string) => {
   const map: Record<string, string> = {
+    pending_payment: 'Chờ thanh toán',
+    payment_failed: 'Thanh toán thất bại',
     pending: 'Chờ xác nhận',
     confirmed: 'Đã xác nhận',
+    processing: 'Đang chuẩn bị hàng',
+    ready_to_ship: 'Sẵn sàng giao hàng',
     shipping: 'Đang giao hàng',
     delivered: 'Đã giao hàng',
     completed: 'Hoàn thành',
     cancelled: 'Đã hủy',
-    payment_failed: 'Thanh toán thất bại',
-    pending_payment: 'Chờ thanh toán'
+    returned: 'Đã trả hàng'
   };
   return map[status] || status;
 };
@@ -218,16 +245,19 @@ const getStatusText = (status: string) => {
 // Helper to get status color class
 const getStatusColor = (status: string) => {
   const map: Record<string, string> = {
-    pending: 'tw-bg-red tw-text-white tw-border tw-border-red',
-    confirmed: 'tw-bg-blue-600 tw-text-white tw-border tw-border-blue-600',
-    shipping: 'tw-bg-indigo-600 tw-text-white tw-border tw-border-indigo-600',
-    delivered: 'tw-bg-green-600 tw-text-white tw-border tw-border-green-600',
-    completed: 'tw-bg-green-600 tw-text-white tw-border tw-border-green-600',
-    cancelled: 'tw-bg-gray-600 tw-text-white tw-border tw-border-gray-600',
-    payment_failed: 'tw-bg-red tw-text-white tw-border tw-border-red',
-    pending_payment: 'tw-bg-orange-500 tw-text-white tw-border tw-border-orange-500'
+    pending_payment: 'tw-bg-orange-500 tw-text-white',
+    payment_failed: 'tw-bg-red tw-text-white',
+    pending: 'tw-bg-amber-500 tw-text-white',
+    confirmed: 'tw-bg-blue-600 tw-text-white',
+    processing: 'tw-bg-blue-500 tw-text-white',
+    ready_to_ship: 'tw-bg-indigo-500 tw-text-white',
+    shipping: 'tw-bg-indigo-600 tw-text-white',
+    delivered: 'tw-bg-green-500 tw-text-white',
+    completed: 'tw-bg-green-600 tw-text-white',
+    cancelled: 'tw-bg-gray-600 tw-text-white',
+    returned: 'tw-bg-gray-500 tw-text-white'
   };
-  return map[status] || 'tw-bg-gray-500 tw-text-white tw-border tw-border-gray-500';
+  return map[status] || 'tw-bg-gray-500 tw-text-white';
 };
 
 console.log('Current orders:', orderUser);

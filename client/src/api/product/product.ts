@@ -137,10 +137,13 @@ export const fetchProductOfCategory = (
 };
 
 // 📌 Tìm kiếm sản phẩm theo keyword
+// ✅ Sử dụng endpoint /product/search/:keyword của productservice
 export const fetchProductByKeyword = (keyword: string, params?: IParams) => {
   return productAxios.get<unknown, IProductsListResponse>(
     `/product/search/${keyword}`,
-    { params }
+    {
+      params,
+    }
   );
 };
 

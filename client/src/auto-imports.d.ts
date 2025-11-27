@@ -88,6 +88,7 @@ declare global {
   const useRouter: typeof import('vue-router').useRouter
   const useSlots: typeof import('vue').useSlots
   const useTemplateRef: typeof import('vue').useTemplateRef
+  const useWishlist: typeof import('./composables/useWishlist').useWishlist
   const v: typeof import('@vueuse/core').get
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect
