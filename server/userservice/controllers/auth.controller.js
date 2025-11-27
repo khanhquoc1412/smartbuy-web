@@ -88,6 +88,10 @@ const changePassword = async (req, res) => {
   }
 };
 
+const fs = require('fs');
+const path = require('path');
+const { cloudinary } = require('../services/cloudinary');
+
 const register = async (req, res) => {
   try {
     const { email, password, userName, confirmPassword } = req.body;
@@ -103,10 +107,27 @@ const register = async (req, res) => {
       throw new ConflictError("Tài khoản đã tồn tại");
     }
 
+    // Random default avatar
+    let avatarUrl = null;
+    try {
+      const avatarDir = path.join(__dirname, '../avarta');
+      if (fs.existsSync(avatarDir)) {
+        const files = fs.readdirSync(avatarDir);
+        if (files.length > 0) {
+          const randomFile = files[Math.floor(Math.random() * files.length)];
+          // Assuming server runs on port 3005 locally
+          avatarUrl = `http://localhost:3005/avatars/${randomFile}`;
+        }
+      }
+    } catch (err) {
+      console.error("Error selecting default avatar:", err);
+    }
+
     const newUser = await User.create({
       userName,
       email,
       password, // Sẽ auto-hash trong pre-save
+      avatarUrl // Set default avatar
     });
 
     // Gửi email verify nếu cần (tùy chọn)
@@ -120,6 +141,7 @@ const register = async (req, res) => {
         id: newUser._id,
         userName: newUser.userName,
         email: newUser.email,
+        avatarUrl: newUser.avatarUrl
       },
     });
   } catch (error) {
@@ -133,6 +155,55 @@ const register = async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: "Lỗi server",
       status: StatusCodes.BAD_REQUEST,
+    });
+  }
+};
+
+const uploadAvatar = async (req, res) => {
+  try {
+    if (!req.file) {
+      throw new BadRequestError("No file uploaded");
+    }
+
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    // Local Storage Implementation
+    const avatarDir = path.join(__dirname, '../avarta');
+    if (!fs.existsSync(avatarDir)) {
+      fs.mkdirSync(avatarDir, { recursive: true });
+    }
+
+    const fileExt = path.extname(req.file.originalname) || '.jpg';
+    const filename = `avatar-${userId}-${Date.now()}${fileExt}`;
+    const filePath = path.join(avatarDir, filename);
+
+    // Write buffer to file
+    fs.writeFileSync(filePath, req.file.buffer);
+
+    // Construct URL (Assuming server runs on port 3005)
+    // In production, use process.env.BASE_URL or similar
+    const baseUrl = process.env.BASE_URL || 'http://localhost:3005';
+    const avatarUrl = `${baseUrl}/avatars/${filename}`;
+
+    // Update user avatar
+    user.avatarUrl = avatarUrl;
+    await user.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Avatar uploaded successfully",
+      avatarUrl: user.avatarUrl
+    });
+
+  } catch (error) {
+    console.error("Upload avatar error:", error);
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message || "Upload failed"
     });
   }
 };
@@ -475,11 +546,11 @@ const logout = async (req, res) => {
 
     user.refreshToken = null;
     await user.save();
-    
+
     res.status(StatusCodes.OK).json({
       message: "Đăng xuất thành công",
       status: StatusCodes.OK,
-      
+
     });
   } catch (error) {
     console.log(error);
@@ -501,4 +572,5 @@ module.exports = {
   resetPasswordForm,
   logout,
   changePassword,
+  uploadAvatar,
 };

@@ -90,8 +90,13 @@ router.get(
   }
 );
 
+const upload = require("../middleware/upload");
+
+// ... existing code ...
+
 // Optional: Logout (clear token ở frontend, optional ở backend)
 router.post("/logout", auth, authController.logout);
 router.post("/change-password", auth, authController.changePassword); // ✅ New route
+router.post("/upload-avatar", auth, upload.single("avatar"), authController.uploadAvatar);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-const Order = require('../models/Order');
-const mongoose = require('mongoose');
-const emailService = require('../services/emailService');
-const axios = require('axios');
+const Order = require("../models/Order");
+const mongoose = require("mongoose");
+const emailService = require("../services/emailService");
+const axios = require("axios");
 
 // GET /api/orders - Get all orders with filters
 exports.getAllOrders = async (req, res) => {
@@ -9,11 +9,11 @@ exports.getAllOrders = async (req, res) => {
     const {
       page = 1,
       limit = 10,
-      search = '',
+      search = "",
       orderStatus = [],
       paymentStatus = [],
       dateFrom,
-      dateTo
+      dateTo,
     } = req.query;
 
     // Build filter
@@ -21,33 +21,37 @@ exports.getAllOrders = async (req, res) => {
 
     // Check if search looks like order ID
     let isSearchingByOrderId = false;
-    let searchUpperCase = '';
-    
+    let searchUpperCase = "";
+
     if (search) {
       // Check if search contains order ID pattern (ORD-YYYYMMDD-XXXXXX or just XXXXXX)
       const orderIdPattern = /(?:ORD-\d{8}-)?([A-F0-9]{2,})/i;
       const match = search.match(orderIdPattern);
-      
+
       if (match) {
         isSearchingByOrderId = true;
         searchUpperCase = search.toUpperCase();
       } else {
         // Normal search by name or phone
         filter.$or = [
-          { 'shippingAddress.fullName': { $regex: search, $options: 'i' } },
-          { 'shippingAddress.phone': { $regex: search, $options: 'i' } }
+          { "shippingAddress.fullName": { $regex: search, $options: "i" } },
+          { "shippingAddress.phone": { $regex: search, $options: "i" } },
         ];
       }
     }
 
     // Filter by order status
     if (orderStatus && orderStatus.length > 0) {
-      filter.status = { $in: Array.isArray(orderStatus) ? orderStatus : [orderStatus] };
+      filter.status = {
+        $in: Array.isArray(orderStatus) ? orderStatus : [orderStatus],
+      };
     }
 
     // Filter by payment status
     if (paymentStatus && paymentStatus.length > 0) {
-      filter.paymentStatus = { $in: Array.isArray(paymentStatus) ? paymentStatus : [paymentStatus] };
+      filter.paymentStatus = {
+        $in: Array.isArray(paymentStatus) ? paymentStatus : [paymentStatus],
+      };
     }
 
     // Filter by date range
@@ -63,29 +67,30 @@ exports.getAllOrders = async (req, res) => {
 
     // If searching by order ID, get all matching orders and filter in JS
     if (isSearchingByOrderId) {
-      const allOrders = await Order.find(filter)
-        .sort({ createdAt: -1 })
-        .lean();
-      
+      const allOrders = await Order.find(filter).sort({ createdAt: -1 }).lean();
+
       // Generate orderNumber and filter
-      const matchedOrders = allOrders.filter(order => {
-        const orderNumber = Order.generateOrderNumber(order._id, order.createdAt);
+      const matchedOrders = allOrders.filter((order) => {
+        const orderNumber = Order.generateOrderNumber(
+          order._id,
+          order.createdAt
+        );
         return orderNumber.includes(searchUpperCase);
       });
-      
+
       const totalItems = matchedOrders.length;
       const totalPages = Math.ceil(totalItems / parseInt(limit));
       const skip = (page - 1) * parseInt(limit);
-      
+
       // Apply pagination
       const paginatedOrders = matchedOrders.slice(skip, skip + parseInt(limit));
-      
+
       // Add orderNumber to results
-      const ordersWithNumber = paginatedOrders.map(order => ({
+      const ordersWithNumber = paginatedOrders.map((order) => ({
         ...order,
-        orderNumber: Order.generateOrderNumber(order._id, order.createdAt)
+        orderNumber: Order.generateOrderNumber(order._id, order.createdAt),
       }));
-      
+
       return res.json({
         success: true,
         items: ordersWithNumber,
@@ -93,8 +98,8 @@ exports.getAllOrders = async (req, res) => {
           page: parseInt(page),
           limit: parseInt(limit),
           totalItems,
-          totalPages
-        }
+          totalPages,
+        },
       });
     }
 
@@ -120,14 +125,14 @@ exports.getAllOrders = async (req, res) => {
         page: parseInt(page),
         limit: parseInt(limit),
         totalItems,
-        totalPages
-      }
+        totalPages,
+      },
     });
   } catch (error) {
-    console.error('Error getting orders:', error);
+    console.error("Error getting orders:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi lấy danh sách đơn hàng'
+      message: error.message || "Lỗi lấy danh sách đơn hàng",
     });
   }
 };
@@ -143,41 +148,41 @@ exports.getOrderStats = async (req, res) => {
 
     // Today's orders count
     const todayOrders = await Order.countDocuments({
-      createdAt: { $gte: today, $lt: tomorrow }
+      createdAt: { $gte: today, $lt: tomorrow },
     });
 
     // Today's revenue (orders that became completed/delivered today)
     const todayRevenueResult = await Order.aggregate([
       {
         $match: {
-          status: { $in: ['completed', 'delivered'] },
-          paymentStatus: 'paid',
+          status: { $in: ["completed", "delivered"] },
+          paymentStatus: "paid",
           // Check if the last status history entry (completed/delivered) was today
           statusHistory: {
             $elemMatch: {
-              status: { $in: ['completed', 'delivered'] },
-              timestamp: { $gte: today, $lt: tomorrow }
-            }
-          }
-        }
+              status: { $in: ["completed", "delivered"] },
+              timestamp: { $gte: today, $lt: tomorrow },
+            },
+          },
+        },
       },
       {
         $group: {
           _id: null,
-          total: { $sum: '$totalPrice' }
-        }
-      }
+          total: { $sum: "$totalPrice" },
+        },
+      },
     ]);
     const todayRevenue = todayRevenueResult[0]?.total || 0;
 
     // Shipping orders
     const shippingOrders = await Order.countDocuments({
-      status: { $in: ['shipping', 'ready_to_ship'] }
+      status: { $in: ["shipping", "ready_to_ship"] },
     });
 
     // Pending orders
     const pendingOrders = await Order.countDocuments({
-      status: { $in: ['pending', 'confirmed', 'processing'] }
+      status: { $in: ["pending", "confirmed", "processing"] },
     });
 
     // Completion rate (last 30 days)
@@ -185,17 +190,18 @@ exports.getOrderStats = async (req, res) => {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const totalLast30Days = await Order.countDocuments({
-      createdAt: { $gte: thirtyDaysAgo }
+      createdAt: { $gte: thirtyDaysAgo },
     });
 
     const completedLast30Days = await Order.countDocuments({
       createdAt: { $gte: thirtyDaysAgo },
-      status: 'completed'
+      status: "completed",
     });
 
-    const completionRate = totalLast30Days > 0 
-      ? Math.round((completedLast30Days / totalLast30Days) * 100) 
-      : 0;
+    const completionRate =
+      totalLast30Days > 0
+        ? Math.round((completedLast30Days / totalLast30Days) * 100)
+        : 0;
 
     // Revenue chart (last 7 days)
     const sevenDaysAgo = new Date();
@@ -205,17 +211,17 @@ exports.getOrderStats = async (req, res) => {
       {
         $match: {
           createdAt: { $gte: sevenDaysAgo },
-          status: { $in: ['completed', 'delivered'] },
-          paymentStatus: 'paid'
-        }
+          status: { $in: ["completed", "delivered"] },
+          paymentStatus: "paid",
+        },
       },
       {
         $group: {
-          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
-          revenue: { $sum: '$totalPrice' }
-        }
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          revenue: { $sum: "$totalPrice" },
+        },
       },
-      { $sort: { _id: 1 } }
+      { $sort: { _id: 1 } },
     ]);
 
     // Create all 7 days array
@@ -223,53 +229,54 @@ exports.getOrderStats = async (req, res) => {
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dateStr = date.toISOString().split('T')[0];
-      const revenue = revenueByDay.find(d => d._id === dateStr)?.revenue || 0;
+      const dateStr = date.toISOString().split("T")[0];
+      const revenue = revenueByDay.find((d) => d._id === dateStr)?.revenue || 0;
       last7Days.push({ date: dateStr, revenue });
     }
 
     const revenueChart = {
-      labels: last7Days.map(d => {
+      labels: last7Days.map((d) => {
         const date = new Date(d.date);
         return `${date.getDate()}/${date.getMonth() + 1}`;
       }),
-      data: last7Days.map(d => d.revenue)
+      data: last7Days.map((d) => d.revenue),
     };
 
     // Status distribution
     const statusDistribution = await Order.aggregate([
       {
         $group: {
-          _id: '$status',
-          count: { $sum: 1 }
-        }
-      }
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
     ]);
 
     // Status labels in Vietnamese
     const statusLabels = {
-      pending_payment: 'Chờ thanh toán',
-      payment_failed: 'Thanh toán thất bại',
-      pending: 'Chờ xác nhận',
-      confirmed: 'Đã xác nhận',
-      processing: 'Đang chuẩn bị',
-      ready_to_ship: 'Sẵn sàng giao',
-      shipping: 'Đang giao',
-      delivered: 'Đã giao',
-      completed: 'Hoàn thành',
-      cancelled: 'Đã hủy',
-      returned: 'Đã trả hàng'
+      pending_payment: "Chờ thanh toán",
+      payment_failed: "Thanh toán thất bại",
+      pending: "Chờ xác nhận",
+      confirmed: "Đã xác nhận",
+      processing: "Đang chuẩn bị",
+      ready_to_ship: "Sẵn sàng giao",
+      shipping: "Đang giao",
+      delivered: "Đã giao",
+      completed: "Hoàn thành",
+      cancelled: "Đã hủy",
+      returned: "Đã trả hàng",
     };
 
     const totalOrders = statusDistribution.reduce((sum, s) => sum + s.count, 0);
 
     const statusChart = {
-      labels: statusDistribution.map(s => {
+      labels: statusDistribution.map((s) => {
         const label = statusLabels[s._id] || s._id;
-        const percentage = totalOrders > 0 ? ((s.count / totalOrders) * 100).toFixed(1) : 0;
+        const percentage =
+          totalOrders > 0 ? ((s.count / totalOrders) * 100).toFixed(1) : 0;
         return `${label} (${percentage}%)`;
       }),
-      data: statusDistribution.map(s => s.count)
+      data: statusDistribution.map((s) => s.count),
     };
 
     res.json({
@@ -281,14 +288,14 @@ exports.getOrderStats = async (req, res) => {
         pendingOrders,
         completionRate,
         revenueChart,
-        statusChart
-      }
+        statusChart,
+      },
     });
   } catch (error) {
-    console.error('Error getting order stats:', error);
+    console.error("Error getting order stats:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi lấy thống kê đơn hàng'
+      message: error.message || "Lỗi lấy thống kê đơn hàng",
     });
   }
 };
@@ -301,7 +308,7 @@ exports.getOrderById = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: 'ID đơn hàng không hợp lệ'
+        message: "ID đơn hàng không hợp lệ",
       });
     }
 
@@ -310,7 +317,7 @@ exports.getOrderById = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: 'Không tìm thấy đơn hàng'
+        message: "Không tìm thấy đơn hàng",
       });
     }
 
@@ -319,74 +326,170 @@ exports.getOrderById = async (req, res) => {
 
     res.json({
       success: true,
-      data: order
+      data: order,
     });
   } catch (error) {
-    console.error('Error getting order:', error);
+    console.error("Error getting order:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi lấy thông tin đơn hàng'
+      message: error.message || "Lỗi lấy thông tin đơn hàng",
     });
   }
 };
 
 // POST /api/orders - Create new order
+// ...existing code...
 exports.createOrder = async (req, res) => {
   try {
-    const orderData = req.body;
+    const payload = req.body || {};
+    console.log(
+      "🧾 [ORDER DEBUG] Incoming createOrder payload:",
+      JSON.stringify(payload, null, 2)
+    );
 
-    // Validate required fields
-    if (!orderData.user || !orderData.orderItems || orderData.orderItems.length === 0) {
+    const {
+      user,
+      orderItems,
+      shippingAddress,
+      itemsPrice: itemsPriceInput,
+      shippingPrice: shippingPriceInput = 0,
+      totalPrice: totalPriceInput,
+      paymentMethod,
+      paymentResult,
+      note,
+      status: statusInput,
+    } = payload;
+
+    // Basic validation
+    const errors = [];
+    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
+      errors.push("orderItems is required and must be a non-empty array");
+    }
+
+    // For guest orders (no user), require shipping contact fields
+    if (!user) {
+      if (
+        !shippingAddress ||
+        !shippingAddress.fullName ||
+        !shippingAddress.phone ||
+        !shippingAddress.address
+      ) {
+        errors.push(
+          "shippingAddress.fullName, shippingAddress.phone and shippingAddress.address are required for guest orders"
+        );
+      }
+    }
+
+    if (errors.length > 0) {
+      console.warn("⚠️ [ORDER DEBUG] Validation failed:", errors);
       return res.status(400).json({
         success: false,
-        message: 'Thiếu thông tin đơn hàng'
+        message: "Thiếu thông tin đơn hàng",
+        debug: { errors },
       });
     }
 
-    // Create order
-    const order = new Order(orderData);
+    // Compute item price total if not provided
+    const computedItemsPrice =
+      typeof itemsPriceInput === "number"
+        ? itemsPriceInput
+        : orderItems.reduce((sum, it) => {
+            const price = Number(it.price ?? 0);
+            const qty = Number(it.qty ?? 1);
+            return sum + price * qty;
+          }, 0);
+
+    const shippingPrice = Number(shippingPriceInput || 0);
+    const computedTotalPrice =
+      typeof totalPriceInput === "number"
+        ? totalPriceInput
+        : computedItemsPrice + shippingPrice;
+
+    // Normalize order data
+    const orderPayload = {
+      ...payload,
+      user: user || null,
+      orderItems,
+      shippingAddress: shippingAddress || null,
+      itemsPrice: computedItemsPrice,
+      shippingPrice,
+      totalPrice: computedTotalPrice,
+      paymentMethod: paymentMethod || null,
+      paymentResult: paymentResult || null,
+      status: statusInput || "pending",
+      paymentStatus:
+        payload.paymentStatus || (paymentMethod ? "pending" : "unpaid"),
+      createdAt: payload.createdAt || undefined,
+    };
+
+    // Create and save order
+    const order = new Order(orderPayload);
 
     // Add initial status to history
+    order.statusHistory = order.statusHistory || [];
     order.statusHistory.push({
       status: order.status,
       timestamp: new Date(),
-      actorType: 'system',
-      note: 'Đơn hàng được tạo'
+      actorType: "system",
+      note: note || "Đơn hàng được tạo",
     });
 
     await order.save();
 
-    // Gửi email xác nhận đơn hàng mới
+    // Send confirmation email (try user service first, fall back to shippingAddress.email)
     try {
-      const userServiceUrl = process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006';
-      const userResponse = await axios.get(`${userServiceUrl}/api/users/internal/${order.user}`);
-      
-      if (userResponse.data && userResponse.data.data) {
-        const user = userResponse.data.data;
-        const customerEmail = user.email;
-        const customerName = user.userName || order.shippingAddress?.fullName || 'Khách hàng';
-        
-        // Gửi email không đồng bộ
-        emailService.sendNewOrderEmail(order, customerEmail, customerName)
-          .catch(err => console.error('Background email error:', err));
+      let customerEmail = null;
+      let customerName = null;
+
+      if (order.user) {
+        const userServiceUrl =
+          process.env.USER_MANAGER_SERVICE_URL || "http://localhost:3006";
+        const userResponse = await axios
+          .get(`${userServiceUrl}/api/users/internal/${order.user}`)
+          .catch(() => null);
+        if (userResponse && userResponse.data && userResponse.data.data) {
+          const u = userResponse.data.data;
+          customerEmail = u.email;
+          customerName =
+            u.userName || order.shippingAddress?.fullName || "Khách hàng";
+        }
+      }
+
+      if (!customerEmail && order.shippingAddress?.email) {
+        customerEmail = order.shippingAddress.email;
+        customerName = order.shippingAddress.fullName || "Khách hàng";
+      }
+
+      if (customerEmail) {
+        emailService
+          .sendNewOrderEmail(order, customerEmail, customerName)
+          .catch((err) => console.error("Background email error:", err));
+      } else {
+        console.log(
+          "ℹ️ [ORDER DEBUG] No email available for customer; skipping email send."
+        );
       }
     } catch (emailError) {
-      console.error('Error sending new order email:', emailError.message);
+      console.error(
+        "Error sending new order email:",
+        emailError?.message || emailError
+      );
     }
 
     res.status(201).json({
       success: true,
-      message: 'Tạo đơn hàng thành công',
-      data: order.toJSON()
+      message: "Tạo đơn hàng thành công",
+      data: order.toJSON(),
     });
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error("Error creating order:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi tạo đơn hàng'
+      message: error.message || "Lỗi tạo đơn hàng",
     });
   }
 };
+// ...existing code...
 
 // PATCH /api/orders/:id/status - Update order status
 exports.updateOrderStatus = async (req, res) => {
@@ -397,14 +500,14 @@ exports.updateOrderStatus = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: 'ID đơn hàng không hợp lệ'
+        message: "ID đơn hàng không hợp lệ",
       });
     }
 
     if (!status) {
       return res.status(400).json({
         success: false,
-        message: 'Thiếu trạng thái mới'
+        message: "Thiếu trạng thái mới",
       });
     }
 
@@ -413,44 +516,49 @@ exports.updateOrderStatus = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: 'Không tìm thấy đơn hàng'
+        message: "Không tìm thấy đơn hàng",
       });
     }
 
     // Update status using method
-    order.addStatusHistory(status, null, 'admin', note);
+    order.addStatusHistory(status, null, "admin", note);
     await order.save();
 
     // Gửi email thông báo cho khách hàng
     try {
       // Lấy thông tin user từ user-manager-service (internal endpoint - no auth)
-      const userServiceUrl = process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006';
-      const userResponse = await axios.get(`${userServiceUrl}/api/users/internal/${order.user}`);
-      
+      const userServiceUrl =
+        process.env.USER_MANAGER_SERVICE_URL || "http://localhost:3006";
+      const userResponse = await axios.get(
+        `${userServiceUrl}/api/users/internal/${order.user}`
+      );
+
       if (userResponse.data && userResponse.data.data) {
         const user = userResponse.data.data;
         const customerEmail = user.email;
-        const customerName = user.userName || order.shippingAddress?.fullName || 'Khách hàng';
-        
+        const customerName =
+          user.userName || order.shippingAddress?.fullName || "Khách hàng";
+
         // Gửi email (không chờ kết quả để không block response)
-        emailService.sendOrderStatusEmail(order, status, customerEmail, customerName)
-          .catch(err => console.error('Background email error:', err));
+        emailService
+          .sendOrderStatusEmail(order, status, customerEmail, customerName)
+          .catch((err) => console.error("Background email error:", err));
       }
     } catch (emailError) {
       // Log lỗi nhưng không làm fail request
-      console.error('Error sending status email:', emailError.message);
+      console.error("Error sending status email:", emailError.message);
     }
 
     res.json({
       success: true,
-      message: 'Cập nhật trạng thái thành công',
-      data: order.toJSON()
+      message: "Cập nhật trạng thái thành công",
+      data: order.toJSON(),
     });
   } catch (error) {
-    console.error('Error updating order status:', error);
+    console.error("Error updating order status:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi cập nhật trạng thái đơn hàng'
+      message: error.message || "Lỗi cập nhật trạng thái đơn hàng",
     });
   }
 };
@@ -464,7 +572,7 @@ exports.updateOrder = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: 'ID đơn hàng không hợp lệ'
+        message: "ID đơn hàng không hợp lệ",
       });
     }
 
@@ -477,20 +585,20 @@ exports.updateOrder = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: 'Không tìm thấy đơn hàng'
+        message: "Không tìm thấy đơn hàng",
       });
     }
 
     res.json({
       success: true,
-      message: 'Cập nhật đơn hàng thành công',
-      data: order.toJSON()
+      message: "Cập nhật đơn hàng thành công",
+      data: order.toJSON(),
     });
   } catch (error) {
-    console.error('Error updating order:', error);
+    console.error("Error updating order:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi cập nhật đơn hàng'
+      message: error.message || "Lỗi cập nhật đơn hàng",
     });
   }
 };
@@ -503,7 +611,7 @@ exports.bulkDeleteOrders = async (req, res) => {
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'Danh sách ID không hợp lệ'
+        message: "Danh sách ID không hợp lệ",
       });
     }
 
@@ -512,13 +620,13 @@ exports.bulkDeleteOrders = async (req, res) => {
     res.json({
       success: true,
       message: `Đã xóa ${result.deletedCount} đơn hàng`,
-      deletedCount: result.deletedCount
+      deletedCount: result.deletedCount,
     });
   } catch (error) {
-    console.error('Error bulk deleting orders:', error);
+    console.error("Error bulk deleting orders:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi xóa đơn hàng'
+      message: error.message || "Lỗi xóa đơn hàng",
     });
   }
 };
@@ -532,14 +640,14 @@ exports.cancelOrder = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: 'ID đơn hàng không hợp lệ'
+        message: "ID đơn hàng không hợp lệ",
       });
     }
 
     if (!reason || reason.trim().length === 0) {
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng nhập lý do hủy đơn'
+        message: "Vui lòng nhập lý do hủy đơn",
       });
     }
 
@@ -548,38 +656,46 @@ exports.cancelOrder = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: 'Không tìm thấy đơn hàng'
+        message: "Không tìm thấy đơn hàng",
       });
     }
 
     // Validation: Không cho phép hủy đơn đã giao hoặc hoàn thành
-    const nonCancellableStatuses = ['shipping', 'delivered', 'completed', 'cancelled', 'returned'];
+    const nonCancellableStatuses = [
+      "shipping",
+      "delivered",
+      "completed",
+      "cancelled",
+      "returned",
+    ];
     if (nonCancellableStatuses.includes(order.status)) {
       const statusLabels = {
-        shipping: 'đang giao hàng',
-        delivered: 'đã giao hàng',
-        completed: 'đã hoàn thành',
-        cancelled: 'đã bị hủy',
-        returned: 'đã trả hàng'
+        shipping: "đang giao hàng",
+        delivered: "đã giao hàng",
+        completed: "đã hoàn thành",
+        cancelled: "đã bị hủy",
+        returned: "đã trả hàng",
       };
       return res.status(400).json({
         success: false,
-        message: `Không thể hủy đơn hàng ${statusLabels[order.status] || order.status}`
+        message: `Không thể hủy đơn hàng ${
+          statusLabels[order.status] || order.status
+        }`,
       });
     }
 
     // Xử lý hoàn tiền nếu đã thanh toán
     let refundInfo = null;
-    if (order.paymentStatus === 'paid') {
+    if (order.paymentStatus === "paid") {
       // TODO: Tích hợp API hoàn tiền thực tế (VNPAY, MOMO, etc.)
       // Hiện tại chỉ update trạng thái
-      order.paymentStatus = 'refunded';
-      
+      order.paymentStatus = "refunded";
+
       refundInfo = {
         amount: order.totalPrice,
         method: order.paymentMethod,
         transactionId: order.paymentResult?.transactionId,
-        refundedAt: new Date()
+        refundedAt: new Date(),
       };
 
       // Log refund info
@@ -588,8 +704,9 @@ exports.cancelOrder = async (req, res) => {
 
     // Hoàn kho (release stock) - Cộng lại số lượng sản phẩm
     console.log(`📦 Đang hoàn ${order.orderItems.length} sản phẩm vào kho...`);
-    const productServiceUrl = process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:3005';
-    
+    const productServiceUrl =
+      process.env.PRODUCT_MANAGER_SERVICE_URL || "http://localhost:3005";
+
     for (const item of order.orderItems) {
       try {
         const variantId = item.product; // Đây là variantId trong seed data
@@ -597,61 +714,75 @@ exports.cancelOrder = async (req, res) => {
           `${productServiceUrl}/api/products/variants/${variantId}/release-stock`,
           { qty: item.qty }
         );
-        
+
         if (response.data.success) {
           console.log(`✅ Đã trả ${item.qty}x ${item.name} vào kho`);
-          console.log(`   Stock: ${response.data.data.previousStock} → ${response.data.data.currentStock}`);
+          console.log(
+            `   Stock: ${response.data.data.previousStock} → ${response.data.data.currentStock}`
+          );
         }
       } catch (stockError) {
-        console.error(`❌ Lỗi khi trả kho cho ${item.name}:`, stockError.message);
+        console.error(
+          `❌ Lỗi khi trả kho cho ${item.name}:`,
+          stockError.message
+        );
         // Không dừng process, chỉ log lỗi
       }
     }
 
     // Cập nhật trạng thái đơn hàng
-    order.status = 'cancelled';
+    order.status = "cancelled";
     order.cancelReason = reason;
-    order.addStatusHistory('cancelled', null, 'admin', `Hủy đơn: ${reason}`);
-    
+    order.addStatusHistory("cancelled", null, "admin", `Hủy đơn: ${reason}`);
+
     if (refundInfo) {
-      order.adminNotes = `Đã hoàn tiền ${refundInfo.amount.toLocaleString('vi-VN')}₫ qua ${refundInfo.method}`;
+      order.adminNotes = `Đã hoàn tiền ${refundInfo.amount.toLocaleString(
+        "vi-VN"
+      )}₫ qua ${refundInfo.method}`;
     }
 
     await order.save();
 
     // Gửi email thông báo hủy đơn
     try {
-      const userServiceUrl = process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006';
-      const userResponse = await axios.get(`${userServiceUrl}/api/users/internal/${order.user}`);
-      
+      const userServiceUrl =
+        process.env.USER_MANAGER_SERVICE_URL || "http://localhost:3006";
+      const userResponse = await axios.get(
+        `${userServiceUrl}/api/users/internal/${order.user}`
+      );
+
       if (userResponse.data && userResponse.data.data) {
         const user = userResponse.data.data;
         const customerEmail = user.email;
-        const customerName = user.userName || order.shippingAddress?.fullName || 'Khách hàng';
-        
+        const customerName =
+          user.userName || order.shippingAddress?.fullName || "Khách hàng";
+
         // Gửi email không đồng bộ
-        emailService.sendOrderStatusEmail(order, 'cancelled', customerEmail, customerName)
-          .catch(err => console.error('Background email error:', err));
+        emailService
+          .sendOrderStatusEmail(order, "cancelled", customerEmail, customerName)
+          .catch((err) => console.error("Background email error:", err));
       }
     } catch (emailError) {
-      console.error('Error sending cancellation email:', emailError.message);
+      console.error("Error sending cancellation email:", emailError.message);
     }
 
     res.json({
       success: true,
-      message: refundInfo 
-        ? `Đơn hàng đã được hủy và hoàn tiền ${refundInfo.amount.toLocaleString('vi-VN')}₫`
-        : 'Đơn hàng đã được hủy thành công',
+      message: refundInfo
+        ? `Đơn hàng đã được hủy và hoàn tiền ${refundInfo.amount.toLocaleString(
+            "vi-VN"
+          )}₫`
+        : "Đơn hàng đã được hủy thành công",
       data: {
         order: order.toJSON(),
-        refund: refundInfo
-      }
+        refund: refundInfo,
+      },
     });
   } catch (error) {
-    console.error('Error cancelling order:', error);
+    console.error("Error cancelling order:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi hủy đơn hàng'
+      message: error.message || "Lỗi hủy đơn hàng",
     });
   }
 };
@@ -664,7 +795,7 @@ exports.deleteOrder = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: 'ID đơn hàng không hợp lệ'
+        message: "ID đơn hàng không hợp lệ",
       });
     }
 
@@ -673,19 +804,19 @@ exports.deleteOrder = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: 'Không tìm thấy đơn hàng'
+        message: "Không tìm thấy đơn hàng",
       });
     }
 
     res.json({
       success: true,
-      message: 'Xóa đơn hàng thành công'
+      message: "Xóa đơn hàng thành công",
     });
   } catch (error) {
-    console.error('Error deleting order:', error);
+    console.error("Error deleting order:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Lỗi xóa đơn hàng'
+      message: error.message || "Lỗi xóa đơn hàng",
     });
   }
 };

@@ -3,7 +3,7 @@ import { useCreatePayment, CreatePaymentPayload } from '@/api/payment/query';
 
 export const usePayment = () => {
   const { mutateAsync: createPaymentMutation, isPending, isError } = useCreatePayment();
-  
+
   const paymentUrl = ref<string | null>(null);
   const paymentData = ref<any>(null);
 
@@ -13,32 +13,38 @@ export const usePayment = () => {
   const createAndRedirectPayment = async (payload: CreatePaymentPayload) => {
     try {
       console.log('🔄 Creating payment...', payload);
-      
-      const response = await createPaymentMutation(payload);
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Tạo thanh toán thất bại');
+
+      const response: any = await createPaymentMutation(payload);
+      console.log('✅ Payment API response:', response);
+
+      // Response could be { success, data } or just the data directly
+      const responseData: any = response?.success !== undefined ? response : { success: true, data: response };
+
+      if (!responseData.success) {
+        throw new Error(responseData.message || 'Tạo thanh toán thất bại');
       }
 
-      paymentData.value = response.data;
-      
+      paymentData.value = responseData.data;
+
       // Nếu có paymentUrl (VNPAY, MOMO, etc.) → redirect
-      if (response.data.paymentUrl) {
-        paymentUrl.value = response.data.paymentUrl;
+      if (responseData.data?.paymentUrl) {
+        paymentUrl.value = responseData.data.paymentUrl;
         console.log('✅ Payment URL:', paymentUrl.value);
-        
+
         // Redirect sang payment gateway
-        window.location.href = paymentUrl.value;
-        return { success: true, data: response.data };
+        if (paymentUrl.value) {
+          window.location.href = paymentUrl.value;
+        }
+        return { success: true, data: responseData.data };
       }
-      
+
       // Nếu COD → không cần redirect
       if (payload.paymentMethod === 'COD') {
         console.log('✅ COD payment created successfully');
-        return { success: true, data: response.data, message: 'Đơn hàng COD được tạo thành công' };
+        return { success: true, data: responseData.data, message: 'Đơn hàng COD được tạo thành công' };
       }
 
-      return { success: true, data: response.data };
+      return { success: true, data: responseData.data };
     } catch (error: any) {
       console.error('❌ Payment error:', error);
       throw error;
@@ -90,7 +96,7 @@ export const usePayment = () => {
     createAndRedirectPayment,
     createVNPayPayment,
     createCODPayment,
-    
+
     // States
     paymentUrl,
     paymentData,

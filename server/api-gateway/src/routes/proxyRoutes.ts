@@ -6,17 +6,17 @@ const router = Router();
 const services = {
   // ===== USER SERVICE (port 3005) - Backend cũ =====
   auth: { url: process.env.USER_SERVICE_URL || 'http://localhost:3005', path: '/api/auth' },
- userAddresses: { // ✅ User addresses - PATH MỚI
+  userAddresses: { // ✅ User addresses - PATH MỚI
     url: process.env.USER_SERVICE_URL || 'http://localhost:3005',
     path: '/api/user/addresses' // 
   },
   // ===== USER MANAGER SERVICE (port 3006) - Admin quản lý users =====
   users: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/users' },
   addresses: { url: process.env.USER_MANAGER_SERVICE_URL || 'http://localhost:3006', path: '/api/addresses' },
-  
+
   // ===== PRODUCT SERVICE (port 3001) - Backend cũ =====
   product: { url: process.env.PRODUCT_SERVICE_URL || 'http://localhost:3001', path: '/api/product' },
-  
+
   // ===== PRODUCT-MANAGER-SERVICE (port 5002) - Microservice mới =====
   // Admin CRUD cho products, categories, brands, colors, memories, specifications
   products: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/api/products' },
@@ -25,22 +25,27 @@ const services = {
   colors: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/api/colors' },
   memories: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/api/memories' },
   specifications: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/api/specifications' },
-  
-  // ===== CART SERVICE (sẽ chuyển sang microservice) =====
+
+  // ===== CART SERVICE (port 3003) =====
   carts: { url: process.env.CART_SERVICE_URL || 'http://localhost:3003', path: '/api/cart' },
-    // ===== ORDER SERVICE (sẽ chuyển sang microservice) =====
-  userorders: { url: process.env.ORDER_SERVICE_URL || 'http://localhost:3004', path: '/api/order' },
-  // ===== PAYMENT SERVICE (sẽ chuyển sang microservice) =====
-  payments: { url: process.env.PAYMENT_SERVICE_URL || 'http://localhost:3002', path: '/api/payments' },
+
+  // ===== ORDER SERVICE (port 3002) - ✅ FIXED =====
+  userorders: { url: process.env.ORDER_SERVICE_URL || 'http://localhost:3002', path: '/api/order' },
+
+  // ===== PAYMENT SERVICE (port 3004) - ✅ FIXED =====
+  payments: { url: process.env.PAYMENT_SERVICE_URL || 'http://localhost:3004', path: '/api/payments' },
+
   // ===== BRAND SERVICE (tạm thời từ monolithic) =====
   brand: { url: process.env.BRAND_SERVICE_URL || 'http://localhost:5000', path: '/api/brand' },
-  
+
   // ===== ORDER MANAGER SERVICE (port 5003) - Microservice quản lý orders =====
   orders: { url: process.env.ORDER_MANAGER_SERVICE_URL || 'http://localhost:5003', path: '/api/orders' },
-  
+
+
   // ===== REVIEW SERVICE (port 5006) - Microservice quản lý đánh giá =====
   reviews: { url: process.env.REVIEW_SERVICE_URL || 'http://localhost:5006', path: '/api/reviews' },
-  
+
+
   // ===== MICROSERVICES KHÁC =====
   // location: { url: process.env.LOCATION_SERVICE_URL || 'http://localhost:5004', path: '/api/locations' },
   // promotion: { url: process.env.PROMOTION_SERVICE_URL || 'http://localhost:5005', path: '/api/promotions' },
@@ -77,9 +82,7 @@ Object.values(services).forEach(service => {
     }
   };
   router.use(service.path, createProxyMiddleware(proxyOptions));
-  
+
 });
 
 export default router;
-
-

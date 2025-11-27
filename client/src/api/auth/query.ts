@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/vue-query";  // ✅ FIX: Đổi import
-import { login, getUserSuccess, register, forgotPassword } from "./auth";
+import { useMutation } from "@tanstack/vue-query";
+import { login, getUserSuccess, register, forgotPassword, uploadAvatar } from "./auth";
 import { ILoginBody, IRegisterBody } from "@/types/auth.types";
 
 // ✅ Login Mutation
@@ -43,5 +43,14 @@ export const forgotPasswordMutation = () => {
       console.log('  Email:', email);
       return forgotPassword(email);
     },
+  });
+};
+
+// ✅ Upload Avatar Mutation
+export const useUploadAvatarMutation = () => {
+  return useMutation({
+    mutationFn: (formData: FormData) => {
+      return uploadAvatar(formData);
+    }
   });
 };

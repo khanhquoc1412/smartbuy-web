@@ -6,11 +6,18 @@ const orderService = require("../services/order.service");
  */
 exports.createOrder = async (req, res, next) => {
   try {
+    console.log('🔍 [Controller] req.body:', JSON.stringify(req.body, null, 2));
+    console.log('🔍 [Controller] req.user:', req.user);
+
     const userId = req.user.id;
+    const token = req.headers.authorization?.split(" ")[1]; // Extract token
     const orderData = {
       ...req.body,
       userId,
+      token, // Pass token
     };
+
+    console.log('🔍 [Controller] orderData constructed:', JSON.stringify(orderData, null, 2));
 
     const result = await orderService.createOrderFromCart(orderData);
 

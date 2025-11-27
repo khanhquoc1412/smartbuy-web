@@ -1,11 +1,8 @@
 import { $axios } from "@plugins/axios/axios";
 import {
-    IAthleteProfile,
     ILoginBody,
     ILoginResponse,
-    IMeta,
     INewAccessToken,
-    IPagination,
     IRegisterBody,
 } from "@/types/auth.types";
 import { IUser } from "@/types/user.types";
@@ -31,7 +28,14 @@ const auth = () => ({
     },
     getUserSuccess(userId: string | number) {
         return $axios.post<unknown, ILoginResponse>("/auth/login-success", { userId });
+    },
+    uploadAvatar(formData: FormData) {
+        return $axios.post<{ success: boolean, avatarUrl: string }>("/auth/upload-avatar", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     }
 });
 
-export const { login, register, forgotPassword, getUserSuccess, getUser, getNewToken } = auth();
+export const { login, register, forgotPassword, getUserSuccess, getUser, getNewToken, uploadAvatar } = auth();

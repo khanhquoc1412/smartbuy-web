@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ============ ROUTES ============
 // Chỉ giữ order routes cho User
-app.use('/api/orders', require('./routes/order.routes'));
+app.use('/api/order', require('./routes/order.routes'));
 
 // XÓA: app.use('/api/stats', require('./routes/stats.routes'));
 
@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await connectDB();
-    
+
     app.listen(config.PORT, () => {
       console.log(`✅ OrderService (User) running on port ${config.PORT}`);
       console.log(`🌐 Environment: ${config.NODE_ENV}`);

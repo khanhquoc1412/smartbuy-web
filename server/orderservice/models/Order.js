@@ -52,7 +52,7 @@ const OrderSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: ["unpaid", "paid", "refunded", "failed"],
+      enum: ["unpaid", "pending", "paid", "refunded", "failed"],
       default: "unpaid",
     },
 
@@ -117,6 +117,7 @@ const OrderSchema = new mongoose.Schema(
         actor: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",  // admin hoặc system
+          required: false,  // Không bắt buộc để cho phép system actions không có user
         },
         actorType: { type: String, enum: ["user", "admin", "system"], default: "system" },
         note: { type: String },
@@ -169,8 +170,8 @@ OrderSchema.methods.addStatusHistory = function (status, actor, actorType, note)
 };
 
 // Kiểm tra có thể hủy không
-OrderSchema.methods.canCancel = function () {
-  return ["pending", "confirmed", "pending_payment"].includes(this.status);
+OrderSchema.methods.canCancelByUser = function () {
+  return ["pending", "confirmed", "pending_payment", "shipping"].includes(this.status);
 };
 
 // Kiểm tra có thể refund không

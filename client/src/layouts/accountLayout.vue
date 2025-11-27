@@ -8,10 +8,10 @@
                     <div class="app-account__left">
                         <div class="sidebar">
                             <div class="account-info tw-flex tw-items-center tw-gap-3">
-                                <div class="avatar" v-if="user.avatarUrl">
+                                <div class="avatar tw-cursor-pointer" v-if="user.avatarUrl" @click="handleAvatarClick">
                                     <img :src="user.avatarUrl" alt="">
                                 </div>
-                                <div class="avatar" v-else>
+                                <div class="avatar tw-cursor-pointer" v-else @click="handleAvatarClick">
                                     <img src="https://bim.gov.vn/Upload/images/staffs/avatar-default.jpg" alt="">
                                 </div>
                                 <div class="base-info">
@@ -41,6 +41,12 @@
                             <Modal content="Bạn muốn thoát tài khoản?" :is-active="activeModalSignOut"
                                 @updateIsActive="closeModal" @confirmAction="handleLogout" />
                         </div>
+                        <AvatarModal 
+                            :is-active="showAvatarModal" 
+                            :avatar-url="user.avatarUrl"
+                            @close="showAvatarModal = false"
+                            @upload="handleAvatarUpload"
+                        />
                     </div>
                     <div class="app-account__right">
                         <div class="main">
@@ -69,7 +75,11 @@ import notificationSvg from "@assets/svg/account/notification.svg"
 import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import secureSvg from "@assets/svg/categories/secure.svg"
 import Modal from "@/components/common/Modal.vue";
+import AvatarModal from "@/components/common/AvatarModal.vue";
 import { useAuth } from "@/composables/useAuth";
+import { useUploadAvatarMutation } from "@/api/auth/query";
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 interface ISideBarItem {
     value: string,
@@ -109,7 +119,7 @@ const sidebarItems = ref<ISideBarItem[]>([
         path: "/account/change-password",
     },
 ]);
-const { user, signOut } = useAuth()
+const { user, signOut, getUserProfile } = useAuth()
 const isAdmin = computed(() => (user.value as any)?.isAdmin === true || (user.value as any)?.isAdmin === 'true' || (user.value as any)?.role === 'admin')
 const sidebarItemsWithAdmin = computed<ISideBarItem[]>(() => {
     const base = [...sidebarItems.value]
@@ -134,6 +144,39 @@ const closeModal = (value: boolean) => {
 const handleLogout = () => {
     signOut()
 }
+
+// Avatar Modal Logic
+const showAvatarModal = ref(false);
+const { mutate: uploadAvatar } = useUploadAvatarMutation();
+
+const handleAvatarClick = () => {
+    showAvatarModal.value = true;
+};
+
+const handleAvatarUpload = (file: File) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    uploadAvatar(formData, {
+        onSuccess: (data: any) => {
+            console.log("Upload response:", data);
+            const responseData = data.data || data;
+            if (responseData.success) {
+                if (getUserProfile) {
+                    getUserProfile();
+                } else {
+                    window.location.reload();
+                }
+                showAvatarModal.value = false;
+                alert("Cập nhật ảnh đại diện thành công!");
+            }
+        },
+        onError: (error) => {
+            console.error("Upload failed:", error);
+            alert("Cập nhật ảnh thất bại!");
+        }
+    });
+};
 </script>
 
 <style lang="scss" scoped>

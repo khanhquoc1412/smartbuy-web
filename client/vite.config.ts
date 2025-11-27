@@ -50,7 +50,7 @@ export default defineConfig({
         "./src/components/**",
       ],
     }),
-    
+
   ],
   css: {
     preprocessorOptions: {
@@ -65,6 +65,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // Proxy all API requests to API Gateway
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
       // Proxy requests to /uploads to Product Manager Service
       '/uploads': {
         target: 'http://localhost:5002',

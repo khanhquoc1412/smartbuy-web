@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/vue-query';
-import { _axios } from '@/plugins/axios/axios';
+import { $axios } from '@/plugins/axios/axios';
 
 // ============ TYPES ============
 export interface CreatePaymentPayload {
@@ -39,7 +39,7 @@ export interface PaymentResponse {
  * Tạo payment và lấy payment URL
  */
 const createPayment = async (payload: CreatePaymentPayload): Promise<PaymentResponse> => {
-  const response = await _axios.post('/api/payments/create', payload);
+  const response = await $axios.post('/payments/create', payload);
   return response.data;
 };
 
@@ -47,7 +47,7 @@ const createPayment = async (payload: CreatePaymentPayload): Promise<PaymentResp
  * Lấy thông tin payment theo ID
  */
 const getPaymentById = async (paymentId: string): Promise<PaymentResponse> => {
-  const response = await _axios.get(`/api/payments/${paymentId}`);
+  const response = await $axios.get(`/payments/${paymentId}`);
   return response.data;
 };
 
@@ -55,7 +55,7 @@ const getPaymentById = async (paymentId: string): Promise<PaymentResponse> => {
  * Lấy payment theo orderId
  */
 const getPaymentByOrderId = async (orderId: string): Promise<PaymentResponse> => {
-  const response = await _axios.get(`/api/payments/order/${orderId}`);
+  const response = await $axios.get(`/payments/order/${orderId}`);
   return response.data;
 };
 
@@ -63,7 +63,7 @@ const getPaymentByOrderId = async (orderId: string): Promise<PaymentResponse> =>
  * Hủy payment
  */
 const cancelPayment = async (paymentId: string, reason?: string): Promise<PaymentResponse> => {
-  const response = await _axios.post(`/api/payments/${paymentId}/cancel`, { reason });
+  const response = await $axios.post(`/payments/${paymentId}/cancel`, { reason });
   return response.data;
 };
 

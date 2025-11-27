@@ -3,22 +3,21 @@
         <div class="list-product__left tw-flex tw-gap-4 ">
             <div class="product-img">
                 <img class="tw-w-full tw-h-full tw-object-cover"
-                    src="https://cdn.tgdd.vn/Products/Images/42/303891/TimerThumb/iphone-15-plus-green-1.jpeg" alt="" />
+                    :src="item.image || 'https://via.placeholder.com/65'" alt="" />
             </div>
             <div class="product-desc tw-py-2 tw-flex tw-flex-col tw-justify-between">
-                <router-link :to="`/product/iphone-15promax`"
+                <router-link :to="`/product/${item.product}`"
                     class="product-desc--name tw-cursor-pointer hover:tw-text-red tw-transition-all">
-                    {{ item.productVariant?.product?.name }}
+                    {{ item.name }}
                 </router-link>
                 <div class="product-desc__price tw-flex tw-gap-2">
                     <div class="product-desc__price--show">
-                        {{ formatMoney(item.productVariant.price as number) }}
+                        {{ formatMoney(item.price) }}
                     </div>
-                    <div class="product-desc__price--throw">
-                        {{
-                            formatMoney(getRealPrice(item.productVariant.price as number,
-                                item.productVariant.product?.discountPercentage as number)) }}
-                    </div>
+                </div>
+                <div class="product-desc--option" v-if="item.variant">
+                    <span v-if="item.variant.color">{{ item.variant.color }}</span>
+                    <span v-if="item.variant.memory"> - {{ item.variant.memory }}</span>
                 </div>
             </div>
         </div>
@@ -28,24 +27,21 @@
                     Số lượng:
                 </span>
                 <span class="product-quantity__number">
-                    {{ item.quantity }}
+                    {{ item.qty }}
                 </span>
             </div>
         </div>
     </div>
 </template>
- 
-  
-<script lang="ts" setup>
-import { IOrderDetail } from '@/types/order.type';
-import { IProductVariant } from '@/types/product.types';
-import { formatMoney } from '@/utils/formatMoney';
-import { getRealPrice } from '@/utils/product/getPriceAfterDiscount';
 
-const { item } = defineProps<{ item: IOrderDetail }>();
+<script lang="ts" setup>
+import { IOrderItem } from '@/types/order.type';
+import { formatMoney } from '@/utils/formatMoney';
+
+const { item } = defineProps<{ item: IOrderItem }>();
 
 </script>
-  
+
 <style lang="scss" scoped>
 .order-item-cps {
     .list-product {

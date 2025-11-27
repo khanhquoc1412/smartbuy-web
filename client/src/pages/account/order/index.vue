@@ -3,11 +3,11 @@
     <h1 class="order-title">Lịch sử đặt hàng</h1>
     <div class="block-content">
       <div class="content-item">
-        <span class="content-item__number"> 0 </span>
+        <span class="content-item__number"> {{ totalOrders }} </span>
         <span class="content-item__title"> Đơn hàng </span>
       </div>
       <div class="content-item">
-        <span class="content-item__number"> 0đ </span>
+        <span class="content-item__number"> {{ formatMoney(totalAmount) }} </span>
         <span class="content-item__title"> Tổng số tiền </span>
       </div>
     </div>
@@ -23,9 +23,10 @@
         >
           <swiper-slide
             class="swiper-item"
-            :class="{ 'is-active': item.id === 1 }"
+            :class="{ 'is-active': item.id === currentTab }"
             v-for="item in listOrderStatus"
             :key="item.id"
+            @click="handleTabChange(item)"
           >
             <span>
               {{ item.title }}
@@ -36,18 +37,23 @@
       <div class="order-main tw-flex tw-gap-3 tw-flex-col" v-if="orderUser">
         <div
           class="order-group"
-          v-for="order in orderUser.orders"
+          v-for="order in orderUser.data"
           :key="order.id"
         >
           <div class="order-group__header tw-flex tw-justify-between">
             <div class="header__left">
               <div class="header__top">
                 <span> Mã đơn hàng </span>
-                <p>#{{ order.id }}</p>
+                <p>#{{ order.orderNumber || (order._id ? order._id.slice(-4).toUpperCase() : order.id) }}</p>
               </div>
               <div class="header__payment">
                 <div class="order-payment--status">
-                  {{ order.payment.paymentStatus.name }}
+                  {{ order.paymentStatus === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+                </div>
+                <!-- Order Status Badge -->
+                <div class="order-status-badge tw-ml-2 tw-px-3 tw-py-1 tw-rounded-lg tw-text-sm tw-font-medium"
+                     :class="getStatusColor(order.status)">
+                  {{ getStatusText(order.status) }}
                 </div>
                 <div class="order-time">
                   <div class="icon">
@@ -58,24 +64,40 @@
                   </div>
                 </div>
               </div>
+              <!-- Admin Note / Status Note -->
+              <div class="order-admin-note tw-mt-2" v-if="order.statusHistory && order.statusHistory.length > 0">
+                 <p class="tw-text-sm tw-text-gray-500 tw-italic">
+                   <span class="tw-font-medium">Ghi chú:</span> 
+                   {{ order.statusHistory[order.statusHistory.length - 1].note }}
+                 </p>
+              </div>
               <div class="header__bottom">
                 <span> Giao tới: </span>
-                <p>
-                  {{ order.userName }} - {{ order.address.houseNumber }}
-                  {{ order.address.ward }} - {{ order.address.district }} -
-                  {{ order.address.province }}
+                <p v-if="order.shippingAddress">
+                  {{ order.shippingAddress.fullName }} - {{ order.shippingAddress.address }},
+                  {{ order.shippingAddress.ward }}, {{ order.shippingAddress.district }},
+                  {{ order.shippingAddress.province }}
+                </p>
+                <p v-else>
+                  ---
                 </p>
               </div>
             </div>
             <div class="header__right">
-              <button class="order-btn--cancel">Hủy đơn</button>
+              <button 
+                class="tw-bg-red tw-text-white tw-px-4 tw-py-2 tw-rounded-md tw-font-medium hover:tw-opacity-80 tw-transition-all" 
+                v-if="['pending', 'confirmed', 'shipping'].includes(order.status)"
+                @click="handleCancelOrder(order._id || order.id)"
+              >
+                Hủy đơn
+              </button>
             </div>
           </div>
           <div class="order-list">
             <OrderItem
               :item="item"
-              v-for="item in order.orderDetails"
-              :key="item.id"
+              v-for="item in order.orderItems"
+              :key="item._id || item.product"
             />
           </div>
           <div
@@ -83,7 +105,7 @@
           >
             <span> Tổng thanh toán: </span>
             <span>
-              {{ formatMoney(getTotalAmount(order.orderDetails as ICart[])) }}
+              {{ formatMoney(order.totalPrice) }}
             </span>
           </div>
         </div>
@@ -93,6 +115,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, computed } from "vue";
 import calendarIcon from "@assets/svg/calendar.svg";
 import { breakpointOrders } from "@utils/breackpoints";
 import {
@@ -111,46 +134,103 @@ import "swiper/css/pagination";
 import "swiper/css/effect-cube";
 import { SwiperModule } from "swiper/types";
 import OrderItem from "@/components/cart/OrderItem.vue";
-import { useListOrderUser } from "@/api/order/query";
+import { useListOrderUser, useCancelOrderMutation } from "@/api/order/query";
 import { formatTime } from "@utils/formatTime";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
-import { ICart } from "@/types/cart.types";
 import { formatMoney } from "@/utils/formatMoney";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
+
 interface IOrderStatus {
   id: number;
   title: string;
+  value?: string;
 }
-const listOrderStatus = <IOrderStatus[]>[
-  {
-    id: 0,
-    title: "Tất cả",
-  },
-  {
-    id: 1,
-    title: "Chờ xác nhận",
-  },
-  {
-    id: 2,
-    title: "Đã xác nhận",
-  },
-  {
-    id: 3,
-    title: "Đang giao hàng",
-  },
-  {
-    id: 4,
-    title: "Đã giao hàng",
-  },
-  {
-    id: 5,
-    title: "Đã hủy",
-  },
+
+const listOrderStatus: IOrderStatus[] = [
+  { id: 0, title: "Tất cả", value: undefined },
+  { id: 1, title: "Chờ xác nhận", value: "pending" },
+  { id: 2, title: "Đã xác nhận", value: "confirmed" },
+  { id: 3, title: "Đang giao hàng", value: "shipping" },
+  { id: 4, title: "Đã giao hàng", value: "delivered" }, // hoặc 'completed' tùy logic
+  { id: 5, title: "Đã hủy", value: "cancelled" },
 ];
 
-const { data: orderUser, refetch, isLoading, isFetching } = useListOrderUser();
-console.log(orderUser);
+const currentTab = ref(0);
+
+const currentStatus = computed(() => {
+  const tab = listOrderStatus.find(t => t.id === currentTab.value);
+  return tab?.value;
+});
+
+const { data: orderUser, refetch, isLoading, isFetching } = useListOrderUser({
+  page: 1,
+  limit: 10,
+  status: currentStatus as any // Pass computed status
+});
+
+const { mutate: cancelOrderMutate } = useCancelOrderMutation();
+
+const handleCancelOrder = (orderId: string) => {
+  if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+    cancelOrderMutate(orderId, {
+      onSuccess: () => {
+        alert("Hủy đơn hàng thành công!");
+      },
+      onError: (error) => {
+        console.error("Failed to cancel order:", error);
+        alert("Có lỗi xảy ra khi hủy đơn hàng.");
+      }
+    });
+  }
+};
+
+// Computed properties for totals
+const totalOrders = computed(() => {
+  return orderUser.value?.pagination?.total || 0;
+});
+
+const totalAmount = computed(() => {
+  if (!orderUser.value?.data) return 0;
+  return orderUser.value.data.reduce((sum, order) => sum + (order.totalPrice || 0), 0);
+});
+
+const handleTabChange = (item: IOrderStatus) => {
+  currentTab.value = item.id;
+  // useQuery is reactive, it will refetch automatically when params change
+};
+
+// Helper to get status text
+const getStatusText = (status: string) => {
+  const map: Record<string, string> = {
+    pending: 'Chờ xác nhận',
+    confirmed: 'Đã xác nhận',
+    shipping: 'Đang giao hàng',
+    delivered: 'Đã giao hàng',
+    completed: 'Hoàn thành',
+    cancelled: 'Đã hủy',
+    payment_failed: 'Thanh toán thất bại',
+    pending_payment: 'Chờ thanh toán'
+  };
+  return map[status] || status;
+};
+
+// Helper to get status color class
+const getStatusColor = (status: string) => {
+  const map: Record<string, string> = {
+    pending: 'tw-bg-red tw-text-white tw-border tw-border-red',
+    confirmed: 'tw-bg-blue-600 tw-text-white tw-border tw-border-blue-600',
+    shipping: 'tw-bg-indigo-600 tw-text-white tw-border tw-border-indigo-600',
+    delivered: 'tw-bg-green-600 tw-text-white tw-border tw-border-green-600',
+    completed: 'tw-bg-green-600 tw-text-white tw-border tw-border-green-600',
+    cancelled: 'tw-bg-gray-600 tw-text-white tw-border tw-border-gray-600',
+    payment_failed: 'tw-bg-red tw-text-white tw-border tw-border-red',
+    pending_payment: 'tw-bg-orange-500 tw-text-white tw-border tw-border-orange-500'
+  };
+  return map[status] || 'tw-bg-gray-500 tw-text-white tw-border tw-border-gray-500';
+};
+
+console.log('Current orders:', orderUser);
 </script>
 <route lang="yaml">
 name: Đơn đặt hàng
@@ -275,12 +355,22 @@ meta:
 
             .header__payment {
               display: flex;
+              align-items: center;
 
               .order-payment--status {
                 color: $green;
                 background-color: rgba(0, 255, 136, 0.159);
                 border-radius: 10px;
                 padding: 6px 12px;
+              }
+
+              .order-status-badge {
+                margin-left: 10px;
+                padding: 4px 12px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                color: $white;
               }
 
               .order-time {
@@ -331,17 +421,7 @@ meta:
           }
 
           .header__right {
-            .order-btn--cancel {
-              color: $red;
-              padding: 8px 12px;
-              font-weight: 500;
-              border-radius: 4px;
-              transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-
-              &:hover {
-                opacity: 0.75;
-              }
-            }
+            // Button style moved to template using Tailwind
           }
         }
 
