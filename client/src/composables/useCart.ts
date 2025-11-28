@@ -82,7 +82,7 @@ export const useCart = () => {
 
   const requireAuth = () => {
     if (!isAuthenticated()) {
-      alert('⚠️ Vui lòng đăng nhập để thực hiện chức năng này');
+      showToast('⚠️ Vui lòng đăng nhập để thực hiện chức năng này', 'error');
       router.push('/login');
       return false;
     }
@@ -182,25 +182,25 @@ export const useCart = () => {
     // Validate
     if (!payload || typeof payload !== 'object') {
       console.error('❌ Invalid payload type');
-      alert('❌ Dữ liệu không hợp lệ');
+      showToast('❌ Dữ liệu không hợp lệ', 'error');
       return;
     }
 
     if (!payload.productId) {
       console.error('❌ Missing productId');
-      alert('❌ Thiếu thông tin sản phẩm');
+      showToast('❌ Thiếu thông tin sản phẩm', 'error');
       return;
     }
 
     if (!payload.variantId) {
       console.error('❌ Missing variantId');
-      alert('❌ Vui lòng chọn phiên bản sản phẩm');
+      showToast('❌ Vui lòng chọn phiên bản sản phẩm', 'error');
       return;
     }
 
     if (!payload.quantity || payload.quantity < 1) {
       console.error('❌ Invalid quantity');
-      alert('❌ Số lượng không hợp lệ');
+      showToast('❌ Số lượng không hợp lệ', 'error');
       return;
     }
 
@@ -231,7 +231,7 @@ export const useCart = () => {
       isAddingToCart.value = false;
 
       // ✅ Thông báo thành công
-      alert('✅ Đã thêm sản phẩm vào giỏ hàng!');
+      showToast('✅ Đã thêm sản phẩm vào giỏ hàng!', 'success');
 
       isAddingToCart.value = false;
       return response;
@@ -248,81 +248,42 @@ export const useCart = () => {
         error?.message ||
         'Có lỗi xảy ra khi thêm vào giỏ hàng';
 
-      alert(`❌ ${errorMessage}`);
+      showToast(`❌ ${errorMessage}`, 'error');
 
       throw error;
     }
   };
 
-  // Update quantity
-  // const updateQuantity = async (cartItemId: string, quantity: number) => {
-  //   if (!requireAuth()) return;
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
 
-  //   if (quantity < 1) {
-  //     alert('❌ Số lượng phải lớn hơn 0');
-  //     return;
-  //   }
+    document.body.appendChild(toast);
 
-  //   isUpdating.value = true;
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => document.body.removeChild(toast), 300);
+    }, 3000);
+  };
 
-  //   // ✅ Lưu previous state để rollback nếu lỗi
-  //   const previousCart = cart.value;
-
-  //   try {
-  //     // ✅ OPTIMISTIC UPDATE: Update UI ngay trước khi gọi API
-  //     queryClient.setQueryData(['cart'], (old: any) => {
-  //       if (!old || !old.items) return old;
-
-  //       return {
-  //         ...old,
-  //         items: old.items.map((item: any) => 
-  //           item._id === cartItemId 
-  //             ? { ...item, quantity } 
-  //             : item
-  //         ),
-  //       };
-  //     });
-
-  //     console.log('🔄 Updating quantity (optimistic):', { cartItemId, quantity });
-
-  //     // ✅ Call API
-  //     const response = await updateCartItemAPI(cartItemId, quantity);
-  //     console.log('✅ API confirmed update:', response);
-
-  //     // ✅ Invalidate để refetch data thật từ server
-  //     await queryClient.invalidateQueries({ queryKey: ['cart'] });
-  //     await queryClient.invalidateQueries({ queryKey: ['cartCount'] });
-
-  //     // ✅ Refetch để đảm bảo data sync
-  //     await Promise.all([
-  //       refetchCart(),
-  //       refetchCartCount(),
-  //     ]);
-
-  //     isUpdating.value = false;
-  //     return response;
-
-  //   } catch (error: any) {
-  //     console.error('❌ Error updating quantity, rolling back:', error);
-
-  //     // ✅ ROLLBACK: Khôi phục state cũ nếu lỗi
-  //     queryClient.setQueryData(['cart'], previousCart);
-
-  //     isUpdating.value = false;
-
-  //     const errorMessage = 
-  //       error?.response?.data?.message || 
-  //       'Có lỗi xảy ra khi cập nhật số lượng';
-
-  //     alert(`❌ ${errorMessage}`);
-  //     throw error;
-  //   }
-  // };
   const updateQuantity = async (cartItemId: string, quantity: number) => {
     if (!requireAuth()) return;
 
     if (quantity < 1) {
-      alert('❌ Số lượng phải lớn hơn 0');
+      showToast('❌ Số lượng phải lớn hơn 0', 'error');
       return;
     }
 
@@ -420,110 +381,12 @@ export const useCart = () => {
         error?.response?.data?.message ||
         'Có lỗi xảy ra khi cập nhật số lượng';
 
-      alert(`❌ ${errorMessage}`);
+      showToast(`❌ ${errorMessage}`, 'error');
       throw error;
     }
   };
 
-  // Remove item
-  //   const removeItem = async (cartItemId: string) => {
-  //   if (!requireAuth()) return;
 
-  //   isRemoving.value = true;
-
-  //   // ✅ Lưu previous state để rollback nếu lỗi
-  //   const previousCart = cart.value;
-  //   const previousCount = cartCount.value;
-
-  //   try {
-  //     // ✅ OPTIMISTIC UPDATE: Xóa item khỏi UI ngay lập tức
-  //     queryClient.setQueryData(['cart'], (old: any) => {
-  //       if (!old || !old.items) return old;
-
-  //       // Filter ra item bị xóa
-  //       const newItems = old.items.filter((item: any) => item._id !== cartItemId);
-
-  //       // Tính lại total
-  //       const newTotalPrice = newItems.reduce((sum: number, item: any) => {
-  //         return sum + (item.quantity * item.priceAtAdd * (1 - item.discountPercentage / 100));
-  //       }, 0);
-
-  //       const newItemCount = newItems.reduce((sum: number, item: any) => sum + item.quantity, 0);
-
-  //       return {
-  //         ...old,
-  //         items: newItems,
-  //         totalItems: newItems.length,
-  //         itemCount: newItemCount,
-  //         totalPrice: newTotalPrice,
-  //         finalTotal: newTotalPrice,
-  //       };
-  //     });
-
-  //     // ✅ Update cart count optimistically
-  //     queryClient.setQueryData(['cartCount'], (old: any) => {
-  //       if (!old) return old;
-
-  //       const currentCount = old.data?.count || 0;
-  //       const itemToRemove = previousCart?.items?.find((item: any) => item._id === cartItemId);
-  //       const quantityToRemove = itemToRemove?.quantity || 1;
-
-  //       return {
-  //         ...old,
-  //         data: {
-  //           ...old.data,
-  //           count: Math.max(0, currentCount - quantityToRemove),
-  //         },
-  //       };
-  //     });
-
-  //     console.log('🗑️ Removing item (optimistic):', cartItemId);
-  //     console.log('✅ UI updated immediately');
-
-  //     // ✅ Call API để sync với backend
-  //     const response = await removeCartItemAPI(cartItemId);
-  //     console.log('✅ API confirmed removal:', response);
-
-  //     // ✅ Invalidate queries để refetch data thật từ server
-  //     await queryClient.invalidateQueries({ queryKey: ['cart'] });
-  //     await queryClient.invalidateQueries({ queryKey: ['cartCount'] });
-
-  //     // ✅ Refetch để đảm bảo sync với backend
-  //     const [cartResult, countResult] = await Promise.all([
-  //       refetchCart(),
-  //       refetchCartCount(),
-  //     ]);
-
-  //     console.log('✅ Refetch complete, data synced:', {
-  //       cartItems: cartResult.data?.items?.length,
-  //       totalCount: countResult.data?.data?.count,
-  //     });
-
-  //     // ✅ Thông báo xóa thành công
-  //     alert('✅ Đã xóa sản phẩm khỏi giỏ hàng!');
-
-  //     isRemoving.value = false;
-  //     return response;
-
-  //   } catch (error: any) {
-  //     console.error('❌ Error removing item, rolling back:', error);
-
-  //     // ✅ ROLLBACK: Khôi phục state cũ nếu API lỗi
-  //     queryClient.setQueryData(['cart'], previousCart);
-  //     queryClient.setQueryData(['cartCount'], previousCount);
-
-  //     console.log('🔄 Rolled back to previous state');
-
-  //     isRemoving.value = false;
-
-  //     const errorMessage = 
-  //       error?.response?.data?.message || 
-  //       'Có lỗi xảy ra khi xóa sản phẩm';
-
-  //     alert(`❌ ${errorMessage}`);
-  //     throw error;
-  //   }
-  // };
   const removeItem = async (cartItemId: string) => {
     if (!requireAuth()) return;
 
@@ -618,7 +481,7 @@ export const useCart = () => {
         error?.response?.data?.message ||
         'Có lỗi xảy ra khi xóa sản phẩm';
 
-      alert(`❌ ${errorMessage}`);
+      showToast(`❌ ${errorMessage}`, 'error');
       throw error;
     }
   };

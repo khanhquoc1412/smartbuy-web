@@ -75,6 +75,15 @@ router.patch(
  */
 router.delete("/item/:cartItemId", authMiddleware, cartController.removeItem);
 
+/**
+ * ✅ NEW: Remove multiple items from cart
+ * @route   DELETE /api/cart/items
+ * @desc    Remove multiple items at once
+ * @body    { itemIds: [id1, id2, ...] }
+ * @access  Private
+ */
+router.delete("/items", authMiddleware, cartController.removeMultipleItems);
+
 // ========== COUPON MANAGEMENT ==========
 
 /**

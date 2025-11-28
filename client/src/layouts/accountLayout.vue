@@ -107,12 +107,6 @@ const sidebarItems = ref<ISideBarItem[]>([
         path: "/account/wish-list",
     },
     {
-        value: "notification-icon",
-        icon: notificationSvg,
-        title: "Thông báo",
-        path: "/account/notification",
-    },
-    {
         value: "secure-icon",
         icon: secureSvg,
         title: "Thay đổi mật khẩu",

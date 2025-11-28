@@ -93,16 +93,16 @@ export const useAuth = () => {
         }
     }
 
-  const signOut = () => {
-    accessToken.value = null;
-    refreshToken.value = null;
-    userId.value = null;
-    loggedIn.value = false;
-    user.value = {} as IUser;
-    localStorage.clear();
-    router.push("/login");
-    window.location.reload();
-};
+    const signOut = () => {
+        accessToken.value = null;
+        refreshToken.value = null;
+        userId.value = null;
+        loggedIn.value = false;
+        user.value = {} as IUser;
+        localStorage.clear();
+        router.push("/login");
+        window.location.reload();
+    };
 
 
     const {
@@ -120,12 +120,20 @@ export const useAuth = () => {
             finish()
         }
     }
+
+    const getUserProfile = async () => {
+        if (userId.value) {
+            return await getUserInfo(userId.value);
+        }
+    };
+
     return {
         loggedIn,
         user,
         isSignInLoading,
         signInError,
         getUserInfo,
+        getUserProfile,
         signIn,
         signOut,
         updateUser,

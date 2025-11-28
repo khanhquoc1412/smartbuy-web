@@ -44,7 +44,7 @@
             >
               <div class="box-icon tw-relative">
                 <font-awesome-icon icon="cart-plus" />
-                <span class="cart-badge tw-absolute tw--top-3 tw--right-3 tw-bg-yellow-500 tw-text-white tw-text-[14px] tw-font-bold tw-rounded-full tw-h-5 tw-w-5 tw-flex tw-items-center tw-justify-center">
+                <span class="cart-badge tw-absolute tw--top-4 tw--right-3 tw-bg-yellow-500 tw-text-white tw-text-[14px] tw-font-bold tw-rounded-full tw-h-5 tw-w-5 tw-flex tw-items-center tw-justify-center">
                   {{ totalItems }}
                 </span>
               </div>

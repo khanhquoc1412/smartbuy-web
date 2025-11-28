@@ -11,6 +11,9 @@ module.exports = {
   // Payment Service URL (port 3004)
   PAYMENT_SERVICE_URL: process.env.PAYMENT_SERVICE_URL || 'http://localhost:3004',
 
+  // Cart Service URL (port 3003) - ✅ NEW
+  CART_SERVICE_URL: process.env.CART_SERVICE_URL || 'http://localhost:3003',
+
   // JWT
   JWT_SECRET: process.env.JWT_SECRET || 'your-jwt-secret',
 

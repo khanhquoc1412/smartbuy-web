@@ -23,10 +23,12 @@ class OrderService {
         notes,
         couponCode,
         token, // Extract token
+        cartItemIds, // ✅ NEW: List of cart item IDs to remove after order creation
       } = orderData;
 
       console.log('🔍 [Service] userId extracted:', userId);
       console.log('🔍 [Service] orderItems extracted:', orderItems);
+      console.log('🔍 [Service] cartItemIds to remove:', cartItemIds);
 
       // Validate
       if (!userId || !orderItems || orderItems.length === 0) {
@@ -66,6 +68,26 @@ class OrderService {
       console.log(
         `✅ Order created: ${order.orderNumber} - Method: ${paymentMethod}`
       );
+
+      // ✅ NEW: Remove purchased items from cart
+      console.log('🔍 [OrderService] Checking cartItemIds:', cartItemIds);
+      console.log('🔍 [OrderService] cartItemIds type:', typeof cartItemIds);
+      console.log('🔍 [OrderService] cartItemIds isArray:', Array.isArray(cartItemIds));
+      console.log('🔍 [OrderService] cartItemIds length:', cartItemIds?.length);
+
+      if (cartItemIds && Array.isArray(cartItemIds) && cartItemIds.length > 0) {
+        console.log(`🔄 [OrderService] Attempting to remove ${cartItemIds.length} items from cart...`);
+        try {
+          await this.removeCartItems(userId, cartItemIds, token);
+          console.log(`✅ Removed ${cartItemIds.length} items from cart after order creation`);
+        } catch (error) {
+          // Log error but don't fail the order
+          console.error("⚠️ Failed to remove cart items:", error.message);
+          console.error("⚠️ Error stack:", error.stack);
+        }
+      } else {
+        console.log('⚠️ [OrderService] No cartItemIds provided or invalid, skipping cart cleanup');
+      }
 
       // Nếu COD → Hoàn tất
       if (paymentMethod === "COD") {
@@ -452,6 +474,49 @@ class OrderService {
       return order;
     } catch (error) {
       console.error("❌ Error updating payment status:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * ✅ NEW: Remove cart items after order creation
+   */
+  async removeCartItems(userId, cartItemIds, token) {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const cartUrl = `${config.CART_SERVICE_URL}/api/cart/items`;
+      console.log('🔍 [OrderService] Calling CartService at:', cartUrl);
+      console.log('🔍 [OrderService] Removing cart items:', cartItemIds);
+
+      const response = await axios.delete(
+        cartUrl,
+        {
+          data: { itemIds: cartItemIds },
+          headers,
+          timeout: 5000,
+        }
+      );
+
+      if (response.data.success) {
+        console.log(`✅ Successfully removed ${cartItemIds.length} items from cart`);
+        return response.data;
+      } else {
+        throw new Error("Cart service failed to remove items");
+      }
+    } catch (error) {
+      console.error("❌ Error removing cart items:", error.message);
+      if (error.response) {
+        console.error("❌ Cart Service Response Data:", JSON.stringify(error.response.data, null, 2));
+        console.error("❌ Cart Service Response Status:", error.response.status);
+      }
+      // Don't throw - let order creation succeed even if cart cleanup fails
       throw error;
     }
   }

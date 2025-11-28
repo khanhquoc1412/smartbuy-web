@@ -417,6 +417,120 @@ class CartController {
   }
 
   /**
+   * ✅ NEW: Remove multiple items from cart
+   * @route   DELETE /api/cart/items
+   * @desc    Remove multiple items from cart
+   * @body    { itemIds: [id1, id2, ...] }
+   * @access  Private (requires auth)
+   */
+  async removeMultipleItems(req, res) {
+    try {
+      const userId = req.user._id || req.user.id;
+      const { itemIds } = req.body;
+
+      console.log("🗑️ Remove multiple items request:", { userId, itemIds });
+
+      // Validate itemIds
+      if (!Array.isArray(itemIds) || itemIds.length === 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Danh sách sản phẩm không hợp lệ",
+        });
+      }
+
+      // Get cart
+      const cart = await Cart.findByUserId(userId);
+
+      if (!cart) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          message: "Không tìm thấy giỏ hàng",
+        });
+      }
+
+      // Remove multiple items
+      cart.removeMultipleItems(itemIds);
+      await cart.save();
+
+      console.log("✅ Removed multiple items:", {
+        removedCount: itemIds.length,
+        totalItems: cart.totalItems,
+        totalPrice: cart.totalPrice,
+      });
+
+      // Transform response
+      const transformedItems = cart.items.map((item) => ({
+        _id: item._id,
+        id: item._id,
+        productId: item.product,
+        variantId: item.variant.variantId,
+        quantity: item.quantity,
+        price: item.priceAtAdd,
+
+        productVariant: {
+          _id: item.variant.variantId,
+          price: item.variant.price,
+          stock: item.variant.stock,
+
+          color: item.variant.color
+            ? {
+              _id: item.variant.color.id,
+              name: item.variant.color.name,
+              hexCode: item.variant.color.code,
+            }
+            : null,
+
+          memory: item.variant.memory
+            ? {
+              _id: item.variant.memory.id,
+              ram: item.variant.memory.ram,
+              rom: item.variant.memory.rom,
+            }
+            : null,
+
+          product: {
+            _id: item.product,
+            name: item.productName,
+            slug: item.productSlug,
+            thumbUrl: item.thumbUrl,
+            discountPercentage: item.discountPercentage,
+          },
+        },
+      }));
+
+      const responseData = {
+        cart: {
+          items: transformedItems,
+          totalItems: cart.items?.length || 0,
+          itemCount: cart.totalItems || 0,
+          totalPrice: cart.totalPrice || 0,
+          finalTotal: cart.finalTotal || cart.totalPrice || 0,
+          subtotal: cart.subtotal || 0,
+          discount: cart.discount || 0,
+          couponDiscount: cart.couponDiscount || 0,
+          couponCode: cart.couponCode || null,
+        },
+      };
+
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        message: `Đã xóa ${itemIds.length} sản phẩm khỏi giỏ hàng`,
+        data: responseData,
+      });
+    } catch (error) {
+      console.error("❌ Remove multiple items error:", error);
+      console.error("❌ Error stack:", error.stack);
+
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        message: error.message || "Lỗi khi xóa sản phẩm",
+      });
+    }
+  }
+
+  /**
+
+  /**
    * @route   DELETE /api/cart/clear
    * @desc    Clear entire cart
    * @access  Private (requires auth)

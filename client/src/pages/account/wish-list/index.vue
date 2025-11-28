@@ -334,7 +334,7 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
   toast.textContent = message;
   toast.style.cssText = `
     position: fixed;
-    top: 20px;
+    top: 100px;
     right: 20px;
     background: ${type === 'success' ? '#4CAF50' : '#f44336'};
     color: white;

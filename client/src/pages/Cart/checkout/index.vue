@@ -10,7 +10,7 @@
       <div
         v-if="userId"
         class="list-product tw-flex tw-justify-between tw-gap-3"
-        v-for="cartItem in cartItems"
+        v-for="cartItem in filteredCartItems"
         :key="cartItem._id"
       >
         <div class="list-product__left tw-flex tw-gap-4">
@@ -305,7 +305,7 @@
           <div class="price-term tw-flex tw-flex-col tw-gap-2">
             <p class="tw-block">Tổng tiền sản phẩm:</p>
             <span class="tw-block">
-              {{ formatMoney(getTotalAmount(cartItems)) }}
+              {{ formatMoney(selectedTotal) }}
             </span>
           </div>
           <button
@@ -446,6 +446,26 @@ const {
 
 const { getUserCarts, cartItems } = useCart();
 
+// ✅ NEW: Get selected cart items from sessionStorage
+const selectedCartItemIds = ref<string[]>([]);
+
+// ✅ NEW: Computed property to filter only selected items for display
+const filteredCartItems = computed(() => {
+  if (selectedCartItemIds.value.length === 0) {
+    // If no selection, show all (backward compatibility)
+    return cartItems.value;
+  }
+  // Filter to only show selected items
+  return cartItems.value.filter(item => 
+    selectedCartItemIds.value.includes(item._id)
+  );
+});
+
+// ✅ NEW: Computed total for selected items only
+const selectedTotal = computed(() => {
+  return getTotalAmount(filteredCartItems.value);
+});
+
 // Lấy địa chỉ mặc định
 
 // Debug log
@@ -472,6 +492,18 @@ const { data: productGuest, isFetching } = useGetProductVariant(
 onMounted(async () => {
   if (userId.value) {
     await getUserCarts(userId.value);
+  }
+  
+  // ✅ NEW: Load selected cart items from sessionStorage
+  const selectedItemsStr = sessionStorage.getItem('selectedCartItems');
+  if (selectedItemsStr) {
+    try {
+      selectedCartItemIds.value = JSON.parse(selectedItemsStr) as string[];
+      console.log('🔍 Loaded selected items from sessionStorage:', selectedCartItemIds.value);
+    } catch (error) {
+      console.error('Error parsing selectedCartItems:', error);
+      selectedCartItemIds.value = [];
+    }
   }
 });
 
@@ -573,23 +605,36 @@ const handleOrder = async () => {
   }
 
   try {
+    // ✅ NEW: Get selected cart item IDs from sessionStorage
+    const selectedItemsStr = sessionStorage.getItem('selectedCartItems');
+    const selectedCartItemIds = selectedItemsStr ? JSON.parse(selectedItemsStr) as string[] : [];
+    
+    // If no items are selected, use all cart items
+    const cartItemIds = selectedCartItemIds.length > 0 
+      ? selectedCartItemIds 
+      : cartItems.value.map((ci: any) => ci._id);
+    
+    console.log('🔍 Selected cart item IDs:', cartItemIds);
+
     // Build orderItems to match OrderSchema
-    const orderItems = cartItems.value.map((ci: any) => ({
-      product: (ci.productVariant.product?._id ||
-        ci.productVariant._id) as string,
-      name: ci.productVariant.product?.name || "",
-      qty: ci.quantity,
-      price: ci.productVariant.price,
-      image: ci.productVariant.product?.thumbUrl || "",
-      variant: {
-        color: ci.productVariant.color?.name || "",
-        memory:
-          ci.productVariant.memory?.ram && ci.productVariant.memory?.rom
-            ? `${ci.productVariant.memory.ram}/${ci.productVariant.memory.rom}`
-            : "",
-        variantId: ci.productVariant._id,
-      },
-    }));
+    const orderItems = cartItems.value
+      .filter((ci: any) => cartItemIds.includes(ci._id)) // ✅ Only include selected items
+      .map((ci: any) => ({
+        product: (ci.productVariant.product?._id ||
+          ci.productVariant._id) as string,
+        name: ci.productVariant.product?.name || "",
+        qty: ci.quantity,
+        price: ci.productVariant.price,
+        image: ci.productVariant.product?.thumbUrl || "",
+        variant: {
+          color: ci.productVariant.color?.name || "",
+          memory:
+            ci.productVariant.memory?.ram && ci.productVariant.memory?.rom
+              ? `${ci.productVariant.memory.ram}/${ci.productVariant.memory.rom}`
+              : "",
+          variantId: ci.productVariant._id,
+        },
+      }));
 
     const itemsPrice = orderItems.reduce(
       (s: number, it: any) => s + Number(it.price || 0) * Number(it.qty || 1),
@@ -623,12 +668,16 @@ const handleOrder = async () => {
       discountAmount: 0,
       totalPrice,
       notes: "", // optional
+      cartItemIds, // ✅ NEW: Send cart item IDs to be removed after order creation
     };
 
     console.log("📤 [CLIENT DEBUG] createOrder payload:", orderPayload);
 
     const orderResponse: any = await orderProduct(orderPayload);
     console.log("✅ Raw response:", orderResponse);
+
+    // ✅ NEW: Clear sessionStorage after successful order
+    sessionStorage.removeItem('selectedCartItems');
 
     // Response structure: { success, message, data: { order, needPayment } }
     const orderData = orderResponse?.data || orderResponse;

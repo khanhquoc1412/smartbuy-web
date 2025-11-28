@@ -199,11 +199,11 @@ const handleCancelOrder = (orderId: string) => {
   if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
     cancelOrderMutate(orderId, {
       onSuccess: () => {
-        alert("Hủy đơn hàng thành công!");
+        showToast("Hủy đơn hàng thành công!", "success");
       },
       onError: (error) => {
         console.error("Failed to cancel order:", error);
-        alert("Có lỗi xảy ra khi hủy đơn hàng.");
+        showToast("Có lỗi xảy ra khi hủy đơn hàng.", "error");
       }
     });
   }
@@ -258,6 +258,31 @@ const getStatusColor = (status: string) => {
     returned: 'tw-bg-gray-500 tw-text-white'
   };
   return map[status] || 'tw-bg-gray-500 tw-text-white';
+};
+
+const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
 };
 
 console.log('Current orders:', orderUser);

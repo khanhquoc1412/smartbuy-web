@@ -182,7 +182,7 @@ const handleSubmitAddress = async (payload: IAddressPayload) => {
   console.log("==========================================");
 
   if (!payload) {
-    alert("Lỗi: Dữ liệu form không hợp lệ!");
+    showToast("Lỗi: Dữ liệu form không hợp lệ!", 'error');
     return;
   }
 
@@ -207,7 +207,7 @@ const handleSubmitAddress = async (payload: IAddressPayload) => {
     selectedAddress.value = null;
   } catch (error: any) {
     console.error("❌ Submit address error:", error);
-    alert(error?.message || "Có lỗi xảy ra. Vui lòng thử lại!");
+    showToast("Có lỗi xảy ra. Vui lòng thử lại!", 'error');
   }
 };
 
@@ -218,16 +218,18 @@ const handleDeleteAddress = async (id: string) => {
 
   try {
     await deleteAddress(id);
+    showToast("Xóa địa chỉ thành công!", 'success');
   } catch (error: any) {
-    alert(error?.message || "Xóa địa chỉ thất bại!");
+    showToast(error?.message || "Xóa địa chỉ thất bại!", 'error');
   }
 };
 
 const handleSetDefault = async (id: string) => {
   try {
     await setDefaultAddress(id);
+    showToast("Đặt địa chỉ mặc định thành công!", 'success');
   } catch (error: any) {
-    alert(error?.message || "Đặt địa chỉ mặc định thất bại!");
+    showToast("Đặt địa chỉ mặc định thất bại!", 'error');
   }
 };
 onMounted(() => {
@@ -236,6 +238,30 @@ onMounted(() => {
   console.log("  addressCount.value:", addressCount.value);
   console.log("  isLoadingAddresses.value:", isLoadingAddresses.value);
 });
+const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
+};
 </script>
 <route lang="yaml">
 name: Thông tin cá nhân
