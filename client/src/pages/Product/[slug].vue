@@ -612,7 +612,7 @@ const handleViewCart = async (newQuantity: number) => {
 
     if (!itemId) {
       console.error("❌ [PARENT] No cart item ID found");
-      alert("❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.");
+      showToast("❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.", "error");
       return;
     }
 
@@ -628,7 +628,7 @@ const handleViewCart = async (newQuantity: number) => {
     }
   } catch (error) {
     console.error("❌ [PARENT] Error updating cart item:", error);
-    alert("Có lỗi xảy ra khi cập nhật số lượng");
+    showToast("Có lỗi xảy ra khi cập nhật số lượng", "error");
     throw error;
   }
 };
@@ -707,12 +707,12 @@ const variants = computed(() => {
 
 const handleAddToCart = async () => {
   if (!product.value) {
-    alert("❌ Không tìm thấy thông tin sản phẩm");
+    showToast("❌ Không tìm thấy thông tin sản phẩm", "error");
     return;
   }
 
   if (!selectedVariant.value) {
-    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    showToast("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)", "error");
     return;
   }
 
@@ -725,7 +725,7 @@ const handleAddToCart = async () => {
   };
 
   if (!payload.productId || !payload.variantId) {
-    alert("❌ Không tìm thấy ID sản phẩm hoặc phiên bản");
+    showToast("❌ Không tìm thấy ID sản phẩm hoặc phiên bản", "error");
     return;
   }
 
@@ -803,18 +803,18 @@ const handleAddToCart = async () => {
     showAddToCartModal.value = true;
   } catch (error: any) {
     console.error("❌ Error adding to cart:", error);
-    alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+    showToast(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`, "error");
   }
 };
 
 const handleBuyNow = async () => {
   if (!product.value) {
-    alert("❌ Không tìm thấy thông tin sản phẩm");
+    showToast("❌ Không tìm thấy thông tin sản phẩm", "error");
     return;
   }
 
   if (!selectedVariant.value) {
-    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    showToast("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)", "error");
     return;
   }
 
@@ -839,7 +839,7 @@ const handleBuyNow = async () => {
       await router.push("/cart/checkout");
     } catch (error: any) {
       console.error("❌ Error in buy now:", error);
-      alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+      showToast(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
     }
   } else {
     // Guest → Lưu variantId vào localStorage → Chuyển checkout
@@ -880,6 +880,31 @@ watch(
     window.location.reload();
   }
 );
+
+const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
+};
 </script>
 <route lang="yaml">
 name: iPhone 15 Pro Max
