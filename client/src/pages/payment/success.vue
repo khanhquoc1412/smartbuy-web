@@ -70,8 +70,12 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useCart } from '@/composables/useCart';
+import { useQueryClient } from '@tanstack/vue-query';
 
 const route = useRoute();
+const queryClient = useQueryClient();
+const { refetchCart, refetchCartCount } = useCart();
 const isLoading = ref(true);
 const orderNumber = ref('');
 const amount = ref(0);
@@ -161,8 +165,47 @@ onMounted(async () => {
       console.warn('⚠️ [SUCCESS PAGE] No orderId found in query params');
     }
 
+    // ✅ IMPORTANT: Refresh cart count ALWAYS, regardless of order status update result
+    // This ensures the cart badge updates immediately when user lands on success page
+    console.log('🔄 [SUCCESS PAGE] Refreshing cart to update badge...');
+    try {
+      // ✅ Wait a bit to ensure backend has finished removing cart items
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // ✅ CRITICAL: Remove and invalidate cache FIRST to force fresh data
+      console.log('🗑️ [SUCCESS PAGE] Clearing cart cache...');
+      queryClient.removeQueries({ queryKey: ['cart'] });
+      queryClient.removeQueries({ queryKey: ['cartCount'] });
+      
+      await queryClient.invalidateQueries({ queryKey: ['cart'], refetchType: 'all' });
+      await queryClient.invalidateQueries({ queryKey: ['cartCount'], refetchType: 'all' });
+      console.log('✅ [SUCCESS PAGE] Cache cleared and invalidated');
+      
+      // ✅ Wait a moment for cache to clear
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // ✅ Now refetch to get fresh data from server
+      console.log('📥 [SUCCESS PAGE] Fetching fresh cart data...');
+      const [cartResult, countResult] = await Promise.all([
+        refetchCart(),
+        refetchCartCount()
+      ]);
+      
+      console.log('✅ [SUCCESS PAGE] Cart refreshed - badge should update now');
+      console.log('📊 Cart items count:', cartResult.data?.itemCount);
+      console.log('📊 Cart count API:', countResult.data?.data?.count);
+      
+      // ✅ Force one more refetch to be absolutely sure
+      await new Promise(resolve => setTimeout(resolve, 200));
+      await refetchCartCount();
+      
+    } catch (cartError) {
+      console.error('❌ [SUCCESS PAGE] Error refreshing cart:', cartError);
+      // Don't fail the page load if cart refresh fails
+    }
+
     // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 200));
   } catch (error) {
     console.error('Error processing payment result:', error);
   } finally {

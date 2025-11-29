@@ -1,15 +1,47 @@
 <template>
   <div class="account-profile">
-    <div class="profile-info">
-      <h1 class="profile-title">Thông tin cá nhân</h1>
-      <div class="info-user">
-        <div class="box-text">
-          <span class="label"> Họ và tên: </span>
-          <div class="user-name">{{ user.userName }}</div>
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="header-content">
+          <h1 class="profile-title">Thông tin cá nhân</h1>
+          <p class="profile-subtitle">Quản lý thông tin hồ sơ của bạn để bảo mật tài khoản</p>
         </div>
-        <div class="box-text">
-          <span class="label"> Email </span>
-          <div class="user-email">{{ user.email }}</div>
+      </div> 
+
+      <div class="profile-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Họ và tên</label>
+            <div class="input-wrapper">
+              <div class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <input type="text" v-model="formData.userName" class="form-input" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <div class="input-wrapper">
+              <div class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </div>
+              <input type="text" v-model="formData.email" class="form-input" />
+            </div>
+          </div>
+
+
+        </div>
+        
+        <div class="tw-mt-8 tw-flex tw-justify-end">
+          <button 
+            @click="handleUpdateProfile" 
+            class="btn-save"
+            :disabled="isProfileUpdating"
+          >
+            <span v-if="isProfileUpdating">Đang lưu...</span>
+            <span v-else>Lưu thay đổi</span>
+          </button>
         </div>
       </div>
     </div>
@@ -116,7 +148,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import { useAuth } from "@/composables/useAuth";
 import { useAddress } from "@/composables/useAddress";
 import AddressCard from "@/components/address/AddressCard.vue";
@@ -124,7 +156,47 @@ import AddressFormDialog from "@/components/address/AddressFormDialog.vue";
 import type { IAddress, IAddressPayload } from "@/types/address.type";
 
 // Auth
-const { user } = useAuth();
+const { user, updateProfile, getUserProfile } = useAuth();
+
+const formData = reactive({
+  userName: '',
+  email: ''
+});
+
+const isProfileUpdating = ref(false);
+
+watch(user, (newUser) => {
+  if (newUser) {
+    formData.userName = newUser.userName || '';
+    formData.email = newUser.email || '';
+  }
+}, { immediate: true });
+
+const handleUpdateProfile = () => {
+  if (!formData.userName || !formData.email) {
+    showToast("Vui lòng nhập đầy đủ thông tin!", "error");
+    return;
+  }
+
+  isProfileUpdating.value = true;
+  updateProfile(formData, {
+    onSuccess: (data: any) => {
+      const response = data.data || data;
+      if (response.success) {
+        showToast("Cập nhật thông tin thành công!", "success");
+        if (getUserProfile) getUserProfile();
+      } else {
+        showToast("Cập nhật thất bại!", "error");
+      }
+      isProfileUpdating.value = false;
+    },
+    onError: (error: any) => {
+      console.error("Update profile error:", error);
+      showToast("Có lỗi xảy ra khi cập nhật!", "error");
+      isProfileUpdating.value = false;
+    }
+  });
+};
 
 // Addresses
 const {
@@ -284,30 +356,159 @@ meta:
     border-bottom: 1px solid $border-section;
   }
 
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  .profile-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
 
-    .info-user {
+    &:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      padding: 24px 32px;
+      border-bottom: 1px solid #f1f5f9;
       display: flex;
-      gap: 8px;
-      font-weight: 400;
+      justify-content: space-between;
+      align-items: center;
 
-      .box-text {
-        color: $gray;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        background-color: $bg-light-gray;
-        padding: 10px;
-        flex: 1;
+      .header-content {
+        .profile-title {
+          font-size: 20px;
+          font-weight: 700;
+          color: #1e293b;
+          margin-bottom: 6px;
+          text-transform: none;
+          border: none;
+          padding: 0;
+        }
+
+        .profile-subtitle {
+          font-size: 14px;
+          color: #64748b;
+          margin: 0;
+        }
+      }
+
+      .profile-avatar {
+        .avatar-wrapper {
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          position: relative;
+          border: 3px solid white;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          overflow: hidden;
+
+          .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .avatar-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s;
+            color: white;
+          }
+
+          &:hover .avatar-overlay {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .profile-body {
+      padding: 32px;
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+          }
+
+          .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .input-icon {
+              position: absolute;
+              left: 14px;
+              color: #94a3b8;
+              display: flex;
+              align-items: center;
+              pointer-events: none;
+            }
+
+            .form-input {
+              width: 100%;
+              padding: 12px 16px 12px 42px;
+              border-radius: 10px;
+              border: 1px solid #e2e8f0;
+              background-color: white;
+              color: #334155;
+              font-size: 14px;
+              font-weight: 500;
+              transition: all 0.2s;
+              outline: none;
+
+              &:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+              }
+            }
+          }
+        }
+      }
+
+      .btn-save {
+        padding: 10px 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
         border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 
-        .label {
-          color: $black;
-          font-weight: 500;
-          font-size: 12px;
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
         }
       }
     }

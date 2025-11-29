@@ -589,7 +589,7 @@ const onEditAddress = (addr: any) => {
 };
 
 const goToAccountForAddress = () => {
-  router.push("/account/order");
+  router.push("/account");
 };
 
 // ...existing code...

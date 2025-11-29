@@ -1,25 +1,45 @@
 <template>
   <div class="account-order">
     <h1 class="order-title">Lịch sử đặt hàng</h1>
-    <div class="block-content">
-      <div class="content-item">
-        <span class="content-item__number"> {{ totalOrders }} </span>
-        <span class="content-item__title"> Đơn hàng </span>
+    
+    <!-- Summary Stats -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ totalOrders }}</span>
+          <span class="stat-label">Đơn hàng</span>
+        </div>
       </div>
-      <div class="content-item">
-        <span class="content-item__number"> {{ formatMoney(totalAmount) }} </span>
-        <span class="content-item__title"> Tổng số tiền </span>
+      <div class="stat-divider"></div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">{{ formatMoney(totalAmount) }}</span>
+          <span class="stat-label">Tổng chi tiêu</span>
+        </div>
       </div>
     </div>
+
     <div class="block-order">
+      <!-- Status Tabs -->
       <div class="order-status">
         <swiper
           :modules="modules"
           :breakpoints="breakpointOrders"
           :slides-per-view="5"
           :navigation="false"
-          :space-between="24"
+          :space-between="12"
           id="swiper-slider"
+          class="status-swiper"
         >
           <swiper-slide
             class="swiper-item"
@@ -28,87 +48,102 @@
             :key="item.id"
             @click="handleTabChange(item)"
           >
-            <span>
-              {{ item.title }}
-            </span>
+            <span>{{ item.title }}</span>
           </swiper-slide>
         </swiper>
       </div>
-      <div class="order-main tw-flex tw-gap-3 tw-flex-col" v-if="orderUser">
-        <div
-          class="order-group"
-          v-for="order in orderUser.data"
-          :key="order.id"
-        >
-          <div class="order-group__header tw-flex tw-justify-between">
-            <div class="header__left">
-              <div class="header__top">
-                <span> Mã đơn hàng </span>
-                <p>#{{ order.orderNumber || (order._id ? order._id.slice(-4).toUpperCase() : order.id) }}</p>
+
+      <!-- Order List -->
+      <div class="order-main" v-if="orderUser">
+        <transition-group name="list" tag="div" class="tw-flex tw-gap-4 tw-flex-col">
+          <div
+            class="order-card"
+            v-for="order in orderUser.data"
+            :key="order.id"
+          >
+            <!-- Card Header -->
+            <div class="card-header">
+              <div class="header-top">
+                <div class="order-id-wrapper">
+                  <span class="label">Đơn hàng</span>
+                  <span class="id">#{{ order.orderNumber || (order._id ? order._id.slice(-4).toUpperCase() : order.id) }}</span>
+                </div>
+                <div class="order-date">
+                  <img :src="calendarIcon" alt="" class="icon" />
+                  <span>{{ formatTime(order.createdAt) }}</span>
+                </div>
               </div>
-              <div class="header__payment">
-                <div class="order-payment--status">
+              
+              <div class="header-status">
+                <div class="payment-status" :class="order.paymentStatus === 'paid' ? 'paid' : 'unpaid'">
                   {{ order.paymentStatus === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
                 </div>
-                <!-- Order Status Badge -->
-                <div class="order-status-badge tw-ml-2 tw-px-3 tw-py-1 tw-rounded-lg tw-text-sm tw-font-medium"
-                     :class="getStatusColor(order.status)">
+                <div class="status-badge" :class="getStatusColor(order.status)">
                   {{ getStatusText(order.status) }}
                 </div>
-                <div class="order-time">
-                  <div class="icon">
-                    <img :src="calendarIcon" alt="" />
-                  </div>
-                  <div class="text">
-                    {{ formatTime(order.createdAt) }}
-                  </div>
-                </div>
               </div>
-              <!-- Admin Note / Status Note -->
-              <div class="order-admin-note tw-mt-2" v-if="order.statusHistory && order.statusHistory.length > 0">
-                 <p class="tw-text-sm tw-text-gray-500 tw-italic">
-                   <span class="tw-font-medium">Ghi chú:</span> 
-                   {{ order.statusHistory[order.statusHistory.length - 1].note }}
-                 </p>
+            </div>
+
+            <!-- Admin Note -->
+            <div class="order-note" v-if="order.statusHistory && order.statusHistory.length > 0">
+              <div class="note-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-              <div class="header__bottom">
-                <span> Giao tới: </span>
+              <p>
+                <span class="note-label">Ghi chú:</span> 
+                {{ order.statusHistory[order.statusHistory.length - 1].note }}
+              </p>
+            </div>
+
+            <!-- Shipping Info -->
+            <div class="shipping-info">
+              <div class="shipping-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div class="shipping-text">
+                <span class="label">Giao tới:</span>
                 <p v-if="order.shippingAddress">
-                  {{ order.shippingAddress.fullName }} - {{ order.shippingAddress.address }},
-                  {{ order.shippingAddress.ward }}, {{ order.shippingAddress.district }},
-                  {{ order.shippingAddress.province }}
+                  {{ order.shippingAddress.fullName }} • {{ order.shippingAddress.phone }} <br/>
+                  <span class="address-detail">
+                    {{ order.shippingAddress.address }}, {{ order.shippingAddress.ward }}, {{ order.shippingAddress.district }}, {{ order.shippingAddress.province }}
+                  </span>
                 </p>
-                <p v-else>
-                  ---
-                </p>
+                <p v-else>---</p>
               </div>
             </div>
-            <div class="header__right">
-              <button 
-                class="tw-bg-red tw-text-white tw-px-4 tw-py-2 tw-rounded-md tw-font-medium hover:tw-opacity-80 tw-transition-all" 
-                v-if="['pending', 'confirmed', 'shipping'].includes(order.status)"
-                @click="handleCancelOrder(order._id || order.id)"
-              >
-                Hủy đơn
-              </button>
+
+            <!-- Order Items -->
+            <div class="order-items">
+              <OrderItem
+                :item="item"
+                v-for="item in order.orderItems"
+                :key="item._id || item.product"
+              />
+            </div>
+
+            <!-- Card Footer -->
+            <div class="card-footer">
+              <div class="footer-left">
+                <button 
+                  class="btn-cancel" 
+                  v-if="['pending_payment', 'pending', 'confirmed', 'processing', 'ready_to_ship'].includes(order.status)"
+                  @click="handleCancelOrder(order._id || order.id)"
+                >
+                  Hủy đơn hàng
+                </button>
+              </div>
+              <div class="footer-right">
+                <span class="total-label">Tổng thanh toán:</span>
+                <span class="total-price">{{ formatMoney(order.totalPrice) }}</span>
+              </div>
             </div>
           </div>
-          <div class="order-list">
-            <OrderItem
-              :item="item"
-              v-for="item in order.orderItems"
-              :key="item._id || item.product"
-            />
-          </div>
-          <div
-            class="order-group__bottom tw-flex tw-justify-end tw-gap-2 tw-pt-4 tw-pb-2"
-          >
-            <span> Tổng thanh toán: </span>
-            <span>
-              {{ formatMoney(order.totalPrice) }}
-            </span>
-          </div>
-        </div>
+        </transition-group>
       </div>
     </div>
   </div>
@@ -200,6 +235,7 @@ const handleCancelOrder = (orderId: string) => {
     cancelOrderMutate(orderId, {
       onSuccess: () => {
         showToast("Hủy đơn hàng thành công!", "success");
+        refetch();
       },
       onError: (error) => {
         console.error("Failed to cancel order:", error);
@@ -245,19 +281,19 @@ const getStatusText = (status: string) => {
 // Helper to get status color class
 const getStatusColor = (status: string) => {
   const map: Record<string, string> = {
-    pending_payment: 'tw-bg-orange-500 tw-text-white',
-    payment_failed: 'tw-bg-red tw-text-white',
-    pending: 'tw-bg-amber-500 tw-text-white',
-    confirmed: 'tw-bg-blue-600 tw-text-white',
-    processing: 'tw-bg-blue-500 tw-text-white',
-    ready_to_ship: 'tw-bg-indigo-500 tw-text-white',
-    shipping: 'tw-bg-indigo-600 tw-text-white',
-    delivered: 'tw-bg-green-500 tw-text-white',
-    completed: 'tw-bg-green-600 tw-text-white',
-    cancelled: 'tw-bg-gray-600 tw-text-white',
-    returned: 'tw-bg-gray-500 tw-text-white'
+    pending_payment: 'status-orange',
+    payment_failed: 'status-red',
+    pending: 'status-amber',
+    confirmed: 'status-blue',
+    processing: 'status-blue',
+    ready_to_ship: 'status-indigo',
+    shipping: 'status-indigo',
+    delivered: 'status-green',
+    completed: 'status-green',
+    cancelled: 'status-gray',
+    returned: 'status-gray'
   };
-  return map[status] || 'tw-bg-gray-500 tw-text-white';
+  return map[status] || 'status-gray';
 };
 
 const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -287,220 +323,387 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
 
 console.log('Current orders:', orderUser);
 </script>
+
 <route lang="yaml">
 name: Đơn đặt hàng
 meta:
   requiresAuth: true
   layout: "accountLayout"
 </route>
-<style lang="scss">
+
+<style lang="scss" scoped>
 .account-order {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 24px;
+  font-family: 'Inter', sans-serif;
 
   .order-title {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 120%;
-    text-transform: uppercase;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $border-section;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .block-content {
+  /* Stats Container */
+  .stats-container {
     display: flex;
-    justify-content: space-between;
-    padding: 20px 20px;
-    background-color: $white;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 16px;
+    padding: 24px;
+    color: white;
+    box-shadow: 0 10px 25px rgba(118, 75, 162, 0.2);
+    position: relative;
+    overflow: hidden;
 
-    .content-item {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+    }
+
+    .stat-card {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      svg {
+        width: 24px;
+        height: 24px;
+        color: white;
+      }
+    }
+
+    .stat-info {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
+    }
 
-      &:first-child {
-        border-right: 1px solid $black;
-      }
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
 
-      &__number {
-        padding-bottom: 5px;
-        font-size: 18px;
-        font-weight: 600;
-      }
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+      font-weight: 400;
+    }
 
-      &__title {
-        font-size: 13px;
-        font-weight: 300;
-      }
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.3);
+      margin: 0 20px;
     }
   }
 
   .block-order {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 
-    overflow-x: scroll;
-
+    /* Status Tabs */
     .order-status {
       width: 100%;
-      min-width: 500px;
+      
+      .status-swiper {
+        padding: 4px;
+      }
 
       .swiper-item {
-        background-color: $white;
-        padding: 10px;
+        background-color: #f3f4f6;
+        padding: 10px 16px;
         display: flex;
         justify-content: center;
-        border-radius: 8px;
-        border: 1px solid $border-section;
+        align-items: center;
+        border-radius: 99px;
         cursor: pointer;
-        transition: color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        transition: all 0.3s ease;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        border: 1px solid transparent;
 
-        &:hover,
+        &:hover {
+          background-color: #e5e7eb;
+          color: #374151;
+        }
+
         &.is-active {
-          color: $red;
-          border: 1px solid $red;
-          background-color: #fee;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
       }
     }
 
+    /* Order List */
     .order-main {
       width: 100%;
-      min-width: 500px;
 
-      .order-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background-color: $white;
-        border-radius: 20px;
-        padding: 15px 10px;
+      .order-card {
+        background: white;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        border: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
 
-        &__header {
+        &:hover {
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+          transform: translateY(-2px);
+        }
+
+        /* Card Header */
+        .card-header {
           display: flex;
           justify-content: space-between;
-          gap: 10px;
+          align-items: flex-start;
+          margin-bottom: 12px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid #f3f4f6;
 
-          .header__left {
+          .header-top {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 6px;
+          }
 
-            .header__top {
-              display: flex;
-              gap: 5px;
+          .order-id-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
-              span {
-                font-size: 14px;
-                font-weight: 500;
-                color: $gray;
-              }
-
-              p {
-                font-size: 15px;
-                font-weight: 600;
-                color: $black;
-              }
+            .label {
+              font-size: 13px;
+              color: #6b7280;
             }
 
-            .header__payment {
-              display: flex;
-              align-items: center;
-
-              .order-payment--status {
-                color: $green;
-                background-color: rgba(0, 255, 136, 0.159);
-                border-radius: 10px;
-                padding: 6px 12px;
-              }
-
-              .order-status-badge {
-                margin-left: 10px;
-                padding: 4px 12px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 500;
-                color: $white;
-              }
-
-              .order-time {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding-left: 15px;
-                border-left: 1px solid $border-gray-light;
-                gap: 10px;
-
-                .icon {
-                  height: 18px;
-                  width: 18px;
-
-                  img {
-                    height: 100%;
-                    width: 100%;
-                  }
-                }
-
-                .text {
-                  font-size: 13px;
-                  font-weight: 300;
-                  font-style: italic;
-                  color: $gray;
-                }
-              }
-            }
-
-            .header__bottom {
-              display: flex;
-              gap: 10px;
-              padding: 5px 10px;
-              border-radius: 4px;
-              background-color: rgba(0, 123, 255, 0.049);
-
-              span {
-                font-size: 13px;
-                color: $azure;
-                font-weight: 500;
-              }
-
-              p {
-                font-size: 13px;
-                font-weight: 600;
-              }
+            .id {
+              font-size: 16px;
+              font-weight: 700;
+              color: #111827;
             }
           }
 
-          .header__right {
-            // Button style moved to template using Tailwind
+          .order-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #9ca3af;
+
+            .icon {
+              width: 14px;
+              height: 14px;
+              opacity: 0.6;
+            }
+          }
+
+          .header-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+          }
+
+          .payment-status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+
+            &.paid {
+              background-color: #ecfdf5;
+              color: #059669;
+            }
+
+            &.unpaid {
+              background-color: #fff7ed;
+              color: #d97706;
+            }
+          }
+
+          .status-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            
+            &.status-orange { background-color: #fff7ed; color: #c2410c; }
+            &.status-red { background-color: #fef2f2; color: #dc2626; }
+            &.status-amber { background-color: #fffbeb; color: #b45309; }
+            &.status-blue { background-color: #eff6ff; color: #2563eb; }
+            &.status-indigo { background-color: #eef2ff; color: #4f46e5; }
+            &.status-green { background-color: #f0fdf4; color: #16a34a; }
+            &.status-gray { background-color: #f3f4f6; color: #4b5563; }
           }
         }
 
-        .order-list {
-          padding-top: 20px;
+        /* Note */
+        .order-note {
+          background-color: #f8fafc;
+          border-left: 3px solid #667eea;
+          padding: 10px 14px;
+          border-radius: 4px;
+          margin-bottom: 16px;
+          display: flex;
+          gap: 10px;
+          align-items: flex-start;
+
+          .note-icon {
+            color: #667eea;
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            
+            svg { width: 100%; height: 100%; }
+          }
+
+          p {
+            font-size: 13px;
+            color: #475569;
+            margin: 0;
+            line-height: 1.5;
+          }
+
+          .note-label {
+            font-weight: 600;
+            color: #334155;
+          }
+        }
+
+        /* Shipping Info */
+        .shipping-info {
+          display: flex;
+          gap: 12px;
+          padding: 12px;
+          background-color: #f9fafb;
+          border-radius: 8px;
+          margin-bottom: 12px;
+
+          .shipping-icon {
+            color: #9ca3af;
+            width: 20px;
+            height: 20px;
+            
+            svg { width: 100%; height: 100%; }
+          }
+
+          .shipping-text {
+            font-size: 14px;
+            color: #374151;
+
+            .label {
+              font-size: 12px;
+              color: #6b7280;
+              margin-bottom: 2px;
+              display: block;
+            }
+
+            p {
+              margin: 0;
+              line-height: 1.5;
+              font-weight: 500;
+            }
+
+            .address-detail {
+              font-weight: 400;
+              color: #6b7280;
+              font-size: 13px;
+            }
+          }
+        }
+
+        /* Order Items */
+        .order-items {
           display: flex;
           flex-direction: column;
-          gap: 30px;
+          gap: 16px;
+          margin-bottom: 12px;
         }
 
-        .order-group__bottom {
-          span:nth-child(1) {
-            font-size: 14px;
-            font-weight: 500;
+        /* Footer */
+        .card-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 16px;
+          border-top: 1px solid #f3f4f6;
+
+          .footer-left {
+            .btn-cancel {
+              padding: 8px 16px;
+              border-radius: 8px;
+              font-size: 13px;
+              font-weight: 500;
+              color: #ef4444;
+              background-color: white;
+              border: 1px solid #fee2e2;
+              transition: all 0.2s;
+
+              &:hover {
+                background-color: #fef2f2;
+                border-color: #fecaca;
+              }
+            }
           }
 
-          span:nth-child(2) {
-            font-size: 16px;
-            font-weight: 600;
-            color: $red;
+          .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .total-label {
+              font-size: 14px;
+              color: #6b7280;
+            }
+
+            .total-price {
+              font-size: 18px;
+              font-weight: 700;
+              color: #dc2626;
+            }
           }
         }
       }
     }
   }
+}
+
+/* List Transition */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.4s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

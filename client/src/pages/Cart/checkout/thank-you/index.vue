@@ -13,7 +13,7 @@
 
       <!-- Thank You Message -->
       <div class="message-container">
-        <h1 class="title">Đặt hàng thành công!</h1>
+        <h1 class="title">Đặt  hàng thành công!</h1>
         <p class="subtitle">Cảm ơn bạn đã mua hàng tại SmartBuy</p>
       </div>
 
@@ -84,12 +84,54 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useCart } from '@/composables/useCart';
+import { useQueryClient } from '@tanstack/vue-query';
 
 const route = useRoute();
+const queryClient = useQueryClient();
+const { refetchCart, refetchCartCount } = useCart();
 const orderId = ref<string>('');
 
-onMounted(() => {
+onMounted(async () => {
   orderId.value = route.query.orderId as string || '';
+  
+  // ✅ IMPORTANT: Refresh cart count to update badge after COD order
+  console.log('🔄 [THANK-YOU PAGE] Refreshing cart to update badge...');
+  try {
+    // ✅ Wait a bit to ensure backend has finished removing cart items
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // ✅ CRITICAL: Remove and invalidate cache FIRST to force fresh data
+    console.log('🗑️ [THANK-YOU PAGE] Clearing cart cache...');
+    queryClient.removeQueries({ queryKey: ['cart'] });
+    queryClient.removeQueries({ queryKey: ['cartCount'] });
+    
+    await queryClient.invalidateQueries({ queryKey: ['cart'], refetchType: 'all' });
+    await queryClient.invalidateQueries({ queryKey: ['cartCount'], refetchType: 'all' });
+    console.log('✅ [THANK-YOU PAGE] Cache cleared and invalidated');
+    
+    // ✅ Wait a moment for cache to clear
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // ✅ Now refetch to get fresh data from server
+    console.log('📥 [THANK-YOU PAGE] Fetching fresh cart data...');
+    const [cartResult, countResult] = await Promise.all([
+      refetchCart(),
+      refetchCartCount()
+    ]);
+    
+    console.log('✅ [THANK-YOU PAGE] Cart refreshed - badge should update now');
+    console.log('📊 Cart items count:', cartResult.data?.itemCount);
+    console.log('📊 Cart count API:', countResult.data?.data?.count);
+    
+    // ✅ Force one more refetch to be absolutely sure
+    await new Promise(resolve => setTimeout(resolve, 200));
+    await refetchCartCount();
+    
+  } catch (cartError) {
+    console.error('❌ [THANK-YOU PAGE] Error refreshing cart:', cartError);
+    // Don't fail the page load if cart refresh fails
+  }
 });
 </script>
 
@@ -106,17 +148,17 @@ meta:
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 20px 15px;
 }
 
 .thank-you-container {
-  max-width: 600px;
+  max-width: 500px;
   width: 100%;
   background: white;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.6s ease-out;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.5s ease-out;
 }
 
 @keyframes slideUp {
@@ -134,14 +176,14 @@ meta:
 .success-animation {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .checkmark-circle {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   position: relative;
-  animation: scaleIn 0.5s ease-out;
+  animation: scaleIn 0.4s ease-out;
 }
 
 @keyframes scaleIn {
@@ -194,18 +236,18 @@ meta:
 /* Message Container */
 .message-container {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 14px;
   color: #7f8c8d;
   margin: 0;
 }
@@ -213,16 +255,16 @@ meta:
 /* Order Info */
 .order-info {
   background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 30px;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 8px 0;
 
   &:not(:last-child) {
     border-bottom: 1px solid #e9ecef;
@@ -251,14 +293,14 @@ meta:
 
 /* Details Card */
 .details-card {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .detail-item {
   display: flex;
   align-items: flex-start;
-  gap: 15px;
-  padding: 15px 0;
+  gap: 12px;
+  padding: 12px 0;
 
   &:not(:last-child) {
     border-bottom: 1px solid #e9ecef;
@@ -303,9 +345,9 @@ meta:
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 14px 24px;
-  border-radius: 10px;
-  font-size: 15px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -348,20 +390,20 @@ meta:
 /* Responsive */
 @media (max-width: 640px) {
   .thank-you-container {
-    padding: 30px 20px;
+    padding: 20px 15px;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .subtitle {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .checkmark-circle {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
   }
 }
 </style>

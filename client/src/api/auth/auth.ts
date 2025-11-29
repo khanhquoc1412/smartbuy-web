@@ -35,7 +35,10 @@ const auth = () => ({
                 'Content-Type': 'multipart/form-data'
             }
         });
+    },
+    updateProfile(body: Partial<IUser>) {
+        return $axios.patch<{ success: boolean, user: IUser }>("/auth/profile", body);
     }
 });
 
-export const { login, register, forgotPassword, getUserSuccess, getUser, getNewToken, uploadAvatar } = auth();
+export const { login, register, forgotPassword, getUserSuccess, getUser, getNewToken, uploadAvatar, updateProfile } = auth();

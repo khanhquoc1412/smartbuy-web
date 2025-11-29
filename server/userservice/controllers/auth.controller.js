@@ -260,50 +260,7 @@ const login = async (req, res) => {
   }
 };
 
-// const loginSuccess = async (req, res) => {
-//   // Cho social login
-//   try {
-//     const { userId } = req.body; // userId từ params hoặc body sau redirect
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       throw new NotFoundError("Tài khoản chưa được đăng ký");
-//     }
 
-//     const { accessToken, refreshToken } = jwtCreate(user._id);
-
-//     // Update refreshToken
-//     user.refreshToken = refreshToken;
-//     await user.save();
-
-//     res.status(StatusCodes.OK).json({
-//       accessToken,
-//       refreshToken,
-//       user: {
-//         id: user._id,
-//         username: user.userName,
-//         email: user.email,
-//         isBlocked: user.isBlocked,
-//         avatarUrl: user.avatarUrl,
-//         isVerified: user.isVerified,
-//         isAdmin: user.isAdmin,
-//       },
-//       message: ReasonPhrases.OK,
-//       status: StatusCodes.OK,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     if (error instanceof NotFoundError) {
-//       return res.status(StatusCodes.NOT_FOUND).json({
-//         message: error.message,
-//         status: error.statusCode,
-//       });
-//     }
-//     return res.status(StatusCodes.BAD_REQUEST).json({
-//       message: "Lỗi server",
-//       status: StatusCodes.BAD_REQUEST,
-//     });
-//   }
-// };
 const loginSuccess = async (req, res) => {
   try {
     const { userId } = req.body; // ✅ lấy từ body
@@ -533,6 +490,7 @@ const resetPassword = async (req, res) => {
     });
   }
 };
+
 const logout = async (req, res) => {
   try {
     const { id } = req.user; // giả sử JWT middleware gắn user
@@ -561,6 +519,41 @@ const logout = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { userName, email } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    if (userName) user.userName = userName;
+    if (email) user.email = email;
+
+    await user.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Cập nhật thông tin thành công",
+      user: {
+        id: user._id,
+        userName: user.userName,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        isAdmin: user.isAdmin
+      }
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message || "Update failed"
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -573,4 +566,5 @@ module.exports = {
   logout,
   changePassword,
   uploadAvatar,
+  updateProfile,
 };

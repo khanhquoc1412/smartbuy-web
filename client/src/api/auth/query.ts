@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/vue-query";
-import { login, getUserSuccess, register, forgotPassword, uploadAvatar } from "./auth";
+import { login, getUserSuccess, register, forgotPassword, uploadAvatar, updateProfile } from "./auth";
 import { ILoginBody, IRegisterBody } from "@/types/auth.types";
 
 // ✅ Login Mutation
@@ -51,6 +51,16 @@ export const useUploadAvatarMutation = () => {
   return useMutation({
     mutationFn: (formData: FormData) => {
       return uploadAvatar(formData);
+    }
+  });
+}
+
+
+// ✅ Update Profile Mutation
+export const useUpdateProfileMutation = () => {
+  return useMutation({
+    mutationFn: (body: any) => {
+      return updateProfile(body);
     }
   });
 };

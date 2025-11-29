@@ -98,5 +98,6 @@ const upload = require("../middleware/upload");
 router.post("/logout", auth, authController.logout);
 router.post("/change-password", auth, authController.changePassword); // ✅ New route
 router.post("/upload-avatar", auth, upload.single("avatar"), authController.uploadAvatar);
+router.patch("/profile", auth, authController.updateProfile);
 
 module.exports = router;
