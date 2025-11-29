@@ -19,41 +19,53 @@
               id="swiper-slider"
             >
               <swiper-slide class="swiper-item tw-overflow-hidden">
-                <img :src="banner" alt="" />
+                <div class="banner-clickable" @click="handleBannerClick('banner')">
+                  <img :src="banner" alt="iPhone Banner" />
+                </div>
               </swiper-slide>
               <swiper-slide class="swiper-item tw-overflow-hidden">
-                <img :src="homeBanner5" alt="" />
+                <div class="banner-clickable" @click="handleBannerClick('homeBanner5')">
+                  <img :src="homeBanner5" alt="Nubia Neo 3 4G" />
+                </div>
               </swiper-slide>
               <swiper-slide class="swiper-item tw-overflow-hidden">
-                <img :src="homeBanner6" alt="" />
+                <div class="banner-clickable" @click="handleBannerClick('homeBanner6')">
+                  <img :src="homeBanner6" alt="Poco F8 Pro" />
+                </div>
               </swiper-slide>
               <swiper-slide class="swiper-item tw-overflow-hidden">
-                <img :src="iphoneBanner" alt="" />
+                <div class="banner-clickable" @click="handleBannerClick('iphoneBanner')">
+                  <img :src="iphoneBanner" alt="iPhone Banner" />
+                </div>
               </swiper-slide>
               <swiper-slide class="swiper-item tw-overflow-hidden">
-                <img :src="banner1" alt="" />
+                <div class="banner-clickable" @click="handleBannerClick('banner1')">
+                  <img :src="banner1" alt="iPhone 17 Pro Max" />
+                </div>
               </swiper-slide>
               <swiper-slide class="swiper-item tw-overflow-hidden">
-                <img :src="banner2" alt="" />
+                <div class="banner-clickable" @click="handleBannerClick('banner2')">
+                  <img :src="banner2" alt="Samsung Galaxy S25 Ultra" />
+                </div>
               </swiper-slide>
             </swiper>
           </div>
 
         </div>
         <div class="home__right-banner">
-          <router-link class="banner-item" to="/">
-            <img :src="homeBanner1" alt="banner1" />
-          </router-link>
-          <router-link class="banner-item" to="/">
-            <img :src="homeBanner2" alt="banner2" />
-          </router-link>
-          <router-link class="banner-item" to="/">
-            <img :src="banner3" alt="banner3" />
-          </router-link>
+          <div class="banner-item" @click="handleBannerClick('homeBanner1')">
+            <img :src="homeBanner1" alt="iPhone Banner" />
+          </div>
+          <div class="banner-item" @click="handleBannerClick('homeBanner2')">
+            <img :src="homeBanner2" alt="Samsung Banner" />
+          </div>
+          <div class="banner-item" @click="handleBannerClick('banner3')">
+            <img :src="banner3" alt="Samsung Banner" />
+          </div>
         </div>
       </div>
-      <div class="home-banner">
-        <img :src="tetBanner" alt="" />
+      <div class="home-banner" @click="handleBannerClick('tetBanner')">
+        <img :src="tetBanner" alt="Tết Banner" />
       </div>
       <div
         class="home-sale tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5"
@@ -189,6 +201,22 @@ import { useListProductsSale } from "@/api/product/query";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
 import { computed, unref } from "vue";
+import { useRouter } from "vue-router";
+import { bannerLinks } from "@/config/bannerLinks";
+
+const router = useRouter();
+
+// Helper function to handle banner clicks
+const handleBannerClick = (bannerKey: string) => {
+  const linkConfig = bannerLinks[bannerKey];
+  if (!linkConfig) return;
+  
+  if (linkConfig.type === 'product' && linkConfig.slug) {
+    router.push(`/product/${linkConfig.slug}`);
+  } else if (linkConfig.type === 'search' && linkConfig.keyword) {
+    router.push(`/search?keyword=${encodeURIComponent(linkConfig.keyword)}`);
+  }
+};
 
 
 
@@ -276,6 +304,12 @@ meta:
 
         .banner-item {
           padding: 8px;
+          cursor: pointer;
+          transition: opacity 0.3s ease;
+
+          &:hover {
+            opacity: 0.9;
+          }
 
           img {
             width: 100%;
@@ -287,8 +321,33 @@ meta:
   }
 
   .home-banner {
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.01);
+      opacity: 0.95;
+    }
+
     img {
       width: 100%;
+    }
+  }
+
+  .banner-clickable {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 100%;
+    
+    &:hover {
+      transform: scale(1.02);
+    }
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 

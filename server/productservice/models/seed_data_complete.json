@@ -33,6 +33,14 @@
     {
       "name": "HONOR",
       "nameAscii": "honor"
+    },
+    {
+      "name": "Nubia",
+      "nameAscii": "nubia"
+    },
+    {
+      "name": "Poco",
+      "nameAscii": "poco"
     }
   ],
   "specifications": [
@@ -7231,6 +7239,602 @@
           "color": "Xanh lá",
           "name": "HONOR X8c Xanh lá - 6",
           "imageUrl": "/src/assets/images/honorImages/HONOR X8c/Xanh lá/honor-x8c-xanh-6.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Samsung Galaxy S25 Ultra",
+      "description": "Samsung Galaxy S25 Ultra - Flagship cao cấp 2025, camera 200MP, chip Snapdragon 8 Elite",
+      "thumbUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Trắng-Bạc/samsung-galaxy-s25-ultra-Trang-Bac-1.webp",
+      "discountPercentage": 5,
+      "slug": "samsung-galaxy-s25-ultra",
+      "basePrice": 33990000,
+      "brand": "Samsung",
+      "category": "Điện thoại",
+      "specifications": [
+        {
+          "specName": "Màn hình",
+          "specValue": "6.9 inch, Dynamic LTPO AMOLED 2X, 1440x3120, 120Hz, HDR10+, 2600 nits"
+        },
+        {
+          "specName": "Camera sau",
+          "specValue": "200MP chính (f/1.7) + 50MP ultra-wide (f/1.9) + 50MP telephoto 5x (f/3.4) + 10MP telephoto 3x (f/2.4)"
+        },
+        {
+          "specName": "Camera trước",
+          "specValue": "12MP (f/2.2)"
+        },
+        {
+          "specName": "Chip",
+          "specValue": "Snapdragon 8 Elite cho Galaxy (4.47 GHz)"
+        },
+        {
+          "specName": "Pin",
+          "specValue": "5000mAh, sạc nhanh 45W"
+        },
+        {
+          "specName": "Hệ điều hành",
+          "specValue": "One UI 7.0, Android 15"
+        }
+      ],
+      "variants": [
+        {
+          "color": "Bạc",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 33990000,
+          "stock": 30
+        },
+        {
+          "color": "Bạc",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 38490000,
+          "stock": 25
+        },
+        {
+          "color": "Bạc",
+          "memory": {
+            "ram": "12GB",
+            "rom": "1TB"
+          },
+          "price": 45790000,
+          "stock": 15
+        },
+        {
+          "color": "Xanh dương",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 33990000,
+          "stock": 30
+        },
+        {
+          "color": "Xanh dương",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 38490000,
+          "stock": 25
+        },
+        {
+          "color": "Xanh dương",
+          "memory": {
+            "ram": "12GB",
+            "rom": "1TB"
+          },
+          "price": 45790000,
+          "stock": 15
+        },
+        {
+          "color": "Xám",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 33990000,
+          "stock": 30
+        },
+        {
+          "color": "Xám",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 38490000,
+          "stock": 25
+        },
+        {
+          "color": "Xám",
+          "memory": {
+            "ram": "12GB",
+            "rom": "1TB"
+          },
+          "price": 45790000,
+          "stock": 15
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 33990000,
+          "stock": 30
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 38490000,
+          "stock": 25
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "12GB",
+            "rom": "1TB"
+          },
+          "price": 45790000,
+          "stock": 15
+        }
+      ],
+      "images": [
+        {
+          "color": "Bạc",
+          "name": "Samsung Galaxy S25 Ultra Bạc - 1",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Trắng-Bạc/samsung-galaxy-s25-ultra-Trang-Bac-1.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Samsung Galaxy S25 Ultra Bạc - 2",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Trắng-Bạc/samsung-galaxy-s25-ultra-Trang-Bac-2.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Samsung Galaxy S25 Ultra Bạc - 3",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Trắng-Bạc/samsung-galaxy-s25-ultra-Trang-Bac-3.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Samsung Galaxy S25 Ultra Bạc - 4",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Trắng-Bạc/samsung-galaxy-s25-ultra-Trang-Bac-4.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Samsung Galaxy S25 Ultra Xanh dương - 1",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xanh Dương/samsung-galaxy-s25-ultra-XanhDuong-1.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Samsung Galaxy S25 Ultra Xanh dương - 2",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xanh Dương/samsung-galaxy-s25-ultra-XanhDuong-2.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Samsung Galaxy S25 Ultra Xanh dương - 3",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xanh Dương/samsung-galaxy-s25-ultra-XanhDuong-3.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Samsung Galaxy S25 Ultra Xanh dương - 4",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xanh Dương/samsung-galaxy-s25-ultra-XanhDuong-4.webp"
+        },
+        {
+          "color": "Xám",
+          "name": "Samsung Galaxy S25 Ultra Xám - 1",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xám/samsung-galaxy-s25-ultra-xám-1.webp"
+        },
+        {
+          "color": "Xám",
+          "name": "Samsung Galaxy S25 Ultra Xám - 2",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xám/samsung-galaxy-s25-ultra-xám-2.webp"
+        },
+        {
+          "color": "Xám",
+          "name": "Samsung Galaxy S25 Ultra Xám - 3",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xám/samsung-galaxy-s25-ultra-xám-3.webp"
+        },
+        {
+          "color": "Xám",
+          "name": "Samsung Galaxy S25 Ultra Xám - 4",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Xám/samsung-galaxy-s25-ultra-xám-4.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Samsung Galaxy S25 Ultra Đen - 1",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Đen/samsung-galaxy-s25-ultra-Đen-1.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Samsung Galaxy S25 Ultra Đen - 2",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Đen/samsung-galaxy-s25-ultra-Đen-2.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Samsung Galaxy S25 Ultra Đen - 3",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Đen/samsung-galaxy-s25-ultra-Đen-3.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Samsung Galaxy S25 Ultra Đen - 4",
+          "imageUrl": "/src/assets/images/SamsungImages/Samsum Galaxy s25 utra/Đen/samsung-galaxy-s25-ultra-Đen-4.webp"
+        }
+      ]
+    },
+    {
+      "name": "Nubia Neo 3 4G",
+      "description": "Nubia Neo 3 4G - Smartphone gaming giá rẻ, màn hình 120Hz, pin 6000mAh",
+      "thumbUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Trắng/nubia-neo-3-4g-Bac-1.webp",
+      "discountPercentage": 10,
+      "slug": "nubia-neo-3-4g",
+      "basePrice": 4990000,
+      "brand": "Nubia",
+      "category": "Điện thoại",
+      "specifications": [
+        {
+          "specName": "Màn hình",
+          "specValue": "6.8 inch, IPS LCD, 1080x2400, 120Hz, 1000 nits"
+        },
+        {
+          "specName": "Camera sau",
+          "specValue": "50MP chính (f/1.8) + 2MP phụ"
+        },
+        {
+          "specName": "Camera trước",
+          "specValue": "16MP (f/2.0)"
+        },
+        {
+          "specName": "Chip",
+          "specValue": "Unisoc T8300 (Octa-core)"
+        },
+        {
+          "specName": "Pin",
+          "specValue": "6000mAh, sạc nhanh 33W"
+        },
+        {
+          "specName": "Hệ điều hành",
+          "specValue": "MyOS, Android 14"
+        }
+      ],
+      "variants": [
+        {
+          "color": "Trắng",
+          "memory": {
+            "ram": "8GB",
+            "rom": "128GB"
+          },
+          "price": 4490000,
+          "stock": 50
+        },
+        {
+          "color": "Trắng",
+          "memory": {
+            "ram": "8GB",
+            "rom": "256GB"
+          },
+          "price": 4990000,
+          "stock": 40
+        },
+        {
+          "color": "Vàng",
+          "memory": {
+            "ram": "8GB",
+            "rom": "128GB"
+          },
+          "price": 4490000,
+          "stock": 50
+        },
+        {
+          "color": "Vàng",
+          "memory": {
+            "ram": "8GB",
+            "rom": "256GB"
+          },
+          "price": 4990000,
+          "stock": 40
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "8GB",
+            "rom": "128GB"
+          },
+          "price": 4490000,
+          "stock": 50
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "8GB",
+            "rom": "256GB"
+          },
+          "price": 4990000,
+          "stock": 40
+        }
+      ],
+      "images": [
+        {
+          "color": "Trắng",
+          "name": "Nubia Neo 3 4G Trắng - 1",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Trắng/nubia-neo-3-4g-Bac-1.webp"
+        },
+        {
+          "color": "Trắng",
+          "name": "Nubia Neo 3 4G Trắng - 2",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Trắng/nubia-neo-3-4g-Bac-2.webp"
+        },
+        {
+          "color": "Trắng",
+          "name": "Nubia Neo 3 4G Trắng - 3",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Trắng/nubia-neo-3-4g-Bac-3.webp"
+        },
+        {
+          "color": "Trắng",
+          "name": "Nubia Neo 3 4G Trắng - 4",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Trắng/nubia-neo-3-4g-Bac-4.webp"
+        },
+        {
+          "color": "Trắng",
+          "name": "Nubia Neo 3 4G Trắng - 5",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Trắng/nubia-neo-3-4g-Bac-5.webp"
+        },
+        {
+          "color": "Vàng",
+          "name": "Nubia Neo 3 4G Vàng - 1",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Vàng/nubia-neo-3-4g-Vang-1.webp"
+        },
+        {
+          "color": "Vàng",
+          "name": "Nubia Neo 3 4G Vàng - 2",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Vàng/nubia-neo-3-4g-Vang-2.webp"
+        },
+        {
+          "color": "Vàng",
+          "name": "Nubia Neo 3 4G Vàng - 3",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Vàng/nubia-neo-3-4g-Vang-3.webp"
+        },
+        {
+          "color": "Vàng",
+          "name": "Nubia Neo 3 4G Vàng - 4",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Vàng/nubia-neo-3-4g-Vang-4.webp"
+        },
+        {
+          "color": "Vàng",
+          "name": "Nubia Neo 3 4G Vàng - 5",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Vàng/nubia-neo-3-4g-Vang-5.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Nubia Neo 3 4G Đen - 1",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Đen/nubia-neo-3-4g-Đen-1.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Nubia Neo 3 4G Đen - 2",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Đen/nubia-neo-3-4g-Đen-2.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Nubia Neo 3 4G Đen - 3",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Đen/nubia-neo-3-4g-Đen-3.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Nubia Neo 3 4G Đen - 4",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Đen/nubia-neo-3-4g-Đen-4.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Nubia Neo 3 4G Đen - 5",
+          "imageUrl": "/src/assets/images/Neo/Nubia Neo 3 4G/Đen/nubia-neo-3-4g-Đen-5.webp"
+        }
+      ]
+    },
+    {
+      "name": "Poco F8 Pro",
+      "description": "Poco F8 Pro - Flagship killer 2025, Snapdragon 8 Elite, sạc 100W",
+      "thumbUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-1.webp",
+      "discountPercentage": 8,
+      "slug": "poco-f8-pro",
+      "basePrice": 13990000,
+      "brand": "Poco",
+      "category": "Điện thoại",
+      "specifications": [
+        {
+          "specName": "Màn hình",
+          "specValue": "6.59 inch, AMOLED, 1.5K (2510x1156), 120Hz, 3500 nits"
+        },
+        {
+          "specName": "Camera sau",
+          "specValue": "50MP chính OIS (f/1.88) + 50MP telephoto 2.5x + 8MP ultra-wide"
+        },
+        {
+          "specName": "Camera trước",
+          "specValue": "20MP (f/2.2)"
+        },
+        {
+          "specName": "Chip",
+          "specValue": "Snapdragon 8 Elite (3nm)"
+        },
+        {
+          "specName": "Pin",
+          "specValue": "6210mAh, sạc nhanh 100W"
+        },
+        {
+          "specName": "Hệ điều hành",
+          "specValue": "HyperOS 3, Android 16"
+        }
+      ],
+      "variants": [
+        {
+          "color": "Bạc",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 13990000,
+          "stock": 35
+        },
+        {
+          "color": "Bạc",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 15490000,
+          "stock": 30
+        },
+        {
+          "color": "Xanh dương",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 13990000,
+          "stock": 35
+        },
+        {
+          "color": "Xanh dương",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 15490000,
+          "stock": 30
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "12GB",
+            "rom": "256GB"
+          },
+          "price": 13990000,
+          "stock": 35
+        },
+        {
+          "color": "Đen",
+          "memory": {
+            "ram": "12GB",
+            "rom": "512GB"
+          },
+          "price": 15490000,
+          "stock": 30
+        }
+      ],
+      "images": [
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 1",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-1.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 2",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-2.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 3",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-3.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 4",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-4.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 5",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-5.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 6",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-6.webp"
+        },
+        {
+          "color": "Bạc",
+          "name": "Poco F8 Pro Bạc - 7",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Bạc/poco-f8-pro-Bac-7.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 1",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-1.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 2",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-2.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 3",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-3.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 4",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-4.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 5",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-5.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 6",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-6.webp"
+        },
+        {
+          "color": "Xanh dương",
+          "name": "Poco F8 Pro Xanh dương - 7",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Xanh Dương/poco-f8-pro-XanhDuong-7.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 1",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-1.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 2",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-2.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 3",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-3.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 4",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-4.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 5",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-5.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 6",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-6.webp"
+        },
+        {
+          "color": "Đen",
+          "name": "Poco F8 Pro Đen - 7",
+          "imageUrl": "/src/assets/images/PoCo/PoCo F8 pro/Đen/poco-f8-pro-Đen-7.webp"
         }
       ]
     }
