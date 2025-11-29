@@ -34,6 +34,7 @@ router.get("/profile/:id", auth, authController.profile);
 
 // Quên mật khẩu
 router.post("/forgot-password", authController.forgotPassword);
+router.post("/verify-forgot-password-otp", authController.verifyForgotPasswordOTP);
 
 // Form reset mật khẩu (GET để hiển thị form)
 router.get(
@@ -108,5 +109,6 @@ router.post("/logout", auth, authController.logout);
 router.post("/change-password", auth, authController.changePassword); // ✅ New route
 router.post("/upload-avatar", auth, upload.single("avatar"), authController.uploadAvatar);
 router.patch("/profile", auth, authController.updateProfile);
+router.post("/verify-change-email-otp", auth, authController.verifyChangeEmailOTP);
 
 module.exports = router;

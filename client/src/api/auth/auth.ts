@@ -36,9 +36,18 @@ const auth = () => ({
             }
         });
     },
+    verifyForgotPasswordOTP(email: string, otp: string) {
+        return $axios.post("/auth/verify-forgot-password-otp", { email, otp });
+    },
+    resetPassword(userId: string, token: string, body: any) {
+        return $axios.post(`/auth/reset-password/${userId}/${token}`, body);
+    },
     updateProfile(body: Partial<IUser>) {
-        return $axios.patch<{ success: boolean, user: IUser }>("/auth/profile", body);
+        return $axios.patch<{ success: boolean, user: IUser, requireOTP?: boolean, message?: string }>("/auth/profile", body);
+    },
+    verifyChangeEmailOTP(otp: string) {
+        return $axios.post<{ success: boolean, user: IUser, message: string }>("/auth/verify-change-email-otp", { otp });
     }
 });
 
-export const { login, register, forgotPassword, getUserSuccess, getUser, getNewToken, uploadAvatar, updateProfile } = auth();
+export const { login, register, forgotPassword, getUserSuccess, getUser, getNewToken, uploadAvatar, updateProfile, verifyForgotPasswordOTP, resetPassword, verifyChangeEmailOTP } = auth();

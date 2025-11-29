@@ -55,12 +55,12 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 
 interface Props {
   email: string;
-  type: "registration" | "login";
+  type: "registration" | "login" | "forgot-password" | "change-email";
 }
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  verified: [tokens: { accessToken: string; refreshToken: string; user: any }];
+  verified: [data: any];
   resend: [];
 }>();
 
@@ -135,14 +135,24 @@ const handleVerify = async () => {
 
   try {
     const otp = otpDigits.value.join("");
-    const endpoint =
-      props.type === "registration"
-        ? "/api/auth/verify-email"
-        : "/api/auth/verify-login-otp";
+    let endpoint = "";
+    if (props.type === "registration") endpoint = "/api/auth/verify-email";
+    else if (props.type === "login") endpoint = "/api/auth/verify-login-otp";
+    else if (props.type === "forgot-password") endpoint = "/api/auth/verify-forgot-password-otp";
+    else if (props.type === "change-email") endpoint = "/api/auth/verify-change-email-otp";
+
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    
+    if (props.type === "change-email") {
+        const token = localStorage.getItem("_Auth.access-token"); // Hardcoded key based on constants
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+    }
 
     const response = await fetch(`http://localhost:3000${endpoint}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ email: props.email, otp }),
     });
 
@@ -153,11 +163,22 @@ const handleVerify = async () => {
     }
 
     // Success
-    emit("verified", {
-      accessToken: data.accessToken,
-      refreshToken: data.refreshToken,
-      user: data.user,
-    });
+    // Success
+    // Success
+    if (props.type === "forgot-password") {
+        emit("verified", {
+            token: data.token,
+            userId: data.userId
+        });
+    } else if (props.type === "change-email") {
+        emit("verified", data);
+    } else {
+        emit("verified", {
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+            user: data.user,
+        });
+    }
   } catch (error: any) {
     hasError.value = true;
     errorMessage.value = error.message || "Có lỗi xảy ra, vui lòng thử lại";

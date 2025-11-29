@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/vue-query";
-import { login, getUserSuccess, register, forgotPassword, uploadAvatar, updateProfile } from "./auth";
+import { login, getUserSuccess, register, forgotPassword, uploadAvatar, updateProfile, verifyForgotPasswordOTP, resetPassword, verifyChangeEmailOTP } from "./auth";
 import { ILoginBody, IRegisterBody } from "@/types/auth.types";
 
 // ✅ Login Mutation
@@ -62,5 +62,32 @@ export const useUpdateProfileMutation = () => {
     mutationFn: (body: any) => {
       return updateProfile(body);
     }
+  });
+};
+
+// ✅ Verify Forgot Password OTP Mutation
+export const verifyForgotPasswordOTPMutation = () => {
+  return useMutation({
+    mutationFn: (body: { email: string; otp: string }) => {
+      return verifyForgotPasswordOTP(body.email, body.otp);
+    },
+  });
+};
+
+// ✅ Reset Password Mutation
+export const resetPasswordMutation = () => {
+  return useMutation({
+    mutationFn: (body: { userId: string; token: string; data: any }) => {
+      return resetPassword(body.userId, body.token, body.data);
+    },
+  });
+};
+
+// ✅ Verify Change Email OTP Mutation
+export const verifyChangeEmailOTPMutation = () => {
+  return useMutation({
+    mutationFn: (otp: string) => {
+      return verifyChangeEmailOTP(otp);
+    },
   });
 };

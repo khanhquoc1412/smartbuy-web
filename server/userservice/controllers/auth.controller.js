@@ -1,5 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const User = require("../models/user");
+const PendingUpdate = require("../models/PendingUpdate");
 // Đúng path
 const {
   comparePassword,
@@ -393,20 +394,21 @@ const forgotPassword = async (req, res) => {
       throw new NotFoundError("Email chưa được đăng ký");
     }
 
-    // Tạo reset token (dùng JWT, expires 5min)
-    const resetToken = jwtCreate(user._id, { expiresIn: "5m" });
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Lưu token vào DB
-    user.passwordToken = resetToken;
+    // Save OTP to DB
+    user.passwordToken = otp;
     user.passwordTokenExpire = Date.now() + 5 * 60 * 1000; // 5min
     await user.save();
 
-    const resetURL = `http://localhost:8080/reset-password/${user._id}/${resetToken}`; // Frontend URL
-    const html = `<h1>Bạn có 5 phút để thay đổi mật khẩu <a href="${resetURL}">Tạo mật khẩu mới</a></h1>`;
-    await mailer(email, "Reset Password", html);
+    // Send Email
+    const emailHtml = otpTemplate(user.userName, otp, 'forgot_password');
+    const title = `Mã xác minh quên mật khẩu: ${otp}`;
+    await mailer(email, emailHtml, title);
 
     res.status(StatusCodes.OK).json({
-      message: "Kiểm tra email của bạn để đặt lại mật khẩu",
+      message: "Mã OTP đã được gửi đến email của bạn",
       status: StatusCodes.OK,
     });
   } catch (error) {
@@ -420,6 +422,61 @@ const forgotPassword = async (req, res) => {
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: "Lỗi server",
       status: StatusCodes.BAD_REQUEST,
+    });
+  }
+};
+
+const verifyForgotPasswordOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      throw new BadRequestError("Email và mã OTP là bắt buộc");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new NotFoundError("Không tìm thấy tài khoản");
+    }
+
+    if (user.passwordToken !== otp) {
+      throw new BadRequestError("Mã OTP không chính xác");
+    }
+
+    if (!user.passwordTokenExpire || Date.now() > user.passwordTokenExpire) {
+      throw new BadRequestError("Mã OTP đã hết hạn");
+    }
+
+    // OTP Valid. Generate JWT Reset Token.
+    const tokens = jwtCreate(user._id);
+    const resetToken = tokens.resetPasswordToken;
+
+    // Save JWT to passwordToken (replacing OTP)
+    user.passwordToken = resetToken;
+    user.passwordTokenExpire = Date.now() + 10 * 60 * 1000;
+    await user.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Xác thực thành công",
+      token: resetToken,
+      userId: user._id
+    });
+  } catch (error) {
+    console.error("❌ Verify forgot password OTP error:", error);
+    if (
+      error instanceof NotFoundError ||
+      error instanceof BadRequestError
+    ) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message,
+        status: error.statusCode,
+      });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Lỗi server",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
     });
   }
 };
@@ -546,14 +603,111 @@ const updateProfile = async (req, res) => {
       throw new NotFoundError("User not found");
     }
 
+    // Update userName immediately
     if (userName) user.userName = userName;
-    if (email) user.email = email;
+
+    let requireOTP = false;
+    let message = "Cập nhật thông tin thành công";
+
+    // Handle email change
+    if (email && email !== user.email) {
+      // Check if new email already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        throw new ConflictError("Email đã được sử dụng bởi tài khoản khác");
+      }
+
+      // Generate OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Create or update PendingUpdate
+      await PendingUpdate.findOneAndUpdate(
+        { userId: user._id, type: 'change_email' },
+        {
+          userId: user._id,
+          type: 'change_email',
+          data: { newEmail: email },
+          verificationToken: otp,
+          verificationExpires: Date.now() + 5 * 60 * 1000
+        },
+        { upsert: true, new: true }
+      );
+
+      // Send OTP to NEW email
+      const emailHtml = otpTemplate(user.userName, otp, 'change_email');
+      await mailer(email, emailHtml, `Mã xác minh thay đổi email: ${otp}`);
+
+      requireOTP = true;
+      message = "Vui lòng nhập mã OTP đã được gửi đến email mới để xác nhận";
+    }
 
     await user.save();
 
     res.status(StatusCodes.OK).json({
       success: true,
-      message: "Cập nhật thông tin thành công",
+      requireOTP,
+      message,
+      user: {
+        id: user._id,
+        userName: user.userName,
+        email: user.email, // Return OLD email until verified
+        avatarUrl: user.avatarUrl,
+        isAdmin: user.isAdmin
+      }
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    if (error instanceof ConflictError) {
+      return res.status(StatusCodes.CONFLICT).json({
+        success: false,
+        message: error.message
+      });
+    }
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message || "Update failed"
+    });
+  }
+};
+
+const verifyChangeEmailOTP = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { otp } = req.body;
+
+    if (!otp) {
+      throw new BadRequestError("Mã OTP là bắt buộc");
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    const pendingUpdate = await PendingUpdate.findOne({ userId: user._id, type: 'change_email' });
+
+    if (!pendingUpdate) {
+      throw new BadRequestError("Không có yêu cầu thay đổi email nào đang chờ xử lý hoặc mã đã hết hạn");
+    }
+
+    if (pendingUpdate.verificationToken !== otp) {
+      throw new BadRequestError("Mã OTP không chính xác");
+    }
+
+    if (Date.now() > pendingUpdate.verificationExpires) {
+      throw new BadRequestError("Mã OTP đã hết hạn");
+    }
+
+    // Update email
+    user.email = pendingUpdate.data.newEmail;
+
+    // Clean up
+    await PendingUpdate.deleteOne({ _id: pendingUpdate._id });
+    await user.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Thay đổi email thành công",
       user: {
         id: user._id,
         userName: user.userName,
@@ -562,11 +716,18 @@ const updateProfile = async (req, res) => {
         isAdmin: user.isAdmin
       }
     });
+
   } catch (error) {
-    console.error("Update profile error:", error);
-    return res.status(StatusCodes.BAD_REQUEST).json({
+    console.error("Verify change email OTP error:", error);
+    if (error instanceof BadRequestError || error instanceof NotFoundError) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message
+      });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: error.message || "Update failed"
+      message: "Lỗi server"
     });
   }
 };
@@ -782,6 +943,8 @@ const resendOTP = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   register,
   login,
@@ -798,4 +961,6 @@ module.exports = {
   verifyEmail,
   verifyLoginOTP,
   resendOTP,
+  verifyChangeEmailOTP,
+  verifyForgotPasswordOTP,
 };

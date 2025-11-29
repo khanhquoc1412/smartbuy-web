@@ -137,13 +137,40 @@
     </div>
 
     <!-- Address Form Dialog -->
-   <AddressFormDialog
+    <AddressFormDialog
       v-model="showAddressDialog"
       :mode="selectedAddress ? 'edit' : 'add'"
       :address="selectedAddress"
       :loading="isAdding || isUpdating"
       @submit="handleSubmitAddress"
     />
+
+    <!-- OTP Verification Dialog -->
+    <div v-if="showOTPDialog" class="tw-fixed tw-inset-0 tw-z-50 tw-flex tw-items-center tw-justify-center tw-bg-black/50">
+      <div class="tw-bg-white tw-rounded-xl tw-shadow-xl tw-p-8 tw-max-w-md tw-w-full tw-mx-4">
+        <h3 class="tw-text-xl tw-font-bold tw-text-gray-900 tw-mb-2 tw-text-center">Xác thực thay đổi Email</h3>
+        <p class="tw-text-gray-500 tw-text-center tw-mb-6">
+          Mã OTP đã được gửi đến email mới của bạn: <strong>{{ formData.email }}</strong>. Vui lòng nhập mã để xác nhận.
+        </p>
+        
+        <div class="tw-flex tw-justify-center tw-mb-6">
+             <OTPInput 
+                :email="formData.email"
+                type="change-email"
+                @verified="handleVerifyOTP"
+             />
+        </div>
+
+        <div class="tw-flex tw-justify-center">
+             <button 
+                @click="showOTPDialog = false"
+                class="tw-text-gray-500 hover:tw-text-gray-700 tw-font-medium"
+             >
+                Hủy bỏ
+             </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -155,8 +182,10 @@ import AddressCard from "@/components/address/AddressCard.vue";
 import AddressFormDialog from "@/components/address/AddressFormDialog.vue";
 import type { IAddress, IAddressPayload } from "@/types/address.type";
 
+import OTPInput from "@/components/auth/OTPInput.vue";
+
 // Auth
-const { user, updateProfile, getUserProfile } = useAuth();
+const { user, updateProfile, getUserProfile, verifyChangeEmailOTP, isVerifyChangeEmailLoading } = useAuth();
 
 const formData = reactive({
   userName: '',
@@ -164,6 +193,8 @@ const formData = reactive({
 });
 
 const isProfileUpdating = ref(false);
+const showOTPDialog = ref(false);
+const otpValue = ref("");
 
 watch(user, (newUser) => {
   if (newUser) {
@@ -183,8 +214,13 @@ const handleUpdateProfile = () => {
     onSuccess: (data: any) => {
       const response = data.data || data;
       if (response.success) {
-        showToast("Cập nhật thông tin thành công!", "success");
-        if (getUserProfile) getUserProfile();
+        if (response.requireOTP) {
+            showToast(response.message || "Vui lòng xác thực OTP", "success");
+            showOTPDialog.value = true;
+        } else {
+            showToast("Cập nhật thông tin thành công!", "success");
+            if (getUserProfile) getUserProfile();
+        }
       } else {
         showToast("Cập nhật thất bại!", "error");
       }
@@ -192,10 +228,17 @@ const handleUpdateProfile = () => {
     },
     onError: (error: any) => {
       console.error("Update profile error:", error);
-      showToast("Có lỗi xảy ra khi cập nhật!", "error");
+      showToast(error?.response?.data?.message || "Có lỗi xảy ra khi cập nhật!", "error");
       isProfileUpdating.value = false;
     }
   });
+};
+
+const handleVerifyOTP = async (data: any) => {
+    // OTPInput handles the API call and returns the result
+    showToast("Xác thực thành công! Email đã được cập nhật.", "success");
+    showOTPDialog.value = false;
+    if (getUserProfile) getUserProfile();
 };
 
 // Addresses
