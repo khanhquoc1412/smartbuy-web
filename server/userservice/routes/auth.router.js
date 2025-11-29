@@ -14,6 +14,15 @@ router.post("/register", authValidation.register, authController.register);
 // Đăng nhập
 router.post("/login", authValidation.login, authController.login);
 
+// Verify Email OTP (Registration)
+router.post("/verify-email", authController.verifyEmail);
+
+// Verify Login OTP
+router.post("/verify-login-otp", authController.verifyLoginOTP);
+
+// Resend OTP (for both registration and login)
+router.post("/resend-otp", authController.resendOTP);
+
 console.log("registerValidation:", authValidation.register);
 console.log("authController.register:", authController.register);
 

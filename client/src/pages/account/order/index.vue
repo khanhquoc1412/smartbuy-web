@@ -66,7 +66,7 @@
               <div class="header-top">
                 <div class="order-id-wrapper">
                   <span class="label">Đơn hàng</span>
-                  <span class="id">#{{ order.orderNumber || (order._id ? order._id.slice(-4).toUpperCase() : order.id) }}</span>
+                  <span class="id">#{{ order.orderNumber || 'N/A' }}</span>
                 </div>
                 <div class="order-date">
                   <img :src="calendarIcon" alt="" class="icon" />

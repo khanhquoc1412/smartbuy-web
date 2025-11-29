@@ -13,15 +13,15 @@
 
       <!-- Thank You Message -->
       <div class="message-container">
-        <h1 class="title">Đặt  hàng thành công!</h1>
+        <h1 class="title">Đặt hàng thành công!</h1>
         <p class="subtitle">Cảm ơn bạn đã mua hàng tại SmartBuy</p>
       </div>
 
       <!-- Order Info -->
-      <div class="order-info" v-if="orderId">
+      <div class="order-info" v-if="orderNumber">
         <div class="info-row">
           <span class="label">Mã đơn hàng:</span>
-          <span class="value">#{{ orderId.slice(-8).toUpperCase() }}</span>
+          <span class="value">#{{ orderNumber }}</span>
         </div>
         <div class="info-row">
           <span class="label">Trạng thái:</span>
@@ -90,10 +90,11 @@ import { useQueryClient } from '@tanstack/vue-query';
 const route = useRoute();
 const queryClient = useQueryClient();
 const { refetchCart, refetchCartCount } = useCart();
-const orderId = ref<string>('');
+const orderNumber = ref<string>('');
 
 onMounted(async () => {
-  orderId.value = route.query.orderId as string || '';
+  const orderId = route.query.orderId as string || '';
+  orderNumber.value = route.query.orderNumber as string || '';
   
   // ✅ IMPORTANT: Refresh cart count to update badge after COD order
   console.log('🔄 [THANK-YOU PAGE] Refreshing cart to update badge...');

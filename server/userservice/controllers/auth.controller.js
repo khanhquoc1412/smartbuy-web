@@ -15,6 +15,7 @@ const {
   ConflictError,
 } = require("../../src/errors");
 const mailer = require("../services/mailer"); // Giả định services/mailer.js
+const { otpTemplate, passwordResetTemplate } = require("../services/emailTemplates");
 
 const changePassword = async (req, res) => {
   try {
@@ -115,7 +116,6 @@ const register = async (req, res) => {
         const files = fs.readdirSync(avatarDir);
         if (files.length > 0) {
           const randomFile = files[Math.floor(Math.random() * files.length)];
-          // Assuming server runs on port 3005 locally
           avatarUrl = `http://localhost:3005/avatars/${randomFile}`;
         }
       }
@@ -123,36 +123,46 @@ const register = async (req, res) => {
       console.error("Error selecting default avatar:", err);
     }
 
+    // Tạo user với isVerified = false
     const newUser = await User.create({
       userName,
       email,
       password, // Sẽ auto-hash trong pre-save
-      avatarUrl // Set default avatar
+      avatarUrl,
+      isVerified: false // Chưa verify
     });
 
-    // Gửi email verify nếu cần (tùy chọn)
-    // const verifyToken = jwtCreate(newUser._id, { expiresIn: '1d' });
-    // mailer(newUser.email, `Verify: http://localhost:3000/api/auth/verify/${verifyToken}`);
+    // Generate OTP 6 số
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    res.status(StatusCodes.CREATED).json({
-      message: "Đăng ký thành công",
-      status: StatusCodes.CREATED,
-      user: {
-        id: newUser._id,
-        userName: newUser.userName,
-        email: newUser.email,
-        avatarUrl: newUser.avatarUrl
-      },
+    // Lưu OTP với thời gian hết hạn 30 phút
+    newUser.verificationToken = otp;
+    newUser.verificationExpires = Date.now() + 30 * 60 * 1000;
+    await newUser.save();
+
+    // Gửi email OTP với template đẹp
+    const emailHtml = otpTemplate(userName, otp, 'registration');
+    await mailer(email, emailHtml, `Mã xác minh SmartBuy của bạn: ${otp}`);
+
+    console.log(`✅ OTP sent to ${email}: ${otp}`);
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      requireOTP: true,
+      message: "Vui lòng kiểm tra email để nhập mã OTP",
+      email: email
     });
   } catch (error) {
     console.log(error);
     if (error instanceof ConflictError || error instanceof BadRequestError) {
       return res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
         message: error.message,
         status: error.statusCode,
       });
     }
     return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
       message: "Lỗi server",
       status: StatusCodes.BAD_REQUEST,
     });
@@ -215,6 +225,12 @@ const login = async (req, res) => {
     if (!user) {
       throw new NotFoundError("Tài khoản chưa được đăng ký");
     }
+
+    // Kiểm tra account đã verify chưa
+    if (!user.isVerified) {
+      throw new UnauthorizedError("Vui lòng xác thực email trước khi đăng nhập");
+    }
+
     if (user.isBlocked) {
       throw new UnauthorizedError("Tài khoản bị khóa");
     }
@@ -224,36 +240,37 @@ const login = async (req, res) => {
       throw new UnauthorizedError("Tài khoản hoặc mật khẩu không chính xác");
     }
 
-    const { accessToken, refreshToken } = jwtCreate(user._id);
+    // Generate OTP cho login
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Update refreshToken
-    user.refreshToken = refreshToken;
+    // Lưu OTP với thời gian hết hạn 30 phút
+    user.verificationToken = otp;
+    user.verificationExpires = Date.now() + 30 * 60 * 1000;
     await user.save();
 
+    // Gửi email OTP với template đẹp
+    const emailHtml = otpTemplate(user.userName, otp, 'login');
+    await mailer(email, emailHtml, `Mã xác minh SmartBuy của bạn: ${otp}`);
+
+    console.log(`✅ Login OTP sent to ${email}: ${otp}`);
+
     res.status(StatusCodes.OK).json({
-      accessToken,
-      refreshToken,
-      user: {
-        id: user._id,
-        username: user.userName,
-        email: user.email,
-        isBlocked: user.isBlocked,
-        avatarUrl: user.avatarUrl,
-        isVerified: user.isVerified,
-        isAdmin: user.isAdmin,
-      },
-      message: ReasonPhrases.OK,
-      status: StatusCodes.OK,
+      success: true,
+      requireOTP: true,
+      message: "Vui lòng kiểm tra email để nhập mã OTP",
+      email: email
     });
   } catch (error) {
     console.log(error);
     if (error instanceof NotFoundError || error instanceof UnauthorizedError) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
         message: error.message,
         status: error.statusCode,
       });
     }
     return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
       message: "Lỗi server",
       status: StatusCodes.BAD_REQUEST,
     });
@@ -554,6 +571,217 @@ const updateProfile = async (req, res) => {
   }
 };
 
+// Verify Email OTP (Registration)
+const verifyEmail = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      throw new BadRequestError("Email và mã OTP là bắt buộc");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new NotFoundError(`Không tìm thấy tài khoản: '${email}'`);
+    }
+
+    // Kiểm tra: Chỉ verify khi isVerified = false
+    if (user.isVerified) {
+      throw new BadRequestError("Tài khoản đã được xác thực rồi");
+    }
+
+    // Kiểm tra OTP
+    if (user.verificationToken !== otp) {
+      throw new BadRequestError("Mã OTP không chính xác");
+    }
+
+    // Kiểm tra thời gian hết hạn
+    if (!user.verificationExpires || Date.now() > user.verificationExpires) {
+      throw new BadRequestError("Mã OTP đã hết hạn");
+    }
+
+    // ✅ Kích hoạt tài khoản
+    user.isVerified = true;
+    user.verificationToken = null;
+    user.verificationExpires = null;
+    user.verifiedDate = Date.now();
+
+    // Tạo tokens để tự động đăng nhập
+    const { accessToken, refreshToken } = jwtCreate(user._id);
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    console.log(`✅ User verified: ${email}`);
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Xác thực thành công",
+      accessToken,
+      refreshToken,
+      user: {
+        id: user._id,
+        userName: user.userName,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        isAdmin: user.isAdmin,
+        isVerified: user.isVerified,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Verify email error:", error);
+    if (
+      error instanceof NotFoundError ||
+      error instanceof BadRequestError
+    ) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message,
+        status: error.statusCode,
+      });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Lỗi server",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+// Verify Login OTP
+const verifyLoginOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      throw new BadRequestError("Email và mã OTP là bắt buộc");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new NotFoundError("Không tìm thấy tài khoản");
+    }
+
+    // Kiểm tra: Chỉ verify login khi isVerified = true
+    if (!user.isVerified) {
+      throw new UnauthorizedError("Tài khoản chưa được kích hoạt");
+    }
+
+    // Kiểm tra OTP
+    if (user.verificationToken !== otp) {
+      throw new BadRequestError("Mã OTP không chính xác");
+    }
+
+    // Kiểm tra thời gian hết hạn
+    if (!user.verificationExpires || Date.now() > user.verificationExpires) {
+      throw new BadRequestError("Mã OTP đã hết hạn");
+    }
+
+    // ✅ Cấp tokens
+    const { accessToken, refreshToken } = jwtCreate(user._id);
+
+    user.refreshToken = refreshToken;
+    user.verificationToken = null;
+    user.verificationExpires = null;
+    await user.save();
+
+    console.log(`✅ User logged in: ${email}`);
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Đăng nhập thành công",
+      accessToken,
+      refreshToken,
+      user: {
+        id: user._id,
+        userName: user.userName,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+        isAdmin: user.isAdmin,
+        isVerified: user.isVerified,
+        isBlocked: user.isBlocked,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Verify login OTP error:", error);
+    if (
+      error instanceof NotFoundError ||
+      error instanceof BadRequestError ||
+      error instanceof UnauthorizedError
+    ) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message,
+        status: error.statusCode,
+      });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Lỗi server",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+// Resend OTP
+const resendOTP = async (req, res) => {
+  try {
+    const { email, type } = req.body; // type: 'registration' | 'login'
+
+    if (!email || !type) {
+      throw new BadRequestError("Email và type là bắt buộc");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new NotFoundError("Không tìm thấy tài khoản");
+    }
+
+    // Kiểm tra type hợp lệ
+    if (type === 'registration' && user.isVerified) {
+      throw new BadRequestError("Tài khoản đã được verify rồi");
+    }
+    if (type === 'login' && !user.isVerified) {
+      throw new BadRequestError("Vui lòng verify email trước");
+    }
+
+    // Generate OTP mới
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.verificationToken = otp;
+    user.verificationExpires = Date.now() + 5 * 60 * 1000;
+    await user.save();
+
+    // Gửi email OTP với template đẹp
+    const emailHtml = otpTemplate(user.userName, otp, type);
+    const title = `Mã xác minh SmartBuy của bạn: ${otp}`;
+    await mailer(email, emailHtml, title);
+
+    console.log(`✅ OTP resent to ${email}: ${otp}`);
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Đã gửi lại mã OTP, vui lòng kiểm tra email",
+    });
+  } catch (error) {
+    console.error("❌ Resend OTP error:", error);
+    if (
+      error instanceof NotFoundError ||
+      error instanceof BadRequestError
+    ) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message,
+        status: error.statusCode,
+      });
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Lỗi server",
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -567,4 +795,7 @@ module.exports = {
   changePassword,
   uploadAvatar,
   updateProfile,
+  verifyEmail,
+  verifyLoginOTP,
+  resendOTP,
 };

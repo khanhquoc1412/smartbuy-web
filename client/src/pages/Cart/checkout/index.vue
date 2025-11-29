@@ -831,7 +831,7 @@ const handleOrderGuest = async () => {
       router.push(
         `/cart/checkout/thank-you?orderId=${
           createdOrder._id || createdOrder.id
-        }`
+        }&orderNumber=${createdOrder.orderNumber || ''}`
       );
     }
   } catch (error: any) {

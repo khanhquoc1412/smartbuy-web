@@ -21,10 +21,16 @@ exports.createOrder = async (req, res, next) => {
 
     const result = await orderService.createOrderFromCart(orderData);
 
+    // Convert order to JSON to include virtual fields like orderNumber
+    const orderJSON = result.order.toJSON();
+
     res.status(201).json({
       success: true,
       message: "Tạo đơn hàng thành công",
-      data: result,
+      data: {
+        ...result,
+        order: orderJSON,
+      },
     });
   } catch (error) {
     next(error);

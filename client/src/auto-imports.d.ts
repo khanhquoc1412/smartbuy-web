@@ -88,6 +88,7 @@ declare global {
   const useRouter: typeof import('vue-router').useRouter
   const useSlots: typeof import('vue').useSlots
   const useTemplateRef: typeof import('vue').useTemplateRef
+  const useToast: typeof import('./composables/useToast').useToast
   const useWishlist: typeof import('./composables/useWishlist').useWishlist
   const v: typeof import('@vueuse/core').get
   const watch: typeof import('vue').watch
@@ -100,4 +101,7 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { Toast } from './composables/useToast'
+  import('./composables/useToast')
 }
