@@ -496,7 +496,25 @@ const getAll = async (req, res, next) => {
     const keyword = req.params?.keyword || req.query?.keyword;
     if (keyword) {
       const regex = new RegExp(escapeRegex(String(keyword)), "i");
-      productCondition.name = { $regex: regex };
+
+      // 🔍 Tìm brand khớp với keyword
+      const brandMatch = await Brand.findOne({
+        $or: [
+          { nameAscii: regex },
+          { name: regex }
+        ]
+      }).select("_id");
+
+      if (brandMatch) {
+        productCondition.$or = [
+          { name: { $regex: regex } },
+          { brand: brandMatch._id } // Match theo brand ID
+        ];
+        console.log(`🔎 Keyword "${keyword}" matches Brand ID: ${brandMatch._id}`);
+      } else {
+        productCondition.name = { $regex: regex };
+      }
+
       console.log(`🔎 Searching for keyword: "${keyword}" -> Regex: ${regex}`);
     }
 

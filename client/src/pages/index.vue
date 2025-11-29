@@ -15,42 +15,37 @@
               :space-between="10"
               :pagination="{ clickable: true }"
               :navigation="true"
+              :autoplay="{ delay: 5000, disableOnInteraction: false }"
               id="swiper-slider"
             >
-              <swiper-slide
-                class="swiper-item tw-overflow-hidden"
-                v-for="n in 6"
-                :key="n"
-              >
+              <swiper-slide class="swiper-item tw-overflow-hidden">
                 <img :src="banner" alt="" />
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <img :src="homeBanner5" alt="" />
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <img :src="homeBanner6" alt="" />
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <img :src="iphoneBanner" alt="" />
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <img :src="banner1" alt="" />
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <img :src="banner2" alt="" />
               </swiper-slide>
             </swiper>
           </div>
-          <div class="home-slider__bottom">
-            <div class="home-slider__bottom-item">
-              <p>Apple iPhone</p>
-              <span>Giảm đến 14%</span>
-            </div>
-            <div class="home-slider__bottom-item">
-              <p>Máy tính bảng</p>
-              <span>Giảm đến 38%</span>
-            </div>
-            <div class="home-slider__bottom-item">
-              <p>Phụ kiện điện thoại</p>
-              <span>Giảm đến 20%</span>
-            </div>
-            <div class="home-slider__bottom-item">
-              <p>Samsung S24 ultra</p>
-              <span>Giảm đến 15%</span>
-            </div>
-          </div>
+
         </div>
         <div class="home__right-banner">
           <router-link class="banner-item" to="/">
-            <img :src="banner1" alt="banner1" />
+            <img :src="homeBanner1" alt="banner1" />
           </router-link>
           <router-link class="banner-item" to="/">
-            <img :src="banner2" alt="banner2" />
+            <img :src="homeBanner2" alt="banner2" />
           </router-link>
           <router-link class="banner-item" to="/">
             <img :src="banner3" alt="banner3" />
@@ -167,9 +162,14 @@
 import Menu from "@/components/categories/Menu.vue";
 import Container from "@components/base/Container.vue";
 import banner from "@/assets/images/banner.jpg";
-import banner1 from "@/assets/images/banner/b1.png";
-import banner2 from "@/assets/images/banner/b2.png";
+import banner1 from "@/assets/images/banner/home-banner-3.png";
+import banner2 from "@/assets/images/banner/home-banner-4.png";
 import banner3 from "@/assets/images/banner/b3.png";
+import homeBanner1 from "@/assets/images/banner/home-banner-7.png";
+import homeBanner2 from "@/assets/images/banner/home-banner-8.png";
+import homeBanner5 from "@/assets/images/banner/home-banner-5.png";
+import homeBanner6 from "@/assets/images/banner/home-banner-6.png";
+import iphoneBanner from "@/assets/images/banner/iPhone-17-pro-banner-2.jpg";
 import adv from "@/assets/images/banner/adv.jpg";
 import tetBanner from "@/assets/images/banner/tet-banner.gif";
 import Brands from "@/components/brands/Brands.vue";
@@ -189,26 +189,7 @@ import { useListProductsSale } from "@/api/product/query";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
 import { computed, unref } from "vue";
-// const productVariantsList = computed(() => {
-//   const arr = unref(products) ?? [];
-//   return arr.flatMap((p: any) => {
-//     const variants =
-//       p.productVariants && p.productVariants.length
-//         ? p.productVariants
-//         : [undefined];
-//     const seen = new Set();
-//     return variants
-//       .filter((v: any) => {
-//         const key = `${v?.color?.id ?? v?.color?._id ?? v?.color ?? ""}#${
-//           v?.memory?.id ?? v?.memory?._id ?? v?.memory ?? ""
-//         }`;
-//         if (seen.has(key)) return false;
-//         seen.add(key);
-//         return true;
-//       })
-//       .map((v: any) => ({ product: p, variant: v }));
-//   });
-// });
+
 
 
 const productVariantsList = computed(() => {
@@ -267,47 +248,13 @@ meta:
       box-shadow: $box-shadow-section;
 
       &-main {
-        height: calc(100% - 80px);
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
       }
 
-      &__bottom {
-        height: 80px;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 10px;
-        background-color: $bg-light-gray;
 
-        &-item {
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          align-items: center;
-          transition: opacity 0.2s ease-in-out;
-
-          p {
-            text-align: center;
-            font-size: 12px;
-            text-transform: uppercase;
-          }
-
-          span {
-            font-size: 12px;
-            font-weight: 300;
-          }
-
-          &:hover {
-            opacity: 0.75;
-          }
-        }
-      }
     }
 
     .home__right-banner {
@@ -386,7 +333,8 @@ meta:
 
     img {
       width: 100%;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
     }
   }
 

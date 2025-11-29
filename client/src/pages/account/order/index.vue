@@ -359,17 +359,7 @@ meta:
     position: relative;
     overflow: hidden;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 200px;
-      height: 200px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      transform: translate(30%, -30%);
-    }
+
 
     .stat-card {
       flex: 1;
@@ -476,7 +466,7 @@ meta:
 
         &:hover {
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-          transform: translateY(-2px);
+          transform: translateY(-5px);
         }
 
         /* Card Header */
