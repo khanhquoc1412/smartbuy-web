@@ -29,6 +29,9 @@ console.log("authController.register:", authController.register);
 // Refresh token
 router.post("/refresh-token", authController.refreshToken);
 
+// Lấy profile user hiện tại (dùng token)
+router.get("/profile", auth, authController.getMe);
+
 // Lấy profile user theo id (cần login)
 router.get("/profile/:id", auth, authController.profile);
 

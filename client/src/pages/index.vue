@@ -112,15 +112,12 @@
           >
             <swiper-slide
               class="swiper-item"
-              v-for="item in productVariantsList"
-              :key="
-                item.product.id + '-' + (item.variant?.id ?? item.variant?._id)
-              "
+              v-for="product in topSellingProducts"
+              :key="product.id"
             >
               <ProductItem
-                :product="item.product"
-                :variant="item.variant"
-                :path="item.product.slug"
+                :product="product"
+                :path="product.slug"
               />
             </swiper-slide>
           </swiper>
@@ -197,7 +194,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-cube";
 import { SwiperModule } from "swiper/types";
 import { IProduct } from "@/types/product.types";
-import { useListProductsSale } from "@/api/product/query";
+import { useListProductsSale, useListTopSellingProducts } from "@/api/product/query";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
 import { computed, unref } from "vue";
@@ -254,6 +251,7 @@ const product: IProduct = {
   categoryName: "mobile",
 };
 const { data: products } = useListProductsSale(10);
+const { data: topSellingProducts } = useListTopSellingProducts(10);
 console.log("products from API", products?.value ?? products);
 </script>
 <route lang="yaml">

@@ -140,16 +140,23 @@ import {
   useQuery,
 } from "@tanstack/vue-query";  // ✅ Đổi import
 
-import type { IProduct } from "@/types/product.types";
+
 import {
   fetchProduct,
   fetchProductDetails,
   fetchProductOfCategory,
   fetchBase,
   fetchProductVariant,
-  fetchProductByKeyword
+  fetchProductByKeyword,
+  fetchTopSellingProducts
 } from "./product";
-import { IParams } from "@/types/product.types";
+import {
+  IParams,
+  IProduct,
+  IProductVariant,
+  IProductsListResponse,
+  ITopSellingResponse,
+} from "@/types/product.types";
 import { computed, unref, Ref } from "vue";
 
 // ✅ Infinite Query - Giữ nguyên logic
@@ -219,6 +226,7 @@ export const useGetProductsByCategory = (
     queryFn: () => fetchProductOfCategory(categoryName, params?.value),
     enabled: enabled && !!categoryName,
     refetchOnWindowFocus: false,
+    select: (data) => data // No transformation needed
   });
 };
 
@@ -243,5 +251,14 @@ export const useListProductsSale = (quantity: number) => {
     queryFn: () => fetchBase(quantity),
     refetchOnWindowFocus: false,
     select: (data) => data.products,
+  });
+};
+// ✅ Top Selling Products
+export const useListTopSellingProducts = (limit: number = 5) => {
+  return useQuery({
+    queryKey: ["product-top-selling", limit],
+    queryFn: () => fetchTopSellingProducts(limit),
+    refetchOnWindowFocus: false,
+    select: (data: ITopSellingResponse) => data.data, // API returns { success: true, data: [...] }
   });
 };

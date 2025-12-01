@@ -31,7 +31,9 @@ export const useCreateOrderGuestMutation = () => {
 export const useCancelOrderMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (orderId: string) => cancelOrder(orderId),
+        mutationFn: (params: { id: string; reason?: string }) => {
+            return cancelOrder(params.id, params.reason);
+        },
         onSuccess: () => {
             // Invalidate and refetch order list
             queryClient.invalidateQueries({ queryKey: ["list-orders-user"] });

@@ -1,5 +1,5 @@
 export interface IProduct {
-   _id?: string;   
+  _id?: string;
   id: string;
   name: string;
   description: string;
@@ -44,14 +44,14 @@ export interface IProductsListResponse {
   page: number
 }
 export interface IColor {
-  id: number ,
-   _id?: string,
+  id: number,
+  _id?: string,
   name?: string,
   code?: string
 }
 export interface IMemory {
-  id: number ,
-   _id?: string,
+  id: number,
+  _id?: string,
   ram?: string,
   rom?: string,
   chipset?: string
@@ -74,4 +74,9 @@ export interface IProductImage {
   imageUrl: string;
   originalName?: string;
   fileSize?: number;
+}
+
+export interface ITopSellingResponse {
+  success: boolean;
+  data: IProduct[];
 }

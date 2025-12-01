@@ -1,4 +1,4 @@
-const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+﻿const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const User = require("../models/user");
 const PendingUpdate = require("../models/PendingUpdate");
 // Đúng path
@@ -241,25 +241,30 @@ const login = async (req, res) => {
       throw new UnauthorizedError("Tài khoản hoặc mật khẩu không chính xác");
     }
 
-    // Generate OTP cho login
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // ✅ Generate tokens immediately (no OTP)
+    const { accessToken, refreshToken } = jwtCreate(user._id);
 
-    // Lưu OTP với thời gian hết hạn 30 phút
-    user.verificationToken = otp;
-    user.verificationExpires = Date.now() + 30 * 60 * 1000;
+    // Save refresh token
+    user.refreshToken = refreshToken;
     await user.save();
 
-    // Gửi email OTP với template đẹp
-    const emailHtml = otpTemplate(user.userName, otp, 'login');
-    await mailer(email, emailHtml, `Mã xác minh SmartBuy của bạn: ${otp}`);
-
-    console.log(`✅ Login OTP sent to ${email}: ${otp}`);
+    console.log(`✅ User logged in: ${email}`);
 
     res.status(StatusCodes.OK).json({
       success: true,
-      requireOTP: true,
-      message: "Vui lòng kiểm tra email để nhập mã OTP",
-      email: email
+      accessToken,
+      refreshToken,
+      user: {
+        id: user._id,
+        username: user.userName,
+        email: user.email,
+        isBlocked: user.isBlocked,
+        avatarUrl: user.avatarUrl,
+        isVerified: user.isVerified,
+        isAdmin: user.isAdmin,
+      },
+      message: "Đăng nhập thành công",
+      status: StatusCodes.OK,
     });
   } catch (error) {
     console.log(error);
@@ -285,6 +290,10 @@ const loginSuccess = async (req, res) => {
     const user = await User.findById(userId); // ✅ lấy từ params// ✅ Passport gắn user vào đây
     if (!user) {
       throw new NotFoundError("Không tìm thấy tài khoản sau khi đăng nhập");
+    }
+
+    if (user.isBlocked) {
+      throw new UnauthorizedError("Tài khoản bị khóa");
     }
 
     const { accessToken, refreshToken } = jwtCreate(user._id);
@@ -345,6 +354,36 @@ const profile = async (req, res) => {
     console.log(error);
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: "Lỗi server",
+      status: StatusCodes.BAD_REQUEST,
+    });
+  }
+};
+
+const getMe = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId).select("-password -refreshToken");
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: "User not found",
+        status: StatusCodes.NOT_FOUND,
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      id: user._id,
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      isBlocked: user.isBlocked,
+      avatarUrl: user.avatarUrl,
+      isVerified: user.isVerified,
+      isAdmin: user.isAdmin,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Server error",
       status: StatusCodes.BAD_REQUEST,
     });
   }
@@ -963,4 +1002,5 @@ module.exports = {
   resendOTP,
   verifyChangeEmailOTP,
   verifyForgotPasswordOTP,
+  getMe,
 };

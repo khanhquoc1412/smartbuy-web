@@ -1110,6 +1110,138 @@ const getProductById = async (req, res) => {
 //   }
 // };
 
+const getSuggestions = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+    if (!keyword) {
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        keywords: [],
+        products: [],
+      });
+    }
+
+    const regex = new RegExp(keyword, "i");
+
+    // 1. Tìm keywords (Brand & Category)
+    const [brands, categories] = await Promise.all([
+      Brand.find({
+        $or: [{ name: regex }, { nameAscii: regex }],
+      })
+        .select("name")
+        .limit(3),
+      Category.find({
+        $or: [{ name: regex }, { nameAscii: regex }],
+      })
+        .select("name")
+        .limit(3),
+    ]);
+
+    const keywords = [
+      ...brands.map((b) => b.name),
+      ...categories.map((c) => c.name),
+    ];
+
+    // 2. Tìm products
+    const products = await Product.find({
+      name: regex,
+    })
+      .select("_id name thumbUrl basePrice slug discountPercentage")
+      .limit(5)
+      .lean();
+
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      keywords: [...new Set(keywords)], // Remove duplicates
+      products: products.map((p) => ({
+        id: p._id,
+        name: p.name,
+        thumbUrl: p.thumbUrl,
+        price: p.basePrice,
+        slug: p.slug,
+        discountPercentage: p.discountPercentage,
+      })),
+    });
+  } catch (error) {
+    console.error("❌ getSuggestions error:", error);
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: "Lỗi server",
+    });
+  }
+};
+
+const getAllBrands = async (req, res) => {
+  try {
+    const brands = await Brand.find().select("_id name nameAscii").sort({ name: 1 });
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      brands,
+    });
+  } catch (error) {
+    console.error("❌ getAllBrands error:", error);
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: "Lỗi server",
+    });
+  }
+};
+
+const updateStock = async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      throw new BadRequestError("Invalid items list");
+    }
+
+
+    // Validate stock first (only for deduction)
+    for (const item of items) {
+      if (item.action === 'deduct') {
+        const variant = await ProductVariant.findById(item.variantId);
+        if (!variant) {
+          throw new NotFoundError(`Variant not found: ${item.variantId}`);
+        }
+        if (variant.stock < item.quantity) {
+          throw new BadRequestError(`Insufficient stock for variant ${item.variantId}. Available: ${variant.stock}, Requested: ${item.quantity}`);
+        }
+      }
+    }
+
+    // Perform updates
+    const results = [];
+    for (const item of items) {
+      const { variantId, quantity, action } = item;
+      const increment = action === 'restore' ? quantity : -quantity;
+
+      const updatedVariant = await ProductVariant.findByIdAndUpdate(
+        variantId,
+        { $inc: { stock: increment } },
+        { new: true }
+      );
+
+      results.push({
+        variantId,
+        newStock: updatedVariant.stock
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Stock updated successfully",
+      data: results
+    });
+  } catch (error) {
+    console.error("[ProductService] Stock update failed:", error.message);
+    res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: error.message || "Internal Server Error"
+    });
+  }
+};
+
+
 module.exports = {
   getAll,
   createProduct,
@@ -1117,8 +1249,11 @@ module.exports = {
   deleteProduct,
   addImageProduct,
   getProductSale,
-  getProductBySlug, // ✅ export thêm
+  getProductBySlug,
   getProductVariant,
-  getProductById, // ✅ export thêm
-  // getProductReviewsBySlug, // Thêm controller getProductReviewsBySlug
+  getProductById,
+  getSuggestions,
+  getAllBrands,
+  updateStock,
 };
+

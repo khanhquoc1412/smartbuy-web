@@ -8,17 +8,9 @@
           <h1>Đăng nhập tài khoản</h1>
         </div>
 
-        <!-- OTP Input (shown after login) -->
-        <OTPInput
-          v-if="showOTPInput"
-          :email="tempEmail"
-          type="login"
-          @verified="handleOTPVerified"
-          @resend="handleOTPResend"
-        />
 
-        <!-- Login Form (default view) -->
-        <template v-else>
+
+        <!-- Login Form -->
           <p class="tw-text-red tw-text-sm tw-mt-0.5 tw-block tw-self-center">
             {{ errorMessage }}
           </p>
@@ -159,7 +151,7 @@
               Đăng ký ngay
             </router-link>
           </div>
-        </template>
+
       </div>
     </Container>
   </div>
@@ -169,7 +161,7 @@
 import Container from "@components/base/Container.vue";
 import Logo from "@assets/svg/dshop-favicon-red.svg";
 import MyInput from "@components/common/MyInput/index.vue";
-import OTPInput from "@components/auth/OTPInput.vue";
+
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStorage } from "@vueuse/core";
@@ -189,8 +181,7 @@ const loginData = ref({
   password: "",
 });
 
-const showOTPInput = ref(false);
-const tempEmail = ref("");
+
 const isLoading = ref(false);
 const errorMessage = ref("");
 
@@ -216,11 +207,23 @@ const handleLogin = async () => {
       throw new Error(data.message || "Đăng nhập thất bại");
     }
 
-    // Login success - requires OTP
-    if (data.requireOTP) {
-      tempEmail.value = loginData.value.email;
-      showOTPInput.value = true;
-    }
+    // ✅ Login success - save tokens immediately (no OTP)
+    accessToken.value = data.accessToken;
+    refreshToken.value = data.refreshToken;
+    userId.value = String(data.user.id);
+    loggedIn.value = true;
+    userInfo.value = data.user;
+
+    // Show success toast
+    const toast = useToast();
+    toast.add({
+      title: "Đăng nhập thành công",
+      description: `Chào mừng trở lại, ${data.user.username}!`,
+      color: "green",
+    });
+
+    // Redirect to home
+    router.push("/");
   } catch (error: any) {
     errorMessage.value = error.message || "Có lỗi xảy ra, vui lòng thử lại";
   } finally {
@@ -228,34 +231,7 @@ const handleLogin = async () => {
   }
 };
 
-const handleOTPVerified = (tokens: any) => {
-  // Save tokens
-  accessToken.value = tokens.accessToken;
-  refreshToken.value = tokens.refreshToken;
-  userId.value = String(tokens.user.id);
-  loggedIn.value = true;
-  userInfo.value = tokens.user;
 
-  // Show success toast
-  const toast = useToast();
-  toast.add({
-    title: "Đăng nhập thành công",
-    description: `Chào mừng trở lại, ${tokens.user.userName}!`,
-    color: "green",
-  });
-
-  // Redirect to home
-  router.push("/");
-};
-
-const handleOTPResend = () => {
-  const toast = useToast();
-  toast.add({
-    title: "Đã gửi lại mã OTP",
-    description: "Vui lòng kiểm tra email của bạn",
-    color: "blue",
-  });
-};
 
 const handleSocialLogin = (provider: "google" | "facebook") => {
   const url =

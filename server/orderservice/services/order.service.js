@@ -35,6 +35,24 @@ class OrderService {
         throw new Error("Thiếu thông tin đơn hàng");
       }
 
+      // ✅ NEW: Deduct stock from Product Service
+      // Extract items for stock update
+      const stockUpdateItems = orderItems.map(item => ({
+        variantId: item.variant?.variantId, // ✅ Fix: Access nested variantId
+        quantity: item.qty || item.quantity, // ✅ Fix: Client sends 'qty', schema uses 'qty'
+        action: 'deduct'
+      }));
+
+      console.log('🔄 [OrderService] Deducting stock for items:', JSON.stringify(stockUpdateItems, null, 2));
+
+      try {
+        await this.updateStock(stockUpdateItems, token);
+        console.log('✅ Stock deducted successfully');
+      } catch (error) {
+        console.error('❌ Failed to deduct stock:', error.message);
+        throw new Error(`Không thể tạo đơn hàng: ${error.message}`);
+      }
+
       // Tạo Order với trạng thái pending_payment (nếu online) hoặc pending (nếu COD)
       // NOTE: Order model uses 'user' field, not 'userId'
       const order = new Order({
@@ -324,7 +342,7 @@ class OrderService {
   /**
    * 6. HỦY ĐƠN HÀNG (User)
    */
-  async cancelOrderByUser(orderId, userId, reason) {
+  async cancelOrderByUser(orderId, userId, reason, token) {
     try {
       const order = await this.getOrderById(orderId, userId);
 
@@ -339,19 +357,98 @@ class OrderService {
         "cancelled",
         userId,
         "user",
-        `Khách hàng hủy đơn: ${reason}`
+        reason ? `Khách hàng hủy đơn: ${reason}` : "Khách hàng hủy đơn"
       );
 
       // Nếu đã thanh toán → yêu cầu hoàn tiền
+      let refundInfo = null;
       if (order.paymentStatus === "paid") {
         await this.requestRefund(order);
+        refundInfo = {
+          amount: order.totalPrice,
+          method: order.paymentMethod,
+          transactionId: order.paymentResult?.transactionId,
+          refundedAt: new Date(),
+        };
+      }
+
+      // ✅ NEW: Restore stock
+      const stockRestoreItems = order.orderItems.map(item => ({
+        variantId: item.variant?.variantId, // ✅ Fix: Access nested variantId
+        quantity: item.qty, // ✅ Fix: Schema uses 'qty'
+        action: 'restore'
+      }));
+
+      console.log('🔄 [OrderService] Restoring stock for cancelled order:', JSON.stringify(stockRestoreItems, null, 2));
+
+      try {
+        await this.updateStock(stockRestoreItems, token);
+        console.log('✅ Stock restored successfully');
+      } catch (error) {
+        console.error('⚠️ Failed to restore stock (non-blocking):', error.message);
+        // Don't fail cancellation if stock restore fails, but log it
       }
 
       await order.save();
 
       console.log(`✅ Order cancelled by user: ${orderId}`);
 
-      return order;
+      // ✅ NEW: Send email notification
+      try {
+        const userServiceUrl = config.USER_SERVICE_URL;
+        console.log(`🔍 [Email Debug] Fetching user info from: ${userServiceUrl}/api/auth/profile`);
+        console.log(`🔍 [Email Debug] Token available: ${!!token}`);
+
+        // Note: userservice usually requires token to get profile, or internal API.
+        // If we have token, use it. If not (e.g. system action), we might need internal API.
+        // Here we use the token passed from controller.
+
+        let customerEmail, customerName;
+
+        if (token) {
+          try {
+            const userResponse = await axios.get(`${userServiceUrl}/api/auth/profile`, {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            console.log(`🔍 [Email Debug] User profile response status: ${userResponse.status}`);
+
+            if (userResponse.data) {
+              const user = userResponse.data;
+              customerEmail = user.email;
+              // Schema only has userName, no firstName/lastName
+              customerName = user.userName || user.username || 'Quý khách';
+              console.log(`🔍 [Email Debug] Found user email: ${customerEmail}, Name: ${customerName}`);
+            }
+          } catch (profileError) {
+            console.error(`❌ [Email Debug] Failed to fetch user profile: ${profileError.message}`);
+            if (profileError.response) {
+              console.error(`❌ [Email Debug] Profile Response:`, JSON.stringify(profileError.response.data));
+            }
+          }
+        } else {
+          // Fallback: use shipping address info if no token (shouldn't happen for user cancel)
+          console.log(`⚠️ [Email Debug] No token provided, falling back to shipping address info`);
+          customerEmail = ""; // We don't have email in order schema unless we save it
+          customerName = order.shippingAddress.fullName;
+        }
+
+        if (customerEmail) {
+          const emailService = require('./email.service');
+          const refundAmount = refundInfo ? refundInfo.amount : 0;
+          console.log(`🔍 [Email Debug] Attempting to send email to ${customerEmail}`);
+
+          emailService.sendOrderStatusEmail(order, "cancelled", customerEmail, customerName, refundAmount)
+            .then(result => console.log(`✅ [Email Debug] Email send result: ${result}`))
+            .catch(err => console.error("❌ [Email Debug] Background email error:", err.message));
+        } else {
+          console.warn("⚠️ [Email Debug] Could not determine customer email for notification. Token was: " + (token ? "Provided" : "Missing"));
+        }
+
+      } catch (emailError) {
+        console.error("❌ [Email Debug] Error in email sending block:", emailError.message);
+      }
+
+      return { order, refundInfo };
     } catch (error) {
       console.error("❌ Error cancelling order:", error);
       throw error;
@@ -520,6 +617,48 @@ class OrderService {
       throw error;
     }
   }
+
+  /**
+   * ✅ NEW: Call Product Service to update stock
+   */
+  async updateStock(items, token) {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const productUrl = `${config.PRODUCT_SERVICE_URL}/api/product/stock`;
+      console.log('🔍 [OrderService] Calling ProductService at:', productUrl);
+
+      const response = await axios.patch(
+        productUrl,
+        { items },
+        {
+          headers,
+          timeout: 5000,
+        }
+      );
+
+      if (response.data.success) {
+        return response.data;
+      } else {
+        throw new Error(response.data.message || "Failed to update stock");
+      }
+    } catch (error) {
+      console.error("❌ Error updating stock:", error.message);
+      if (error.response) {
+        console.error("❌ Product Service Response Data:", JSON.stringify(error.response.data, null, 2));
+        // Throw the specific error message from product service if available
+        throw new Error(error.response.data.message || error.message);
+      }
+      throw error;
+    }
+  }
 }
 
 module.exports = new OrderService();
+

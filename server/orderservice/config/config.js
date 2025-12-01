@@ -14,6 +14,12 @@ module.exports = {
   // Cart Service URL (port 3003) - ✅ NEW
   CART_SERVICE_URL: process.env.CART_SERVICE_URL || 'http://localhost:3003',
 
+  // Product Service URL (port 3001) - ✅ NEW
+  PRODUCT_SERVICE_URL: process.env.PRODUCT_SERVICE_URL || 'http://localhost:3001',
+
+  // User Service URL (port 3005) - ✅ NEW
+  USER_SERVICE_URL: process.env.USER_SERVICE_URL || 'http://localhost:3005',
+
   // JWT
   JWT_SECRET: process.env.JWT_SECRET || 'your-jwt-secret',
 

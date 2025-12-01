@@ -59,7 +59,7 @@
           <div
             class="order-card"
             v-for="order in orderUser.data"
-            :key="order.id"
+            :key="order._id || order.id"
           >
             <!-- Card Header -->
             <div class="card-header">
@@ -132,7 +132,7 @@
                 <button 
                   class="btn-cancel" 
                   v-if="['pending_payment', 'pending', 'confirmed', 'processing', 'ready_to_ship'].includes(order.status)"
-                  @click="handleCancelOrder(order._id || order.id)"
+                  @click="openCancelOrderModal(order)"
                 >
                   Hủy đơn hàng
                 </button>
@@ -144,6 +144,59 @@
             </div>
           </div>
         </transition-group>
+      </div>
+    </div>
+    <!-- Cancel Order Modal -->
+    <div v-if="showCancelOrderModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-[500px]">
+        <h2 class="tw-text-xl tw-font-bold tw-text-crimson-600 tw-mb-4">Hủy đơn hàng</h2>
+        
+        <div class="tw-mb-4">
+          <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-2">Mã đơn hàng</label>
+          <p class="tw-font-mono tw-text-sm tw-bg-gray-100 tw-p-2 tw-rounded">{{ selectedOrder?.orderNumber }}</p>
+        </div>
+
+        <div class="tw-mb-4 tw-bg-amber-50 tw-border tw-border-amber-200 tw-p-4 tw-rounded-lg">
+          <div class="tw-flex tw-items-start tw-gap-3">
+            <svg class="tw-w-5 tw-h-5 tw-text-amber-600 tw-flex-shrink-0 tw-mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div>
+              <p class="tw-text-sm tw-font-medium tw-text-amber-800 tw-mb-1">Cảnh báo</p>
+              <p class="tw-text-sm tw-text-amber-700">
+                Hành động này không thể hoàn tác. 
+                <span v-if="selectedOrder?.paymentStatus === 'paid'" class="tw-font-semibold">
+                  Đơn hàng đã thanh toán sẽ được hoàn tiền tự động.
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tw-mb-4">
+          <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700 tw-mb-2">Lý do hủy đơn *</label>
+          <textarea 
+            v-model="cancelReason" 
+            rows="4" 
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-p-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-crimson-500" 
+            placeholder="Nhập lý do hủy đơn (bắt buộc)..."
+          ></textarea>
+        </div>
+
+        <div class="tw-flex tw-gap-3">
+          <button 
+            @click="confirmCancelOrder" 
+            class="tw-flex-1 tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-font-medium"
+          >
+            Xác nhận hủy
+          </button>
+          <button 
+            @click="closeCancelOrderModal" 
+            class="tw-flex-1 tw-px-4 tw-py-2 tw-bg-gray-300 tw-text-gray-700 tw-rounded-lg hover:tw-bg-gray-400 tw-font-medium"
+          >
+            Đóng
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -230,19 +283,46 @@ const { data: orderUser, refetch, isLoading, isFetching } = useListOrderUser({
 
 const { mutate: cancelOrderMutate } = useCancelOrderMutation();
 
-const handleCancelOrder = (orderId: string) => {
-  if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
-    cancelOrderMutate(orderId, {
-      onSuccess: () => {
-        showToast("Hủy đơn hàng thành công!", "success");
+const showCancelOrderModal = ref(false);
+const selectedOrder = ref<any>(null);
+const cancelReason = ref("");
+
+const openCancelOrderModal = (order: any) => {
+  selectedOrder.value = order;
+  cancelReason.value = "";
+  showCancelOrderModal.value = true;
+};
+
+const closeCancelOrderModal = () => {
+  showCancelOrderModal.value = false;
+  selectedOrder.value = null;
+  cancelReason.value = "";
+};
+
+const confirmCancelOrder = () => {
+  if (!selectedOrder.value) return;
+  if (!cancelReason.value.trim()) {
+    showToast("Vui lòng nhập lý do hủy đơn hàng", "error");
+    return;
+  }
+
+  const orderId = (selectedOrder.value._id || selectedOrder.value.id) as string;
+
+  cancelOrderMutate(
+    { id: orderId, reason: cancelReason.value }, // Pass object with id and reason
+    {
+      onSuccess: (data: any) => {
+        const msg = data?.message || "Hủy đơn hàng thành công!";
+        showToast(msg, "success");
+        closeCancelOrderModal();
         refetch();
       },
       onError: (error) => {
         console.error("Failed to cancel order:", error);
         showToast("Có lỗi xảy ra khi hủy đơn hàng.", "error");
       }
-    });
-  }
+    }
+  );
 };
 
 // Computed properties for totals

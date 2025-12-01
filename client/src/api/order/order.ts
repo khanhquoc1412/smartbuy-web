@@ -22,7 +22,7 @@ export const createOrderGuest = (orderInfor: IOrderInforGuest) => {
     return $axios.post<unknown, unknown>(`/order/create-order-guest`, orderInfor);
 };
 
-export const cancelOrder = (orderId: string) => {
-    return $axios.patch<unknown, unknown>(`/order/${orderId}/cancel`);
+export const cancelOrder = (orderId: string, reason?: string) => {
+    return $axios.patch<unknown, unknown>(`/order/${orderId}/cancel`, { reason });
 };
 

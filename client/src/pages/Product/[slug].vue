@@ -780,10 +780,16 @@ const handleAddToCart = async () => {
 
     console.log("💾 [FINAL] Cart item ID:", cartItemId);
 
+    // ✅ Determine correct image based on selected color
+    let displayImage = product.value.thumbUrl || "";
+    if (filteredImages.value && filteredImages.value.length > 0) {
+        displayImage = filteredImages.value[0].imageUrl;
+    }
+
     // ✅ STEP 4: Save product info with cartItemId
     addedProductInfo.value = {
       name: product.value.name,
-      image: product.value.thumbUrl || "",
+      image: displayImage,
       price: selectedVariant.value.price || 0,
       quantity: 1,
       color: selectedVariant.value.color?.name,

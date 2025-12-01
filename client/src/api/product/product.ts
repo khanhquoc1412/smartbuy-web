@@ -100,6 +100,7 @@ import {
   IProduct,
   IProductVariant,
   IProductsListResponse,
+  ITopSellingResponse,
 } from "@/types/product.types";
 
 
@@ -161,3 +162,9 @@ export const fetchProductFilter = (params: Ref<IParams>) => {
   });
 };
 
+// 📌 Lấy danh sách sản phẩm bán chạy (Top Selling)
+export const fetchTopSellingProducts = (limit: number = 5) => {
+  return productAxios.get<unknown, ITopSellingResponse>("/product/top-selling", {
+    params: { limit },
+  });
+};

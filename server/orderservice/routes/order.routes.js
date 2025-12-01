@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const orderController = require('../controllers/order.controller');
+const topSellingController = require('../controllers/topSelling.controller');
 const auth = require('../middleware/auth');
 
 // ============ USER ROUTES ============
@@ -33,6 +34,13 @@ router.get('/list', auth, orderController.getUserOrders);
  * @access  Private
  */
 router.get('/stats', auth, orderController.getOrderStats);
+
+/**
+ * @route   GET /api/orders/stats/top-selling-products
+ * @desc    Lấy danh sách sản phẩm bán chạy (số lượng bán thực tế)
+ * @access  Public
+ */
+router.get('/stats/top-selling-products', topSellingController.getTopSellingProducts);
 
 /**
  * @route   GET /api/orders/:id

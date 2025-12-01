@@ -17,13 +17,55 @@
             <img :src="Logo" alt="" class="tw-w-auto tw-h-full" />
           </router-link>
         </div>
-        <form class="header-search tw-flex-1" @submit.prevent="handleSearch">
+        <form class="header-search tw-flex-1 tw-relative" @submit.prevent="handleSearch" ref="searchContainer">
           <input
             type="text"
             placeholder="Tìm kiếm sản phẩm"
             v-model="keyword"
+            @focus="showSuggestions = true"
             class="tw-h-11 tw-rounded tw-transition-all tw-w-full tw-px-3 focus:tw-border-none"
           />
+          
+          <!-- Search Suggestions Dropdown -->
+          <div 
+            v-if="showSuggestions && (suggestions.keywords.length > 0 || suggestions.products.length > 0)"
+            class="search-suggestions tw-absolute tw-top-full tw-left-0 tw-w-full tw-bg-white tw-rounded-b-md tw-shadow-lg tw-z-50 tw-mt-1 tw-overflow-hidden"
+          >
+            <!-- Keywords Section -->
+            <div v-if="suggestions.keywords.length > 0" class="tw-bg-gray-50 tw-p-2">
+              <div class="tw-text-xs tw-text-gray-500 tw-mb-2 tw-px-2">Có phải bạn muốn tìm</div>
+              <div 
+                v-for="(item, index) in suggestions.keywords" 
+                :key="index"
+                class="tw-px-2 tw-py-1.5 tw-text-sm tw-text-gray-700 hover:tw-bg-gray-200 tw-cursor-pointer tw-rounded"
+                @click="handleKeywordClick(item)"
+              >
+                {{ item }}
+              </div>
+            </div>
+
+            <!-- Products Section -->
+            <div v-if="suggestions.products.length > 0" class="tw-p-2">
+              <div class="tw-text-xs tw-text-gray-500 tw-mb-2 tw-px-2">Sản phẩm gợi ý</div>
+              <div 
+                v-for="product in suggestions.products" 
+                :key="product.id"
+                class="tw-flex tw-gap-3 tw-p-2 hover:tw-bg-gray-100 tw-cursor-pointer tw-rounded tw-items-center"
+                @click="handleProductClick(product.slug)"
+              >
+                <img :src="product.thumbUrl" :alt="product.name" class="tw-w-10 tw-h-10 tw-object-cover tw-rounded" />
+                <div class="tw-flex-1">
+                  <div class="tw-text-sm tw-font-medium tw-text-gray-800 tw-line-clamp-1">{{ product.name }}</div>
+                  <div class="tw-flex tw-gap-2 tw-items-center">
+                    <span class="tw-text-red-500 tw-text-sm tw-font-bold">{{ formatMoney(product.price) }}</span>
+                    <span v-if="product.discountPercentage > 0" class="tw-text-xs tw-text-gray-400 tw-line-through">
+                      {{ formatMoney(product.price * (100 + product.discountPercentage) / 100) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
         <div class="header-right">
           <div class="header-item tw-h-full tw-flex tw-gap-2">
@@ -92,18 +134,71 @@ import Logo from "@assets/svg/logo6.svg";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { ICategory, IHeaderItem } from "@/types/category.types";
 import { useAuth } from "@composables/useAuth";
-import { useCart } from "@composables/useCart";
+import { onClickOutside } from "@vueuse/core";
+import { formatMoney } from "@/utils/formatMoney";
 
 const { loggedIn, user } = useAuth();
 const { totalItems } = useCart();
 const router = useRouter();
 const keyword = ref<string>("");
 const isScrolled = ref(false);
+
+// Search Suggestions State
+const showSuggestions = ref(false);
+const suggestions = ref({
+  keywords: [] as string[],
+  products: [] as any[],
+});
+const searchContainer = ref(null);
+let debounceTimeout: any = null;
+
+// Close suggestions when clicking outside
+onClickOutside(searchContainer, () => {
+  showSuggestions.value = false;
+});
+
+// Watch keyword for suggestions
+watch(keyword, (newVal) => {
+  if (debounceTimeout) clearTimeout(debounceTimeout);
+  
+  if (!newVal || newVal.trim().length < 2) {
+    suggestions.value = { keywords: [], products: [] };
+    return;
+  }
+
+  debounceTimeout = setTimeout(async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/product/suggestions?keyword=${encodeURIComponent(newVal)}`);
+      const data = await response.json();
+      if (data.success) {
+        suggestions.value = {
+          keywords: data.keywords || [],
+          products: data.products || [],
+        };
+        showSuggestions.value = true;
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  }, 300); // Debounce 300ms
+});
+
+const handleKeywordClick = (item: string) => {
+  keyword.value = item;
+  showSuggestions.value = false;
+  handleSearch();
+};
+
+const handleProductClick = (slug: string) => {
+  showSuggestions.value = false;
+  keyword.value = "";
+  router.push(`/product/${slug}`);
+};
 // const handleSearch = () => {
 //   router.push(`/search/${keyword.value}`);
 // };
 
-const searchKeyword = ref("");
+
 
 // ✅ Handle search submission
 const handleSearch = () => {
@@ -113,6 +208,7 @@ const handleSearch = () => {
     return;
   }
 
+  showSuggestions.value = false;
   // Navigate to search results page with 'keyword' param
   router.push(`/search?keyword=${encodeURIComponent(searchTerm)}`);
   keyword.value = ""; // Clear search input

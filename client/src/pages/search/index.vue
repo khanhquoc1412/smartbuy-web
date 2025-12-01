@@ -84,7 +84,7 @@ import Container from "@/components/base/Container.vue";
 import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import noen_1 from "@/assets/images/gif/noen-1.gif";
 import Heading from "@/components/base/Heading.vue";
-import { fBrands, fOptions, fPrices } from "@utils/filter-sort/filter";
+import { fOptions, fPrices } from "@utils/filter-sort/filter";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import {
   Navigation,
@@ -103,6 +103,30 @@ import { IParams, IProduct, IProductVariant } from "@/types/product.types";
 import VPagination from "@/components/base/VPagination.vue";
 import ProductBox from "@/components/product/ProductBox.vue";
 import ProductSkeleton from "@/components/base/ProductSkeleton.vue";
+
+// ✅ State for brands
+const fBrands = ref<any[]>([]);
+
+// ✅ Fetch brands from API
+const fetchBrands = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/product/brands");
+    const data = await response.json();
+    if (data.success) {
+      fBrands.value = data.brands.map((b: any) => ({
+        displayName: b.name,
+        value: b.nameAscii || b.name.toLowerCase(), // Use nameAscii or lowercase name as value
+        type: "brand",
+      }));
+    }
+  } catch (error) {
+    console.error("Error fetching brands:", error);
+  }
+};
+
+onMounted(() => {
+  fetchBrands();
+});
 
 const modules = [Navigation, Pagination, Autoplay, EffectCube];
 interface iSort {

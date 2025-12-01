@@ -154,12 +154,24 @@ exports.cancelOrder = async (req, res, next) => {
     const { reason } = req.body;
     const userId = req.user.id;
 
-    const order = await orderService.cancelOrderByUser(id, userId, reason);
+    const token = req.headers.authorization?.split(" ")[1]; // Extract token
+    const result = await orderService.cancelOrderByUser(id, userId, reason, token);
+
+    // Check if result contains refundInfo (new structure) or just order (old structure)
+    const order = result.order || result;
+    const refundInfo = result.refundInfo;
+
+    const message = refundInfo
+      ? `Đơn hàng đã được hủy và hoàn tiền ${refundInfo.amount.toLocaleString("vi-VN")}₫`
+      : "Hủy đơn hàng thành công";
 
     res.status(200).json({
       success: true,
-      message: "Hủy đơn hàng thành công",
-      data: order,
+      message: message,
+      data: {
+        order,
+        refund: refundInfo
+      },
     });
   } catch (error) {
     next(error);
