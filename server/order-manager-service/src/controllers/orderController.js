@@ -705,11 +705,20 @@ exports.cancelOrder = async (req, res) => {
     // Hoàn kho (release stock) - Cộng lại số lượng sản phẩm
     console.log(`📦 Đang hoàn ${order.orderItems.length} sản phẩm vào kho...`);
     const productServiceUrl =
-      process.env.PRODUCT_MANAGER_SERVICE_URL || "http://localhost:3005";
+      process.env.PRODUCT_MANAGER_SERVICE_URL || "http://localhost:5002";
 
     for (const item of order.orderItems) {
       try {
-        const variantId = item.product; // Đây là variantId trong seed data
+        // Ưu tiên variant.variantId, fallback về item.product
+        const variantId = item.variant?.variantId || item.product;
+        
+        if (!variantId) {
+          console.warn(`⚠️ Không tìm thấy variantId cho sản phẩm ${item.name}`);
+          continue;
+        }
+
+        console.log(`🔄 Đang gọi API release-stock cho variant ${variantId} (${item.name})...`);
+        
         const response = await axios.post(
           `${productServiceUrl}/api/products/variants/${variantId}/release-stock`,
           { qty: item.qty }
@@ -722,10 +731,15 @@ exports.cancelOrder = async (req, res) => {
           );
         }
       } catch (stockError) {
+        const errorMsg = stockError.response?.data?.message || stockError.message;
+        const statusCode = stockError.response?.status;
         console.error(
           `❌ Lỗi khi trả kho cho ${item.name}:`,
-          stockError.message
+          `[${statusCode}] ${errorMsg}`
         );
+        if (statusCode === 404) {
+          console.error(`   Variant ID không tồn tại: ${item.variant?.variantId || item.product}`);
+        }
         // Không dừng process, chỉ log lỗi
       }
     }

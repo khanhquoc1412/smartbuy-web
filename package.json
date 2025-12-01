@@ -1,4 +1,17 @@
 {
+  "name": "smartbuy-web",
+  "version": "1.0.0",
+  "description": "SmartBuy E-commerce Platform",
+  "scripts": {
+    "dev": "concurrently -n \"CLIENT,GATEWAY,PRODUCT-MGR,ORDER-MGR,USER-MGR,REVIEW\" -c \"bgBlue,bgMagenta,bgGreen,bgYellow,bgCyan,bgRed\" \"npm run dev:client\" \"npm run dev:gateway\" \"npm run dev:product-manager\" \"npm run dev:order-manager\" \"npm run dev:user-manager\" \"npm run dev:review\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:gateway": "cd server/api-gateway && npm run dev",
+    "dev:product-manager": "cd server/product-manager-service && npm run dev",
+    "dev:order-manager": "cd server/order-manager-service && npm run dev",
+    "dev:user-manager": "cd server/user-manager-service && npm run dev",
+    "dev:review": "cd server/review-service && npm run dev",
+    "install:all": "npm install && cd client && npm install && cd ../server/api-gateway && npm install && cd ../product-manager-service && npm install && cd ../order-manager-service && npm install && cd ../user-manager-service && npm install && cd ../review-service && npm install"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "google-auth-library": "^10.4.0",
@@ -18,6 +31,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "concurrently": "^8.2.2",
     "eslint": "8.5",
     "postcss": "^8.5.6",
     "prettier": "2.5",

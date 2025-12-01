@@ -22,7 +22,7 @@
             type="text"
             placeholder="Tìm kiếm sản phẩm"
             v-model="keyword"
-            class="tw-h-11 tw-rounded tw-transition-all tw-w-full tw-px-3 focus:tw-border-none"
+            class="tw-h-11 tw-rounded tw-transition-all tw-w-full tw-px-3 focus:tw-border-none tw-bg-white/20 tw-border tw-border-white/30 tw-placeholder-white tw-outline-none"
           />
         </form>
         <div class="header-right">

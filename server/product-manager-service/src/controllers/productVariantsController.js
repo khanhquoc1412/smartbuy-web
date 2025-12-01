@@ -1,5 +1,24 @@
 const ProductVariant = require('../models/product_variant');
 
+// GET /api/products/variants/:variantId - Lấy variant theo ID trực tiếp (cho order service)
+exports.getByVariantId = async (req, res) => {
+  try {
+    const { variantId } = req.params;
+    const variant = await ProductVariant.findById(variantId)
+      .populate('colorId', 'name code')
+      .populate('memoryId', 'ram rom chipset')
+      .populate('productId', 'name brand');
+    
+    if (!variant) {
+      return res.status(404).json({ success: false, message: 'Variant not found' });
+    }
+    res.json({ success: true, data: variant });
+  } catch (error) {
+    console.error('Error fetching variant:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // GET /api/products/:productId/variants - Lấy tất cả variants của sản phẩm
 exports.listByProduct = async (req, res) => {
   try {
