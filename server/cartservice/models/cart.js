@@ -185,8 +185,8 @@ CartSchema.methods.addItem = function (itemData) {
     // ✅ FIX: Tính subtotal cho item mới
     const subtotal = Math.round(
       itemData.priceAtAdd *
-        itemData.quantity *
-        (1 - itemData.discountPercentage / 100)
+      itemData.quantity *
+      (1 - itemData.discountPercentage / 100)
     );
     this.items.push({
       ...itemData,
@@ -211,6 +211,26 @@ CartSchema.methods.removeItem = function (cartItemId) {
   }
 
   this.items.splice(index, 1);
+  this.calculateTotals();
+  return this;
+};
+
+/**
+ * ✅ NEW: Remove multiple items from cart
+ */
+CartSchema.methods.removeMultipleItems = function (cartItemIds) {
+  if (!Array.isArray(cartItemIds) || cartItemIds.length === 0) {
+    throw new Error("Danh sách sản phẩm không hợp lệ");
+  }
+
+  // Convert to strings for comparison
+  const idsToRemove = cartItemIds.map(id => id.toString());
+
+  // Filter out items that should be removed
+  this.items = this.items.filter(
+    (item) => !idsToRemove.includes(item._id.toString())
+  );
+
   this.calculateTotals();
   return this;
 };

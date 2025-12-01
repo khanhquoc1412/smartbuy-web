@@ -1,50 +1,53 @@
-const nodemailer = require('nodemailer')
-const { OAuth2Client } = require('google-auth-library')
+const nodemailer = require('nodemailer');
 
-module.exports = async (email, data, type) => {
+// Email configuration - Simple SMTP setup
+const emailConfig = {
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.EMAIL_PORT) || 587,
+    secure: false, // true for 465, false for other ports (587)
+    auth: {
+        user: process.env.EMAIL_USER || process.env.ADMIN_EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD || process.env.ADMIN_EMAIL_PASSWORD
+    }
+};
 
-    try {
+// Create reusable transporter
+let transporter = null;
 
-        const myOAuth2Client = new OAuth2Client(
-            process.env.GOOGLE_MAILER_CLIENT_ID,
-            process.env.GOOGLE_MAILER_CLIENT_SECRET
-        )
+const getTransporter = () => {
+    if (!transporter) {
+        transporter = nodemailer.createTransport(emailConfig);
 
-        myOAuth2Client.setCredentials({
-            refresh_token: process.env.GOOGLE_MAILER_REFRESH_TOKEN
-        })
-
-        const myAccessTokenObject = await myOAuth2Client.getAccessToken()
-        const myAccessToken = myAccessTokenObject?.token
-
-        const transport = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.ADMIN_EMAIL_ADDRESS,
-                clientId: process.env.GOOGLE_MAILER_CLIENT_ID,
-                clientSecret: process.env.GOOGLE_MAILER_CLIENT_SECRET,
-                refresh_token: process.env.GOOGLE_MAILER_REFRESH_TOKEN,
-                accessToken: myAccessToken
+        // Verify connection configuration
+        transporter.verify((error, success) => {
+            if (error) {
+                console.error('❌ Email service error:', error.message);
+            } else {
+                console.log('✅ Email service is ready to send messages');
             }
-        })
+        });
+    }
+
+    return transporter;
+};
+
+// Main mailer function
+module.exports = async (email, htmlContent, subject) => {
+    try {
+        const transport = getTransporter();
 
         const mailOptions = {
-            from: process.env.ADMIN_EMAIL_ADDRESS,
+            from: `"SmartBuy" <${process.env.EMAIL_USER || process.env.ADMIN_EMAIL_ADDRESS}>`,
             to: email,
-            subject: `[DinhUTY] COMPANY`,
-            html: `${data}`
-        }
-        await transport.sendMail(mailOptions)
+            subject: subject || '[SmartBuy] Thông báo',
+            html: htmlContent
+        };
 
-        console.log({ success: "Send SUCCESS" })
+        const info = await transport.sendMail(mailOptions);
+        console.log(`✅ Email sent to ${email}: ${info.messageId}`);
+        return true;
     } catch (error) {
-        console.log("Lỗi rồi")
-        console.log({ error: error })
+        console.error('❌ Error sending email:', error.message);
+        throw error;
     }
-}
-const LoginNotify = (data) => {
-    return `
-        Hi ${data} !Bạn vừa đăng nhập vào hệ thống
-            `
-}
+};

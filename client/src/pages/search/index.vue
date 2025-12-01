@@ -41,9 +41,16 @@
           <ProductSkeleton v-for="n in 5" :key="n" />
         </ProductBox>
         <ProductBox v-else>
-          <div v-for="product in data?.products" :key="product.id">
-            <product-item :product="product" :path="product.slug" />
-          </div>
+          <Container>
+            <div class="product-list tw-grid tw-grid-cols-4 tw-gap-6">
+              <ProductItem
+                v-for="item in productVariantsList"
+                :key="item._id"
+                :product="item.product"
+                :variant="item.variant"
+              />
+            </div>
+          </Container>
         </ProductBox>
         <div
           v-if="!data?.products.length && !isFetching"
@@ -78,7 +85,7 @@ import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import noen_1 from "@/assets/images/gif/noen-1.gif";
 import Heading from "@/components/base/Heading.vue";
 import { fBrands, fOptions, fPrices } from "@utils/filter-sort/filter";
-import { Swiper, SwiperSlide } from "swiper/swiper-vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 import {
   Navigation,
   Pagination,
@@ -92,7 +99,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-cube";
 import { getNameCategory } from "@/utils/getNameCategory";
 import { useGetProductByKeyword } from "@/api/product/query";
-import { IParams } from "@/types/product.types";
+import { IParams, IProduct, IProductVariant } from "@/types/product.types";
 import VPagination from "@/components/base/VPagination.vue";
 import ProductBox from "@/components/product/ProductBox.vue";
 import ProductSkeleton from "@/components/base/ProductSkeleton.vue";
@@ -110,12 +117,6 @@ const sortOptions: iSort[] = [
 ];
 const route = useRoute();
 const router = useRouter();
-const {
-  params: { keyword },
-} = useRoute();
-// const keyword = computed(() => {
-//   return (route.params.keyword as string) || (route.query.keyword as string) || "";
-// });
 const params = ref<IParams>({
   page: route?.query?.page ? parseInt(route.query.page as string) : 1,
   limit: 12,
@@ -123,10 +124,65 @@ const params = ref<IParams>({
   order: route?.query?.order ? (route.query.order as string) : "",
   dir: route?.query?.dir ? (route.query.dir as string) : "",
 });
+
+// ✅ Tạo computed để track keyword thay đổi
+const searchKeyword = computed(() => (route.query.keyword as string) || "");
+
 const { data, refetch, isLoading, isFetching } = useGetProductByKeyword(
-  keyword as string,
+  searchKeyword,
   params
 );
+
+const productVariantsList = computed(() => {
+  if (!data.value?.products) return [];
+
+  const result: Array<{
+    _id: string;
+    product: IProduct;
+    variant: IProductVariant | null;
+  }> = [];
+
+  data.value.products.forEach((product: IProduct) => {
+    const variants = product.productVariants || [];
+
+    // ✅ Lấy _id an toàn từ product (có thể là id hoặc _id)
+    const productId = String((product as any)._id || (product as any).id || "");
+
+    if (variants.length === 0) {
+      // Sản phẩm không có variant
+      result.push({
+        _id: productId,
+        product: product,
+        variant: null,
+      });
+    } else {
+      // Tạo 1 item cho mỗi variant unique
+      const seenKeys = new Set<string>();
+
+      variants.forEach((variant: IProductVariant) => {
+        const colorId = String(
+          (variant.color as any)?.id || (variant.color as any)?._id || ""
+        );
+        const memoryId = String(
+          (variant.memory as any)?.id || (variant.memory as any)?._id || ""
+        );
+        const key = `${colorId}-${memoryId}`;
+
+        if (!seenKeys.has(key)) {
+          seenKeys.add(key);
+          result.push({
+            _id: `${productId}-${key}`,
+            product: product,
+            variant: variant,
+          });
+        }
+      });
+    }
+  });
+
+  return result;
+});
+
 watch([() => params.value.brand], ([newBrand]) => {
   if (!newBrand) {
     const { brand, ...restQuery } = route.query;
@@ -143,7 +199,7 @@ watch([() => params.value.brand], ([newBrand]) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 });
 const handleSort = async (dir: string) => {
   if (dir.length <= 0) {
@@ -167,7 +223,7 @@ const handleSort = async (dir: string) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 const updateHandler = async (newPage: number) => {
   if (newPage === 1) {
@@ -183,7 +239,7 @@ const updateHandler = async (newPage: number) => {
       },
     });
   }
-  refetch.value();
+  refetch();
 };
 </script>
 <route lang="yaml">

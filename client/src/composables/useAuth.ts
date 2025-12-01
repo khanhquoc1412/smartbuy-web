@@ -1,11 +1,12 @@
-import { loginMutation, registerMutation, forgotPasswordMutation, loginUserSuccessMutation } from "@/api/auth/query";
+import { loginMutation, registerMutation, forgotPasswordMutation, loginUserSuccessMutation, useUpdateProfileMutation, verifyForgotPasswordOTPMutation, resetPasswordMutation, verifyChangeEmailOTPMutation } from "@/api/auth/query";
 import useAuthStore from "@/store/auth";
 import { ACCESS_TOKEN_KEY, USER_ID, REFRESH_TOKEN_KEY } from "@/utils/constants";
 import { storeToRefs } from "pinia";
-import { useStorage } from "@vueuse/core";
+import useLoading from "./useLoading";
 import { ILoginBody, IRegisterBody } from "@/types/auth.types";
+import { useStorage } from "@vueuse/core";
 import { IUser } from "@/types/user.types";
-
+import { useRouter } from "vue-router";
 
 export const useAuth = () => {
     const router = useRouter();
@@ -21,7 +22,7 @@ export const useAuth = () => {
         error: signInError,
         mutateAsync: loginMutateAsync,
 
-    } = loginMutation();
+    } = loginMutation() as any;
 
     const signIn = async ({ email, password }: ILoginBody) => {
         start();
@@ -50,7 +51,7 @@ export const useAuth = () => {
         error: signInUserSucessError,
         mutateAsync: loginUserSucessMutateAsync,
 
-    } = loginUserSuccessMutation();
+    } = loginUserSuccessMutation() as any;
 
     //login gg & fb
     const signInUserSuccess = async (id: string | number) => {
@@ -77,7 +78,7 @@ export const useAuth = () => {
         isLoading: isRegisterLoading,
         error: registerError,
         mutateAsync: registerMutateAsync,
-    } = registerMutation();
+    } = registerMutation() as any;
     const register = async ({ userName, email, password, confirmPassword }: IRegisterBody) => {
         start();
         try {
@@ -93,16 +94,16 @@ export const useAuth = () => {
         }
     }
 
-  const signOut = () => {
-    accessToken.value = null;
-    refreshToken.value = null;
-    userId.value = null;
-    loggedIn.value = false;
-    user.value = {} as IUser;
-    localStorage.clear();
-    router.push("/login");
-    window.location.reload();
-};
+    const signOut = () => {
+        accessToken.value = null;
+        refreshToken.value = null;
+        userId.value = null;
+        loggedIn.value = false;
+        user.value = {} as IUser;
+        localStorage.clear();
+        router.push("/login");
+        window.location.reload();
+    };
 
 
     const {
@@ -110,7 +111,7 @@ export const useAuth = () => {
         isLoading: isForgotPasswordLoading,
         error: forgotPasswordError,
         mutateAsync: forgotPasswordMutateAsync,
-    } = forgotPasswordMutation();
+    } = forgotPasswordMutation() as any;
 
     const forgotPassword = async (email: string) => {
         start()
@@ -120,12 +121,70 @@ export const useAuth = () => {
             finish()
         }
     }
+
+    const {
+        data: verifyOTPData,
+        isLoading: isVerifyOTPLoading,
+        error: verifyOTPError,
+        mutateAsync: verifyOTPMutateAsync,
+    } = verifyForgotPasswordOTPMutation() as any;
+
+    const verifyForgotPasswordOTP = async (email: string, otp: string) => {
+        start();
+        try {
+            await verifyOTPMutateAsync({ email, otp });
+        } finally {
+            finish();
+        }
+    };
+
+    const {
+        data: resetPasswordData,
+        isLoading: isResetPasswordLoading,
+        error: resetPasswordError,
+        mutateAsync: resetPasswordMutateAsync,
+    } = resetPasswordMutation() as any;
+
+    const resetPassword = async (userId: string, token: string, data: any) => {
+        start();
+        try {
+            await resetPasswordMutateAsync({ userId, token, data });
+        } finally {
+            finish();
+        }
+    };
+
+    const getUserProfile = async () => {
+        if (userId.value) {
+            return await getUserInfo(userId.value);
+        }
+    };
+
+    const { mutate: updateProfile } = useUpdateProfileMutation();
+
+    const {
+        data: verifyChangeEmailData,
+        isLoading: isVerifyChangeEmailLoading,
+        error: verifyChangeEmailError,
+        mutateAsync: verifyChangeEmailMutateAsync,
+    } = verifyChangeEmailOTPMutation() as any;
+
+    const verifyChangeEmailOTP = async (otp: string) => {
+        start();
+        try {
+            await verifyChangeEmailMutateAsync(otp);
+        } finally {
+            finish();
+        }
+    };
+
     return {
         loggedIn,
         user,
         isSignInLoading,
         signInError,
         getUserInfo,
+        getUserProfile,
         signIn,
         signOut,
         updateUser,
@@ -140,6 +199,20 @@ export const useAuth = () => {
         loginUserSucessData,
         isSignInUserSucessLoading,
         signInUserSucessError,
-        signInUserSuccess
+        signInUserSuccess,
+        updateProfile,
+        verifyForgotPasswordOTP,
+        verifyOTPData,
+        isVerifyOTPLoading,
+        verifyOTPError,
+        resetPassword,
+        resetPasswordData,
+        isResetPasswordLoading,
+        resetPasswordError,
+        isForgotPasswordLoading,
+        verifyChangeEmailOTP,
+        verifyChangeEmailData,
+        isVerifyChangeEmailLoading,
+        verifyChangeEmailError
     };
 };

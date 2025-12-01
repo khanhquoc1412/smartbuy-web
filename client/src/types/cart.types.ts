@@ -16,6 +16,7 @@ export interface ICartItem {
   variantId: string;
   quantity: number;
   price: number;
+  thumbUrl?: string;    // ✅ Added thumbUrl
   productVariant: {
     _id: string;
     price: number;
@@ -54,7 +55,7 @@ export interface ICartData {
   itemCount: number;
   createdAt: string;
   updatedAt: string;
-   // Để tương thích với code cũ
+  // Để tương thích với code cũ
 }
 
 // ========== CART RESPONSE ==========
@@ -64,10 +65,10 @@ export interface ICartResponse {
   data: {
     cart: ICartData;
   };
-   cart?: ICartData;
+  cart?: ICartData;
 }
 
-export interface INewCartResponse extends ICartResponse {}
+export interface INewCartResponse extends ICartResponse { }
 
 export interface ICartCountResponse {
   success: boolean;

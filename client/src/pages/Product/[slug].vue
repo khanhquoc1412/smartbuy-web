@@ -209,6 +209,16 @@
             </div>
           </div>
           <div class="product-btn tw-flex tw-gap-3 tw-w-full tw-py-2">
+            <WishlistButton
+              v-if="product"
+              :product-id="String(product._id || product.id)"
+              :variant-id="selectedVariantId ? String(selectedVariantId) : undefined"
+              :color-id="productSelected.colorId || undefined"
+              :memory-id="productSelected.memoryId || undefined"
+              :is-in-wishlist="isInWishlist"
+              @update="handleWishlistUpdate"
+              class="tw-self-center"
+            />
             <div class="btn-buy--now tw-flex-1" @click="handleBuyNow">
               Mua ngay
             </div>
@@ -217,10 +227,6 @@
               <span> Thêm vào giỏ hàng </span>
             </div>
             <div class="btn-add disable" v-else>
-              <!-- <img :src="cartColorIcon" alt="">
-              <span>
-                Loading ...
-              </span> -->
               <LoadIcon />
             </div>
           </div>
@@ -337,6 +343,8 @@ import { useCart } from "@/composables/useCart";
 import { useStorage } from "@vueuse/core";
 import { PRODUCT_GUEST } from "@/utils/constants";
 import AddToCartModal from "@/components/cart/AddToCartModal.vue";
+import WishlistButton from "@/components/wishlist/WishlistButton.vue";
+import { $axios } from "@/plugins/axios/axios";
 
 interface IProductSelected {
   id: string | null;
@@ -344,8 +352,11 @@ interface IProductSelected {
   colorId?: number | null;
   memoryId?: number | null;
 }
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
 
 const productFullName = computed(() => {
   if (!product.value) return "";
@@ -395,7 +406,6 @@ const {
   params: { slug },
 } = useRoute();
 
-const router = useRouter();
 const { userId, loggedIn } = useAuth();
 const { addToCart, isAddLoading, isAddError } = useCart();
 const {
@@ -411,6 +421,44 @@ const productSelected = reactive<IProductSelected>({
   colorId: null,
   memoryId: null,
 });
+
+// Wishlist Logic
+const wishlistItems = ref<any[]>([]);
+const fetchWishlist = async () => {
+  if (!loggedIn.value) return;
+  try {
+    const res = await $axios.get('/user/wishlist');
+    wishlistItems.value = res.data.data?.items || res.data.items || [];
+  } catch (e) {
+    console.error("Error fetching wishlist", e);
+  }
+};
+
+const isInWishlist = computed(() => {
+  if (!product.value) return false;
+  return wishlistItems.value.some((item: any) => {
+    const sameProduct = String(item.product) === String(product.value._id || product.value.id);
+    if (!sameProduct) return false;
+    
+    // If variant is selected, check exact match
+    if (selectedVariantId.value) {
+      return String(item.variantId) === String(selectedVariantId.value);
+    }
+    
+    // If color/memory selected
+    if (productSelected.colorId && productSelected.memoryId) {
+      return String(item.colorId) === String(productSelected.colorId) && 
+             String(item.memoryId) === String(productSelected.memoryId);
+    }
+    
+    return true;
+  });
+});
+
+const handleWishlistUpdate = () => {
+  fetchWishlist();
+};
+
 
 const sameId = (a: any, b: any) => {
   if (a === undefined || a === null || b === undefined || b === null)
@@ -564,7 +612,7 @@ const handleViewCart = async (newQuantity: number) => {
 
     if (!itemId) {
       console.error("❌ [PARENT] No cart item ID found");
-      alert("❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.");
+      showToast("❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.", "error");
       return;
     }
 
@@ -580,7 +628,7 @@ const handleViewCart = async (newQuantity: number) => {
     }
   } catch (error) {
     console.error("❌ [PARENT] Error updating cart item:", error);
-    alert("Có lỗi xảy ra khi cập nhật số lượng");
+    showToast("Có lỗi xảy ra khi cập nhật số lượng", "error");
     throw error;
   }
 };
@@ -659,12 +707,12 @@ const variants = computed(() => {
 
 const handleAddToCart = async () => {
   if (!product.value) {
-    alert("❌ Không tìm thấy thông tin sản phẩm");
+    showToast("❌ Không tìm thấy thông tin sản phẩm", "error");
     return;
   }
 
   if (!selectedVariant.value) {
-    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    showToast("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)", "error");
     return;
   }
 
@@ -677,7 +725,7 @@ const handleAddToCart = async () => {
   };
 
   if (!payload.productId || !payload.variantId) {
-    alert("❌ Không tìm thấy ID sản phẩm hoặc phiên bản");
+    showToast("❌ Không tìm thấy ID sản phẩm hoặc phiên bản", "error");
     return;
   }
 
@@ -755,18 +803,18 @@ const handleAddToCart = async () => {
     showAddToCartModal.value = true;
   } catch (error: any) {
     console.error("❌ Error adding to cart:", error);
-    alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+    showToast(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`, "error");
   }
 };
 
 const handleBuyNow = async () => {
   if (!product.value) {
-    alert("❌ Không tìm thấy thông tin sản phẩm");
+    showToast("❌ Không tìm thấy thông tin sản phẩm", "error");
     return;
   }
 
   if (!selectedVariant.value) {
-    alert("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)");
+    showToast("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)", "error");
     return;
   }
 
@@ -791,7 +839,7 @@ const handleBuyNow = async () => {
       await router.push("/cart/checkout");
     } catch (error: any) {
       console.error("❌ Error in buy now:", error);
-      alert(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
+      showToast(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`);
     }
   } else {
     // Guest → Lưu variantId vào localStorage → Chuyển checkout
@@ -801,60 +849,62 @@ const handleBuyNow = async () => {
     if (variantId) {
       productForBuy.value = String(variantId);
       await router.push("/cart/checkout");
-    } else {
-      alert("❌ Không tìm thấy thông tin sản phẩm");
     }
   }
 };
 
+// Lifecycle hooks
 onMounted(() => {
-  setProductSelectedValues();
-});
-const route = useRoute();
-
-watch(product, () => {
-  setProductSelectedValues && setProductSelectedValues();
+  if (product.value) {
+    setProductSelectedValues();
+  }
+  fetchWishlist();
 });
 
-// watch(
-//   () => route.params.slug,
-//   (newSlug, oldSlug) => {
-//     if (newSlug && newSlug !== oldSlug) {
-//       // Ép reload toàn trang để re-init component (Swiper, dữ liệu, v.v.)
+watch(() => product.value, (newVal) => {
+  if (newVal) {
+    setProductSelectedValues();
+  }
+});
 
-//     }
-//   }
-// );
+watch(() => route.query, () => {
+  if (product.value) {
+    setProductSelectedValues();
+  }
+});
+
 watch(
   () => route.params.slug,
   async (newSlug, oldSlug) => {
     if (!newSlug || newSlug === oldSlug) return;
     window.location.reload();
-    try {
-      // clear old thumbs instance to avoid "reading 'classList' of undefined" in Swiper modules
-      thumbsSwiper.value = null;
-
-      // fetch product detail for new slug
-
-      // set selection (color/memory) based on new data / query
-      setProductSelectedValues && setProductSelectedValues();
-
-      // wait DOM to update so Swiper can re-init safely
-      await nextTick();
-
-      // if you keep a direct swiper ref, try to update it (optional)
-      if (swiperRef.value?.update) {
-        try {
-          swiperRef.value.update();
-        } catch (e) {
-          /* ignore */
-        }
-      }
-    } catch (err) {
-      console.error("Failed to reload product details:", err);
-    }
   }
 );
+
+const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
+};
 </script>
 <route lang="yaml">
 name: iPhone 15 Pro Max

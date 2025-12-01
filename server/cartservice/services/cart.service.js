@@ -414,11 +414,21 @@ class CartService {
     const colorName = colorId?.name || "default";
     const memoryRam = memoryId?.ram || "0GB";
     const memoryRom = memoryId?.rom || "0GB";
-    const sku = `${
-      product.slug || product.name
-    }-${colorName}-${memoryRam}-${memoryRom}`
+    const sku = `${product.slug || product.name
+      }-${colorName}-${memoryRam}-${memoryRom}`
       .toLowerCase()
       .replace(/\s+/g, "-");
+
+    // ✅ Tìm ảnh theo màu sắc variant
+    let variantImage = product.thumbUrl || "";
+    if (colorId && product.images && Array.isArray(product.images)) {
+      const matchedImage = product.images.find(
+        (img) => String(img.colorId) === String(colorId._id || colorId.id)
+      );
+      if (matchedImage) {
+        variantImage = matchedImage.imageUrl;
+      }
+    }
 
     console.log("🔧 Building cart item:", {
       productName: product.name,
@@ -427,6 +437,7 @@ class CartService {
       finalPrice,
       quantity,
       subtotal,
+      variantImage,
     });
 
     // ✅ Return ĐÚNG STRUCTURE của Cart Model
@@ -435,24 +446,24 @@ class CartService {
       product: product._id,
       productName: product.name,
       productSlug: product.slug,
-      thumbUrl: product.thumbUrl || "",
+      thumbUrl: variantImage, // ✅ Sử dụng ảnh theo màu
 
       // ========== VARIANT INFO (MATCH CART MODEL) ==========
       variant: {
         variantId: variant._id,
         color: colorId
           ? {
-              id: colorId._id || colorId.id,
-              name: colorId.name,
-              code: colorId.hexCode || colorId.code || "",
-            }
+            id: colorId._id || colorId.id,
+            name: colorId.name,
+            code: colorId.hexCode || colorId.code || "",
+          }
           : undefined,
         memory: memoryId
           ? {
-              id: memoryId._id || memoryId.id,
-              ram: memoryId.ram,
-              rom: memoryId.rom,
-            }
+            id: memoryId._id || memoryId.id,
+            ram: memoryId.ram,
+            rom: memoryId.rom,
+          }
           : undefined,
         sku: sku,
         price: variantPrice,

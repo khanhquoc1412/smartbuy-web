@@ -8,6 +8,8 @@ class OrderService {
    */
   async createOrderFromCart(orderData) {
     try {
+      console.log('🔍 [Service] orderData received:', JSON.stringify(orderData, null, 2));
+
       const {
         userId,
         orderItems,
@@ -20,7 +22,13 @@ class OrderService {
         totalPrice,
         notes,
         couponCode,
+        token, // Extract token
+        cartItemIds, // ✅ NEW: List of cart item IDs to remove after order creation
       } = orderData;
+
+      console.log('🔍 [Service] userId extracted:', userId);
+      console.log('🔍 [Service] orderItems extracted:', orderItems);
+      console.log('🔍 [Service] cartItemIds to remove:', cartItemIds);
 
       // Validate
       if (!userId || !orderItems || orderItems.length === 0) {
@@ -28,8 +36,9 @@ class OrderService {
       }
 
       // Tạo Order với trạng thái pending_payment (nếu online) hoặc pending (nếu COD)
+      // NOTE: Order model uses 'user' field, not 'userId'
       const order = new Order({
-        userId,
+        user: userId, // Map userId → user for schema
         orderItems,
         shippingAddress,
         paymentMethod,
@@ -60,6 +69,26 @@ class OrderService {
         `✅ Order created: ${order.orderNumber} - Method: ${paymentMethod}`
       );
 
+      // ✅ NEW: Remove purchased items from cart
+      console.log('🔍 [OrderService] Checking cartItemIds:', cartItemIds);
+      console.log('🔍 [OrderService] cartItemIds type:', typeof cartItemIds);
+      console.log('🔍 [OrderService] cartItemIds isArray:', Array.isArray(cartItemIds));
+      console.log('🔍 [OrderService] cartItemIds length:', cartItemIds?.length);
+
+      if (cartItemIds && Array.isArray(cartItemIds) && cartItemIds.length > 0) {
+        console.log(`🔄 [OrderService] Attempting to remove ${cartItemIds.length} items from cart...`);
+        try {
+          await this.removeCartItems(userId, cartItemIds, token);
+          console.log(`✅ Removed ${cartItemIds.length} items from cart after order creation`);
+        } catch (error) {
+          // Log error but don't fail the order
+          console.error("⚠️ Failed to remove cart items:", error.message);
+          console.error("⚠️ Error stack:", error.stack);
+        }
+      } else {
+        console.log('⚠️ [OrderService] No cartItemIds provided or invalid, skipping cart cleanup');
+      }
+
       // Nếu COD → Hoàn tất
       if (paymentMethod === "COD") {
         return {
@@ -69,7 +98,7 @@ class OrderService {
       }
 
       // Nếu Online → Tạo Payment
-      const paymentUrl = await this.createPaymentRequest(order);
+      const paymentUrl = await this.createPaymentRequest(order, token);
 
       return {
         order,
@@ -85,13 +114,25 @@ class OrderService {
   /**
    * 2. GỌI PAYMENT SERVICE ĐỂ TẠO PAYMENT
    */
-  async createPaymentRequest(order) {
+  async createPaymentRequest(order, token) {
     try {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      // Add Authorization header if token exists
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const paymentUrl = `${config.PAYMENT_SERVICE_URL}/api/payments/create`;
+      console.log('🔍 [OrderService] Calling Payment Service at:', paymentUrl);
+
       const response = await axios.post(
-        `${config.PAYMENT_SERVICE_URL}/api/payments/create`,
+        paymentUrl,
         {
           orderId: order._id.toString(),
-          userId: order.userId,
+          userId: order.user.toString(), // Use order.user
           amount: order.totalPrice,
           paymentMethod: order.paymentMethod,
           customerInfo: {
@@ -101,9 +142,7 @@ class OrderService {
           description: `Thanh toán đơn hàng ${order.orderNumber}`,
         },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers,
           timeout: 10000,
         }
       );
@@ -119,6 +158,10 @@ class OrderService {
       }
     } catch (error) {
       console.error("❌ Error creating payment:", error.message);
+      if (error.response) {
+        console.error("❌ Payment Service Response Data:", JSON.stringify(error.response.data, null, 2));
+        console.error("❌ Payment Service Response Status:", error.response.status);
+      }
       throw new Error("Không thể tạo thanh toán. Vui lòng thử lại.");
     }
   }
@@ -202,11 +245,17 @@ class OrderService {
    */
   async getUserOrders(userId, filters = {}, page = 1, limit = 10) {
     try {
-      const query = { userId };
+      // Fix: Schema uses 'user' field, not 'userId'
+      const query = { user: userId };
 
       // Filter theo status
+      // Hỗ trợ cả string và array
       if (filters.status) {
-        query.status = filters.status;
+        if (Array.isArray(filters.status)) {
+          query.status = { $in: filters.status };
+        } else {
+          query.status = filters.status;
+        }
       }
 
       // Filter theo paymentStatus
@@ -237,7 +286,7 @@ class OrderService {
       ]);
 
       return {
-        orders,
+        orders: Order.addOrderNumbers(orders),
         pagination: {
           page,
           limit,
@@ -258,7 +307,7 @@ class OrderService {
     try {
       const order = await Order.findOne({
         _id: orderId,
-        userId, // Đảm bảo chỉ lấy order của chính user
+        user: userId, // Fix: use 'user' field
       });
 
       if (!order) {
@@ -397,7 +446,7 @@ class OrderService {
         order.status = "pending";
         order.addStatusHistory(
           "pending",
-          "system",
+          null, // system actor should be null, not string
           "system",
           "Thanh toán thành công, đơn hàng chờ xác nhận"
         );
@@ -413,7 +462,7 @@ class OrderService {
         order.status = "payment_failed";
         order.addStatusHistory(
           "payment_failed",
-          "system",
+          null,
           "system",
           "Thanh toán thất bại"
         );
@@ -425,6 +474,49 @@ class OrderService {
       return order;
     } catch (error) {
       console.error("❌ Error updating payment status:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * ✅ NEW: Remove cart items after order creation
+   */
+  async removeCartItems(userId, cartItemIds, token) {
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const cartUrl = `${config.CART_SERVICE_URL}/api/cart/items`;
+      console.log('🔍 [OrderService] Calling CartService at:', cartUrl);
+      console.log('🔍 [OrderService] Removing cart items:', cartItemIds);
+
+      const response = await axios.delete(
+        cartUrl,
+        {
+          data: { itemIds: cartItemIds },
+          headers,
+          timeout: 5000,
+        }
+      );
+
+      if (response.data.success) {
+        console.log(`✅ Successfully removed ${cartItemIds.length} items from cart`);
+        return response.data;
+      } else {
+        throw new Error("Cart service failed to remove items");
+      }
+    } catch (error) {
+      console.error("❌ Error removing cart items:", error.message);
+      if (error.response) {
+        console.error("❌ Cart Service Response Data:", JSON.stringify(error.response.data, null, 2));
+        console.error("❌ Cart Service Response Status:", error.response.status);
+      }
+      // Don't throw - let order creation succeed even if cart cleanup fails
       throw error;
     }
   }

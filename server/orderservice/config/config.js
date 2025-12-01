@@ -2,18 +2,21 @@ require('dotenv').config();
 
 module.exports = {
   // Server
-  PORT: process.env.PORT || 3004,
+  PORT: process.env.PORT || 3002,  // ✅ Order Service runs on port 3002
   NODE_ENV: process.env.NODE_ENV || 'development',
-  
+
   // MongoDB
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/smartbuy_db_order',
-  
-  // Payment Service URL
+
+  // Payment Service URL (port 3004)
   PAYMENT_SERVICE_URL: process.env.PAYMENT_SERVICE_URL || 'http://localhost:3004',
-  
+
+  // Cart Service URL (port 3003) - ✅ NEW
+  CART_SERVICE_URL: process.env.CART_SERVICE_URL || 'http://localhost:3003',
+
   // JWT
   JWT_SECRET: process.env.JWT_SECRET || 'your-jwt-secret',
-  
+
   // CORS
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'],
 };

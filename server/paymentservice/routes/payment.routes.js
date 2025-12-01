@@ -7,11 +7,11 @@ const auth = require("../middleware/auth");
 
 /**
  * @route   POST /api/payments/create
- * @desc    Tạo payment và lấy payment URL
- * @access  Private
+ * @desc    Tạo payment và lấy payment URL (Service-to-service call from OrderService)
+ * @access  Public (OrderService has already authenticated the user)
  * @body    { orderId, userId, amount, paymentMethod, customerInfo, description, bankCode }
  */
-router.post("/create", auth, paymentController.createPayment);
+router.post("/create", paymentController.createPayment);
 
 /**
  * @route   GET /api/payments/:id

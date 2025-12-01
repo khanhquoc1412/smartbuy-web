@@ -14,16 +14,42 @@
         v-else-if="cartItems.length > 0"
         class="cart-main tw-flex tw-flex-col tw-gap-5 tw-pb-20"
       >
+        <!-- Select All Header -->
+        <div class="select-all-section tw-flex tw-items-center tw-gap-3 tw-p-3 tw-bg-gray-50 tw-rounded">
+          <input 
+            type="checkbox" 
+            id="selectAll"
+            class="tw-w-5 tw-h-5 tw-cursor-pointer accent-red-600"
+            :checked="isAllSelected"
+            @change="toggleSelectAll"
+          />
+          <label for="selectAll" class="tw-cursor-pointer tw-select-none tw-font-medium tw-text-sm">
+            Chọn tất cả ({{ cartItems.length }} sản phẩm)
+          </label>
+        </div>
+
+        <!-- Cart Product Items -->
         <div
           class="cart-product tw-flex tw-justify-between tw-gap-3"
           v-for="cartItem in cartItems"
           :key="cartItem._id"
         >
+          <!-- Checkbox Column -->
+          <div class="cart-product__checkbox tw-flex tw-items-center tw-pl-2">
+            <input 
+              type="checkbox" 
+              :id="`item-${cartItem._id}`"
+              class="tw-w-5 tw-h-5 tw-cursor-pointer accent-red-600"
+              :checked="isItemSelected(cartItem._id)"
+              @change="toggleSelectItem(cartItem._id)"
+            />
+          </div>
+
           <div class="cart-product__left tw-flex tw-gap-3">
             <div class="product-img">
               <img
                 class="tw-w-full tw-h-full tw-object-cover"
-                :src="cartItem.productVariant?.product?.thumbUrl"
+                :src="cartItem.thumbUrl || cartItem.productVariant?.product?.thumbUrl"
                 alt=""
               />
             </div>
@@ -38,7 +64,7 @@
               </router-link>
               <div class="product-desc--option tw-justify-self-start">
                 <span>
-                  {{ cartItem.productVariant?.memory?.ram }}/{{
+                  {{ cartItem.productVariant?.memory?.ram}}/{{
                     cartItem.productVariant?.memory?.rom
                   }}
                 </span>
@@ -135,15 +161,17 @@
           <div class="price-term tw-flex tw-flex-col tw-gap-2">
             <p class="tw-block">Tổng tiền sản phẩm:</p>
             <span class="tw-block">
-              {{ formatMoney(getTotalAmount(cartItems)) }}
+              {{ formatMoney(selectedTotal) }}
             </span>
           </div>
           <router-link
             to="/cart/checkout"
             class="btn-checkout tw-self-start tw-justify-self-start hover:tw-opacity-75 tw-transition-all tw-cursor-pointer"
+            :class="{ 'tw-opacity-50 tw-pointer-events-none': selectedItems.length === 0 }"
+            @click.native="handleCheckout"
           >
             <span> Mua ngay </span>
-            <span> ({{ totalItem }}) </span>
+            <span> ({{ selectedItems.length }}) </span>
           </router-link>
         </div>
         <router-link
@@ -176,23 +204,28 @@ import { useCart } from "@/composables/useCart";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import Modal from "@/components/common/Modal.vue";
 import router from "@/router";
+import { ref, onMounted, watch, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const { userId } = useAuth();
 const {
   cartItems,
   isLoadingCart,
   totalItem,
-  isUpdating,    // ✅ Thêm loading state
-  isRemoving,    // ✅ Thêm loading state
+  isUpdating,
+  isRemoving,
   getUserCarts,
   updateQuantity,
   removeItem,
-   refetchCart,      // ✅ Thêm refetchCart
-  refetchCartCount, // ✅ Thêm refetchCartCount
+  refetchCart,
+  refetchCartCount,
 } = useCart();
 
 const activeModalDeleteProductToCart = ref<boolean>(false);
 const currentCartItemId = ref<string>('');
+
+// ✅ Selection state
+const selectedItems = ref<string[]>([]);
 
 const activeModal = (cartItemId: string) => {
   currentCartItemId.value = cartItemId;
@@ -205,7 +238,7 @@ const closeModal = (value: boolean) => {
 
 // Hàm tăng số lượng
 const handleIncreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
-  if (isUpdating.value) return; // Ngăn chặn nếu đang trong quá trình cập nhật
+  if (isUpdating.value) return;
   try {
     await updateQuantity(cartItemId, currentQuantity + 1);
   } catch (error) {
@@ -215,7 +248,7 @@ const handleIncreaseQuantity = async (cartItemId: string, currentQuantity: numbe
 
 // Hàm giảm số lượng
 const handleDecreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
-  if (isUpdating.value || currentQuantity <= 1) return; // Ngăn chặn nếu đang trong quá trình cập nhật hoặc số lượng hiện tại là 1
+  if (isUpdating.value || currentQuantity <= 1) return;
   if (currentQuantity > 1) {
     try {
       await updateQuantity(cartItemId, currentQuantity - 1);
@@ -230,9 +263,52 @@ const handleRemoveItem = async () => {
   if (isRemoving.value) return;
   try {
     await removeItem(currentCartItemId.value);
+    showToast('Xóa sản phẩm khỏi giỏ hàng thành công', 'success');
     closeModal(false);
   } catch (error) {
     console.error('Error removing item:', error);
+  }
+};
+
+// ✅ Selection functions
+const isItemSelected = (cartItemId: string) => {
+  return selectedItems.value.includes(cartItemId);
+};
+
+const isAllSelected = computed(() => {
+  return cartItems.value.length > 0 && selectedItems.value.length === cartItems.value.length;
+});
+
+const toggleSelectItem = (cartItemId: string) => {
+  const index = selectedItems.value.indexOf(cartItemId);
+  if (index > -1) {
+    selectedItems.value.splice(index, 1);
+  } else {
+    selectedItems.value.push(cartItemId);
+  }
+};
+
+const toggleSelectAll = () => {
+  if (isAllSelected.value) {
+    selectedItems.value = [];
+  } else {
+    selectedItems.value = cartItems.value.map(item => item._id);
+  }
+};
+
+// ✅ Calculate total for selected items only
+const selectedTotal = computed(() => {
+  const selected = cartItems.value.filter(item => selectedItems.value.includes(item._id));
+  return getTotalAmount(selected);
+});
+
+const handleCheckout = (e: Event) => {
+  if (selectedItems.value.length === 0) {
+    e.preventDefault();
+    alert('Vui lòng chọn ít nhất một sản phẩm để mua');
+  } else {
+    // Store selected items in sessionStorage for checkout page
+    sessionStorage.setItem('selectedCartItems', JSON.stringify(selectedItems.value));
   }
 };
 
@@ -244,9 +320,11 @@ onMounted(async () => {
     refetchCart(),
     refetchCartCount(),
   ]);
+  
+  // ✅ Select all items by default
+  selectedItems.value = cartItems.value.map(item => item._id);
 });
-import { ref, onMounted, watch } from 'vue'; // ✅ Thêm watch
-import { useRoute } from 'vue-router';
+
 const route = useRoute();
 watch(() => route.path, async (newPath) => {
   if (newPath === '/cart' || newPath.startsWith('/cart/')) {
@@ -255,8 +333,48 @@ watch(() => route.path, async (newPath) => {
       refetchCart(),
       refetchCartCount(),
     ]);
+    
+    // ✅ Re-select all items after refetch
+    selectedItems.value = cartItems.value.map(item => item._id);
   }
 }, { immediate: true });
+
+// ✅ Watch cart items to auto-select new items
+watch(cartItems, (newItems) => {
+  // Auto-select new items that aren't already selected
+  const newIds = newItems.map(item => item._id);
+  selectedItems.value = selectedItems.value.filter(id => newIds.includes(id));
+  
+  // Select all by default if selection is empty
+  if (selectedItems.value.length === 0 && newItems.length > 0) {
+    selectedItems.value = newIds;
+  }
+});
+
+const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
+};
 </script>
 
 <route lang="yaml">
@@ -280,12 +398,20 @@ meta:
     border-bottom: 1px solid $border-section;
   }
 
+  .select-all-section {
+    background-color: #f9fafb;
+  }
+
   .cart-main {
     .cart-product {
       background-color: $white;
       border: 1px solid $border-prd;
       border-radius: 5px;
       padding: 15px 10px;
+
+      &__checkbox {
+        padding-right: 10px;
+      }
 
       &__left {
         .product-img {

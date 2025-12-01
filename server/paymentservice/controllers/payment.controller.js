@@ -1,7 +1,25 @@
 const paymentService = require("../services/payment.service");
-const vnpayService = require("../services/vnpay.service");
+const {
+  VNPay,
+  ignoreLogger,
+  ProductCode,
+  VnpLocale,
+  dateFormat,
+} = require("vnpay");
 
 class PaymentController {
+  constructor() {
+    // Initialize VNPay
+    this.vnpay = new VNPay({
+      tmnCode: "1XD3D3Z0",
+      secureSecret: "VPFJJ8ZBW0PV4JQW25WCRTCXW9S3I319",
+      vnpayHost: "https://sandbox.vnpayment.vn",
+      testMode: true,
+      hashAlgorithm: "SHA512",
+      loggerFn: ignoreLogger,
+    });
+  }
+
   /**
    * 1. TẠO PAYMENT
    * POST /api/payments/create
@@ -15,7 +33,13 @@ class PaymentController {
         paymentMethod,
         customerInfo,
         description,
+        bankCode,
       } = req.body;
+
+      console.log('🔍 [PaymentController] createPayment body:', JSON.stringify(req.body, null, 2));
+
+      // Get IP Address
+      const ipAddress = req.ip || req.connection.remoteAddress || "127.0.0.1";
 
       // Validate
       if (!orderId || !userId || !amount || !paymentMethod) {
@@ -25,7 +49,7 @@ class PaymentController {
         });
       }
 
-      // Tạo payment record
+      // Tạo payment record (PENDING)
       const payment = await paymentService.createPayment({
         orderId,
         userId,
@@ -33,14 +57,32 @@ class PaymentController {
         paymentMethod,
         customerInfo,
         description,
+        bankCode,
+        ipAddress,
       });
 
       // Tạo payment URL
       let paymentUrl = null;
 
       if (paymentMethod === "VNPAY") {
-        const ipAddress = req.ip || req.connection.remoteAddress || "127.0.0.1";
-        paymentUrl = vnpayService.createPaymentUrl(payment, ipAddress);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        paymentUrl = await this.vnpay.buildPaymentUrl({
+          vnp_Amount: amount,
+          vnp_IpAddr: ipAddress,
+          vnp_TxnRef: payment.transactionId, // Use transactionId from payment record
+          vnp_OrderInfo: description || `Thanh toan don hang ${orderId}`,
+          vnp_OrderType: ProductCode.Other,
+          vnp_ReturnUrl: "http://localhost:3000/api/payments/vnpay/return",
+          vnp_Locale: VnpLocale.VN,
+          vnp_CreateDate: dateFormat(new Date()),
+          vnp_ExpireDate: dateFormat(tomorrow),
+        });
+
+        // Update payment with URL (optional, but good for tracking)
+        // We can skip saving URL to DB if not needed, but let's keep it consistent if service supports it
+        // For now, just return it.
       } else if (paymentMethod === "MOMO") {
         // TODO: Implement MOMO
         throw new Error("MOMO chưa hỗ trợ");
@@ -122,26 +164,63 @@ class PaymentController {
     try {
       const vnpParams = req.query;
 
-      const result = await vnpayService.verifyReturnUrl(vnpParams);
+      // Verify signature using controller's vnpay instance
+      const verifyResult = await this.vnpay.verifyReturnUrl(vnpParams);
 
-      if (!result) {
+      if (!verifyResult || !verifyResult.isSuccess) {
         return res.redirect(
           `${process.env.CLIENT_URL}/payment/failed?message=Invalid signature`
         );
       }
 
-      const orderId = vnpParams.vnp_TxnRef?.split("_")[0];
+      const orderId = vnpParams.vnp_TxnRef;
       const responseCode = vnpParams.vnp_ResponseCode;
 
+      // Build query params
+      const queryParams = new URLSearchParams({
+        orderId: orderId || '',
+        vnp_Amount: vnpParams.vnp_Amount || '',
+        vnp_TransactionNo: vnpParams.vnp_TransactionNo || '',
+        vnp_PayDate: vnpParams.vnp_PayDate || '',
+        vnp_BankCode: vnpParams.vnp_BankCode || '',
+      });
+
       if (responseCode === "00") {
-        // Thanh toán thành công
+        // Thanh toán thành công - update DB
+        // Pass verified info to service
+        const paymentData = {
+          transactionId: verifyResult.vnp_TxnRef,
+          isSuccess: true,
+          amount: verifyResult.vnp_Amount,
+          responseCode: verifyResult.vnp_ResponseCode,
+          bankCode: verifyResult.vnp_BankCode,
+          cardType: verifyResult.vnp_CardType,
+          transactionNo: verifyResult.vnp_TransactionNo,
+          payDate: verifyResult.vnp_PayDate
+        };
+
+        const updatedPayment = await paymentService.updatePaymentStatusFromVNPay(paymentData);
+
+        // Update orderId in query params to be the real Order ID (not transactionId)
+        queryParams.set('orderId', updatedPayment.orderId);
+
         res.redirect(
-          `${process.env.CLIENT_URL}/payment/success?orderId=${orderId}`
+          `${process.env.CLIENT_URL}/payment/success?${queryParams.toString()}`
         );
       } else {
         // Thanh toán thất bại
+        const paymentData = {
+          transactionId: verifyResult.vnp_TxnRef,
+          isSuccess: false,
+          responseCode: verifyResult.vnp_ResponseCode,
+        };
+
+        await paymentService.updatePaymentStatusFromVNPay(paymentData);
+
+        queryParams.append('code', responseCode);
+
         res.redirect(
-          `${process.env.CLIENT_URL}/payment/failed?orderId=${orderId}&code=${responseCode}`
+          `${process.env.CLIENT_URL}/payment/failed?${queryParams.toString()}`
         );
       }
     } catch (error) {
@@ -204,7 +283,7 @@ class PaymentController {
   }
 }
 
-// Export instance với các method đã bind
+// Export instance
 const paymentController = new PaymentController();
 module.exports = {
   createPayment: paymentController.createPayment.bind(paymentController),

@@ -14,12 +14,12 @@ exports.health = (req, res) => {
 exports.search = async (req, res) => {
   try {
     const { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit = 10 } = req.query;
-    
+
     console.log('🔍 Chatbot search params:', { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit });
 
     // Build filter
     const filter = {};
-    
+
     // Search by keyword (name or slug)
     if (keyword) {
       filter.$or = [
@@ -27,14 +27,14 @@ exports.search = async (req, res) => {
         { slug: new RegExp(keyword, 'i') }
       ];
     }
-    
+
     // Match brand (case-insensitive)
     if (brand) {
       const Brand = require('../models/brand');
       const brandDoc = await Brand.findOne({ name: new RegExp(brand, 'i') });
       if (brandDoc) filter.brand = brandDoc._id;
     }
-    
+
     // Match category (case-insensitive)
     if (category) {
       const Category = require('../models/category');
@@ -109,43 +109,43 @@ exports.search = async (req, res) => {
     let memoryId = null;
     if (memory) {
       const Memory = require('../models/memory');
-      
+
       // DEBUG: Log all available memories
       const allMemories = await Memory.find({}).select('rom ram _id');
       console.log('🔍 Available memories in database:', allMemories.map(m => ({ rom: m.rom, ram: m.ram, id: String(m._id) })));
-      
+
       // Normalize memory: "512gb" -> "512GB", "4gb-ram" -> "4GB"
       const normalizedMemory = memory.replace(/\s/g, '').toUpperCase();
       console.log(`🔍 Searching for memory: "${memory}" -> normalized: "${normalizedMemory}"`);
-      
+
       let memoryDoc = null;
-      
+
       // Check if searching for RAM (contains "RAM" suffix)
       if (normalizedMemory.includes('RAM') || normalizedMemory.includes('-RAM')) {
         // Extract RAM value: "4GB-RAM" -> "4GB"
         const ramValue = normalizedMemory.replace(/-?RAM$/i, '');
         console.log(`🔍 Searching for RAM: "${ramValue}"`);
-        
-        memoryDoc = await Memory.findOne({ 
-          ram: new RegExp(`^${ramValue}$`, 'i') 
+
+        memoryDoc = await Memory.findOne({
+          ram: new RegExp(`^${ramValue}$`, 'i')
         });
-        
+
         if (memoryDoc) {
           memoryId = memoryDoc._id;
           console.log(`💾 Found memory by RAM: ROM=${memoryDoc.rom}, RAM=${memoryDoc.ram} (${memoryId})`);
         }
       } else {
         // Search by ROM field (storage capacity like "512GB")
-        memoryDoc = await Memory.findOne({ 
-          rom: new RegExp(`^${normalizedMemory}$`, 'i') 
+        memoryDoc = await Memory.findOne({
+          rom: new RegExp(`^${normalizedMemory}$`, 'i')
         });
-        
+
         if (memoryDoc) {
           memoryId = memoryDoc._id;
           console.log(`💾 Found memory by ROM: ROM=${memoryDoc.rom}, RAM=${memoryDoc.ram} (${memoryId})`);
         }
       }
-      
+
       if (!memoryDoc) {
         console.log(`⚠️ Memory "${memory}" not found in database`);
         // Return empty result if memory doesn't exist
@@ -281,7 +281,7 @@ exports.list = async (req, res) => {
 
     const pipeline = [
       { $match: filter },
-      
+
       // Lookup brands và categories với field mới
       {
         $lookup: {
@@ -291,7 +291,7 @@ exports.list = async (req, res) => {
           as: 'brand'
         }
       },
-      
+
       {
         $lookup: {
           from: 'categories',
@@ -300,7 +300,7 @@ exports.list = async (req, res) => {
           as: 'category'
         }
       },
-      
+
       // Lookup product variants để tính tổng stock
       {
         $lookup: {
@@ -327,7 +327,7 @@ exports.list = async (req, res) => {
           as: 'stockInfo'
         }
       },
-      
+
       {
         $project: {
           name: 1,
@@ -339,7 +339,7 @@ exports.list = async (req, res) => {
           stock: { $ifNull: [{ $arrayElemAt: ['$stockInfo.totalStock', 0] }, 0] }
         }
       },
-      
+
       { $sort: { updatedAt: -1 } }
     ];
 
@@ -400,32 +400,32 @@ exports.update = async (req, res) => {
 exports.remove = async (req, res) => {
   try {
     const productId = req.params.id;
-    
+
     console.log('🗑️ Deleting product and related data:', productId);
-    
+
     // 1. Xóa tất cả ProductVariants của sản phẩm
     const deletedVariants = await ProductVariant.deleteMany({ productId });
     console.log(`  ✅ Deleted ${deletedVariants.deletedCount} variants`);
-    
+
     // 2. Xóa tất cả ProductImages của sản phẩm
     const deletedImages = await ProductImage.deleteMany({ productId });
     console.log(`  ✅ Deleted ${deletedImages.deletedCount} images`);
-    
+
     // 3. Xóa tất cả ProductSpecifications của sản phẩm
     const deletedSpecs = await ProductSpecification.deleteMany({ productId });
     console.log(`  ✅ Deleted ${deletedSpecs.deletedCount} specifications`);
-    
+
     // 4. Cuối cùng xóa Product
     const deletedProduct = await Product.findByIdAndDelete(productId);
-    
+
     if (!deletedProduct) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
-    
+
     console.log('  ✅ Deleted product');
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       message: 'Product and all related data deleted successfully',
       deletedCount: {
         variants: deletedVariants.deletedCount,
@@ -444,42 +444,41 @@ exports.uploadThumb = async (req, res) => {
   try {
     const { id } = req.params;
     const file = req.file;
-    
+
     console.log('📤 Upload thumb request:');
     console.log('  - productId:', id);
     console.log('  - file:', file);
-    
+
     if (!file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
-    
+
     // Lưu relative path
     const thumbUrl = `/uploads/${file.filename}`;
-    
+
     console.log('✅ Thumb saved at:', thumbUrl);
-    
+
     // Update product với thumbUrl
     const product = await Product.findByIdAndUpdate(
       id,
       { thumbUrl: thumbUrl },
       { new: true }
     );
-    
+
     if (!product) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       item: product,
-      thumbUrl: thumbUrl 
+      thumbUrl: thumbUrl
     });
   } catch (error) {
     console.error('Error uploading thumb:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 
 

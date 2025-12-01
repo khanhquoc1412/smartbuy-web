@@ -6,11 +6,11 @@
     />
 
     <Container class="checkout-section tw-flex tw-gap-4 tw-flex-col">
-      <div class="title">Thông tin</div>
+      <div class="title">Thông tin đơn hàng </div>
       <div
         v-if="userId"
         class="list-product tw-flex tw-justify-between tw-gap-3"
-        v-for="cartItem in cartItems"
+        v-for="cartItem in filteredCartItems"
         :key="cartItem._id"
       >
         <div class="list-product__left tw-flex tw-gap-4">
@@ -102,7 +102,8 @@
           </div>
         </div>
       </div>
-      <div class="box-customer tw-flex tw-flex-col tw-gap-2">
+      <!-- Only show customer info form if NOT using saved address -->
+      <div v-if="!isUsingDefaultAddress" class="box-customer tw-flex tw-flex-col tw-gap-2">
         <div class="box-customer__title tw-uppercase">Thông tin khách hàng</div>
         <div class="box-customer__wrapper tw-flex tw-gap-4 tw-flex-col">
           <div class="box-customer__input">
@@ -124,14 +125,14 @@
           <!-- Email removed: not required on checkout -->
         </div>
       </div>
-      <div class="box-address tw-flex tw-flex-col tw-gap-2">
+      <!-- Only show address section if user has addresses OR is using default address -->
+      <div v-if="!isUsingDefaultAddress" class="box-address tw-flex tw-flex-col tw-gap-2">
         <div class="box-address__title tw-uppercase">
           Thông tin nhận hàng
           <span
             v-if="isUsingDefaultAddress"
             class="tw-text-sm tw-text-green-600 tw-ml-2"
           >
-            
           </span>
         </div>
         <div class="box-address__wrapper">
@@ -160,8 +161,11 @@
                 <div class="tw-flex tw-gap-2">
                   <button
                     @click.prevent="onEditAddress(addr)"
-                    class="tw-text-sm tw-border tw-px-3 tw-py-1 tw-rounded-sm"
+                    class="tw-text-sm tw-border tw-px-3 tw-py-1 tw-rounded-sm tw-flex tw-items-center tw-gap-1"
                   >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
                     Sửa
                   </button>
                 </div>
@@ -187,16 +191,14 @@
           </template>
 
           <!-- Nếu chưa có address nào -->
-          <template v-else>
+          <template v-if="addressesList.length === 0 && !isUsingDefaultAddress">
             <div
               class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-3 tw-py-6"
             >
               <div class="tw-text-sm tw-text-gray-600">
                 Bạn chưa có địa chỉ giao hàng nào.
               </div>
-              <!-- Show add button only when no default address found -->
               <button
-                v-if="!isUsingDefaultAddress"
                 @click.prevent="goToAccountForAddress"
                 class="tw-bg-red-600 tw-text-white tw-px-4 tw-py-2 tw-rounded-sm"
               >
@@ -208,6 +210,7 @@
       </div>
       <!-- Nếu đã có địa chỉ mặc định, hiển thị thẻ thông tin người nhận (read-only) -->
       <div v-if="isUsingDefaultAddress" class="tw-mt-3">
+        <div class="tw-uppercase tw-font-bold tw-mb-2">Địa chỉ nhận hàng</div>
         <div
           class="recipient-display tw-border tw-rounded-sm tw-p-3 tw-bg-white"
         >
@@ -223,8 +226,11 @@
             <div>
               <button
                 @click.prevent="goToAccountForAddress"
-                class="tw-text-sm tw-border tw-px-3 tw-py-1 tw-rounded-sm"
+                class="tw-text-sm tw-border tw-px-3 tw-py-1 tw-rounded-sm tw-flex tw-items-center tw-gap-1 tw-inline-flex"
               >
+                <svg xmlns="http://www.w3.org/2000/svg" class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
                 Sửa
               </button>
             </div>
@@ -299,7 +305,7 @@
           <div class="price-term tw-flex tw-flex-col tw-gap-2">
             <p class="tw-block">Tổng tiền sản phẩm:</p>
             <span class="tw-block">
-              {{ formatMoney(getTotalAmount(cartItems)) }}
+              {{ formatMoney(selectedTotal) }}
             </span>
           </div>
           <button
@@ -440,6 +446,26 @@ const {
 
 const { getUserCarts, cartItems } = useCart();
 
+// ✅ NEW: Get selected cart items from sessionStorage
+const selectedCartItemIds = ref<string[]>([]);
+
+// ✅ NEW: Computed property to filter only selected items for display
+const filteredCartItems = computed(() => {
+  if (selectedCartItemIds.value.length === 0) {
+    // If no selection, show all (backward compatibility)
+    return cartItems.value;
+  }
+  // Filter to only show selected items
+  return cartItems.value.filter(item => 
+    selectedCartItemIds.value.includes(item._id)
+  );
+});
+
+// ✅ NEW: Computed total for selected items only
+const selectedTotal = computed(() => {
+  return getTotalAmount(filteredCartItems.value);
+});
+
 // Lấy địa chỉ mặc định
 
 // Debug log
@@ -466,6 +492,18 @@ const { data: productGuest, isFetching } = useGetProductVariant(
 onMounted(async () => {
   if (userId.value) {
     await getUserCarts(userId.value);
+  }
+  
+  // ✅ NEW: Load selected cart items from sessionStorage
+  const selectedItemsStr = sessionStorage.getItem('selectedCartItems');
+  if (selectedItemsStr) {
+    try {
+      selectedCartItemIds.value = JSON.parse(selectedItemsStr) as string[];
+      console.log('🔍 Loaded selected items from sessionStorage:', selectedCartItemIds.value);
+    } catch (error) {
+      console.error('Error parsing selectedCartItems:', error);
+      selectedCartItemIds.value = [];
+    }
   }
 });
 
@@ -554,6 +592,7 @@ const goToAccountForAddress = () => {
   router.push("/account");
 };
 
+// ...existing code...
 const handleOrder = async () => {
   if (
     Object.values(address.value).includes(null) ||
@@ -566,70 +605,118 @@ const handleOrder = async () => {
   }
 
   try {
-    // Tính tổng tiền
-    const totalAmount = getTotalAmount(cartItems.value);
-    const customerInfo = {
-      name: baseInfor.value.userName,
+    // ✅ NEW: Get selected cart item IDs from sessionStorage
+    const selectedItemsStr = sessionStorage.getItem('selectedCartItems');
+    const selectedCartItemIds = selectedItemsStr ? JSON.parse(selectedItemsStr) as string[] : [];
+    
+    // If no items are selected, use all cart items
+    const cartItemIds = selectedCartItemIds.length > 0 
+      ? selectedCartItemIds 
+      : cartItems.value.map((ci: any) => ci._id);
+    
+    console.log('🔍 Selected cart item IDs:', cartItemIds);
+
+    // Build orderItems to match OrderSchema
+    const orderItems = cartItems.value
+      .filter((ci: any) => cartItemIds.includes(ci._id)) // ✅ Only include selected items
+      .map((ci: any) => ({
+        product: (ci.productVariant.product?._id ||
+          ci.productVariant._id) as string,
+        name: ci.productVariant.product?.name || "",
+        qty: ci.quantity,
+        price: ci.productVariant.price,
+        image: ci.productVariant.product?.thumbUrl || "",
+        variant: {
+          color: ci.productVariant.color?.name || "",
+          memory:
+            ci.productVariant.memory?.ram && ci.productVariant.memory?.rom
+              ? `${ci.productVariant.memory.ram}/${ci.productVariant.memory.rom}`
+              : "",
+          variantId: ci.productVariant._id,
+        },
+      }));
+
+    const itemsPrice = orderItems.reduce(
+      (s: number, it: any) => s + Number(it.price || 0) * Number(it.qty || 1),
+      0
+    );
+    const shippingPrice = 0;
+    const totalPrice = itemsPrice + shippingPrice;
+
+    const shippingAddressPayload = {
+      fullName: baseInfor.value.userName,
       phone: baseInfor.value.phoneNumber,
+      province: getAddressString(address.value.province, "province"),
+      district: getAddressString(address.value.district, "district"),
+      ward: getAddressString(address.value.ward, "ward"),
+      address: address.value.address || "",
+      addressId: selectedAddressId.value || undefined,
     };
 
-    // Tạo đơn hàng với thông tin đầy đủ
-    const orderPayload: IOrderInfor = {
-      address: {
-        province: getAddressString(address.value.province, "province"),
-        district: getAddressString(address.value.district, "district"),
-        ward: getAddressString(address.value.ward, "ward"),
-        houseNumber: address.value.address as string,
-      },
-      carts: cartItems.value,
-      userName: baseInfor.value.userName,
-      phoneNumber: baseInfor.value.phoneNumber,
-      paymentId: paymentSelected.value,
+    const paymentMethodStr = (
+      paymentSelected.value === 2 ? "VNPAY" : "COD"
+    ) as IOrderInfor["paymentMethod"];
+
+    const orderPayload = {
+      user: userId.value || null,
+      orderItems,
+      shippingAddress: shippingAddressPayload,
+      paymentMethod: paymentMethodStr,
+      itemsPrice,
+      shippingPrice,
+      taxPrice: 0,
+      discountAmount: 0,
+      totalPrice,
+      notes: "", // optional
+      cartItemIds, // ✅ NEW: Send cart item IDs to be removed after order creation
     };
 
-    console.log("📦 Đang tạo đơn hàng...", orderPayload);
+    console.log("📤 [CLIENT DEBUG] createOrder payload:", orderPayload);
 
-    // Gọi API tạo đơn hàng
     const orderResponse: any = await orderProduct(orderPayload);
     console.log("✅ Raw response:", orderResponse);
 
-    // Backend có thể trả về nhiều format:
-    // 1. { data: { _id, ... } }
-    // 2. { _id, ... } trực tiếp
-    // 3. { success, data: { _id, ... } }
-    const createdOrder = orderResponse?.data || orderResponse;
+    // ✅ NEW: Clear sessionStorage after successful order
+    sessionStorage.removeItem('selectedCartItems');
 
+    // Response structure: { success, message, data: { order, needPayment } }
+    const orderData = orderResponse?.data || orderResponse;
+    const createdOrder = orderData?.order || orderData;
+    
     if (!createdOrder || (!createdOrder._id && !createdOrder.id)) {
       throw new Error("Không thể tạo đơn hàng - response không hợp lệ");
     }
+    
+    console.log("✅ Created order:", createdOrder);
 
-    console.log("✅ Đơn hàng đã tạo:", createdOrder);
-
-    // Xử lý thanh toán
+    // payment & redirect
     if (paymentSelected.value === 2) {
       // VNPAY
-      console.log("💳 Đang chuyển đến VNPAY...");
-      await createVNPayPayment(
-        createdOrder._id || createdOrder.id,
-        userId.value,
-        totalAmount,
-        customerInfo
-      );
-      // Hàm createVNPayPayment sẽ tự redirect đến VNPAY
+      if (createdOrder.paymentUrl) {
+        console.log("✅ Redirecting to VNPAY:", createdOrder.paymentUrl);
+        window.location.href = createdOrder.paymentUrl;
+      } else {
+         // Fallback if no paymentUrl returned (should not happen for VNPAY)
+         console.warn("⚠️ No paymentUrl returned for VNPAY order");
+         // Try to create payment manually as fallback (or just error out)
+          await createVNPayPayment(
+            createdOrder._id || createdOrder.id,
+            userId.value,
+            getTotalAmount(cartItems.value),
+            { name: baseInfor.value.userName, phone: baseInfor.value.phoneNumber }
+          );
+      }
     } else {
       // COD
-      console.log("💵 Thanh toán khi nhận hàng");
-      await createCODPayment(
-        createdOrder._id || createdOrder.id,
-        userId.value,
-        totalAmount,
-        customerInfo
-      );
-      // Chuyển đến trang thank-you
+      // If backend already handled COD payment creation (which it does), we just redirect
+      // But if we need to ensure, we can keep the call or rely on backend.
+      // Backend createOrderFromCart returns { order, needPayment: false } for COD.
+      // So we just redirect to thank you page.
+      
       router.push(
         `/cart/checkout/thank-you?orderId=${
           createdOrder._id || createdOrder.id
-        }`
+        }&orderNumber=${createdOrder.orderNumber || ''}`
       );
     }
   } catch (error: any) {
@@ -642,6 +729,7 @@ const handleOrder = async () => {
   }
 };
 
+// handle guest
 const handleOrderGuest = async () => {
   if (
     Object.values(address.value).includes(null) ||
@@ -653,63 +741,97 @@ const handleOrderGuest = async () => {
   }
 
   try {
-    const totalAmount = productGuest.value?.price || 0;
-    const customerInfo = {
-      name: baseInfor.value.userName,
-      phone: baseInfor.value.phoneNumber,
-    };
+    const pvId = localStorage.getItem(PRODUCT_GUEST) as string;
+    const pv = productGuest.value; // productVariant payload from API
+    if (!pv) throw new Error("Không có thông tin sản phẩm guest");
 
-    // Tạo đơn hàng guest
-    const orderPayload: IOrderInforGuest = {
-      address: {
-        province: getAddressString(address.value.province, "province"),
-        district: getAddressString(address.value.district, "district"),
-        ward: getAddressString(address.value.ward, "ward"),
-        houseNumber: address.value.address as string,
+    const orderItems = [
+      {
+        product: (pv.product?._id || pv._id) as string,
+        name: pv.product?.name || "",
+        qty: 1,
+        price: pv.price || 0,
+        image: pv.product?.thumbUrl || "",
+        variant: {
+          color: pv.color?.name || "",
+          memory:
+            pv.memory?.ram && pv.memory?.rom
+              ? `${pv.memory.ram}/${pv.memory.rom}`
+              : "",
+          variantId: pv._id || pvId,
+        },
       },
-      productVariantId: localStorage.getItem(PRODUCT_GUEST) as string,
-      userName: baseInfor.value.userName,
-      phoneNumber: baseInfor.value.phoneNumber,
-      paymentId: paymentSelected.value,
+    ];
+
+    const itemsPrice = orderItems.reduce(
+      (s: number, it: any) => s + Number(it.price || 0) * Number(it.qty || 1),
+      0
+    );
+    const shippingPrice = 0;
+    const totalPrice = itemsPrice + shippingPrice;
+
+    const shippingAddressPayload = {
+      fullName: baseInfor.value.userName,
+      phone: baseInfor.value.phoneNumber,
+      province: getAddressString(address.value.province, "province"),
+      district: getAddressString(address.value.district, "district"),
+      ward: getAddressString(address.value.ward, "ward"),
+      address: address.value.address || "",
+      addressId: selectedAddressId.value || undefined,
     };
 
-    console.log("📦 Đang tạo đơn hàng Guest...", orderPayload);
+    const paymentMethodStr = (
+      paymentSelected.value === 2 ? "VNPAY" : "COD"
+    ) as IOrderInfor["paymentMethod"];
 
-    // Gọi API tạo đơn hàng guest
+    const orderPayload = {
+      user: null, // guest
+      orderItems,
+      shippingAddress: shippingAddressPayload,
+      paymentMethod: paymentMethodStr,
+      itemsPrice,
+      shippingPrice,
+      taxPrice: 0,
+      discountAmount: 0,
+      totalPrice,
+      notes: "",
+    };
+
+    console.log("📤 [CLIENT DEBUG] createOrderGuest payload:", orderPayload);
+
     const orderResponse: any = await orderProductGuest(orderPayload);
     console.log("✅ Raw guest response:", orderResponse);
 
-    const createdOrder = orderResponse?.data || orderResponse;
-
+    // Response structure: { success, message, data: { order, needPayment } }
+    const orderData = orderResponse?.data || orderResponse;
+    const createdOrder = orderData?.order || orderData;
+    
     if (!createdOrder || (!createdOrder._id && !createdOrder.id)) {
       throw new Error("Không thể tạo đơn hàng - response không hợp lệ");
     }
+    
+    console.log("✅ Created order (guest):", createdOrder);
 
-    console.log("✅ Đơn hàng Guest đã tạo:", createdOrder);
-
-    // Xử lý thanh toán
     if (paymentSelected.value === 2) {
       // VNPAY
-      console.log("💳 Guest đang chuyển đến VNPAY...");
-      await createVNPayPayment(
-        createdOrder._id || createdOrder.id,
-        "guest",
-        totalAmount,
-        customerInfo
-      );
+       if (createdOrder.paymentUrl) {
+        console.log("✅ Redirecting to VNPAY (Guest):", createdOrder.paymentUrl);
+        window.location.href = createdOrder.paymentUrl;
+      } else {
+         // Fallback
+         await createVNPayPayment(
+            createdOrder._id || createdOrder.id,
+            "guest",
+            totalPrice,
+            { name: baseInfor.value.userName, phone: baseInfor.value.phoneNumber }
+          );
+      }
     } else {
       // COD
-      console.log("💵 Guest thanh toán khi nhận hàng");
-      await createCODPayment(
-        createdOrder._id || createdOrder.id,
-        "guest",
-        totalAmount,
-        customerInfo
-      );
       router.push(
         `/cart/checkout/thank-you?orderId=${
           createdOrder._id || createdOrder.id
-        }`
+        }&orderNumber=${createdOrder.orderNumber || ''}`
       );
     }
   } catch (error: any) {
@@ -721,6 +843,7 @@ const handleOrderGuest = async () => {
     );
   }
 };
+// ...existing code...
 </script>
 
 <route lang="yaml">

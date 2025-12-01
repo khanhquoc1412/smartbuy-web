@@ -76,7 +76,9 @@ const startServer = async () => {
     process.exit(1);
   }
 };
-
+app.get("api/payments/vnpay/return", (req, res) => {
+  console.log(req.query);
+});
 startServer();
 
 module.exports = app;

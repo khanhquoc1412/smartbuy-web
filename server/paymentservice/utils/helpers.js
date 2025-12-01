@@ -155,6 +155,14 @@ class PaymentHelpers {
     const last4 = cardNumber.substring(cardNumber.length - 4);
     return `${first4}${"*".repeat(cardNumber.length - 8)}${last4}`;
   }
+
+  /**
+   * Sleep (delay) for async operations
+   * @param {number} ms - Milliseconds to sleep
+   */
+  static sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }
 
 module.exports = PaymentHelpers;

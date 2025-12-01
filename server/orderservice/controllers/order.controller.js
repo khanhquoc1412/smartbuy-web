@@ -6,18 +6,31 @@ const orderService = require("../services/order.service");
  */
 exports.createOrder = async (req, res, next) => {
   try {
+    console.log('🔍 [Controller] req.body:', JSON.stringify(req.body, null, 2));
+    console.log('🔍 [Controller] req.user:', req.user);
+
     const userId = req.user.id;
+    const token = req.headers.authorization?.split(" ")[1]; // Extract token
     const orderData = {
       ...req.body,
       userId,
+      token, // Pass token
     };
 
+    console.log('🔍 [Controller] orderData constructed:', JSON.stringify(orderData, null, 2));
+
     const result = await orderService.createOrderFromCart(orderData);
+
+    // Convert order to JSON to include virtual fields like orderNumber
+    const orderJSON = result.order.toJSON();
 
     res.status(201).json({
       success: true,
       message: "Tạo đơn hàng thành công",
-      data: result,
+      data: {
+        ...result,
+        order: orderJSON,
+      },
     });
   } catch (error) {
     next(error);
@@ -56,8 +69,16 @@ exports.getUserOrders = async (req, res, next) => {
     const userId = req.user.id;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+
+    // Handle status: có thể là string hoặc array
+    let status = req.query.status;
+
+    // Nếu client gửi "status=a&status=b&status=c", express sẽ parse thành array
+    // Nếu gửi "status=a", express sẽ parse thành string
+    // Ta giữ nguyên để service xử lý
+
     const filters = {
-      status: req.query.status,
+      status: status,
       paymentStatus: req.query.paymentStatus,
     };
 

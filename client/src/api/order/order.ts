@@ -1,19 +1,28 @@
-import { IOrderInfor, IOrderInforGuest, IOrderListResponse } from "@/types/order.type";
-import { IParams } from "@/types/product.types";
+import { IOrderInfor, IOrderInforGuest, IOrderListResponse, IOrderParams } from "@/types/order.type";
 import { $axios } from "@plugins/axios/axios";
 
 export const createOrder = (orderInfor: IOrderInfor) => {
-    return $axios.post<unknown, unknown>(`/orders/create`, orderInfor);
+    console.log('🔍 [order.ts] createOrder called with:', orderInfor);
+    console.log('🔍 [order.ts] orderInfor type:', typeof orderInfor);
+    console.log('🔍 [order.ts] JSON.stringify:', JSON.stringify(orderInfor));
+    // Route to orderservice (port 3002) endpoint
+    return $axios.post<unknown, unknown>(`/order/create`, orderInfor);
 };
 
 
-export const fetchUserOrders = (params?: IParams) => {
-    return $axios.get<unknown, IOrderListResponse>(`/orders/list`, {
+export const fetchUserOrders = (params?: IOrderParams) => {
+    // Route to orderservice (port 3002) endpoint
+    return $axios.get<unknown, IOrderListResponse>(`/order/list`, {
         params,
     });
 };
 
 export const createOrderGuest = (orderInfor: IOrderInforGuest) => {
-    return $axios.post<unknown, unknown>(`/orders/create-order-guest`, orderInfor);
+    // Route to orderservice guest endpoint
+    return $axios.post<unknown, unknown>(`/order/create-order-guest`, orderInfor);
+};
+
+export const cancelOrder = (orderId: string) => {
+    return $axios.patch<unknown, unknown>(`/order/${orderId}/cancel`);
 };
 

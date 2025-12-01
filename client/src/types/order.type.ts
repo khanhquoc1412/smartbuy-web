@@ -1,56 +1,97 @@
 import { IAddress } from "./address.type";
-import { ICart } from "./cart.types";
+import { ICartItem } from "./cart.types";
 import { IPayment } from "./payment.type";
-import { IProductVariant } from "./product.types";
+import { IParams, IProductVariant } from "./product.types";
+
+export interface IOrderParams extends IParams {
+  status?: string | string[]; // Hỗ trợ filter theo 1 hoặc nhiều status
+  paymentStatus?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface IOrderItem {
+  product: string; // ObjectId
+  name: string;
+  sku?: string;
+  qty: number;
+  price: number;
+  image?: string;
+  variant?: {
+    color?: string;
+    memory?: string;
+    variantId?: string;
+  };
+  _id?: string;
+}
 
 export interface IShippingAddress {
-    province: string;
-    district: string;
-    ward: string;
-    houseNumber: string;
+  fullName: string;
+  phone: string;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
+  addressId?: string;
 }
 
 export interface IOrderInfor {
-    carts: ICart[],
-    address?: IShippingAddress,
-    userAddressId?: string,
-    paymentId: number,
-    userName?: string,
-    phoneNumber?: string
+  user?: string | null;
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: 'COD' | 'VNPAY' | 'MOMO' | 'ZALOPAY' | 'PAYPAL' | 'CREDIT_CARD';
+  itemsPrice: number;
+  shippingPrice?: number;
+  taxPrice?: number;
+  discountAmount?: number;
+  couponCode?: string;
+  totalPrice: number;
+  notes?: string;
 }
-export interface IOrderInforGuest {
-    productVariantId: number | string,
-    address?: IShippingAddress,
-    paymentId: number,
-    userName?: string,
-    phoneNumber?: string,
-}
+
+// For guest orders we accept the same order shape as IOrderInfor
+export interface IOrderInforGuest extends IOrderInfor { }
+
 export interface IOrder {
-    id: number | string,
-    userName: string,
-    phoneNumber: string,
-    orderStatus: IOrderStatus,
-    payment: IPayment,
-    address: IAddress,
-    orderDetails: IOrderDetail[],
-    createdAt: string
+  id: string; // Virtual id from mongoose
+  _id: string;
+  user: string | any;
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+  paymentStatus: string;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  discountAmount: number;
+  totalPrice: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  orderNumber?: string;
+  statusHistory?: {
+    status: string;
+    timestamp: string;
+    note?: string;
+  }[];
+  // Helper fields for UI if needed, but backend returns flat structure
+  // address: IAddress; // Removed as backend uses shippingAddress
 }
-export interface IOrderDetail {
-    id: number | string,
-    quantity: number,
-    orderId?: number,
-    productVariant: IProductVariant
-}
+
 export interface IOrderListResponse {
-    orders: IOrder[],
-    total?: number;
-    skip?: number;
-    totalOrder?: number;
+  success: boolean;
+  data: IOrder[];
+  pagination: {
+    page: number;
     limit: number;
-    page: number
+    total: number;
+    totalPages: number;
+  };
 }
 
 export interface IOrderStatus {
-    id?: string | number,
-    name?: string
+  id: number | string;
+  title?: string;
+  value?: string;
+  name?: string;
 }

@@ -14,6 +14,15 @@ router.post("/register", authValidation.register, authController.register);
 // Đăng nhập
 router.post("/login", authValidation.login, authController.login);
 
+// Verify Email OTP (Registration)
+router.post("/verify-email", authController.verifyEmail);
+
+// Verify Login OTP
+router.post("/verify-login-otp", authController.verifyLoginOTP);
+
+// Resend OTP (for both registration and login)
+router.post("/resend-otp", authController.resendOTP);
+
 console.log("registerValidation:", authValidation.register);
 console.log("authController.register:", authController.register);
 
@@ -25,6 +34,7 @@ router.get("/profile/:id", auth, authController.profile);
 
 // Quên mật khẩu
 router.post("/forgot-password", authController.forgotPassword);
+router.post("/verify-forgot-password-otp", authController.verifyForgotPasswordOTP);
 
 // Form reset mật khẩu (GET để hiển thị form)
 router.get(
@@ -90,8 +100,15 @@ router.get(
   }
 );
 
+const upload = require("../middleware/upload");
+
+// ... existing code ...
+
 // Optional: Logout (clear token ở frontend, optional ở backend)
 router.post("/logout", auth, authController.logout);
 router.post("/change-password", auth, authController.changePassword); // ✅ New route
+router.post("/upload-avatar", auth, upload.single("avatar"), authController.uploadAvatar);
+router.patch("/profile", auth, authController.updateProfile);
+router.post("/verify-change-email-otp", auth, authController.verifyChangeEmailOTP);
 
 module.exports = router;

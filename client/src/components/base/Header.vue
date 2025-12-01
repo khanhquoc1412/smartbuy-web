@@ -42,8 +42,11 @@
               to="/cart"
               class="header-right-box tw-transition-all tw-flex tw-gap-2 tw-items-center tw-flex-row tw-text-white"
             >
-              <div class="box-icon">
+              <div class="box-icon tw-relative">
                 <font-awesome-icon icon="cart-plus" />
+                <span class="cart-badge tw-absolute tw--top-4 tw--right-3 tw-bg-yellow-500 tw-text-white tw-text-[14px] tw-font-bold tw-rounded-full tw-h-5 tw-w-5 tw-flex tw-items-center tw-justify-center">
+                  {{ totalItems }}
+                </span>
               </div>
               <div class="box-text tw-flex tw-flex-col tw-font-normal">
                 <span> Giỏ </span>
@@ -107,22 +110,20 @@ const handleSearch = () => {
   const searchTerm = keyword.value.trim();
 
   if (!searchTerm) {
-    alert("Vui lòng nhập từ khóa tìm kiếm");
     return;
   }
 
-  console.log("🔍 Searching for:", searchTerm);
-
-  // ✅ Navigate to search page
-  router.push({
-    path: "/search",
-    query: { keyword: searchTerm },
-  });
-
-  // ✅ Clear input sau khi search
-  keyword.value = "";
+  // Navigate to search results page with 'keyword' param
+  router.push(`/search?keyword=${encodeURIComponent(searchTerm)}`);
+  keyword.value = ""; // Clear search input
 };
 
+// ✅ Handle scroll event for header shrinking
+onMounted(() => {
+  window.addEventListener("scroll", () => {
+    isScrolled.value = window.scrollY > 50;
+  });
+});
 </script>
 
 <style scoped lang="scss">

@@ -15,50 +15,57 @@
               :space-between="10"
               :pagination="{ clickable: true }"
               :navigation="true"
+              :autoplay="{ delay: 5000, disableOnInteraction: false }"
               id="swiper-slider"
             >
-              <swiper-slide
-                class="swiper-item tw-overflow-hidden"
-                v-for="n in 6"
-                :key="n"
-              >
-                <img :src="banner" alt="" />
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <div class="banner-clickable" @click="handleBannerClick('banner')">
+                  <img :src="banner" alt="iPhone Banner" />
+                </div>
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <div class="banner-clickable" @click="handleBannerClick('homeBanner5')">
+                  <img :src="homeBanner5" alt="Nubia Neo 3 4G" />
+                </div>
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <div class="banner-clickable" @click="handleBannerClick('homeBanner6')">
+                  <img :src="homeBanner6" alt="Poco F8 Pro" />
+                </div>
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <div class="banner-clickable" @click="handleBannerClick('iphoneBanner')">
+                  <img :src="iphoneBanner" alt="iPhone Banner" />
+                </div>
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <div class="banner-clickable" @click="handleBannerClick('banner1')">
+                  <img :src="banner1" alt="iPhone 17 Pro Max" />
+                </div>
+              </swiper-slide>
+              <swiper-slide class="swiper-item tw-overflow-hidden">
+                <div class="banner-clickable" @click="handleBannerClick('banner2')">
+                  <img :src="banner2" alt="Samsung Galaxy S25 Ultra" />
+                </div>
               </swiper-slide>
             </swiper>
           </div>
-          <div class="home-slider__bottom">
-            <div class="home-slider__bottom-item">
-              <p>Apple iPhone</p>
-              <span>Giảm đến 14%</span>
-            </div>
-            <div class="home-slider__bottom-item">
-              <p>Máy tính bảng</p>
-              <span>Giảm đến 38%</span>
-            </div>
-            <div class="home-slider__bottom-item">
-              <p>Phụ kiện điện thoại</p>
-              <span>Giảm đến 20%</span>
-            </div>
-            <div class="home-slider__bottom-item">
-              <p>Samsung S24 ultra</p>
-              <span>Giảm đến 15%</span>
-            </div>
-          </div>
+
         </div>
         <div class="home__right-banner">
-          <router-link class="banner-item" to="/">
-            <img :src="banner1" alt="banner1" />
-          </router-link>
-          <router-link class="banner-item" to="/">
-            <img :src="banner2" alt="banner2" />
-          </router-link>
-          <router-link class="banner-item" to="/">
-            <img :src="banner3" alt="banner3" />
-          </router-link>
+          <div class="banner-item" @click="handleBannerClick('homeBanner1')">
+            <img :src="homeBanner1" alt="iPhone Banner" />
+          </div>
+          <div class="banner-item" @click="handleBannerClick('homeBanner2')">
+            <img :src="homeBanner2" alt="Samsung Banner" />
+          </div>
+          <div class="banner-item" @click="handleBannerClick('banner3')">
+            <img :src="banner3" alt="Samsung Banner" />
+          </div>
         </div>
       </div>
-      <div class="home-banner">
-        <img :src="tetBanner" alt="" />
+      <div class="home-banner" @click="handleBannerClick('tetBanner')">
+        <img :src="tetBanner" alt="Tết Banner" />
       </div>
       <div
         class="home-sale tw-rounded-xl tw-overflow-hidden tw-flex tw-flex-col tw-gap-6 tw-px-4 tw-py-5"
@@ -167,9 +174,14 @@
 import Menu from "@/components/categories/Menu.vue";
 import Container from "@components/base/Container.vue";
 import banner from "@/assets/images/banner.jpg";
-import banner1 from "@/assets/images/banner/b1.png";
-import banner2 from "@/assets/images/banner/b2.png";
+import banner1 from "@/assets/images/banner/home-banner-3.png";
+import banner2 from "@/assets/images/banner/home-banner-4.png";
 import banner3 from "@/assets/images/banner/b3.png";
+import homeBanner1 from "@/assets/images/banner/home-banner-7.png";
+import homeBanner2 from "@/assets/images/banner/home-banner-8.png";
+import homeBanner5 from "@/assets/images/banner/home-banner-5.png";
+import homeBanner6 from "@/assets/images/banner/home-banner-6.png";
+import iphoneBanner from "@/assets/images/banner/iPhone-17-pro-banner-2.jpg";
 import adv from "@/assets/images/banner/adv.jpg";
 import tetBanner from "@/assets/images/banner/tet-banner.gif";
 import Brands from "@/components/brands/Brands.vue";
@@ -189,26 +201,23 @@ import { useListProductsSale } from "@/api/product/query";
 
 const modules: SwiperModule[] = [Navigation, Pagination, Autoplay, EffectCube];
 import { computed, unref } from "vue";
-// const productVariantsList = computed(() => {
-//   const arr = unref(products) ?? [];
-//   return arr.flatMap((p: any) => {
-//     const variants =
-//       p.productVariants && p.productVariants.length
-//         ? p.productVariants
-//         : [undefined];
-//     const seen = new Set();
-//     return variants
-//       .filter((v: any) => {
-//         const key = `${v?.color?.id ?? v?.color?._id ?? v?.color ?? ""}#${
-//           v?.memory?.id ?? v?.memory?._id ?? v?.memory ?? ""
-//         }`;
-//         if (seen.has(key)) return false;
-//         seen.add(key);
-//         return true;
-//       })
-//       .map((v: any) => ({ product: p, variant: v }));
-//   });
-// });
+import { useRouter } from "vue-router";
+import { bannerLinks } from "@/config/bannerLinks";
+
+const router = useRouter();
+
+// Helper function to handle banner clicks
+const handleBannerClick = (bannerKey: string) => {
+  const linkConfig = bannerLinks[bannerKey];
+  if (!linkConfig) return;
+  
+  if (linkConfig.type === 'product' && linkConfig.slug) {
+    router.push(`/product/${linkConfig.slug}`);
+  } else if (linkConfig.type === 'search' && linkConfig.keyword) {
+    router.push(`/search?keyword=${encodeURIComponent(linkConfig.keyword)}`);
+  }
+};
+
 
 
 const productVariantsList = computed(() => {
@@ -267,47 +276,13 @@ meta:
       box-shadow: $box-shadow-section;
 
       &-main {
-        height: calc(100% - 80px);
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
       }
 
-      &__bottom {
-        height: 80px;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 10px;
-        background-color: $bg-light-gray;
 
-        &-item {
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          align-items: center;
-          transition: opacity 0.2s ease-in-out;
-
-          p {
-            text-align: center;
-            font-size: 12px;
-            text-transform: uppercase;
-          }
-
-          span {
-            font-size: 12px;
-            font-weight: 300;
-          }
-
-          &:hover {
-            opacity: 0.75;
-          }
-        }
-      }
     }
 
     .home__right-banner {
@@ -329,6 +304,12 @@ meta:
 
         .banner-item {
           padding: 8px;
+          cursor: pointer;
+          transition: opacity 0.3s ease;
+
+          &:hover {
+            opacity: 0.9;
+          }
 
           img {
             width: 100%;
@@ -340,8 +321,33 @@ meta:
   }
 
   .home-banner {
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.01);
+      opacity: 0.95;
+    }
+
     img {
       width: 100%;
+    }
+  }
+
+  .banner-clickable {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 100%;
+    
+    &:hover {
+      transform: scale(1.02);
+    }
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
@@ -386,7 +392,8 @@ meta:
 
     img {
       width: 100%;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
     }
   }
 

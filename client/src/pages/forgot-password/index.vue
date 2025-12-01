@@ -1,26 +1,59 @@
 <template>
   <div class="app-forgot-password">
     <Container>
-      <form class="form-input" @submit.prevent="handleResetPassword">
+      <div class="form-input">
         <h1 class="form__title">
-          Đặt lại mật khẩu
+          {{ stepTitle }}
         </h1>
-        <p v-if="forgotPasswordError" class="form__noti form__noti--error tw-text-red tw-text-sm tw-mt-0.5 tw-block">
-          {{ (forgotPasswordError as IError)?.message }}
-        </p>
-        <p v-if="forgotPasswordData" class="form__noti form__noti--success tw-text-success tw-text-sm tw-mt-0.5 tw-block">
-          {{ (forgotPasswordData as any)?.message }}
-        </p>
-        <h class="form__text">
-          Vui lòng nhập địa chỉ email của bạn
-        </h>
-        <MyInput v-model="email" placeholder="Nhập email của bạn" />
-        <button type="submit" class="form__btn--submit">
-          Đặt lại mật khẩu
-        </button>
-      </form>
-    </Container>
 
+        <!-- Step 1: Email Input -->
+        <form v-if="step === 1" @submit.prevent="handleSendOTP" class="tw-flex tw-flex-col tw-gap-4">
+          <p class="form__text">
+            Vui lòng nhập địa chỉ email của bạn để nhận mã xác thực.
+          </p>
+          <MyInput v-model="email" placeholder="Nhập email của bạn" />
+          
+          <p v-if="forgotPasswordError" class="form__noti form__noti--error tw-text-red tw-text-sm tw-mt-0.5 tw-block">
+            {{ (forgotPasswordError as IError)?.message }}
+          </p>
+
+          <button type="submit" class="form__btn--submit" :disabled="isForgotPasswordLoading">
+            {{ isForgotPasswordLoading ? 'Đang gửi...' : 'Gửi mã xác thực' }}
+          </button>
+        </form>
+
+        <!-- Step 2: OTP Input -->
+        <div v-else-if="step === 2" class="tw-flex tw-flex-col tw-gap-4 tw-items-center">
+             <OTPInput 
+                :email="email" 
+                type="forgot-password" 
+                @verified="handleOTPVerified"
+                @resend="handleResendOTP"
+            />
+            <button @click="step = 1" class="tw-text-sm tw-text-gray-500 hover:tw-text-red-500 tw-transition-colors">
+                Quay lại
+            </button>
+        </div>
+
+        <!-- Step 3: New Password -->
+        <form v-else-if="step === 3" @submit.prevent="handleResetPassword" class="tw-flex tw-flex-col tw-gap-4">
+           <p class="form__text">
+            Nhập mật khẩu mới của bạn.
+          </p>
+          <MyInput v-model="password" type="password" placeholder="Mật khẩu mới" />
+          <MyInput v-model="confirmPassword" type="password" placeholder="Xác nhận mật khẩu mới" />
+
+          <p v-if="resetPasswordError" class="form__noti form__noti--error tw-text-red tw-text-sm tw-mt-0.5 tw-block">
+            {{ (resetPasswordError as IError)?.message }}
+          </p>
+
+           <button type="submit" class="form__btn--submit" :disabled="isResetPasswordLoading">
+            {{ isResetPasswordLoading ? 'Đang xử lý...' : 'Đổi mật khẩu' }}
+          </button>
+        </form>
+
+      </div>
+    </Container>
   </div>
 </template>
   
@@ -28,14 +61,80 @@
 import { IError } from "@/types/error.type";
 import Container from "@components/base/Container.vue";
 import MyInput from "@components/common/MyInput/index.vue"
+import OTPInput from "@components/auth/OTPInput.vue"
+import { useAuth } from "@composables/useAuth"
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useToast } from "@composables/useToast";
 
-const email = ref<string>('')
-const { forgotPassword,
-  forgotPasswordData,
-  forgotPasswordError } = useAuth()
-const handleResetPassword = async () => {
-  await forgotPassword(email.value)
+const router = useRouter();
+const { add } = useToast();
+const { 
+  forgotPassword, 
+  forgotPasswordData, 
+  forgotPasswordError, 
+  isForgotPasswordLoading,
+  resetPassword,
+  resetPasswordError,
+  isResetPasswordLoading
+} = useAuth()
+
+const step = ref(1);
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const resetToken = ref("");
+const userId = ref("");
+
+const stepTitle = computed(() => {
+  if (step.value === 1) return "Quên mật khẩu";
+  if (step.value === 2) return "Xác thực OTP";
+  return "Đặt lại mật khẩu";
+});
+
+const handleSendOTP = async () => {
+  await forgotPassword(email.value);
+  if (forgotPasswordData.value) {
+    step.value = 2;
+  }
 }
+
+const handleOTPVerified = (data: any) => {
+  console.log("OTP Verified:", data);
+  resetToken.value = data.token;
+  userId.value = data.userId;
+  step.value = 3;
+}
+
+const handleResendOTP = async () => {
+   await forgotPassword(email.value);
+}
+
+const handleResetPassword = async () => {
+  if (password.value !== confirmPassword.value) {
+     add({
+        title: 'Lỗi',
+        description: 'Mật khẩu xác nhận không khớp',
+        color: 'red'
+    });
+    return;
+  }
+
+  await resetPassword(userId.value, resetToken.value, {
+    password: password.value,
+    confirmPassword: confirmPassword.value
+  });
+
+  if (!resetPasswordError.value) {
+     add({
+        title: 'Thành công',
+        description: 'Đổi mật khẩu thành công! Vui lòng đăng nhập.',
+        color: 'green'
+    });
+    router.push('/login');
+  }
+}
+
 </script>
 <route lang="yaml">
   name: Quên mật khẩu
@@ -92,6 +191,11 @@ const handleResetPassword = async () => {
 
       &:hover {
         opacity: 0.75;
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
     }
 
