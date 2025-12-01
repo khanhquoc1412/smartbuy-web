@@ -22,6 +22,9 @@ router.get('/stats/peak-hours', statsController.getPeakHours);
 // GET /api/orders/stats/payment-methods - Payment methods distribution
 router.get('/stats/payment-methods', statsController.getPaymentMethods);
 
+// GET /api/orders/stats/top-selling-products - Top selling products from actual orders
+router.get('/stats/top-selling-products', statsController.getTopSellingProducts);
+
 // GET /api/orders/stats - Get order statistics (old endpoint)
 router.get('/stats', orderController.getOrderStats);
 

@@ -93,10 +93,10 @@
           <div class="product-rating">
             <div class="rating">
               <span class="title"> Đánh giá: </span>
-              <span> 4.9 </span>
+              <span>{{ productRating.averageRating || 5 }} </span>
               <font-awesome-icon icon="star" />
             </div>
-            <div class="sold">Đã bán: 125</div>
+            <div class="sold">Đã bán: {{ productRating.soldCount || 0 }}</div>
           </div>
           <!-- <div class="product-price tw-flex tw-gap-4 tw-items-center">
             <span class="base-price">
@@ -416,6 +416,14 @@ const {
 // Gọi refetch() trực tiếp, không dùng .value
 
 const { data: products } = useListProductsSale(10);
+
+// State for rating and sold count
+const productRating = reactive({
+  averageRating: 0,
+  totalReviews: 0,
+  soldCount: 0
+});
+
 const productSelected = reactive<IProductSelected>({
   id: null,
   colorId: null,
@@ -859,10 +867,69 @@ const handleBuyNow = async () => {
   }
 };
 
+// Fetch rating and sold count
+const fetchProductStats = async () => {
+  if (!product.value) return;
+  
+  const productId = String(product.value._id || product.value.id || '');
+  if (!productId) return;
+
+  try {
+    // Fetch rating from review-service
+    const reviewResponse = await $axios.get(`/reviews/product/${productId}?limit=1`);
+    if (reviewResponse.data.success && reviewResponse.data.data.stats) {
+      productRating.averageRating = reviewResponse.data.data.stats.averageRating || 0;
+      productRating.totalReviews = reviewResponse.data.data.stats.totalReviews || 0;
+    }
+  } catch (error) {
+    console.error('Error fetching product rating:', error);
+  }
+
+  try {
+    // Fetch sold count from top-selling API (same logic as ProductItem)
+    console.log('🚀 [Slug] Fetching top selling products...');
+    const topSellingResponse = await $axios.get(`/order/stats/top-selling-products?limit=100`);
+    
+    console.log('🚀 [Slug] Top Selling Response Status:', topSellingResponse.status);
+    console.log('� [Slug] Top Selling Response Data:', topSellingResponse.data);
+    console.log('� [Slug] Current Product:', product.value);
+
+    if (topSellingResponse.data.success && topSellingResponse.data.data) {
+      const allItems = topSellingResponse.data.data;
+      const currentSlug = product.value.slug;
+      
+      console.log('🚀 [Slug] Filtering by slug:', currentSlug);
+      
+      // Filter all items that match the current product slug (to include all variants)
+      const matchingItems = allItems.filter((item: any) => {
+        const match = item.slug === currentSlug;
+        console.log(`   - Checking item: ${item.slug} (Sold: ${item.sold}) -> Match: ${match}`);
+        return match;
+      });
+      
+      console.log('� [Slug] Matching Items Count:', matchingItems.length);
+
+      if (matchingItems.length > 0) {
+        // Sum up sold count from all matching variants
+        const totalSold = matchingItems.reduce((sum: number, item: any) => sum + (item.sold || 0), 0);
+        console.log('� [Slug] Total Sold Calculated:', totalSold);
+        productRating.soldCount = totalSold;
+      } else {
+        console.warn('⚠️ [Slug] No matching items found in top selling list');
+      }
+    } else {
+        console.error('❌ [Slug] Top selling API failed or no data');
+    }
+  } catch (error) {
+    console.error('Error fetching sold count:', error);
+  }
+};
+
 // Lifecycle hooks
 onMounted(() => {
   if (product.value) {
     setProductSelectedValues();
+    fetchProductStats();
   }
   fetchWishlist();
 });
@@ -870,6 +937,7 @@ onMounted(() => {
 watch(() => product.value, (newVal) => {
   if (newVal) {
     setProductSelectedValues();
+    fetchProductStats();
   }
 });
 

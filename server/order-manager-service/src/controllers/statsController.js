@@ -115,7 +115,7 @@ exports.getOverview = async (req, res) => {
     }
 
     // Average Order Value
-    const aov = current.totalOrders > 0 
+    const aov = current.totalOrders > 0
       ? (current.totalRevenue / current.totalOrders).toFixed(0)
       : 0;
 
@@ -148,7 +148,7 @@ exports.getOverview = async (req, res) => {
     let customersChange = 0;
     const previousCustomers = previousCustomersCount.length || 0;
     const currentCustomers = current.uniqueCustomers.length;
-    
+
     if (previousCustomers === 0 && currentCustomers > 0) {
       customersChange = 100; // Tăng 100% khi từ 0 lên có giá trị
     } else if (previousCustomers > 0) {
@@ -330,7 +330,13 @@ exports.getPeakHours = async (req, res) => {
       },
       {
         $project: {
-          hour: { $hour: '$createdAt' },
+          // Sử dụng timezone Asia/Ho_Chi_Minh (UTC+7) để lấy giờ đúng
+          hour: {
+            $hour: {
+              date: '$createdAt',
+              timezone: 'Asia/Ho_Chi_Minh'
+            }
+          },
           totalPrice: 1
         }
       },
@@ -431,10 +437,10 @@ exports.getPaymentMethods = async (req, res) => {
 
     // Nhóm các phương thức giống nhau lại
     const groupedData = {};
-    
+
     stats.forEach(item => {
       const label = methodMap[item._id] || item._id;
-      
+
       if (groupedData[label]) {
         groupedData[label].count += item.count;
         groupedData[label].totalValue += item.totalValue;
@@ -453,7 +459,7 @@ exports.getPaymentMethods = async (req, res) => {
 
     const totalOrders = data.reduce((sum, item) => sum + item.count, 0);
     data.forEach(item => {
-      item.percentage = totalOrders > 0 
+      item.percentage = totalOrders > 0
         ? parseFloat((item.count / totalOrders * 100).toFixed(1))
         : 0;
     });
@@ -465,6 +471,99 @@ exports.getPaymentMethods = async (req, res) => {
     });
   } catch (error) {
     console.error('Error in getPaymentMethods:', error);
+    res.status(500).json({ success: false, message: 'Lỗi server', error: error.message });
+  }
+};
+
+/**
+ * GET /api/orders/stats/top-selling-products
+ * Lấy top sản phẩm bán chạy từ orders thực tế
+ */
+exports.getTopSellingProducts = async (req, res) => {
+  try {
+    const { limit = 10, dateRange = '30days', startDate, endDate } = req.query;
+    const { start, end } = getDateRange(dateRange, startDate, endDate);
+
+    // Aggregate từ orders để lấy sản phẩm bán chạy
+    const topProducts = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: start, $lte: end },
+          // Chỉ tính đơn hàng đã hoàn thành/đã giao (bao gồm COD đã giao)
+          status: { $in: ['completed', 'delivered'] }
+        }
+      },
+      {
+        $unwind: '$orderItems'
+      },
+      {
+        $group: {
+          // Group theo variant ID (nếu có), fallback về product ID
+          _id: {
+            $ifNull: ['$orderItems.variant.variantId', '$orderItems.product']
+          },
+          productName: { $first: '$orderItems.name' },
+          totalSold: { $sum: '$orderItems.qty' },
+          totalRevenue: { $sum: { $multiply: ['$orderItems.price', '$orderItems.qty'] } },
+          productImage: { $first: '$orderItems.image' },
+          avgPrice: { $avg: '$orderItems.price' }
+        }
+      },
+      {
+        $sort: { totalSold: -1 }
+      },
+      {
+        $limit: parseInt(limit)
+      },
+      {
+        $project: {
+          _id: 1,
+          productId: '$_id',
+          name: '$productName',
+          image: '$productImage',
+          sold: '$totalSold',
+          revenue: { $round: '$totalRevenue' },
+          avgPrice: { $round: '$avgPrice' }
+        }
+      }
+    ]);
+
+    // Lấy thông tin stock từ product-manager-service
+    const axios = require('axios');
+    const productServiceUrl = process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002';
+
+    // Enrich với thông tin stock
+    const enrichedProducts = await Promise.all(
+      topProducts.map(async (product) => {
+        try {
+          const response = await axios.get(
+            `${productServiceUrl}/api/products/variants/${product.productId}`
+          );
+
+          if (response.data.success && response.data.data) {
+            return {
+              ...product,
+              stock: response.data.data.stock || 0
+            };
+          }
+        } catch (error) {
+          console.error(`Error fetching stock for variant ${product.productId}:`, error.message);
+        }
+
+        return {
+          ...product,
+          stock: 0 // Default nếu không lấy được
+        };
+      })
+    );
+
+    res.json({
+      success: true,
+      data: enrichedProducts,
+      dateRange: { start, end }
+    });
+  } catch (error) {
+    console.error('Error in getTopSellingProducts:', error);
     res.status(500).json({ success: false, message: 'Lỗi server', error: error.message });
   }
 };

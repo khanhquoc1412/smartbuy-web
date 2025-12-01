@@ -162,9 +162,9 @@ export const fetchProductFilter = (params: Ref<IParams>) => {
   });
 };
 
-// 📌 Lấy danh sách sản phẩm bán chạy (Top Selling)
+// 📌 Lấy danh sách sản phẩm bán chạy (Top Selling) - từ orderservice
 export const fetchTopSellingProducts = (limit: number = 5) => {
-  return productAxios.get<unknown, ITopSellingResponse>("/product/top-selling", {
+  return productAxios.get<unknown, ITopSellingResponse>("/order/stats/top-selling-products", {
     params: { limit },
   });
 };

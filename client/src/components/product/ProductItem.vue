@@ -26,6 +26,7 @@
     </router-link>
 
     <div
+      v-if="product.discountPercentage && product.discountPercentage > 0"
       class="product-disc-persentage tw-absolute tw-flex tw-items-center tw-justify-center tw-text-white"
       :style="{
         backgroundImage: 'url(' + bgPercent + ')',
@@ -49,14 +50,7 @@
       <div
         class="product-price lg:tw-flex-row tw-flex-col lg:tw-gap-3 tw-flex tw-gap-0.5"
       >
-        <!-- Giá gốc (gạch ngang) -->
-        <div
-          class="disc-price tw-text-gray-500 tw-line-through tw-whitespace-nowrap tw-text-sm"
-        >
-          {{ formatMoney(product.basePrice) }}
-        </div>
-
-        <!-- Giá sau giảm -->
+        <!-- Giá sau giảm (hiển thị trước) -->
         <div
           class="base-price tw-text-red tw-font-medium tw-whitespace-nowrap tw-overflow-hidden tw-text-sm"
         >
@@ -66,14 +60,33 @@
             )
           }}
         </div>
+
+        <!-- Giá gốc (gạch ngang, hiển thị sau) -->
+        <div
+          v-if="product.discountPercentage && product.discountPercentage > 0"
+          class="disc-price tw-text-gray-500 tw-line-through tw-whitespace-nowrap tw-text-sm"
+        >
+          {{ formatMoney(product.basePrice) }}
+        </div>
       </div>
       <div class="product-rating tw-flex tw-flex-row tw-gap-1 tw-items-center">
-        <img :src="goldStar" alt="" class="tw-h-3" />
-        <img :src="goldStar" alt="" class="tw-h-3" />
-        <img :src="goldStar" alt="" class="tw-h-3" />
-        <img :src="goldStar" alt="" class="tw-h-3" />
-        <img :src="goldStar" alt="" class="tw-h-3" />
-        <span class="tw-block tw-text-xs tw-text-gray-400"> (20) </span>
+        <!-- Hiển thị sao rating (mặc định 5 sao nếu chưa có đánh giá) -->
+        <template v-for="star in 5" :key="star">
+          <img 
+            :src="goldStar" 
+            alt="" 
+            class="tw-h-3" 
+            :class="star <= Math.round(product.averageRating || 5) ? 'tw-opacity-100' : 'tw-opacity-30'"
+          />
+        </template>
+        <!-- Số đánh giá -->
+        <span class="tw-block tw-text-xs tw-text-gray-400">
+          {{ product.averageRating ? `${product.averageRating.toFixed(1)} (${product.totalReviews || 0})` : '(0)' }}
+        </span>
+        <!-- Đã bán -->
+        <span v-if="product.sold" class="tw-block tw-text-xs tw-text-gray-500 tw-ml-1">
+          | Đã bán {{ product.sold }}
+        </span>
       </div>
     </div>
   </div>

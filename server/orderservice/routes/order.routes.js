@@ -43,6 +43,13 @@ router.get('/stats', auth, orderController.getOrderStats);
 router.get('/stats/top-selling-products', topSellingController.getTopSellingProducts);
 
 /**
+ * @route   GET /api/orders/stats/product-sold/:productId
+ * @desc    Lấy tổng số lượng đã bán của một sản phẩm
+ * @access  Public
+ */
+router.get('/stats/product-sold/:productId', topSellingController.getProductSoldCount);
+
+/**
  * @route   GET /api/orders/:id
  * @desc    Lấy chi tiết đơn hàng
  * @access  Private

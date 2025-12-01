@@ -285,9 +285,7 @@
             <canvas ref="peakHoursChartRef"></canvas>
           </div>
         </div>
-
       </div>
-
     </div>
 
   </div>
@@ -472,7 +470,10 @@ async function fetchPeakHours() {
 
 async function fetchTopProducts() {
   try {
-    const res: any = await getTopSellingProducts({ limit: 10 })
+    const res: any = await getTopSellingProducts({ 
+      limit: 10,
+      dateRange: dateRange.value 
+    })
     if (res?.success && res.data) {
       topProducts.value = res.data
     }

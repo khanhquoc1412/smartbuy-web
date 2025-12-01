@@ -1,12 +1,14 @@
 import { $axios } from '@/plugins/axios/axios'
 
 /**
- * Lấy top sản phẩm bán chạy
+ * Lấy top sản phẩm bán chạy từ orders thực tế
  */
 export const getTopSellingProducts = async (params: {
   limit?: number
+  dateRange?: '7days' | '30days' | '90days' | 'year'
 }) => {
-  const response = await $axios.get('/products/stats/top-selling', { params })
+  // Gọi endpoint mới từ order-manager-service để lấy data thực
+  const response = await $axios.get('/orders/stats/top-selling-products', { params })
   return response
 }
 

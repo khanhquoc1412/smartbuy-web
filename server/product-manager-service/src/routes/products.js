@@ -63,26 +63,30 @@ router.get('/stats/by-category', statsCtrl.getRevenueByCategory);
 // GET /api/products/stats/inventory - Inventory status (low/normal/high)
 router.get('/stats/inventory', statsCtrl.getInventoryStatus);
 
-// CRUD Products
+// ============ STOCK MANAGEMENT (phải đặt TRƯỚC tất cả routes có /:id hoặc /:productId) ============
+// Routes này phải đứng trước /:id và /:productId để tránh conflict
+router.get('/variants/:variantId', variantsCtrl.getByVariantId);  // Get variant by ID directly
+router.post('/variants/:variantId/reserve-stock', variantsCtrl.reserveStock);  // Trừ kho khi đặt hàng
+router.post('/variants/:variantId/release-stock', variantsCtrl.releaseStock);  // Cộng kho khi hủy đơn
+
+// ============ CRUD PRODUCTS ============
 router.get('/', ctrl.list);
-router.get('/:id', ctrl.getById);
 router.post('/', ctrl.create);
+
+// Routes với /:id phải đứng sau /variants/*
+router.get('/:id', ctrl.getById);
 router.patch('/:id', ctrl.update);
 router.delete('/:id', ctrl.remove);
 
 // Upload thumbnail cho product
 router.post('/:id/upload-thumb', upload.single('image'), ctrl.uploadThumb);
 
-// Product Variants
+// ============ PRODUCT VARIANTS ============
 router.get('/:productId/variants', variantsCtrl.listByProduct);
 router.get('/:productId/variants/:id', variantsCtrl.getById);
 router.post('/:productId/variants', variantsCtrl.create);
 router.put('/:productId/variants/:id', variantsCtrl.update);
 router.delete('/:productId/variants/:id', variantsCtrl.delete);
-
-// Stock Management (for order service)
-router.post('/variants/:variantId/reserve-stock', variantsCtrl.reserveStock);  // Trừ kho khi đặt hàng
-router.post('/variants/:variantId/release-stock', variantsCtrl.releaseStock);  // Cộng kho khi hủy đơn
 
 // Product Images
 router.post('/:productId/images/upload', upload.single('image'), imagesCtrl.upload); // Upload route
