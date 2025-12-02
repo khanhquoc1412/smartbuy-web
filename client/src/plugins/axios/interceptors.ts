@@ -53,6 +53,28 @@ export default function interceptors(axios: AxiosInstance) {
       const originalConfig = error.config as AxiosOriginalRequestConfig;
 
       if (error.response) {
+        // ✅ Kiểm tra user bị block (403 Forbidden)
+        if (error.response.status === 403) {
+          const responseData = error.response.data as any;
+          
+          if (responseData?.blocked === true) {
+            // ✅ User bị khóa -> Force logout
+            localStorage.removeItem(ACCESS_TOKEN_KEY);
+            localStorage.removeItem(REFRESH_TOKEN_KEY);
+            localStorage.removeItem(USER_ID);
+            
+            // Hiển thị thông báo
+            alert(responseData.message || 'Tài khoản của bạn đã bị khóa');
+            
+            // Redirect về trang login
+            if (typeof window !== 'undefined') {
+              window.location.href = '/login';
+            }
+            
+            return Promise.reject(error);
+          }
+        }
+
         if (error.response.status === 401 && !originalConfig?._retry) {
           originalConfig._retry = true; // 🔥 Đánh dấu đã retry để tránh loop vô tận
           

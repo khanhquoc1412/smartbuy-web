@@ -2,13 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const jwtCreate = (id) => {
   try {
-
-    const payload = {
-      id: user._id,
-      isBlocked: user.isBlocked,  // ✅ Thêm vào payload
-      isAdmin: user.isAdmin
-    };
-    
     const accessToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_PRIVATE_KEY, {
       expiresIn: "60m",
     });
@@ -27,7 +20,7 @@ const jwtCreate = (id) => {
 
     return { accessToken, refreshToken, resetPasswordToken };
   } catch (e) {
-    console.log("Error");
+    console.log("Error in jwtCreate:", e.message);
     return null;
   }
 };

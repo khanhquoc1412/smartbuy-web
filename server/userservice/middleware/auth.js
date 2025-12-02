@@ -5,8 +5,10 @@ const jwt = require("jsonwebtoken"); // ❓ Nếu không có file jwt.js
 
 const { getAccessTokenFromHeaders } = require("../../src/utils/header");
 const { StatusCodes } = require("http-status-codes");
+const User = require("../models/user"); // ✅ Import User model
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
+  // ✅ Thêm async
   try {
     const { accessToken } = getAccessTokenFromHeaders(req.headers);
 
@@ -31,10 +33,30 @@ const auth = (req, res, next) => {
 
     console.log("✅ Token decoded:", decoded);
 
+    // ✅ Kiểm tra user từ DB (check isBlocked)
+    const user = await User.findById(decoded.id).select(
+      "isBlocked isAdmin email userName"
+    );
+
+    if (!user) {
+      throw new UnauthorizedError("Người dùng không tồn tại");
+    }
+
+    if (user.isBlocked) {
+      return res.status(StatusCodes.FORBIDDEN).json({
+        success: false,
+        message: "Tài khoản của bạn đã bị khóa",
+        blocked: true, // ✅ Flag để client biết
+        status: StatusCodes.FORBIDDEN,
+      });
+    }
+
     // ✅ FIX: Set req.user với userId
     req.user = {
       userId: decoded.id || decoded.userId, // ✅ Support cả 2 format
       id: decoded.id || decoded.userId, // ✅ Backward compatible
+      isBlocked: user.isBlocked, // ✅ Thêm info
+      isAdmin: user.isAdmin,
     };
 
     // ✅ FIX: Set req.userId for backward compatibility
