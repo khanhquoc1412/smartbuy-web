@@ -499,18 +499,17 @@ const getAll = async (req, res, next) => {
 
       // 🔍 Tìm brand khớp với keyword
       const brandMatch = await Brand.findOne({
-        $or: [
-          { nameAscii: regex },
-          { name: regex }
-        ]
+        $or: [{ nameAscii: regex }, { name: regex }],
       }).select("_id");
 
       if (brandMatch) {
         productCondition.$or = [
           { name: { $regex: regex } },
-          { brand: brandMatch._id } // Match theo brand ID
+          { brand: brandMatch._id }, // Match theo brand ID
         ];
-        console.log(`🔎 Keyword "${keyword}" matches Brand ID: ${brandMatch._id}`);
+        console.log(
+          `🔎 Keyword "${keyword}" matches Brand ID: ${brandMatch._id}`
+        );
       } else {
         productCondition.name = { $regex: regex };
       }
@@ -650,10 +649,10 @@ const getAll = async (req, res, next) => {
             : null,
           memory: v.memoryId
             ? {
-              id: String(v.memoryId._id),
-              ram: v.memoryId.ram,
-              rom: v.memoryId.rom,
-            }
+                id: String(v.memoryId._id),
+                ram: v.memoryId.ram,
+                rom: v.memoryId.rom,
+              }
             : null,
         })),
         images: images.map((img) => ({
@@ -834,19 +833,101 @@ const addImageProduct = async (req, res) => {
 const getProductSale = async (req, res, next) => {
   try {
     const { quantity } = req.query;
-    const products = await Product.find()
-      .limit(parseInt(quantity) || 10)
-      .select("id name description discountPercentage thumbUrl slug basePrice");
+    const limit = parseInt(quantity) || 10;
+
+    // 1. Lấy sản phẩm có giảm giá, sắp xếp theo % giảm giá cao nhất
+    const products = await Product.find({ discountPercentage: { $gt: 0 } })
+      .sort({ discountPercentage: -1 }) // Sắp xếp giảm dần theo %
+      .limit(limit)
+      .select(
+        "id name description discountPercentage thumbUrl slug basePrice categoryName brandName images productVariants"
+      );
+
+    if (!products || products.length === 0) {
+      return res.status(StatusCodes.OK).json({
+        products: [],
+        total: 0,
+        skip: 0,
+        limit,
+        page: 1,
+      });
+    }
+
+    // 2. Gọi review-service để lấy rating cho từng sản phẩm
+    const axios = require("axios");
+    const REVIEW_SERVICE_URL =
+      process.env.REVIEW_SERVICE_URL || "http://localhost:5006";
+    const ORDER_SERVICE_URL =
+      process.env.ORDER_SERVICE_URL || "http://localhost:3002";
+
+    // 3. Lấy top selling data để có sold count
+    let topSellingMap = {};
+    try {
+      const topSellingResponse = await axios.get(
+        `${ORDER_SERVICE_URL}/api/order/stats/top-selling-products?limit=100`
+      );
+      const topSellingData =
+        topSellingResponse.data.data || topSellingResponse.data || [];
+
+      // Tạo map: slug -> sold count
+      topSellingData.forEach((item) => {
+        if (!topSellingMap[item.slug]) {
+          topSellingMap[item.slug] = 0;
+        }
+        topSellingMap[item.slug] += item.sold || 0;
+      });
+    } catch (error) {
+      console.error("Error fetching top selling data:", error.message);
+    }
+
+    // 4. Fetch rating cho từng sản phẩm
+    const enrichedProducts = await Promise.all(
+      products.map(async (product) => {
+        const productObj = product.toObject();
+
+        // Lấy rating từ review-service
+        let averageRating = 0;
+        let totalReviews = 0;
+        try {
+          const reviewResponse = await axios.get(
+            `${REVIEW_SERVICE_URL}/api/reviews/product/${product._id}?limit=1`
+          );
+          const stats =
+            reviewResponse.data.data?.stats ||
+            reviewResponse.data.stats ||
+            null;
+          if (stats) {
+            averageRating = stats.averageRating || 0;
+            totalReviews = stats.totalReviews || 0;
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching reviews for product ${product._id}:`,
+            error.message
+          );
+        }
+
+        // Lấy sold count từ topSellingMap
+        const soldCount = topSellingMap[product.slug] || 0;
+
+        return {
+          ...productObj,
+          averageRating,
+          totalReviews,
+          sold: soldCount,
+        };
+      })
+    );
 
     res.status(StatusCodes.OK).json({
-      products,
+      products: enrichedProducts,
       total: 1,
       skip: 0,
-      limit: parseInt(quantity) || 10,
+      limit,
       page: 1,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error in getProductSale:", error);
     res.status(StatusCodes.BAD_REQUEST).json({
       message: "Lỗi server",
       status: StatusCodes.BAD_REQUEST,
@@ -1173,7 +1254,9 @@ const getSuggestions = async (req, res) => {
 
 const getAllBrands = async (req, res) => {
   try {
-    const brands = await Brand.find().select("_id name nameAscii").sort({ name: 1 });
+    const brands = await Brand.find()
+      .select("_id name nameAscii")
+      .sort({ name: 1 });
     return res.status(StatusCodes.OK).json({
       success: true,
       brands,
@@ -1195,16 +1278,17 @@ const updateStock = async (req, res) => {
       throw new BadRequestError("Invalid items list");
     }
 
-
     // Validate stock first (only for deduction)
     for (const item of items) {
-      if (item.action === 'deduct') {
+      if (item.action === "deduct") {
         const variant = await ProductVariant.findById(item.variantId);
         if (!variant) {
           throw new NotFoundError(`Variant not found: ${item.variantId}`);
         }
         if (variant.stock < item.quantity) {
-          throw new BadRequestError(`Insufficient stock for variant ${item.variantId}. Available: ${variant.stock}, Requested: ${item.quantity}`);
+          throw new BadRequestError(
+            `Insufficient stock for variant ${item.variantId}. Available: ${variant.stock}, Requested: ${item.quantity}`
+          );
         }
       }
     }
@@ -1213,7 +1297,7 @@ const updateStock = async (req, res) => {
     const results = [];
     for (const item of items) {
       const { variantId, quantity, action } = item;
-      const increment = action === 'restore' ? quantity : -quantity;
+      const increment = action === "restore" ? quantity : -quantity;
 
       const updatedVariant = await ProductVariant.findByIdAndUpdate(
         variantId,
@@ -1223,24 +1307,23 @@ const updateStock = async (req, res) => {
 
       results.push({
         variantId,
-        newStock: updatedVariant.stock
+        newStock: updatedVariant.stock,
       });
     }
 
     res.status(StatusCodes.OK).json({
       success: true,
       message: "Stock updated successfully",
-      data: results
+      data: results,
     });
   } catch (error) {
     console.error("[ProductService] Stock update failed:", error.message);
     res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: error.message || "Internal Server Error"
+      message: error.message || "Internal Server Error",
     });
   }
 };
-
 
 module.exports = {
   getAll,
@@ -1256,4 +1339,3 @@ module.exports = {
   getAllBrands,
   updateStock,
 };
-

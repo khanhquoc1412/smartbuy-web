@@ -93,8 +93,19 @@
           <div class="product-rating">
             <div class="rating">
               <span class="title"> Đánh giá: </span>
-              <span>{{ productRating.averageRating || 5 }} </span>
+              <span
+                >{{
+                  productRating.averageRating > 0
+                    ? productRating.averageRating.toFixed(1)
+                    : "5.0"
+                }}
+              </span>
               <font-awesome-icon icon="star" />
+              <span
+                v-if="productRating.totalReviews > 0"
+                class="tw-text-sm tw-text-gray-600"
+                >({{ productRating.totalReviews }} đánh giá)</span
+              >
             </div>
             <div class="sold">Đã bán: {{ productRating.soldCount || 0 }}</div>
           </div>
@@ -212,7 +223,9 @@
             <WishlistButton
               v-if="product"
               :product-id="String(product._id || product.id)"
-              :variant-id="selectedVariantId ? String(selectedVariantId) : undefined"
+              :variant-id="
+                selectedVariantId ? String(selectedVariantId) : undefined
+              "
               :color-id="productSelected.colorId || undefined"
               :memory-id="productSelected.memoryId || undefined"
               :is-in-wishlist="isInWishlist"
@@ -421,7 +434,7 @@ const { data: products } = useListProductsSale(10);
 const productRating = reactive({
   averageRating: 0,
   totalReviews: 0,
-  soldCount: 0
+  soldCount: 0,
 });
 
 const productSelected = reactive<IProductSelected>({
@@ -435,7 +448,7 @@ const wishlistItems = ref<any[]>([]);
 const fetchWishlist = async () => {
   if (!loggedIn.value) return;
   try {
-    const res = await $axios.get('/user/wishlist');
+    const res = await $axios.get("/user/wishlist");
     wishlistItems.value = res.data.data?.items || res.data.items || [];
   } catch (e) {
     console.error("Error fetching wishlist", e);
@@ -445,20 +458,23 @@ const fetchWishlist = async () => {
 const isInWishlist = computed(() => {
   if (!product.value) return false;
   return wishlistItems.value.some((item: any) => {
-    const sameProduct = String(item.product) === String(product.value._id || product.value.id);
+    const sameProduct =
+      String(item.product) === String(product.value._id || product.value.id);
     if (!sameProduct) return false;
-    
+
     // If variant is selected, check exact match
     if (selectedVariantId.value) {
       return String(item.variantId) === String(selectedVariantId.value);
     }
-    
+
     // If color/memory selected
     if (productSelected.colorId && productSelected.memoryId) {
-      return String(item.colorId) === String(productSelected.colorId) && 
-             String(item.memoryId) === String(productSelected.memoryId);
+      return (
+        String(item.colorId) === String(productSelected.colorId) &&
+        String(item.memoryId) === String(productSelected.memoryId)
+      );
     }
-    
+
     return true;
   });
 });
@@ -466,7 +482,6 @@ const isInWishlist = computed(() => {
 const handleWishlistUpdate = () => {
   fetchWishlist();
 };
-
 
 const sameId = (a: any, b: any) => {
   if (a === undefined || a === null || b === undefined || b === null)
@@ -620,7 +635,10 @@ const handleViewCart = async (newQuantity: number) => {
 
     if (!itemId) {
       console.error("❌ [PARENT] No cart item ID found");
-      showToast("❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.", "error");
+      showToast(
+        "❌ Không tìm thấy thông tin giỏ hàng. Vui lòng thử lại.",
+        "error"
+      );
       return;
     }
 
@@ -720,7 +738,10 @@ const handleAddToCart = async () => {
   }
 
   if (!selectedVariant.value) {
-    showToast("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)", "error");
+    showToast(
+      "❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)",
+      "error"
+    );
     return;
   }
 
@@ -791,7 +812,7 @@ const handleAddToCart = async () => {
     // ✅ Determine correct image based on selected color
     let displayImage = product.value.thumbUrl || "";
     if (filteredImages.value && filteredImages.value.length > 0) {
-        displayImage = filteredImages.value[0].imageUrl;
+      displayImage = filteredImages.value[0].imageUrl;
     }
 
     // ✅ STEP 4: Save product info with cartItemId
@@ -817,7 +838,10 @@ const handleAddToCart = async () => {
     showAddToCartModal.value = true;
   } catch (error: any) {
     console.error("❌ Error adding to cart:", error);
-    showToast(`❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`, "error");
+    showToast(
+      `❌ ${error.response?.data?.message || "Có lỗi xảy ra"}`,
+      "error"
+    );
   }
 };
 
@@ -828,7 +852,10 @@ const handleBuyNow = async () => {
   }
 
   if (!selectedVariant.value) {
-    showToast("❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)", "error");
+    showToast(
+      "❌ Vui lòng chọn phiên bản sản phẩm (màu sắc và cấu hình)",
+      "error"
+    );
     return;
   }
 
@@ -870,58 +897,107 @@ const handleBuyNow = async () => {
 // Fetch rating and sold count
 const fetchProductStats = async () => {
   if (!product.value) return;
-  
-  const productId = String(product.value._id || product.value.id || '');
+
+  const productId = String(product.value._id || product.value.id || "");
   if (!productId) return;
 
   try {
     // Fetch rating from review-service
-    const reviewResponse = await $axios.get(`/reviews/product/${productId}?limit=1`);
-    if (reviewResponse.data.success && reviewResponse.data.data.stats) {
-      productRating.averageRating = reviewResponse.data.data.stats.averageRating || 0;
-      productRating.totalReviews = reviewResponse.data.data.stats.totalReviews || 0;
+    console.log("🌟 [Slug] Fetching product reviews...");
+    const reviewResponse = await $axios.get(
+      `/reviews/product/${productId}?limit=1`
+    );
+
+    console.log("🌟 [Slug] Review Response:", reviewResponse);
+    console.log("🌟 [Slug] Review Response Data:", reviewResponse.data);
+
+    // Handle both wrapped and unwrapped responses
+    let stats = null;
+    if (reviewResponse.data.stats) {
+      // Direct stats (axios interceptor unwrapped it)
+      stats = reviewResponse.data.stats;
+      console.log("🌟 [Slug] Found stats (unwrapped):", stats);
+    } else if (reviewResponse.data.success && reviewResponse.data.data?.stats) {
+      // Wrapped response { success: true, data: { stats: {...} } }
+      stats = reviewResponse.data.data.stats;
+      console.log("🌟 [Slug] Found stats (wrapped):", stats);
+    }
+
+    if (stats) {
+      productRating.averageRating = stats.averageRating || 0;
+      productRating.totalReviews = stats.totalReviews || 0;
+      console.log("✅ [Slug] Rating set to:", productRating.averageRating);
+      console.log("✅ [Slug] Total reviews:", productRating.totalReviews);
+    } else {
+      console.warn("⚠️ [Slug] No stats found in review response");
     }
   } catch (error) {
-    console.error('Error fetching product rating:', error);
+    console.error("❌ [Slug] Error fetching product rating:", error);
   }
 
   try {
     // Fetch sold count from top-selling API (same logic as ProductItem)
-    console.log('🚀 [Slug] Fetching top selling products...');
-    const topSellingResponse = await $axios.get(`/order/stats/top-selling-products?limit=100`);
-    
-    console.log('🚀 [Slug] Top Selling Response Status:', topSellingResponse.status);
-    console.log('� [Slug] Top Selling Response Data:', topSellingResponse.data);
-    console.log('� [Slug] Current Product:', product.value);
+    console.log("🚀 [Slug] Fetching top selling products...");
+    const topSellingResponse = await $axios.get(
+      `/order/stats/top-selling-products?limit=100`
+    );
 
-    if (topSellingResponse.data.success && topSellingResponse.data.data) {
-      const allItems = topSellingResponse.data.data;
+    console.log(
+      "🚀 [Slug] Top Selling Response Status:",
+      topSellingResponse.status
+    );
+    console.log(
+      "📊 [Slug] Top Selling Response Data:",
+      topSellingResponse.data
+    );
+    console.log("📦 [Slug] Current Product:", product.value);
+
+    // Handle both wrapped and unwrapped responses
+    let allItems = [];
+    if (Array.isArray(topSellingResponse.data)) {
+      // Direct array response (axios interceptor unwrapped it)
+      allItems = topSellingResponse.data;
+    } else if (
+      topSellingResponse.data.success &&
+      topSellingResponse.data.data
+    ) {
+      // Wrapped response { success: true, data: [...] }
+      allItems = topSellingResponse.data.data;
+    }
+
+    if (allItems.length > 0) {
       const currentSlug = product.value.slug;
-      
-      console.log('🚀 [Slug] Filtering by slug:', currentSlug);
-      
+
+      console.log("🚀 [Slug] Filtering by slug:", currentSlug);
+      console.log("📊 [Slug] Total items to filter:", allItems.length);
+
       // Filter all items that match the current product slug (to include all variants)
       const matchingItems = allItems.filter((item: any) => {
         const match = item.slug === currentSlug;
-        console.log(`   - Checking item: ${item.slug} (Sold: ${item.sold}) -> Match: ${match}`);
+        console.log(
+          `   - Checking item: ${item.slug} (Sold: ${item.sold}) -> Match: ${match}`
+        );
         return match;
       });
-      
-      console.log('� [Slug] Matching Items Count:', matchingItems.length);
+
+      console.log("✅ [Slug] Matching Items Count:", matchingItems.length);
 
       if (matchingItems.length > 0) {
         // Sum up sold count from all matching variants
-        const totalSold = matchingItems.reduce((sum: number, item: any) => sum + (item.sold || 0), 0);
-        console.log('� [Slug] Total Sold Calculated:', totalSold);
+        const totalSold = matchingItems.reduce(
+          (sum: number, item: any) => sum + (item.sold || 0),
+          0
+        );
+        console.log("💰 [Slug] Total Sold Calculated:", totalSold);
         productRating.soldCount = totalSold;
       } else {
-        console.warn('⚠️ [Slug] No matching items found in top selling list');
+        console.warn("⚠️ [Slug] No matching items found in top selling list");
       }
     } else {
-        console.error('❌ [Slug] Top selling API failed or no data');
+      console.error("❌ [Slug] Top selling API returned empty data");
     }
   } catch (error) {
-    console.error('Error fetching sold count:', error);
+    console.error("Error fetching sold count:", error);
   }
 };
 
@@ -934,18 +1010,24 @@ onMounted(() => {
   fetchWishlist();
 });
 
-watch(() => product.value, (newVal) => {
-  if (newVal) {
-    setProductSelectedValues();
-    fetchProductStats();
+watch(
+  () => product.value,
+  (newVal) => {
+    if (newVal) {
+      setProductSelectedValues();
+      fetchProductStats();
+    }
   }
-});
+);
 
-watch(() => route.query, () => {
-  if (product.value) {
-    setProductSelectedValues();
+watch(
+  () => route.query,
+  () => {
+    if (product.value) {
+      setProductSelectedValues();
+    }
   }
-});
+);
 
 watch(
   () => route.params.slug,
@@ -955,14 +1037,14 @@ watch(
   }
 );
 
-const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-  const toast = document.createElement('div');
+const showToast = (message: string, type: "success" | "error" = "success") => {
+  const toast = document.createElement("div");
   toast.textContent = message;
   toast.style.cssText = `
     position: fixed;
     top: 100px;
     right: 20px;
-    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    background: ${type === "success" ? "#4CAF50" : "#f44336"};
     color: white;
     padding: 16px 24px;
     border-radius: 4px;
@@ -971,11 +1053,11 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     font-size: 14px;
     animation: slideIn 0.3s ease;
   `;
-  
+
   document.body.appendChild(toast);
-  
+
   setTimeout(() => {
-    toast.style.animation = 'slideOut 0.3s ease';
+    toast.style.animation = "slideOut 0.3s ease";
     setTimeout(() => document.body.removeChild(toast), 300);
   }, 3000);
 };
