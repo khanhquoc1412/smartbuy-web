@@ -152,14 +152,14 @@ onMounted(async () => {
 
         if (!response.ok) {
              console.error('❌ [SUCCESS PAGE] Failed to update order status', responseData);
-             alert('Cảnh báo: Không thể cập nhật trạng thái đơn hàng. Vui lòng kiểm tra lại sau.');
+             showToast('Cảnh báo: Không thể cập nhật trạng thái đơn hàng. Vui lòng kiểm tra lại sau.', 'error');
         } else {
              console.log('✅ [SUCCESS PAGE] Order status updated to PAID');
         }
 
       } catch (err) {
         console.error('❌ [SUCCESS PAGE] Error updating order status:', err);
-        alert('Lỗi: ' + err.message);
+        showToast('Lỗi: ' + err.message, 'error');
       }
     } else {
       console.warn('⚠️ [SUCCESS PAGE] No orderId found in query params');
@@ -218,6 +218,30 @@ const formatCurrency = (value: number) => {
     style: 'currency',
     currency: 'VND',
   }).format(value);
+};
+const showToast = (message: string, type: "success" | "error" = "success") => {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === "success" ? "#4CAF50" : "#f44336"};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = "slideOut 0.3s ease";
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
 };
 </script>
 

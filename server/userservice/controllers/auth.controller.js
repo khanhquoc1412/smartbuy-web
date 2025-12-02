@@ -16,7 +16,10 @@ const {
   ConflictError,
 } = require("../../src/errors");
 const mailer = require("../services/mailer"); // Giả định services/mailer.js
-const { otpTemplate, passwordResetTemplate } = require("../services/emailTemplates");
+const {
+  otpTemplate,
+  passwordResetTemplate,
+} = require("../services/emailTemplates");
 
 const changePassword = async (req, res) => {
   try {
@@ -90,9 +93,9 @@ const changePassword = async (req, res) => {
   }
 };
 
-const fs = require('fs');
-const path = require('path');
-const { cloudinary } = require('../services/cloudinary');
+const fs = require("fs");
+const path = require("path");
+const { cloudinary } = require("../services/cloudinary");
 
 const register = async (req, res) => {
   try {
@@ -112,7 +115,7 @@ const register = async (req, res) => {
     // Random default avatar
     let avatarUrl = null;
     try {
-      const avatarDir = path.join(__dirname, '../avarta');
+      const avatarDir = path.join(__dirname, "../avarta");
       if (fs.existsSync(avatarDir)) {
         const files = fs.readdirSync(avatarDir);
         if (files.length > 0) {
@@ -130,7 +133,7 @@ const register = async (req, res) => {
       email,
       password, // Sẽ auto-hash trong pre-save
       avatarUrl,
-      isVerified: false // Chưa verify
+      isVerified: false, // Chưa verify
     });
 
     // Generate OTP 6 số
@@ -142,7 +145,7 @@ const register = async (req, res) => {
     await newUser.save();
 
     // Gửi email OTP với template đẹp
-    const emailHtml = otpTemplate(userName, otp, 'registration');
+    const emailHtml = otpTemplate(userName, otp, "registration");
     await mailer(email, emailHtml, `Mã xác minh SmartBuy của bạn: ${otp}`);
 
     console.log(`✅ OTP sent to ${email}: ${otp}`);
@@ -151,7 +154,7 @@ const register = async (req, res) => {
       success: true,
       requireOTP: true,
       message: "Vui lòng kiểm tra email để nhập mã OTP",
-      email: email
+      email: email,
     });
   } catch (error) {
     console.log(error);
@@ -183,12 +186,12 @@ const uploadAvatar = async (req, res) => {
     }
 
     // Local Storage Implementation
-    const avatarDir = path.join(__dirname, '../avarta');
+    const avatarDir = path.join(__dirname, "../avarta");
     if (!fs.existsSync(avatarDir)) {
       fs.mkdirSync(avatarDir, { recursive: true });
     }
 
-    const fileExt = path.extname(req.file.originalname) || '.jpg';
+    const fileExt = path.extname(req.file.originalname) || ".jpg";
     const filename = `avatar-${userId}-${Date.now()}${fileExt}`;
     const filePath = path.join(avatarDir, filename);
 
@@ -197,7 +200,7 @@ const uploadAvatar = async (req, res) => {
 
     // Construct URL (Assuming server runs on port 3005)
     // In production, use process.env.BASE_URL or similar
-    const baseUrl = process.env.BASE_URL || 'http://localhost:3005';
+    const baseUrl = process.env.BASE_URL || "http://localhost:3005";
     const avatarUrl = `${baseUrl}/avatars/${filename}`;
 
     // Update user avatar
@@ -207,15 +210,46 @@ const uploadAvatar = async (req, res) => {
     res.status(StatusCodes.OK).json({
       success: true,
       message: "Avatar uploaded successfully",
-      avatarUrl: user.avatarUrl
+      avatarUrl: user.avatarUrl,
     });
-
   } catch (error) {
     console.error("Upload avatar error:", error);
     return res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
-      message: error.message || "Upload failed"
+      message: error.message || "Upload failed",
     });
+  }
+};
+
+// auth.js middleware - Check mỗi request
+const auth = async (req, res, next) => {
+  try {
+    const { accessToken } = getAccessTokenFromHeaders(req.headers);
+
+    if (!accessToken) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const decoded = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_PRIVATE_KEY
+    );
+
+    // ✅ Check từ DB cho các route quan trọng
+    const user = await User.findById(decoded.id).select("isBlocked isAdmin");
+
+    if (user.isBlocked) {
+      return res.status(403).json({
+        success: false,
+        message: "Tài khoản của bạn đã bị khóa",
+        blocked: true, // ✅ Flag để client biết
+      });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    // handle error
   }
 };
 
@@ -229,7 +263,9 @@ const login = async (req, res) => {
 
     // Kiểm tra account đã verify chưa
     if (!user.isVerified) {
-      throw new UnauthorizedError("Vui lòng xác thực email trước khi đăng nhập");
+      throw new UnauthorizedError(
+        "Vui lòng xác thực email trước khi đăng nhập"
+      );
     }
 
     if (user.isBlocked) {
@@ -282,7 +318,6 @@ const login = async (req, res) => {
     });
   }
 };
-
 
 const loginSuccess = async (req, res) => {
   try {
@@ -442,7 +477,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     // Send Email
-    const emailHtml = otpTemplate(user.userName, otp, 'forgot_password');
+    const emailHtml = otpTemplate(user.userName, otp, "forgot_password");
     const title = `Mã xác minh quên mật khẩu: ${otp}`;
     await mailer(email, emailHtml, title);
 
@@ -498,14 +533,11 @@ const verifyForgotPasswordOTP = async (req, res) => {
       success: true,
       message: "Xác thực thành công",
       token: resetToken,
-      userId: user._id
+      userId: user._id,
     });
   } catch (error) {
     console.error("❌ Verify forgot password OTP error:", error);
-    if (
-      error instanceof NotFoundError ||
-      error instanceof BadRequestError
-    ) {
+    if (error instanceof NotFoundError || error instanceof BadRequestError) {
       return res.status(error.statusCode).json({
         success: false,
         message: error.message,
@@ -621,7 +653,6 @@ const logout = async (req, res) => {
     res.status(StatusCodes.OK).json({
       message: "Đăng xuất thành công",
       status: StatusCodes.OK,
-
     });
   } catch (error) {
     console.log(error);
@@ -661,19 +692,19 @@ const updateProfile = async (req, res) => {
 
       // Create or update PendingUpdate
       await PendingUpdate.findOneAndUpdate(
-        { userId: user._id, type: 'change_email' },
+        { userId: user._id, type: "change_email" },
         {
           userId: user._id,
-          type: 'change_email',
+          type: "change_email",
           data: { newEmail: email },
           verificationToken: otp,
-          verificationExpires: Date.now() + 5 * 60 * 1000
+          verificationExpires: Date.now() + 5 * 60 * 1000,
         },
         { upsert: true, new: true }
       );
 
       // Send OTP to NEW email
-      const emailHtml = otpTemplate(user.userName, otp, 'change_email');
+      const emailHtml = otpTemplate(user.userName, otp, "change_email");
       await mailer(email, emailHtml, `Mã xác minh thay đổi email: ${otp}`);
 
       requireOTP = true;
@@ -691,20 +722,20 @@ const updateProfile = async (req, res) => {
         userName: user.userName,
         email: user.email, // Return OLD email until verified
         avatarUrl: user.avatarUrl,
-        isAdmin: user.isAdmin
-      }
+        isAdmin: user.isAdmin,
+      },
     });
   } catch (error) {
     console.error("Update profile error:", error);
     if (error instanceof ConflictError) {
       return res.status(StatusCodes.CONFLICT).json({
         success: false,
-        message: error.message
+        message: error.message,
       });
     }
     return res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
-      message: error.message || "Update failed"
+      message: error.message || "Update failed",
     });
   }
 };
@@ -723,10 +754,15 @@ const verifyChangeEmailOTP = async (req, res) => {
       throw new NotFoundError("User not found");
     }
 
-    const pendingUpdate = await PendingUpdate.findOne({ userId: user._id, type: 'change_email' });
+    const pendingUpdate = await PendingUpdate.findOne({
+      userId: user._id,
+      type: "change_email",
+    });
 
     if (!pendingUpdate) {
-      throw new BadRequestError("Không có yêu cầu thay đổi email nào đang chờ xử lý hoặc mã đã hết hạn");
+      throw new BadRequestError(
+        "Không có yêu cầu thay đổi email nào đang chờ xử lý hoặc mã đã hết hạn"
+      );
     }
 
     if (pendingUpdate.verificationToken !== otp) {
@@ -752,21 +788,20 @@ const verifyChangeEmailOTP = async (req, res) => {
         userName: user.userName,
         email: user.email,
         avatarUrl: user.avatarUrl,
-        isAdmin: user.isAdmin
-      }
+        isAdmin: user.isAdmin,
+      },
     });
-
   } catch (error) {
     console.error("Verify change email OTP error:", error);
     if (error instanceof BadRequestError || error instanceof NotFoundError) {
       return res.status(error.statusCode).json({
         success: false,
-        message: error.message
+        message: error.message,
       });
     }
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: "Lỗi server"
+      message: "Lỗi server",
     });
   }
 };
@@ -829,10 +864,7 @@ const verifyEmail = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Verify email error:", error);
-    if (
-      error instanceof NotFoundError ||
-      error instanceof BadRequestError
-    ) {
+    if (error instanceof NotFoundError || error instanceof BadRequestError) {
       return res.status(error.statusCode).json({
         success: false,
         message: error.message,
@@ -937,10 +969,10 @@ const resendOTP = async (req, res) => {
     }
 
     // Kiểm tra type hợp lệ
-    if (type === 'registration' && user.isVerified) {
+    if (type === "registration" && user.isVerified) {
       throw new BadRequestError("Tài khoản đã được verify rồi");
     }
-    if (type === 'login' && !user.isVerified) {
+    if (type === "login" && !user.isVerified) {
       throw new BadRequestError("Vui lòng verify email trước");
     }
 
@@ -964,10 +996,7 @@ const resendOTP = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Resend OTP error:", error);
-    if (
-      error instanceof NotFoundError ||
-      error instanceof BadRequestError
-    ) {
+    if (error instanceof NotFoundError || error instanceof BadRequestError) {
       return res.status(error.statusCode).json({
         success: false,
         message: error.message,
@@ -981,8 +1010,6 @@ const resendOTP = async (req, res) => {
     });
   }
 };
-
-
 
 module.exports = {
   register,

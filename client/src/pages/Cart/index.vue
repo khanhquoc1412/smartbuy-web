@@ -305,7 +305,7 @@ const selectedTotal = computed(() => {
 const handleCheckout = (e: Event) => {
   if (selectedItems.value.length === 0) {
     e.preventDefault();
-    alert('Vui lòng chọn ít nhất một sản phẩm để mua');
+    showToast('Vui lòng chọn ít nhất một sản phẩm để mua');
   } else {
     // Store selected items in sessionStorage for checkout page
     sessionStorage.setItem('selectedCartItems', JSON.stringify(selectedItems.value));

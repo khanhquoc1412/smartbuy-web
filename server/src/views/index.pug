@@ -1,9 +1,0 @@
-html
-  head
-    title Rest Password
-  body
-    h1 Nhập mật khẩu mới của bạn
-    form(action=`/api/auth/reset-password/${userId}/${token}` method='post')
-      input(type='password' name='password' placeholder='Nhập mật khẩu mới')
-      input(type='submit' value='Xác nhận')
-

@@ -1,315 +1,376 @@
 <template>
-    <div class="default-layout">
-        <Header></Header>
-        <div class="app-main tw-flex tw-flex-col tw-gap-5 tw-pb-4">
-            <BreadScrumb name-page="Tài khoản" :sub-navs="[]" />
-            <Container>
-                <div class="app-account">
-                    <div class="app-account__left">
-                        <div class="sidebar">
-                            <div class="account-info tw-flex tw-items-center tw-gap-3">
-                                <div class="avatar-wrapper" @click="handleAvatarClick">
-                                    <img :src="user.avatarUrl || 'https://bim.gov.vn/Upload/images/staffs/avatar-default.jpg'" alt="Avatar">
-                                    <div class="avatar-overlay">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                                    </div>
-                                </div>
-                                <div class="base-info">
-                                    <span class="title">
-                                        Hello
-                                    </span>
-                                    <span class="name">
-                                        {{ user.userName }}
-                                    </span>
-                                </div>
-                            </div>
-                            <router-link class="sidebar-item tw-flex tw-gap-1" :to="item.path" v-for="item in sidebarItemsWithAdmin"
-                                :key="item.value">
-                                <img class="tw-h-6 tw-w-6" :src="item.icon" :alt="item.value">
-                                <span>{{ item.title }}</span>
-                            </router-link>
-                            <div class="sidebar-item app-logout  tw-flex tw-gap-1" @click="activeModal">
-                                <div class="sidebar__left tw-h-6 tw-w-6">
-                                    <img class="tw-h-full tw-w-full" :src="logoutSvg" alt="logout-icon">
-                                </div>
-                                <div class="sidebar__right">
-                                    Đăng xuất
-                                </div>
-                            </div>
-                        </div>
-                        <div id="sign-out-modal">
-                            <Modal content="Bạn muốn thoát tài khoản?" :is-active="activeModalSignOut"
-                                @updateIsActive="closeModal" @confirmAction="handleLogout" />
-                        </div>
-                        <AvatarModal 
-                            :is-active="showAvatarModal" 
-                            :avatar-url="user.avatarUrl"
-                            @close="showAvatarModal = false"
-                            @upload="handleAvatarUpload"
-                        />
-                    </div>
-                    <div class="app-account__right">
-                        <div class="main">
-                            <router-view />
-                        </div>
-                    </div>
+  <div class="default-layout">
+    <Header></Header>
+    <div class="app-main tw-flex tw-flex-col tw-gap-5 tw-pb-4">
+      <BreadScrumb name-page="Tài khoản" :sub-navs="[]" />
+      <Container>
+        <div class="app-account">
+          <div class="app-account__left">
+            <div class="sidebar">
+              <div class="account-info tw-flex tw-items-center tw-gap-3">
+                <div class="avatar-wrapper" @click="handleAvatarClick">
+                  <img
+                    :src="
+                      user.avatarUrl ||
+                      'https://bim.gov.vn/Upload/images/staffs/avatar-default.jpg'
+                    "
+                    alt="Avatar"
+                  />
+                  <div class="avatar-overlay">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                      ></path>
+                      <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                  </div>
                 </div>
-            </Container>
+                <div class="base-info">
+                  <span class="title"> Hello </span>
+                  <span class="name">
+                    {{ user.userName }}
+                  </span>
+                </div>
+              </div>
+              <router-link
+                class="sidebar-item tw-flex tw-gap-1"
+                :to="item.path"
+                v-for="item in sidebarItemsWithAdmin"
+                :key="item.value"
+              >
+                <img class="tw-h-6 tw-w-6" :src="item.icon" :alt="item.value" />
+                <span>{{ item.title }}</span>
+              </router-link>
+              <div
+                class="sidebar-item app-logout tw-flex tw-gap-1"
+                @click="activeModal"
+              >
+                <div class="sidebar__left tw-h-6 tw-w-6">
+                  <img
+                    class="tw-h-full tw-w-full"
+                    :src="logoutSvg"
+                    alt="logout-icon"
+                  />
+                </div>
+                <div class="sidebar__right">Đăng xuất</div>
+              </div>
+            </div>
+            <div id="sign-out-modal">
+              <Modal
+                content="Bạn muốn thoát tài khoản?"
+                :is-active="activeModalSignOut"
+                @updateIsActive="closeModal"
+                @confirmAction="handleLogout"
+              />
+            </div>
+            <AvatarModal
+              :is-active="showAvatarModal"
+              :avatar-url="user.avatarUrl"
+              @close="showAvatarModal = false"
+              @upload="handleAvatarUpload"
+            />
+          </div>
+          <div class="app-account__right">
+            <div class="main">
+              <router-view />
+            </div>
+          </div>
         </div>
-        <Footer></Footer>
+      </Container>
     </div>
+    <Footer></Footer>
+  </div>
 </template>
-  
+
 <script lang="ts" setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import Container from "@components/base/Container.vue";
-import Header from "@/components/base/Header.vue"
+import Header from "@/components/base/Header.vue";
 import Footer from "@/components/base/Footer.vue";
-import bagSvg from "@assets/svg/account/bag.svg"
-import admin from "@assets/svg/account/admin.png"
-import clockSvg from "@assets/svg/account/clock.svg"
-import heartSvg from "@assets/svg/account/heart.svg"
-import logoutSvg from "@assets/svg/account/logout.svg"
-import profileSvg from "@assets/svg/account/profile.svg"
-import notificationSvg from "@assets/svg/account/notification.svg"
+import bagSvg from "@assets/svg/account/bag.svg";
+import admin from "@assets/svg/account/admin.png";
+import clockSvg from "@assets/svg/account/clock.svg";
+import heartSvg from "@assets/svg/account/heart.svg";
+import logoutSvg from "@assets/svg/account/logout.svg";
+import profileSvg from "@assets/svg/account/profile.svg";
+import notificationSvg from "@assets/svg/account/notification.svg";
 import BreadScrumb from "@/components/base/BreadScrumb.vue";
-import secureSvg from "@assets/svg/categories/secure.svg"
+import secureSvg from "@assets/svg/categories/secure.svg";
 import Modal from "@/components/common/Modal.vue";
 import AvatarModal from "@/components/common/AvatarModal.vue";
 import { useAuth } from "@/composables/useAuth";
 import { useUploadAvatarMutation } from "@/api/auth/query";
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
 interface ISideBarItem {
-    value: string,
-    icon: string,
-    title: string,
-    path: string
+  value: string;
+  icon: string;
+  title: string;
+  path: string;
 }
 const sidebarItems = ref<ISideBarItem[]>([
-    {
-        value: "user-info",
-        icon: profileSvg,
-        title: "Thông tin cá nhân",
-        path: "/account",
-    },
-    {
-        value: "clock-icon",
-        icon: clockSvg,
-        title: "Lịch sử mua hàng",
-        path: "/account/order",
-    },
-    {
-        value: "heart-icon",
-        icon: heartSvg,
-        title: "Sản phẩm yêu thích",
-        path: "/account/wish-list",
-    },
-    {
-        value: "secure-icon",
-        icon: secureSvg,
-        title: "Thay đổi mật khẩu",
-        path: "/account/change-password",
-    },
+  {
+    value: "user-info",
+    icon: profileSvg,
+    title: "Thông tin cá nhân",
+    path: "/account",
+  },
+  {
+    value: "clock-icon",
+    icon: clockSvg,
+    title: "Lịch sử mua hàng",
+    path: "/account/order",
+  },
+  {
+    value: "heart-icon",
+    icon: heartSvg,
+    title: "Sản phẩm yêu thích",
+    path: "/account/wish-list",
+  },
+  {
+    value: "secure-icon",
+    icon: secureSvg,
+    title: "Thay đổi mật khẩu",
+    path: "/account/change-password",
+  },
 ]);
-const { user, signOut, getUserProfile } = useAuth()
-const isAdmin = computed(() => (user.value as any)?.isAdmin === true || (user.value as any)?.isAdmin === 'true' || (user.value as any)?.role === 'admin')
+const { user, signOut, getUserProfile } = useAuth();
+const isAdmin = computed(
+  () =>
+    (user.value as any)?.isAdmin === true ||
+    (user.value as any)?.isAdmin === "true" ||
+    (user.value as any)?.role === "admin"
+);
 const sidebarItemsWithAdmin = computed<ISideBarItem[]>(() => {
-    const base = [...sidebarItems.value]
-    if (isAdmin.value) {
-        base.push({
-            value: 'admin-page',
-            icon: admin,
-            title: 'Trang quản lý',
-            path: '/admin'
-        })
-    }
-    return base
-})
+  const base = [...sidebarItems.value];
+  if (isAdmin.value) {
+    base.push({
+      value: "admin-page",
+      icon: admin,
+      title: "Trang quản lý",
+      path: "/admin",
+    });
+  }
+  return base;
+});
 const router = useRouter();
-const activeModalSignOut = ref<boolean>(false)
+const activeModalSignOut = ref<boolean>(false);
 const activeModal = () => {
-    activeModalSignOut.value = true
-}
+  activeModalSignOut.value = true;
+};
 const closeModal = (value: boolean) => {
-    activeModalSignOut.value = value
-}
+  activeModalSignOut.value = value;
+};
 const handleLogout = () => {
-    signOut()
-}
+  signOut();
+};
 
 // Avatar Modal Logic
 const showAvatarModal = ref(false);
 const { mutate: uploadAvatar } = useUploadAvatarMutation();
 
 const handleAvatarClick = () => {
-    showAvatarModal.value = true;
+  showAvatarModal.value = true;
 };
 
 const handleAvatarUpload = (file: File) => {
-    const formData = new FormData();
-    formData.append('avatar', file);
+  const formData = new FormData();
+  formData.append("avatar", file);
 
-    uploadAvatar(formData, {
-        onSuccess: (data: any) => {
-            console.log("Upload response:", data);
-            const responseData = data.data || data;
-            if (responseData.success) {
-                if (getUserProfile) {
-                    getUserProfile();
-                } else {
-                    window.location.reload();
-                }
-                showAvatarModal.value = false;
-                alert("Cập nhật ảnh đại diện thành công!");
-            }
-        },
-        onError: (error) => {
-            console.error("Upload failed:", error);
-            alert("Cập nhật ảnh thất bại!");
+  uploadAvatar(formData, {
+    onSuccess: (data: any) => {
+      console.log("Upload response:", data);
+      const responseData = data.data || data;
+      if (responseData.success) {
+        if (getUserProfile) {
+          getUserProfile();
+        } else {
+          window.location.reload();
         }
-    });
+        showAvatarModal.value = false;
+        showToast("Cập nhật ảnh đại diện thành công!");
+      }
+    },
+    onError: (error) => {
+      console.error("Upload failed:", error);
+      showToast("Cập nhật ảnh thất bại!");
+    },
+  });
+};
+
+const showToast = (message: string, type: "success" | "error" = "success") => {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === "success" ? "#4CAF50" : "#f44336"};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = "slideOut 0.3s ease";
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
 };
 </script>
 
 <style lang="scss" scoped>
 .default-layout {
-    .app-main {
-        padding-top: 80px;
-        min-height: calc(100vh - 354.8px);
-    }
+  .app-main {
+    padding-top: 80px;
+    min-height: calc(100vh - 354.8px);
+  }
 }
 
 .app-account {
-    display: flex;
-    padding: 20px 0;
-    position: relative;
+  display: flex;
+  padding: 20px 0;
+  position: relative;
 
-    .sidebar {
-        width: 270px;
-        min-height: calc(100vh - 200px);
-        background-color: rgba(189, 189, 189, 0.099);
-        padding: 15px;
-        border-radius: 4px;
+  .sidebar {
+    width: 270px;
+    min-height: calc(100vh - 200px);
+    background-color: rgba(189, 189, 189, 0.099);
+    padding: 15px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 100px;
+    box-sizing: border-box;
+    gap: 10px;
+    padding-bottom: 60px;
+    justify-content: flex-start;
+
+    .sidebar-item {
+      padding: 8px 15px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      font-weight: 500;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: all 0.22s ease-in-out;
+      cursor: pointer;
+      border: 0.5px solid transparent;
+
+      &.is-active,
+      &:hover {
+        background-color: #fee;
+        border: 0.5px solid $red;
+        color: $red;
+
+        img {
+          filter: invert(37%) sepia(93%) saturate(7471%) hue-rotate(355deg)
+            brightness(76%) contrast(135%);
+        }
+      }
+
+      &.app-logout {
+        position: absolute;
+        bottom: 20px;
+
+        &:hover {
+          background-color: transparent;
+          border: 0.5px solid transparent;
+          color: $red;
+
+          img {
+            filter: invert(37%) sepia(93%) saturate(7471%) hue-rotate(355deg)
+              brightness(76%) contrast(135%);
+          }
+        }
+      }
+    }
+
+    .account-info {
+      padding-bottom: 10px;
+      border-bottom: 1px solid $border-section;
+
+      .avatar-wrapper {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+
+        .avatar-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.2s;
+          color: white;
+        }
+
+        &:hover .avatar-overlay {
+          opacity: 1;
+        }
+      }
+
+      .base-info {
         display: flex;
         flex-direction: column;
-        position: sticky;
-        top: 100px;
-        box-sizing: border-box;
-        gap: 10px;
-        padding-bottom: 60px;
-        justify-content: flex-start;
 
-
-        .sidebar-item {
-            padding: 8px 15px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            font-weight: 500;
-            font-size: 14px;
-            border-radius: 4px;
-            transition: all 0.22s ease-in-out;
-            cursor: pointer;
-            border: 0.5px solid transparent;
-
-
-
-            &.is-active,
-            &:hover {
-                background-color: #fee;
-                border: 0.5px solid $red;
-                color: $red;
-
-                img {
-                    filter: invert(37%) sepia(93%) saturate(7471%) hue-rotate(355deg) brightness(76%) contrast(135%);
-                }
-            }
-
-            &.app-logout {
-                position: absolute;
-                bottom: 20px;
-
-                &:hover {
-                    background-color: transparent;
-                    border: 0.5px solid transparent;
-                    color: $red;
-
-                    img {
-                        filter: invert(37%) sepia(93%) saturate(7471%) hue-rotate(355deg) brightness(76%) contrast(135%);
-                    }
-                }
-            }
-
+        .title {
+          font-size: 14px;
+          font-weight: 500;
+          color: $gray;
         }
 
-        .account-info {
-            padding-bottom: 10px;
-            border-bottom: 1px solid $border-section;
-
-            .avatar-wrapper {
-                height: 50px;
-                width: 50px;
-                border-radius: 50%;
-                position: relative;
-                cursor: pointer;
-                overflow: hidden;
-
-                img {
-                    height: 100%;
-                    width: 100%;
-                    object-fit: cover;
-                }
-
-                .avatar-overlay {
-                    position: absolute;
-                    inset: 0;
-                    background: rgba(0, 0, 0, 0.5);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    opacity: 0;
-                    transition: opacity 0.2s;
-                    color: white;
-                }
-
-                &:hover .avatar-overlay {
-                    opacity: 1;
-                }
-            }
-
-            .base-info {
-                display: flex;
-                flex-direction: column;
-
-                .title {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: $gray;
-                }
-
-                .name {
-                    font-size: 14px;
-                    font-weight: 500;
-                    color: $red;
-                }
-            }
+        .name {
+          font-size: 14px;
+          font-weight: 500;
+          color: $red;
         }
+      }
     }
+  }
 
-    .app-account__left {
-        #sign-out-modal {}
+  .app-account__left {
+    #sign-out-modal {
     }
+  }
 
-    .app-account__right {
-        width: calc(100% - 270px);
-        padding-top: 15px;
-        padding-left: 28px;
+  .app-account__right {
+    width: calc(100% - 270px);
+    padding-top: 15px;
+    padding-left: 28px;
 
-        .main {
-            width: 100%;
-        }
+    .main {
+      width: 100%;
     }
+  }
 }
 </style>

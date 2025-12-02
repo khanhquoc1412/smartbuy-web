@@ -230,29 +230,29 @@
               Tiếp tục mua hàng
             </button>
             <button
-  @click="handleAddAndGoToCart"
-  :disabled="isUpdating"
-  class="tw-flex-1 tw-px-6 tw-py-3 tw-rounded-xl tw-font-semibold tw-text-white tw-shadow-lg hover:tw-shadow-xl tw-transition-all tw-duration-200 disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-justify-center tw-gap-2"
-  style="background: linear-gradient(to right, #d70018, #b00014);"
->
-  <svg
-    v-if="!isUpdating"
-    class="tw-w-5 tw-h-5"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-    />
-  </svg>
-  <span class="tw-text-white tw-font-semibold">
-    {{ isUpdating ? "Đang xử lý..." : "Xem giỏ hàng" }}
-  </span>
-</button>
+              @click="handleAddAndGoToCart"
+              :disabled="isUpdating"
+              class="tw-flex-1 tw-px-6 tw-py-3 tw-rounded-xl tw-font-semibold tw-text-white tw-shadow-lg hover:tw-shadow-xl tw-transition-all tw-duration-200 disabled:tw-opacity-50 disabled:tw-cursor-not-allowed tw-flex tw-items-center tw-justify-center tw-gap-2"
+              style="background: linear-gradient(to right, #d70018, #b00014)"
+            >
+              <svg
+                v-if="!isUpdating"
+                class="tw-w-5 tw-h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span class="tw-text-white tw-font-semibold">
+                {{ isUpdating ? "Đang xử lý..." : "Xem giỏ hàng" }}
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -367,35 +367,58 @@ const close = () => {
 const handleAddAndGoToCart = async () => {
   try {
     isUpdating.value = true;
-    
-    console.log('🛒 View cart clicked');
-    console.log('📊 Current quantity:', localQuantity.value);
-    console.log('📊 Initial quantity:', props.productInfo?.quantity);
-    
+
+    console.log("🛒 View cart clicked");
+    console.log("📊 Current quantity:", localQuantity.value);
+    console.log("📊 Initial quantity:", props.productInfo?.quantity);
+
     // ✅ Nếu quantity thay đổi, emit để parent update
     if (localQuantity.value !== props.productInfo?.quantity) {
-      console.log('📝 Quantity changed, emitting update...');
-      
+      console.log("📝 Quantity changed, emitting update...");
+
       // ✅ Emit event với quantity mới
       await emit("view-cart", localQuantity.value);
-      
-      console.log('✅ Quantity updated successfully');
+
+      console.log("✅ Quantity updated successfully");
     } else {
-      console.log('ℹ️ Quantity unchanged, skipping update');
+      console.log("ℹ️ Quantity unchanged, skipping update");
     }
-    
+
     // ✅ Đóng modal
     close();
-    
+
     // ✅ Redirect sang giỏ hàng
     await router.push("/cart");
-    
   } catch (error) {
-    console.error('❌ Error in handleAddAndGoToCart:', error);
-    alert('Có lỗi xảy ra khi cập nhật giỏ hàng');
+    console.error("❌ Error in handleAddAndGoToCart:", error);
+    showToast("Có lỗi xảy ra khi cập nhật giỏ hàng", "error");
   } finally {
     isUpdating.value = false;
   }
+};
+const showToast = (message: string, type: "success" | "error" = "success") => {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: ${type === "success" ? "#4CAF50" : "#f44336"};
+    color: white;
+    padding: 16px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = "slideOut 0.3s ease";
+    setTimeout(() => document.body.removeChild(toast), 300);
+  }, 3000);
 };
 </script>
 
