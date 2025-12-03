@@ -264,17 +264,29 @@
       </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    <!-- Confirmation Modal -->
     <div v-if="showDeleteConfirmModal" class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50 tw-flex tw-items-center tw-justify-center tw-z-50">
       <div class="tw-bg-white tw-p-6 tw-rounded-lg tw-w-96">
-        <h3 class="tw-text-lg tw-font-semibold tw-mb-4 tw-text-crimson-600">Xác nhận xóa tài khoản</h3>
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4" :class="{
+          'tw-text-crimson-600': confirmActionType === 'delete',
+          'tw-text-orange-600': confirmActionType === 'block',
+          'tw-text-green-600': confirmActionType === 'unblock',
+          'tw-text-purple-600': confirmActionType === 'admin'
+        }">
+          {{ confirmModalTitle }}
+        </h3>
         <p class="tw-text-stone-700 tw-mb-6">{{ deleteConfirmMessage }}</p>
         <div class="tw-flex tw-gap-2 tw-justify-end">
           <button @click="showDeleteConfirmModal = false" class="tw-px-4 tw-py-2 tw-bg-stone-300 tw-text-stone-700 tw-rounded-lg hover:tw-bg-stone-400 tw-transition-colors">
             Hủy
           </button>
-          <button @click="confirmDelete" class="tw-px-4 tw-py-2 tw-bg-crimson-600 tw-text-white tw-rounded-lg hover:tw-bg-crimson-700 tw-transition-colors">
-            Xóa
+          <button @click="confirmDelete" class="tw-px-4 tw-py-2 tw-text-white tw-rounded-lg tw-transition-colors" :class="{
+            'tw-bg-crimson-600 hover:tw-bg-crimson-700': confirmActionType === 'delete',
+            'tw-bg-orange-600 hover:tw-bg-orange-700': confirmActionType === 'block',
+            'tw-bg-green-600 hover:tw-bg-green-700': confirmActionType === 'unblock',
+            'tw-bg-purple-600 hover:tw-bg-purple-700': confirmActionType === 'admin'
+          }">
+            {{ confirmButtonText }}
           </button>
         </div>
       </div>
@@ -731,6 +743,9 @@ const notificationMessage = ref('')
 const notificationType = ref('info')
 const deleteConfirmMessage = ref('')
 const deleteConfirmAction = ref(null)
+const confirmActionType = ref('delete') // 'delete', 'block', 'unblock', 'admin'
+const confirmModalTitle = ref('Xác nhận xóa tài khoản')
+const confirmButtonText = ref('Xóa')
 const newUser = ref({
   userName: '',
   email: '',
@@ -957,6 +972,9 @@ function deleteSelectedUsers() {
     return
   }
 
+  confirmActionType.value = 'delete'
+  confirmModalTitle.value = 'Xác nhận xóa tài khoản'
+  confirmButtonText.value = 'Xóa'
   deleteConfirmMessage.value = `Bạn có chắc chắn muốn xóa ${selectedUserIds.value.length} tài khoản đã chọn?`
   deleteConfirmAction.value = async () => {
     try {
@@ -985,6 +1003,9 @@ async function bulkBlockUsers() {
     return
   }
 
+  confirmActionType.value = 'block'
+  confirmModalTitle.value = 'Xác nhận khóa tài khoản'
+  confirmButtonText.value = 'Khóa'
   deleteConfirmMessage.value = `Bạn có chắc chắn muốn KHÓA ${selectedUserIds.value.length} tài khoản đã chọn?`
   deleteConfirmAction.value = async () => {
     try {
@@ -1013,6 +1034,9 @@ async function bulkUnblockUsers() {
     return
   }
 
+  confirmActionType.value = 'unblock'
+  confirmModalTitle.value = 'Xác nhận mở khóa tài khoản'
+  confirmButtonText.value = 'Mở khóa'
   deleteConfirmMessage.value = `Bạn có chắc chắn muốn MỞ KHÓA ${selectedUserIds.value.length} tài khoản đã chọn?`
   deleteConfirmAction.value = async () => {
     try {
@@ -1041,6 +1065,9 @@ async function bulkSetAdmin() {
     return
   }
 
+  confirmActionType.value = 'admin'
+  confirmModalTitle.value = 'Xác nhận cấp quyền Admin'
+  confirmButtonText.value = 'Cấp Admin'
   deleteConfirmMessage.value = `Bạn có chắc chắn muốn CẤP QUYỀN ADMIN cho ${selectedUserIds.value.length} tài khoản đã chọn?`
   deleteConfirmAction.value = async () => {
     try {

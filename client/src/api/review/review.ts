@@ -10,6 +10,7 @@ export interface Review {
   userName: string;
   images: string[];
   helpfulCount: number;
+  helpfulBy?: string[];
   isVisible: boolean;
   hiddenReason?: string;
   hiddenBy?: string;
@@ -129,9 +130,33 @@ export const getReviewsStats = async (): Promise<StatsResponse> => {
   return await $axios.get<StatsResponse>('/reviews/stats') as unknown as StatsResponse;
 };
 
+// Lấy phân bố rating
+export const getRatingDistribution = async () => {
+  return await $axios.get('/reviews/stats/rating-distribution') as any;
+};
+
+// Lấy top sản phẩm được đánh giá nhiều nhất
+export const getTopReviewedProducts = async (params?: { limit?: number }) => {
+  const queryParams = new URLSearchParams();
+  if (params?.limit) queryParams.append('limit', params.limit.toString());
+  return await $axios.get(`/reviews/stats/top-products?${queryParams.toString()}`) as any;
+};
+
+// Lấy xu hướng đánh giá theo thời gian
+export const getReviewTrends = async (params?: { days?: number }) => {
+  const queryParams = new URLSearchParams();
+  if (params?.days) queryParams.append('days', params.days.toString());
+  return await $axios.get(`/reviews/stats/trends?${queryParams.toString()}`) as any;
+};
+
+// Lấy thống kê reviews có/không có hình ảnh
+export const getImageStats = async () => {
+  return await $axios.get('/reviews/stats/images') as any;
+};
+
 // Đánh dấu hữu ích
-export const markReviewHelpful = async (reviewId: string) => {
-  return await $axios.post(`/reviews/${reviewId}/helpful`) as any;
+export const markReviewHelpful = async (reviewId: string, userId: string) => {
+  return await $axios.post(`/reviews/${reviewId}/helpful`, { userId }) as any;
 };
 
 // Tạo review mới

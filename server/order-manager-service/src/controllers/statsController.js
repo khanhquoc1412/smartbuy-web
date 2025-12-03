@@ -57,12 +57,37 @@ exports.getOverview = async (req, res) => {
     const { dateRange = '30days', startDate, endDate } = req.query;
     const { start, end } = getDateRange(dateRange, startDate, endDate);
 
-    // Tính doanh thu và số đơn trong khoảng thời gian
+    // Tính doanh thu và số đơn - dùng statusHistory.timestamp
     const currentStats = await Order.aggregate([
       {
         $match: {
-          createdAt: { $gte: start, $lte: end },
-          status: { $nin: ['cancelled', 'payment_failed'] }
+          status: { $in: ['delivered', 'completed'] },
+          paymentStatus: 'paid'
+        }
+      },
+      { $unwind: '$statusHistory' },
+      {
+        $match: {
+          'statusHistory.status': { $in: ['delivered', 'completed'] },
+          'statusHistory.timestamp': { $gte: start, $lte: end }
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          totalPrice: { $first: '$totalPrice' },
+          user: { $first: '$user' },
+          timestamp: { $first: '$statusHistory.timestamp' }
+        }
+      },
+      {
+        $sort: { _id: 1, timestamp: -1 }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          totalPrice: { $first: '$totalPrice' },
+          user: { $first: '$user' }
         }
       },
       {
@@ -83,8 +108,31 @@ exports.getOverview = async (req, res) => {
     const previousStats = await Order.aggregate([
       {
         $match: {
-          createdAt: { $gte: previousStart, $lt: previousEnd },
-          status: { $nin: ['cancelled', 'payment_failed'] }
+          status: { $in: ['delivered', 'completed'] },
+          paymentStatus: 'paid'
+        }
+      },
+      { $unwind: '$statusHistory' },
+      {
+        $match: {
+          'statusHistory.status': { $in: ['delivered', 'completed'] },
+          'statusHistory.timestamp': { $gte: previousStart, $lt: previousEnd }
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          totalPrice: { $first: '$totalPrice' },
+          timestamp: { $first: '$statusHistory.timestamp' }
+        }
+      },
+      {
+        $sort: { _id: 1, timestamp: -1 }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          totalPrice: { $first: '$totalPrice' }
         }
       },
       {
@@ -192,31 +240,64 @@ exports.getRevenueTimeline = async (req, res) => {
     let groupFormat;
     switch (groupBy) {
       case 'hour':
-        groupFormat = { $hour: '$createdAt' };
+        groupFormat = { $hour: { date: '$statusHistory.timestamp', timezone: '+07:00' } };
         break;
       case 'day':
-        groupFormat = { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } };
+        groupFormat = { $dateToString: { format: '%Y-%m-%d', date: '$statusHistory.timestamp', timezone: '+07:00' } };
         break;
       case 'week':
-        groupFormat = { $week: '$createdAt' };
+        groupFormat = { $week: { date: '$statusHistory.timestamp', timezone: '+07:00' } };
         break;
       case 'month':
-        groupFormat = { $dateToString: { format: '%Y-%m', date: '$createdAt' } };
+        groupFormat = { $dateToString: { format: '%Y-%m', date: '$statusHistory.timestamp', timezone: '+07:00' } };
         break;
       default:
-        groupFormat = { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } };
+        groupFormat = { $dateToString: { format: '%Y-%m-%d', date: '$statusHistory.timestamp', timezone: '+07:00' } };
     }
 
     const timeline = await Order.aggregate([
       {
         $match: {
-          createdAt: { $gte: start, $lte: end },
-          status: { $nin: ['cancelled', 'payment_failed'] }
+          status: { $in: ['delivered', 'completed'] },
+          paymentStatus: 'paid'
+        }
+      },
+      { $unwind: '$statusHistory' },
+      {
+        $match: {
+          'statusHistory.status': { $in: ['delivered', 'completed'] },
+          'statusHistory.timestamp': { $gte: start, $lte: end }
+        }
+      },
+      // Convert to Vietnam timezone before grouping
+      {
+        $addFields: {
+          vietnamDate: groupFormat
         }
       },
       {
         $group: {
-          _id: groupFormat,
+          _id: {
+            orderId: '$_id',
+            date: '$vietnamDate'
+          },
+          totalPrice: { $first: '$totalPrice' },
+          timestamp: { $first: '$statusHistory.timestamp' }
+        }
+      },
+      {
+        $sort: { '_id.orderId': 1, timestamp: -1 }
+      },
+      {
+        $group: {
+          _id: '$_id.orderId',
+          date: { $first: '$_id.date' },
+          totalPrice: { $first: '$totalPrice' }
+        }
+      },
+      {
+        $group: {
+          _id: '$date',
           revenue: { $sum: '$totalPrice' },
           orders: { $sum: 1 }
         }

@@ -511,12 +511,191 @@
         </div>
       </div>
     </section>
+
+    <!-- ==================== PHẦN 4: THỐNG KÊ ĐÁNH GIÁ ==================== -->
+    <section class="tw-space-y-4 tw-pt-8 tw-border-t-2 tw-border-gray-200">
+      <div class="tw-flex tw-items-center tw-gap-3 tw-border-l-4 tw-border-amber-500 tw-pl-4">
+        <h2 class="tw-text-2xl tw-font-bold tw-text-amber-900">Thống kê đánh giá sản phẩm</h2>
+      </div>
+
+      <!-- Review Overview Cards -->
+      <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-4 tw-gap-4">
+        <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6 tw-border-t-4 tw-border-amber-500">
+          <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+            <h3 class="tw-text-sm tw-font-semibold tw-text-gray-600 tw-uppercase">Tổng đánh giá</h3>
+            <div class="tw-bg-amber-100 tw-p-2 tw-rounded-lg">
+              <svg class="tw-w-6 tw-h-6 tw-text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+            </div>
+          </div>
+          <p class="tw-text-3xl tw-font-bold tw-text-gray-900">{{ reviewOverview.totalReviews }}</p>
+          <div class="tw-mt-2 tw-text-sm tw-text-gray-500">
+            <span class="tw-text-green-600 tw-font-medium">{{ reviewOverview.visibleReviews }}</span> hiển thị, 
+            <span class="tw-text-crimson-600 tw-font-medium">{{ reviewOverview.hiddenReviews }}</span> đã ẩn
+          </div>
+        </div>
+
+        <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6 tw-border-t-4 tw-border-amber-500">
+          <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+            <h3 class="tw-text-sm tw-font-semibold tw-text-gray-600 tw-uppercase">Đánh giá TB</h3>
+            <div class="tw-bg-amber-100 tw-p-2 tw-rounded-lg">
+              <svg class="tw-w-6 tw-h-6 tw-text-amber-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            </div>
+          </div>
+          <p class="tw-text-3xl tw-font-bold tw-text-gray-900">{{ reviewOverview.averageRating.toFixed(1) }}/5</p>
+          <div class="tw-flex tw-items-center tw-gap-1 tw-mt-2">
+            <svg v-for="i in 5" :key="i" class="tw-w-4 tw-h-4" :class="i <= Math.round(reviewOverview.averageRating) ? 'tw-text-amber-400' : 'tw-text-gray-300'" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6 tw-border-t-4 tw-border-green-500">
+          <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+            <h3 class="tw-text-sm tw-font-semibold tw-text-gray-600 tw-uppercase">Lượt hữu ích</h3>
+            <div class="tw-bg-green-100 tw-p-2 tw-rounded-lg">
+              <svg class="tw-w-6 tw-h-6 tw-text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+              </svg>
+            </div>
+          </div>
+          <p class="tw-text-3xl tw-font-bold tw-text-gray-900">{{ reviewOverview.totalHelpful }}</p>
+          <div class="tw-mt-2 tw-text-sm tw-text-gray-500">Tổng số lượt đánh dấu hữu ích</div>
+        </div>
+
+        <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6 tw-border-t-4 tw-border-blue-500">
+          <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+            <h3 class="tw-text-sm tw-font-semibold tw-text-gray-600 tw-uppercase">Có hình ảnh</h3>
+            <div class="tw-bg-blue-100 tw-p-2 tw-rounded-lg">
+              <svg class="tw-w-6 tw-h-6 tw-text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          </div>
+          <p class="tw-text-3xl tw-font-bold tw-text-gray-900">{{ imageStats.percentage.withImages }}%</p>
+          <div class="tw-mt-2 tw-text-sm tw-text-gray-500">
+            {{ imageStats.withImages }} / {{ imageStats.total }} đánh giá
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-6">
+        <!-- Rating Distribution Chart -->
+        <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6">
+          <h3 class="tw-text-lg tw-font-bold tw-text-gray-900 tw-mb-4">Phân bố đánh giá</h3>
+          <div class="tw-h-80">
+            <canvas ref="ratingDistributionChartRef"></canvas>
+          </div>
+          <!-- Legend -->
+          <div class="tw-mt-4 tw-space-y-2">
+            <div v-for="item in ratingDistributionData" :key="item.rating" class="tw-flex tw-items-center tw-justify-between tw-text-sm">
+              <div class="tw-flex tw-items-center tw-gap-2">
+                <div class="tw-flex tw-items-center tw-gap-1">
+                  <span class="tw-font-medium">{{ item.rating }}</span>
+                  <svg class="tw-w-4 tw-h-4 tw-text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                </div>
+                <div class="tw-flex-1 tw-bg-gray-200 tw-rounded-full tw-h-2 tw-w-32">
+                  <div 
+                    class="tw-h-2 tw-rounded-full"
+                    :class="{
+                      'tw-bg-green-500': item.rating === 5,
+                      'tw-bg-lime-500': item.rating === 4,
+                      'tw-bg-amber-500': item.rating === 3,
+                      'tw-bg-orange-500': item.rating === 2,
+                      'tw-bg-crimson-500': item.rating === 1
+                    }"
+                    :style="{ width: reviewOverview.totalReviews > 0 ? `${(item.count / reviewOverview.totalReviews * 100)}%` : '0%' }"
+                  ></div>
+                </div>
+              </div>
+              <span class="tw-font-medium tw-text-gray-700">{{ item.count }} ({{ reviewOverview.totalReviews > 0 ? ((item.count / reviewOverview.totalReviews) * 100).toFixed(1) : 0 }}%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Trends Chart -->
+        <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6">
+          <div class="tw-mb-4">
+            <h3 class="tw-text-lg tw-font-bold tw-text-gray-900 tw-mb-2">Xu hướng đánh giá (7 ngày)</h3>
+            <p class="tw-text-sm tw-text-gray-500">Theo dõi số lượng đánh giá và điểm đánh giá trung bình theo ngày</p>
+          </div>
+          
+          <!-- Custom Legend -->
+          <div class="tw-flex tw-items-center tw-gap-6 tw-mb-4 tw-p-3 tw-bg-gray-50 tw-rounded-lg">
+            <div class="tw-flex tw-items-center tw-gap-2">
+              <div class="tw-w-4 tw-h-4 tw-rounded tw-bg-amber-500"></div>
+              <span class="tw-text-sm tw-font-medium tw-text-gray-700">Số đánh giá</span>
+              <span class="tw-text-xs tw-text-gray-500 tw-ml-1">(Trục trái)</span>
+            </div>
+            <div class="tw-flex tw-items-center tw-gap-2">
+              <div class="tw-w-4 tw-h-4 tw-rounded tw-bg-green-500"></div>
+              <span class="tw-text-sm tw-font-medium tw-text-gray-700">Đánh giá TB</span>
+              <span class="tw-text-xs tw-text-gray-500 tw-ml-1">(Trục phải, thang 0-5⭐)</span>
+            </div>
+          </div>
+          
+          <div class="tw-h-80">
+            <canvas ref="reviewTrendsChartRef"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Reviewed Products Table -->
+      <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6">
+        <h3 class="tw-text-lg tw-font-bold tw-text-gray-900 tw-mb-4">Top sản phẩm được đánh giá nhiều nhất</h3>
+        <div class="tw-overflow-x-auto">
+          <table class="tw-w-full">
+            <thead class="tw-bg-amber-50 tw-border-b tw-border-amber-200">
+              <tr>
+                <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-amber-900 tw-uppercase">STT</th>
+                <th class="tw-px-4 tw-py-3 tw-text-left tw-text-xs tw-font-semibold tw-text-amber-900 tw-uppercase">Tên sản phẩm</th>
+                <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-amber-900 tw-uppercase">Số đánh giá</th>
+                <th class="tw-px-4 tw-py-3 tw-text-center tw-text-xs tw-font-semibold tw-text-amber-900 tw-uppercase">Đánh giá TB</th>
+              </tr>
+            </thead>
+            <tbody class="tw-divide-y tw-divide-gray-200">
+              <tr v-for="(product, index) in topReviewedProducts" :key="product._id" class="hover:tw-bg-gray-50 tw-transition-colors">
+                <td class="tw-px-4 tw-py-3 tw-text-sm tw-text-gray-900">{{ index + 1 }}</td>
+                <td class="tw-px-4 tw-py-3">
+                  <div class="tw-text-sm tw-font-medium tw-text-gray-900">{{ product.productName }}</div>
+                </td>
+                <td class="tw-px-4 tw-py-3 tw-text-center">
+                  <span class="tw-inline-flex tw-items-center tw-px-3 tw-py-1 tw-rounded-full tw-text-sm tw-font-medium tw-bg-amber-100 tw-text-amber-800">
+                    {{ product.totalReviews }}
+                  </span>
+                </td>
+                <td class="tw-px-4 tw-py-3 tw-text-center">
+                  <div class="tw-flex tw-items-center tw-justify-center tw-gap-1">
+                    <span class="tw-text-sm tw-font-bold tw-text-gray-900">{{ product.averageRating.toFixed(1) }}</span>
+                    <svg class="tw-w-4 tw-h-4 tw-text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="topReviewedProducts.length === 0">
+                <td colspan="4" class="tw-px-4 tw-py-8 tw-text-center tw-text-gray-500">
+                  Chưa có dữ liệu
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch, defineComponent, h } from 'vue'
 import Chart from 'chart.js/auto'
+import * as XLSX from 'xlsx'
 import { 
   getOrdersOverview, 
   getRevenueTimeline, 
@@ -535,6 +714,13 @@ import {
   getTopCustomers,
   getUsersOverview
 } from '@/api/user/stats'
+import {
+  getReviewsStats,
+  getRatingDistribution,
+  getTopReviewedProducts,
+  getReviewTrends,
+  getImageStats
+} from '@/api/review/review'
 
 // StatCard Component
 const StatCard = defineComponent({
@@ -633,6 +819,8 @@ const orderStatusChartRef = ref<HTMLCanvasElement | null>(null)
 const categoryChartRef = ref<HTMLCanvasElement | null>(null)
 const paymentMethodChartRef = ref<HTMLCanvasElement | null>(null)
 const peakHoursChartRef = ref<HTMLCanvasElement | null>(null)
+const ratingDistributionChartRef = ref<HTMLCanvasElement | null>(null)
+const reviewTrendsChartRef = ref<HTMLCanvasElement | null>(null)
 
 // Chart instances để có thể destroy khi update
 let revenueChart: Chart | null = null
@@ -640,6 +828,8 @@ let orderStatusChart: Chart | null = null
 let categoryChart: Chart | null = null
 let paymentMethodChart: Chart | null = null
 let peakHoursChart: Chart | null = null
+let ratingDistributionChart: Chart | null = null
+let reviewTrendsChart: Chart | null = null
 
 const dateRange = ref<'7days' | '30days' | '90days' | 'year' | 'custom'>('30days')
 const loading = ref(false)
@@ -664,6 +854,7 @@ const overview = ref({
 
 const topProducts = ref<any[]>([])
 const lowStockProducts = ref<any[]>([])
+const revenueTimeline = ref<any[]>([])
 
 // Customer segments data with pagination
 const vipCustomers = ref<CustomerSegment>({
@@ -700,6 +891,28 @@ const customerOverview = ref({
   blockedUsers: 0
 })
 
+// Review stats data
+const reviewOverview = ref({
+  totalReviews: 0,
+  averageRating: 0,
+  totalHelpful: 0,
+  visibleReviews: 0,
+  hiddenReviews: 0
+})
+
+const topReviewedProducts = ref<any[]>([])
+const ratingDistributionData = ref<any[]>([])
+const reviewTrendsData = ref<any[]>([])
+const imageStats = ref({
+  withImages: 0,
+  withoutImages: 0,
+  total: 0,
+  percentage: {
+    withImages: 0,
+    withoutImages: 0
+  }
+})
+
 // Data for chart legends
 const orderStatusData = ref<any[]>([])
 const paymentMethodData = ref<any[]>([])
@@ -720,7 +933,196 @@ function formatDateRange(dateRange: { start: Date; end: Date } | null) {
 }
 
 function exportReport() {
-  alert('Chức năng xuất báo cáo đang phát triển!')
+  try {
+    // Tạo workbook mới
+    const wb = XLSX.utils.book_new()
+
+    // ==================== SHEET 1: TỔNG QUAN ====================
+    const overviewData = [
+      ['BÁO CÁO THỐNG KÊ TỔNG HỢP'],
+      ['Thời gian xuất:', new Date().toLocaleString('vi-VN')],
+      ['Kỳ báo cáo:', formatDateRange(overview.value.dateRange)],
+      [],
+      ['PHẦN 1: THỐNG KÊ ĐƠN HÀNG'],
+      [],
+      ['Chỉ số', 'Giá trị hiện tại', 'Kỳ trước', 'Thay đổi (%)'],
+      ['Tổng doanh thu', overview.value.totalRevenue, overview.value.previousRevenue, overview.value.revenueChange],
+      ['Số đơn hàng', overview.value.totalOrders, overview.value.previousOrders, overview.value.ordersChange],
+      ['Khách hàng mới', overview.value.newCustomers, overview.value.previousCustomers, overview.value.customersChange],
+      ['Giá trị đơn TB', overview.value.avgOrderValue, overview.value.previousAvgOrderValue, overview.value.aovChange],
+      [],
+      ['TRẠNG THÁI ĐƠN HÀNG'],
+      ['Trạng thái', 'Số lượng', 'Tỷ lệ (%)'],
+      ...orderStatusData.value.map((item: any) => [
+        item.label,
+        item.count,
+        item.percentage
+      ]),
+      [],
+      ['PHƯƠNG THỨC THANH TOÁN'],
+      ['Phương thức', 'Số đơn', 'Tỷ lệ (%)'],
+      ...paymentMethodData.value.map((item: any) => [
+        item.label,
+        item.count,
+        item.percentage
+      ])
+    ]
+    const wsOverview = XLSX.utils.aoa_to_sheet(overviewData)
+    XLSX.utils.book_append_sheet(wb, wsOverview, 'Tổng quan')
+
+    // ==================== SHEET 2: SẢN PHẨM ====================
+    const productData = [
+      ['PHẦN 2: THỐNG KÊ SẢN PHẨM'],
+      [],
+      ['Tổng số sản phẩm:', productOverview.value.totalProducts],
+      ['Số danh mục:', productOverview.value.totalCategories],
+      ['Số biến thể:', productOverview.value.totalVariants],
+      ['Giá trị kho:', productOverview.value.totalInventoryValue],
+      [],
+      ['TOP SẢN PHẨM BÁN CHẠY'],
+      ['STT', 'Tên sản phẩm', 'Đã bán', 'Doanh thu', 'Tồn kho'],
+      ...topProducts.value.map((p: any, idx: number) => [
+        idx + 1,
+        p.name || 'N/A',
+        p.sold || p.soldQuantity || 0,
+        p.revenue || 0,
+        p.stock || 0,
+      ]),
+      [],
+      ['SẢN PHẨM TỒN KHO THẤP'],
+      ['STT', 'Tên sản phẩm', 'Tồn kho', 'Đã bán'],
+      ...lowStockProducts.value.map((p: any, idx: number) => [
+        idx + 1,
+        p.name || 'N/A',
+        p.stock || 0,
+        p.sold || p.soldQuantity || 0,
+      ]),
+      [],
+      ['TÌNH TRẠNG KHO'],
+      ['Loại', 'Số lượng sản phẩm'],
+      ['Sắp hết hàng (< 10)', inventory.value.lowStock, ''],
+      ['Bình thường (10-50)', inventory.value.normalStock, ''],
+      ['Dồi dào (> 50)', inventory.value.highStock, '']
+    ]
+    const wsProduct = XLSX.utils.aoa_to_sheet(productData)
+    XLSX.utils.book_append_sheet(wb, wsProduct, 'Sản phẩm')
+
+    // ==================== SHEET 3: KHÁCH HÀNG ====================
+    const customerData = [
+      ['PHẦN 3: THỐNG KÊ KHÁCH HÀNG'],
+      [],
+      ['Tổng người dùng:', customerOverview.value.totalUsers],
+      ['Đã xác thực:', customerOverview.value.verifiedUsers],
+      ['Người dùng mới:', customerOverview.value.newUsers],
+      ['Quản trị viên:', customerOverview.value.adminUsers],
+      ['Đã khóa:', customerOverview.value.blockedUsers],
+      [],
+      ['KHÁCH HÀNG VIP (Top chi tiêu)'],
+      ['Hạng', 'Tên', 'Email', 'Tổng đơn', 'Tổng chi tiêu', 'Đơn gần nhất'],
+      ...vipCustomers.value.customers.map((c: Customer) => [
+        c.ranking,
+        c.name,
+        c.email,
+        c.totalOrders,
+        c.totalSpent,
+        formatDate(c.lastOrderDate)
+      ]),
+      [],
+      ['KHÁCH HÀNG THƯỜNG XUYÊN'],
+      ['Hạng', 'Tên', 'Email', 'Tổng đơn', 'Tổng chi tiêu', 'Đơn gần nhất'],
+      ...frequentCustomers.value.customers.map((c: Customer) => [
+        c.ranking,
+        c.name,
+        c.email,
+        c.totalOrders,
+        c.totalSpent,
+        formatDate(c.lastOrderDate)
+      ]),
+      [],
+      ['KHÁCH HÀNG MỚI'],
+      ['Hạng', 'Tên', 'Email', 'Tổng đơn', 'Tổng chi tiêu', 'Ngày đăng ký'],
+      ...newCustomers.value.customers.map((c: Customer) => [
+        c.ranking,
+        c.name,
+        c.email,
+        c.totalOrders,
+        c.totalSpent,
+        formatDate(c.memberSince || '')
+      ])
+    ]
+    const wsCustomer = XLSX.utils.aoa_to_sheet(customerData)
+    XLSX.utils.book_append_sheet(wb, wsCustomer, 'Khách hàng')
+
+    // ==================== SHEET 4: ĐÁNH GIÁ ====================
+    const reviewData = [
+      ['PHẦN 4: THỐNG KÊ ĐÁNH GIÁ SẢN PHẨM'],
+      [],
+      ['Tổng đánh giá:', reviewOverview.value.totalReviews],
+      ['Đánh giá trung bình:', reviewOverview.value.averageRating + '/5'],
+      ['Lượt hữu ích:', reviewOverview.value.totalHelpful],
+      ['Có hình ảnh:', imageStats.value.percentage.withImages + '%'],
+      [],
+      ['PHÂN BỐ ĐÁNH GIÁ THEO SAO'],
+      ['Số sao', 'Số lượng', 'Tỷ lệ (%)'],
+      ...ratingDistributionData.value.map((item: any) => {
+        const total = ratingDistributionData.value.reduce((sum, i) => sum + (i.count || 0), 0)
+        const percentage = total > 0 ? ((item.count / total) * 100).toFixed(1) : '0.0'
+        return [
+          item.rating + ' sao',
+          item.count || 0,
+          percentage
+        ]
+      }),
+      [],
+      ['TOP SẢN PHẨM ĐƯỢC ĐÁNH GIÁ NHIỀU NHẤT'],
+      ['STT', 'Tên sản phẩm', 'Số đánh giá', 'Đánh giá TB', 'Có hình ảnh'],
+      ...topReviewedProducts.value.map((p: any, idx: number) => [
+        idx + 1,
+        p.productName || 'N/A',
+        p.totalReviews || 0,
+        p.averageRating ? p.averageRating.toFixed(1) : '0.0',
+        p.reviewsWithImages || p.withImages || 0
+      ])
+    ]
+    const wsReview = XLSX.utils.aoa_to_sheet(reviewData)
+    XLSX.utils.book_append_sheet(wb, wsReview, 'Đánh giá')
+
+    // ==================== SHEET 5: DOANH THU THEO THỜI GIAN ====================
+    const revenueTimelineData = [
+      ['DOANH THU THEO THỜI GIAN'],
+      [],
+      ['Ngày', 'Doanh thu', 'Số đơn'],
+      ...revenueTimeline.value.map((item: any) => [
+        item.label,
+        item.revenue,
+        item.orders
+      ])
+    ]
+    const wsRevenue = XLSX.utils.aoa_to_sheet(revenueTimelineData)
+    XLSX.utils.book_append_sheet(wb, wsRevenue, 'Doanh thu theo ngày')
+
+    // ==================== SHEET 6: GIỜ CAO ĐIỂM ====================
+    const peakHoursData_sheet = [
+      ['GIỜ CAO ĐIỂM ĐẶT HÀNG'],
+      [],
+      ['Giờ', 'Số đơn hàng'],
+      ...peakHoursData.value.map((item: any) => [
+        item.label || 'N/A',
+        item.orders || 0
+      ])
+    ]
+    const wsPeakHours = XLSX.utils.aoa_to_sheet(peakHoursData_sheet)
+    XLSX.utils.book_append_sheet(wb, wsPeakHours, 'Giờ cao điểm')
+
+    // Xuất file
+    const fileName = `Bao-cao-thong-ke-${new Date().toISOString().split('T')[0]}.xlsx`
+    XLSX.writeFile(wb, fileName)
+
+    alert('✅ Xuất báo cáo thành công!')
+  } catch (error) {
+    console.error('Lỗi xuất báo cáo:', error)
+    alert('❌ Có lỗi xảy ra khi xuất báo cáo. Vui lòng thử lại!')
+  }
 }
 
 function navigateToProduct(productId: string) {
@@ -789,7 +1191,12 @@ async function fetchAllStats() {
       fetchInventory(),
       fetchProductOverview(),
       fetchAllCustomerSegments(),
-      fetchCustomerOverview()
+      fetchCustomerOverview(),
+      fetchReviewOverview(),
+      fetchRatingDistribution(),
+      fetchTopReviewedProducts(),
+      fetchReviewTrends(),
+      fetchImageStats()
     ])
     
   } catch (error) {
@@ -806,6 +1213,7 @@ async function fetchRevenueTimeline() {
       groupBy: dateRange.value === '7days' ? 'day' : 'day'
     })
     if (res?.success && res.data) {
+      revenueTimeline.value = res.data // Lưu data để export Excel
       updateRevenueChart(res.data)
     }
   } catch (error) {
@@ -962,6 +1370,70 @@ async function fetchCustomerOverview() {
     }
   } catch (error) {
     console.error('Error fetching customer overview:', error)
+  }
+}
+
+// Review stats functions
+async function fetchReviewOverview() {
+  try {
+    const res: any = await getReviewsStats()
+    if (res?.success && res.data) {
+      reviewOverview.value = {
+        totalReviews: res.data.overall.totalReviews,
+        averageRating: res.data.overall.averageRating,
+        totalHelpful: res.data.overall.totalHelpful,
+        visibleReviews: res.data.byVisibility.visible,
+        hiddenReviews: res.data.byVisibility.hidden
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching review overview:', error)
+  }
+}
+
+async function fetchRatingDistribution() {
+  try {
+    const res: any = await getRatingDistribution()
+    if (res?.success && res.data) {
+      ratingDistributionData.value = res.data
+      updateRatingDistributionChart(res.data)
+    }
+  } catch (error) {
+    console.error('Error fetching rating distribution:', error)
+  }
+}
+
+async function fetchTopReviewedProducts() {
+  try {
+    const res: any = await getTopReviewedProducts({ limit: 5 })
+    if (res?.success && res.data) {
+      topReviewedProducts.value = res.data
+    }
+  } catch (error) {
+    console.error('Error fetching top reviewed products:', error)
+  }
+}
+
+async function fetchReviewTrends() {
+  try {
+    const res: any = await getReviewTrends({ days: 7 })
+    if (res?.success && res.data) {
+      reviewTrendsData.value = res.data
+      updateReviewTrendsChart(res.data)
+    }
+  } catch (error) {
+    console.error('Error fetching review trends:', error)
+  }
+}
+
+async function fetchImageStats() {
+  try {
+    const res: any = await getImageStats()
+    if (res?.success && res.data) {
+      imageStats.value = res.data
+    }
+  } catch (error) {
+    console.error('Error fetching image stats:', error)
   }
 }
 
@@ -1169,6 +1641,7 @@ function updatePaymentMethodChart(data: any[]) {
   const labels = data.map(item => item.label)
   const percentages = data.map(item => item.percentage)
   const counts = data.map(item => item.count || 0)
+  const revenues = data.map(item => item.revenue || 0)
   
   const colorMap = {
     'COD': '#f59e0b',
@@ -1185,6 +1658,7 @@ function updatePaymentMethodChart(data: any[]) {
   paymentMethodData.value = labels.map((label, index) => ({
     label,
     count: counts[index],
+    revenue: revenues[index],
     percentage: percentages[index].toFixed(1),
     color: backgroundColors[index]
   })).sort((a, b) => b.count - a.count)
@@ -1281,7 +1755,8 @@ function updatePeakHoursChart(data: any[]) {
       datasets: [{
         label: 'Số đơn hàng',
         data: orders,
-        backgroundColor: 'rgba(168, 85, 247, 0.8)'
+        backgroundColor: 'rgba(168, 85, 247, 0.8)',
+        borderRadius: 6
       }]
     },
     options: { 
@@ -1314,21 +1789,149 @@ function updatePeakHoursChart(data: any[]) {
         const ctx = chart.ctx
         chart.data.datasets.forEach((dataset: any, i: number) => {
           const meta = chart.getDatasetMeta(i)
-          if (!meta.hidden) {
-            meta.data.forEach((element: any, index: number) => {
-              const dataValue = dataset.data[index]
-              if (dataValue > 0) {
-                ctx.fillStyle = '#374151'
-                ctx.font = 'bold 11px sans-serif'
-                ctx.textAlign = 'center'
-                ctx.textBaseline = 'bottom'
-                ctx.fillText(dataValue, element.x, element.y - 5)
-              }
-            })
-          }
+          meta.data.forEach((bar: any, index: number) => {
+            const data = dataset.data[index] as number
+            if (data != null) {
+              ctx.fillStyle = '#666'
+              ctx.font = 'bold 11px sans-serif'
+              ctx.textAlign = 'center'
+              ctx.textBaseline = 'bottom'
+              ctx.fillText(String(data), bar.x, bar.y - 5)
+            }
+          })
         })
       }
     }]
+  })
+}
+
+// Review chart update functions
+function updateRatingDistributionChart(data: any[]) {
+  if (!ratingDistributionChartRef.value) return
+  
+  if (ratingDistributionChart) {
+    ratingDistributionChart.destroy()
+  }
+  
+  const labels = data.map(item => `${item.rating} sao`)
+  const counts = data.map(item => item.count)
+  
+  const colors = ['#10b981', '#84cc16', '#eab308', '#f97316', '#ef4444']
+  
+  ratingDistributionChart = new Chart(ratingDistributionChartRef.value, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Số lượng đánh giá',
+        data: counts,
+        backgroundColor: colors,
+        borderWidth: 0
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `Số đánh giá: ${context.parsed.x}`
+            }
+          }
+        }
+      }
+    }
+  })
+}
+
+function updateReviewTrendsChart(data: any[]) {
+  if (!reviewTrendsChartRef.value) return
+  
+  if (reviewTrendsChart) {
+    reviewTrendsChart.destroy()
+  }
+  
+  const labels = data.map(item => {
+    const date = new Date(item._id)
+    return `${date.getDate()}/${date.getMonth() + 1}`
+  })
+  const counts = data.map(item => item.count)
+  const avgRatings = data.map(item => item.averageRating)
+  
+  reviewTrendsChart = new Chart(reviewTrendsChartRef.value, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Số đánh giá',
+          data: counts,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          tension: 0.3,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Đánh giá TB',
+          data: avgRatings,
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          tension: 0.3,
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Số đánh giá'
+          }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          min: 0,
+          max: 5,
+          title: {
+            display: true,
+            text: 'Đánh giá TB'
+          },
+          grid: {
+            drawOnChartArea: false
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      }
+    }
   })
 }
 </script>

@@ -5,6 +5,10 @@ const reviewController = require("../controllers/reviewController");
 // Admin routes (đặt trước để tránh conflict với :id)
 // router.get("/stats/overview", reviewController.getStats);
 router.get("/stats", reviewController.getStats);
+router.get("/stats/rating-distribution", reviewController.getRatingDistribution);
+router.get("/stats/top-products", reviewController.getTopReviewedProducts);
+router.get("/stats/trends", reviewController.getReviewTrends);
+router.get("/stats/images", reviewController.getImageStats);
 router.patch("/:id/visibility", reviewController.toggleVisibility);
 
 // Public routes

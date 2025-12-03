@@ -224,7 +224,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .app-header {
-  z-index: 999;
+  z-index: 998;
 
   &.app-header-scrolled {
     height: 60px;

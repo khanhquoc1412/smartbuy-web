@@ -1,14 +1,14 @@
 <template>
   <div
     v-if="isOpen"
-    class="tw-fixed tw-inset-0 tw-z-50 tw-flex tw-items-center tw-justify-center tw-bg-black tw-bg-opacity-50 tw-p-4"
+    class="tw-fixed tw-inset-0 tw-z-[1000] tw-flex tw-items-center tw-justify-center tw-bg-black tw-bg-opacity-50 tw-p-4"
     @click.self="closeModal"
   >
     <div
       class="tw-bg-white tw-rounded-2xl tw-w-full tw-max-w-2xl tw-max-h-[90vh] tw-overflow-hidden tw-shadow-2xl"
     >
       <!-- Header -->
-      <div class="tw-flex tw-items-center tw-justify-between tw-p-6 tw-border-b">
+      <div class="tw-flex tw-items-center tw-justify-between tw-p-6 tw-border-b tw-bg-gray-50">
         <div class="tw-flex tw-items-center tw-gap-4">
           <img
             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='75' font-size='75'%3E⭐%3C/text%3E%3C/svg%3E"
@@ -196,7 +196,7 @@
     <!-- Toast Notification -->
     <div
       v-if="showToast"
-      class="tw-fixed tw-top-4 tw-right-4 tw-z-[60] tw-animate-bounce"
+      class="tw-fixed tw-top-4 tw-right-4 tw-z-[1010] tw-animate-bounce"
     >
       <div
         class="tw-px-6 tw-py-4 tw-rounded-lg tw-shadow-lg tw-flex tw-items-center tw-gap-3"
@@ -352,7 +352,7 @@ const submitReview = async () => {
     }, 1500);
   } catch (error: any) {
     console.error('Error submitting review:', error);
-    showToastNotification(error.response?.data?.message || 'Có lỗi xảy ra khi gửi đánh giá', 'error');
+    showToastNotification(error.response?.data?.message || 'Mỗi tài khoản chỉ được gửi một đánh giá cho mỗi sản phẩm', 'error');
   } finally {
     isSubmitting.value = false;
   }

@@ -203,40 +203,98 @@ exports.getOrderStats = async (req, res) => {
         ? Math.round((completedLast30Days / totalLast30Days) * 100)
         : 0;
 
-    // Revenue chart (last 7 days)
+    // Revenue chart (last 7 days) - Tính theo ngày đơn chuyển sang delivered/completed trong statusHistory
+    // FIX TIMEZONE: Convert to GMT+7 (Vietnam timezone)
+    const vietnamOffset = 7 * 60; // 7 hours in minutes
+    
     const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // 6 ngày trước + hôm nay = 7 ngày
+    sevenDaysAgo.setHours(0, 0, 0, 0); // Reset về đầu ngày
+    
+    const now = new Date();
+    now.setHours(23, 59, 59, 999); // Cuối ngày hôm nay
 
     const revenueByDay = await Order.aggregate([
       {
         $match: {
-          createdAt: { $gte: sevenDaysAgo },
-          status: { $in: ["completed", "delivered"] },
-          paymentStatus: "paid",
+          status: { $in: ["delivered", "completed"] }, // Chỉ đơn đã giao/hoàn thành
+          paymentStatus: "paid" // Và đã thanh toán
         },
+      },
+      // Unwind statusHistory để tìm timestamp khi chuyển sang delivered/completed
+      { $unwind: "$statusHistory" },
+      {
+        $match: {
+          "statusHistory.status": { $in: ["delivered", "completed"] },
+          "statusHistory.timestamp": { $gte: sevenDaysAgo, $lte: now }
+        },
+      },
+      // Convert timestamp to Vietnam timezone before grouping
+      {
+        $addFields: {
+          vietnamDate: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$statusHistory.timestamp",
+              timezone: "+07:00" // Vietnam timezone GMT+7
+            }
+          }
+        }
+      },
+      // Group theo ngày Vietnam
+      {
+        $group: {
+          _id: {
+            orderId: "$_id",
+            date: "$vietnamDate"
+          },
+          totalPrice: { $first: "$totalPrice" },
+          status: { $first: "$statusHistory.status" },
+          timestamp: { $first: "$statusHistory.timestamp" }
+        },
+      },
+      // Lấy record mới nhất nếu có cả delivered và completed
+      {
+        $sort: { "_id.orderId": 1, timestamp: -1 }
       },
       {
         $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          _id: "$_id.orderId",
+          date: { $first: "$_id.date" },
+          totalPrice: { $first: "$totalPrice" }
+        },
+      },
+      // Group theo ngày để tính tổng doanh thu
+      {
+        $group: {
+          _id: "$date",
           revenue: { $sum: "$totalPrice" },
         },
       },
       { $sort: { _id: 1 } },
     ]);
 
-    // Create all 7 days array
+    // Create all 7 days array (6 ngày trước + hôm nay = 7 ngày)
+    // FIX: Use Vietnam timezone for date calculation
     const last7Days = [];
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
-      const dateStr = date.toISOString().split("T")[0];
+      // Convert to Vietnam timezone (GMT+7)
+      const vietnamDate = new Date(date.getTime() + (7 * 60 * 60 * 1000));
+      const dateStr = vietnamDate.toISOString().split("T")[0];
       const revenue = revenueByDay.find((d) => d._id === dateStr)?.revenue || 0;
       last7Days.push({ date: dateStr, revenue });
     }
 
+    console.log('=== Revenue Chart Debug ===');
+    console.log('Date range:', sevenDaysAgo, 'to', now);
+    console.log('Revenue by day from DB:', revenueByDay);
+    console.log('Last 7 days array:', last7Days);
+
     const revenueChart = {
       labels: last7Days.map((d) => {
-        const date = new Date(d.date);
+        const date = new Date(d.date + 'T00:00:00'); // Fix timezone issue
         return `${date.getDate()}/${date.getMonth() + 1}`;
       }),
       data: last7Days.map((d) => d.revenue),
@@ -518,6 +576,18 @@ exports.updateOrderStatus = async (req, res) => {
         success: false,
         message: "Không tìm thấy đơn hàng",
       });
+    }
+
+    // Auto-update payment status for COD orders
+    // When order status changes to delivered or completed, mark as paid
+    if (
+      order.paymentMethod === 'COD' &&
+      ['delivered', 'completed'].includes(status) &&
+      order.paymentStatus === 'unpaid'
+    ) {
+      order.paymentStatus = 'paid';
+      order.paidAt = new Date();
+      console.log(`💰 Auto-marked COD order ${order.orderNumber} as paid (status: ${status})`);
     }
 
     // Update status using method

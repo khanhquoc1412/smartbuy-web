@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "description": "SmartBuy E-commerce Platform",
   "scripts": {
-    "dev": "concurrently -n \"CLIENT,GATEWAY,PRODUCT-MGR,ORDER-MGR,USER-MGR,REVIEW\" -c \"bgBlue,bgMagenta,bgGreen,bgYellow,bgCyan,bgRed\" \"npm run dev:client\" \"npm run dev:gateway\" \"npm run dev:product-manager\" \"npm run dev:order-manager\" \"npm run dev:user-manager\" \"npm run dev:review\"",
+    "dev": "concurrently -n \"CLIENT,GATEWAY,PROD-MGR,ORD-MGR,USER-MGR,REVIEW,CART,CHATBOX,ORDER,PAYMENT,PRODUCT,USER\" -c \"bgBlue,bgMagenta,bgGreen,bgYellow,bgCyan,bgRed,cyan,magenta,green,yellow,blue,white\" \"npm run dev:client\" \"npm run dev:gateway\" \"npm run dev:product-manager\" \"npm run dev:order-manager\" \"npm run dev:user-manager\" \"npm run dev:review\" \"npm run dev:cart\" \"npm run dev:chatbox\" \"npm run dev:order\" \"npm run dev:payment\" \"npm run dev:productservice\" \"npm run dev:userservice\"",
     "dev:client": "cd client && npm run dev",
     "dev:gateway": "cd server/api-gateway && npm run dev",
     "dev:product-manager": "cd server/product-manager-service && npm run dev",
     "dev:order-manager": "cd server/order-manager-service && npm run dev",
     "dev:user-manager": "cd server/user-manager-service && npm run dev",
     "dev:review": "cd server/review-service && npm run dev",
-    "install:all": "npm install && cd client && npm install && cd ../server/api-gateway && npm install && cd ../product-manager-service && npm install && cd ../order-manager-service && npm install && cd ../user-manager-service && npm install && cd ../review-service && npm install"
+    "dev:cart": "cd server/cartservice && npm run dev",
+    "dev:chatbox": "cd server/chatbox-service && npm run dev",
+    "dev:order": "cd server/orderservice && npm run dev",
+    "dev:payment": "cd server/paymentservice && npm run dev",
+    "dev:productservice": "cd server/productservice && npm start",
+    "dev:userservice": "cd server/userservice && npm start",
+    "install:all": "npm install && cd client && npm install && cd ../server/api-gateway && npm install && cd ../product-manager-service && npm install && cd ../order-manager-service && npm install && cd ../user-manager-service && npm install && cd ../review-service && npm install && cd ../cartservice && npm install && cd ../chatbox-service && npm install && cd ../orderservice && npm install && cd ../paymentservice && npm install && cd ../productservice && npm install && cd ../userservice && npm install"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

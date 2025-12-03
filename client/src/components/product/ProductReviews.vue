@@ -170,8 +170,21 @@
           </div>
 
           <!-- Footer -->
-          <div class="tw-flex tw-items-center tw-gap-4 tw-text-sm tw-text-gray-500">
+          <div class="tw-flex tw-items-center tw-justify-between tw-text-sm tw-text-gray-500">
             <span>Đánh giá đã đăng vào {{ formatDate(review.createdAt) }}</span>
+            <button
+              @click="markHelpful(review._id)"
+              class="tw-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition"
+              :class="hasMarkedHelpful(review._id) 
+                ? 'tw-bg-blue-50 tw-border-blue-500 tw-text-blue-600 hover:tw-bg-blue-100' 
+                : 'tw-border-gray-300 tw-text-gray-700 hover:tw-bg-gray-50 hover:tw-border-gray-400'"
+            >
+              <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+              </svg>
+              <span>{{ hasMarkedHelpful(review._id) ? 'Đã thích' : 'Thích' }}</span>
+              <span class="tw-font-semibold">({{ review.helpfulCount || 0 }})</span>
+            </button>
           </div>
         </div>
       </div>
@@ -241,7 +254,8 @@ import { useRouter } from 'vue-router';
 import Container from '@/components/base/Container.vue';
 import LoadIcon from '@/components/common/LoadIcon.vue';
 import WriteReviewModal from './WriteReviewModal.vue';
-import { getReviewsByProduct, type Review, type ReviewStats } from '@/api/review/review';
+import { getReviewsByProduct, markReviewHelpful, type Review, type ReviewStats } from '@/api/review/review';
+import { useAuth } from '@/composables/useAuth';
 
 interface Props {
   productId: string;
@@ -251,6 +265,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const router = useRouter();
+const { userId } = useAuth();
 
 const reviews = ref<Review[]>([]);
 const stats = ref<ReviewStats | null>(null);
@@ -262,6 +277,7 @@ const selectedImage = ref<string>('');
 const currentPage = ref(1);
 const totalPages = ref(1);
 const limit = 5;
+const helpfulReviews = ref<Set<string>>(new Set());
 
 const loadReviews = async () => {
   try {
@@ -287,6 +303,16 @@ const loadReviews = async () => {
       reviews.value = reviewsList;
       stats.value = response.data.stats || null;
       totalPages.value = response.data.pagination.pages || 1;
+      
+      // Update helpfulReviews from backend data
+      if (userId.value) {
+        helpfulReviews.value.clear();
+        reviewsList.forEach((review: Review) => {
+          if (review.helpfulBy && review.helpfulBy.includes(userId.value)) {
+            helpfulReviews.value.add(review._id);
+          }
+        });
+      }
     }
   } catch (error) {
     console.error('Error loading reviews:', error);
@@ -368,6 +394,42 @@ const viewAllReviews = () => {
 const handleReviewSuccess = () => {
   showWriteReviewModal.value = false;
   loadReviews();
+};
+
+const markHelpful = async (reviewId: string) => {
+  if (!userId.value) {
+    alert('Vui lòng đăng nhập để đánh dấu hữu ích');
+    return;
+  }
+
+  const isMarked = hasMarkedHelpful(reviewId);
+
+  try {
+    const response = await markReviewHelpful(reviewId, userId.value);
+    
+    if (response.success) {
+      // Toggle the state based on backend response
+      if (response.data.hasMarked) {
+        helpfulReviews.value.add(reviewId);
+      } else {
+        helpfulReviews.value.delete(reviewId);
+      }
+      
+      // Update the review in the list with data from backend
+      const review = reviews.value.find(r => r._id === reviewId);
+      if (review) {
+        review.helpfulCount = response.data.review.helpfulCount;
+        review.helpfulBy = response.data.review.helpfulBy;
+      }
+    }
+  } catch (error) {
+    console.error('Error marking review as helpful:', error);
+    alert('Có lỗi xảy ra, vui lòng thử lại');
+  }
+};
+
+const hasMarkedHelpful = (reviewId: string): boolean => {
+  return helpfulReviews.value.has(reviewId);
 };
 
 watch(selectedFilter, () => {

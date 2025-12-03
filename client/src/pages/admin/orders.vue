@@ -662,6 +662,10 @@ const loadStats = async () => {
   try {
     const response = await axios.get(`${API_URL}/stats`)
     
+    console.log('=== Stats Response ===')
+    console.log('Full response:', response)
+    console.log('Revenue chart data:', response.data?.revenueChart)
+    
     if (response.success) {
       stats.value = response.data
       // Update chart data if charts already exist

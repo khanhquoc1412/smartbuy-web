@@ -308,12 +308,16 @@ exports.deleteReview = async (req, res) => {
 exports.markHelpful = async (req, res) => {
   try {
     const { id } = req.params;
+    const { userId } = req.body;
 
-    const review = await Review.findByIdAndUpdate(
-      id,
-      { $inc: { helpfulCount: 1 } },
-      { new: true }
-    );
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu userId",
+      });
+    }
+
+    const review = await Review.findById(id);
 
     if (!review) {
       return res.status(404).json({
@@ -322,10 +326,28 @@ exports.markHelpful = async (req, res) => {
       });
     }
 
+    // Check if user already marked as helpful
+    const hasMarked = review.helpfulBy.includes(userId);
+
+    if (hasMarked) {
+      // Remove userId from helpfulBy array and decrease count
+      review.helpfulBy = review.helpfulBy.filter(id => id !== userId);
+      review.helpfulCount = Math.max(0, review.helpfulCount - 1);
+    } else {
+      // Add userId to helpfulBy array and increase count
+      review.helpfulBy.push(userId);
+      review.helpfulCount = review.helpfulCount + 1;
+    }
+
+    await review.save();
+
     res.json({
       success: true,
-      message: "Đã đánh dấu hữu ích",
-      data: review,
+      message: hasMarked ? "Đã bỏ đánh dấu hữu ích" : "Đã đánh dấu hữu ích",
+      data: {
+        review,
+        hasMarked: !hasMarked,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -442,6 +464,150 @@ exports.getStats = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Lỗi khi lấy thống kê",
+      error: error.message,
+    });
+  }
+};
+
+// Lấy phân bố rating
+exports.getRatingDistribution = async (req, res) => {
+  try {
+    const distribution = await Review.aggregate([
+      { $match: { isVisible: true } },
+      {
+        $group: {
+          _id: "$rating",
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: -1 } },
+    ]);
+
+    // Transform to array with all ratings 1-5
+    const result = [5, 4, 3, 2, 1].map(rating => {
+      const found = distribution.find(d => d._id === rating);
+      return {
+        rating,
+        count: found ? found.count : 0,
+      };
+    });
+
+    res.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy phân bố rating",
+      error: error.message,
+    });
+  }
+};
+
+// Lấy top sản phẩm được đánh giá nhiều nhất
+exports.getTopReviewedProducts = async (req, res) => {
+  try {
+    const { limit = 5 } = req.query;
+
+    const topProducts = await Review.aggregate([
+      { $match: { isVisible: true } },
+      {
+        $group: {
+          _id: "$productId",
+          productName: { $first: "$productName" },
+          totalReviews: { $sum: 1 },
+          averageRating: { $avg: "$rating" },
+        },
+      },
+      { $sort: { totalReviews: -1 } },
+      { $limit: parseInt(limit) },
+    ]);
+
+    res.json({
+      success: true,
+      data: topProducts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy top sản phẩm được đánh giá",
+      error: error.message,
+    });
+  }
+};
+
+// Lấy xu hướng đánh giá theo thời gian
+exports.getReviewTrends = async (req, res) => {
+  try {
+    const { days = 7 } = req.query;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - parseInt(days));
+
+    const trends = await Review.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate },
+          isVisible: true,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+          },
+          count: { $sum: 1 },
+          averageRating: { $avg: "$rating" },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
+    res.json({
+      success: true,
+      data: trends,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy xu hướng đánh giá",
+      error: error.message,
+    });
+  }
+};
+
+// Lấy thống kê reviews có/không có hình ảnh
+exports.getImageStats = async (req, res) => {
+  try {
+    const withImages = await Review.countDocuments({
+      isVisible: true,
+      images: { $exists: true, $not: { $size: 0 } },
+    });
+
+    const withoutImages = await Review.countDocuments({
+      isVisible: true,
+      $or: [
+        { images: { $exists: false } },
+        { images: { $size: 0 } },
+      ],
+    });
+
+    res.json({
+      success: true,
+      data: {
+        withImages,
+        withoutImages,
+        total: withImages + withoutImages,
+        percentage: {
+          withImages: withImages > 0 ? ((withImages / (withImages + withoutImages)) * 100).toFixed(1) : 0,
+          withoutImages: withoutImages > 0 ? ((withoutImages / (withImages + withoutImages)) * 100).toFixed(1) : 0,
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi lấy thống kê hình ảnh",
       error: error.message,
     });
   }
