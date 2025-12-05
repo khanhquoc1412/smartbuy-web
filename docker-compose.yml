@@ -1,0 +1,270 @@
+services:
+  # MongoDB Database - Sử dụng localhost MongoDB
+  # mongodb:
+  #   image: mongo:7.0
+  #   container_name: smartbuy-mongodb
+  #   restart: unless-stopped
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: smartbuy123
+  #     MONGO_INITDB_DATABASE: smartbuy
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   networks:
+  #     - smartbuy-network
+  #   healthcheck:
+  #     test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  # API Gateway (TypeScript)
+  api-gateway:
+    build:
+      context: ./server/api-gateway
+      dockerfile: Dockerfile
+    container_name: smartbuy-api-gateway
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      FRONTEND_URL: http://localhost
+      USER_SERVICE_URL: http://userservice:3005
+      USER_MANAGER_SERVICE_URL: http://user-manager:3006
+      PRODUCT_SERVICE_URL: http://productservice:3001
+      PRODUCT_MANAGER_SERVICE_URL: http://product-manager:5002
+      CART_SERVICE_URL: http://cartservice:3003
+      ORDER_SERVICE_URL: http://orderservice:3002
+      PAYMENT_SERVICE_URL: http://paymentservice:3004
+      ORDER_MANAGER_SERVICE_URL: http://order-manager:5003
+      REVIEW_SERVICE_URL: http://review-service:5006
+      CHATBOT_SERVICE_URL: http://chatbox-service:5008
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Product Service (Legacy)
+  productservice:
+    build:
+      context: ./server/productservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-productservice
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db_product
+      REVIEW_SERVICE_URL: http://review-service:5006
+      ORDER_SERVICE_URL: http://orderservice:3002
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Product Manager Service
+  product-manager:
+    build:
+      context: ./server/product-manager-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-product-manager
+    restart: unless-stopped
+    ports:
+      - "5002:5002"
+    environment:
+      NODE_ENV: production
+      PORT: 5002
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+    volumes:
+      - product_uploads:/app/uploads
+
+  # Order Service (Legacy)
+  orderservice:
+    build:
+      context: ./server/orderservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-orderservice
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_order
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Order Manager Service
+  order-manager:
+    build:
+      context: ./server/order-manager-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-order-manager
+    restart: unless-stopped
+    ports:
+      - "5003:5003"
+    environment:
+      NODE_ENV: production
+      PORT: 5003
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      USER_MANAGER_SERVICE_URL: http://user-manager:3006
+      PRODUCT_MANAGER_SERVICE_URL: http://product-manager:5002
+      FRONTEND_URL: http://client
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Cart Service
+  cartservice:
+    build:
+      context: ./server/cartservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-cartservice
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db_cart
+      ACCESS_TOKEN_PRIVATE_KEY: supersecret123
+      REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
+      PRODUCT_SERVICE_URL: http://productservice:3001
+      USER_SERVICE_URL: http://userservice:3005
+      CLIENT_URL: http://client
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Payment Service
+  paymentservice:
+    build:
+      context: ./server/paymentservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-paymentservice
+    restart: unless-stopped
+    ports:
+      - "3004:3004"
+    environment:
+      NODE_ENV: production
+      PORT: 3004
+      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_payment
+      JWT_SECRET: supersecret123
+      ACCESS_TOKEN_PRIVATE_KEY: supersecret123
+      CLIENT_URL: http://client
+      ORDER_SERVICE_URL: http://orderservice:3002
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # User Service (Legacy)
+  userservice:
+    build:
+      context: ./server/userservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-userservice
+    restart: unless-stopped
+    ports:
+      - "3005:3005"
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db
+      ACCESS_TOKEN_PRIVATE_KEY: supersecret123
+      REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
+      CLIENT_URL: http://client
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+    volumes:
+      - user_avatars:/app/avarta
+
+  # User Manager Service
+  user-manager:
+    build:
+      context: ./server/user-manager-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-user-manager
+    restart: unless-stopped
+    ports:
+      - "3006:3006"
+    environment:
+      NODE_ENV: production
+      PORT: 3006
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      JWT_SECRET: supersecret123
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Review Service
+  review-service:
+    build:
+      context: ./server/review-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-review-service
+    restart: unless-stopped
+    ports:
+      - "5006:5006"
+    environment:
+      NODE_ENV: production
+      PORT: 5006
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      JWT_SECRET: supersecret123
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Chatbox Service
+  chatbox-service:
+    build:
+      context: ./server/chatbox-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-chatbox-service
+    restart: unless-stopped
+    ports:
+      - "5008:5008"
+    environment:
+      NODE_ENV: production
+      PORT: 5008
+      PRODUCT_SERVICE_URL: http://productservice:3001
+      ORDER_SERVICE_URL: http://orderservice:3002
+    # depends_on MongoDB removed
+    networks:
+      - smartbuy-network
+
+  # Client (Vue.js Frontend)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: smartbuy-client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - smartbuy-network
+
+networks:
+  smartbuy-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
+  product_uploads:
+    driver: local
+  user_avatars:
+    driver: local
+

@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const Address = require("../models/address");
-const { NotFoundError, BadRequestError } = require("../../src/errors");
+const { NotFoundError, BadRequestError } = require("../errors");
 
 /**
  * @desc    Get all addresses of user
@@ -95,21 +95,35 @@ exports.getAddress = async (req, res, next) => {
 exports.getDefaultAddress = async (req, res) => {
   try {
     const userId = req.user?.userId || req.user?.id;
-    console.log('🔔 getDefaultAddress called for userId:', userId, 'authorization present:', !!req.headers.authorization);
+    console.log(
+      "🔔 getDefaultAddress called for userId:",
+      userId,
+      "authorization present:",
+      !!req.headers.authorization
+    );
 
     // tìm address mặc định
     let address = await Address.findOne({ userId, isDefault: true });
 
     // nếu không có -> fallback sang address gần nhất (updatedAt/createdAt)
     if (!address) {
-      console.log('🔍 no isDefault found for user, falling back to latest address');
-      address = await Address.findOne({ userId }).sort({ updatedAt: -1, createdAt: -1 });
+      console.log(
+        "🔍 no isDefault found for user, falling back to latest address"
+      );
+      address = await Address.findOne({ userId }).sort({
+        updatedAt: -1,
+        createdAt: -1,
+      });
     }
 
-    return res.status(StatusCodes.OK).json({ success: true, data: { address: address || null } });
+    return res
+      .status(StatusCodes.OK)
+      .json({ success: true, data: { address: address || null } });
   } catch (err) {
-    console.error('getDefaultAddress error:', err);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Server error' });
+    console.error("getDefaultAddress error:", err);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: "Server error" });
   }
 };
 /**

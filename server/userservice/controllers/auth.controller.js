@@ -8,13 +8,13 @@ const {
   jwtVerify,
   jwtVerifyRefreshToken,
   hashPassword,
-} = require("../../src/utils"); // Giả định utils/index.js
+} = require("../utils");
 const {
   NotFoundError,
   BadRequestError,
   UnauthorizedError,
   ConflictError,
-} = require("../../src/errors");
+} = require("../errors");
 const mailer = require("../services/mailer"); // Giả định services/mailer.js
 const {
   otpTemplate,

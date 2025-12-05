@@ -2,7 +2,7 @@ require("dotenv").config();
 const passport = require("passport");
 const User = require("../models/user");
 // models/User.js phải là mongoose model
-const { createCryptoString } = require("../../src/utils/cryptoString");
+const { createCryptoString } = require("../utils/cryptoString");
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;

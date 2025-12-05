@@ -123,19 +123,7 @@
             </span>
           </div> -->
           <div class="product-price tw-flex tw-gap-4 tw-items-center">
-            <!-- Giá gốc (bị gạch ngang) -->
-            <span class="disc-price tw-text-gray-500 tw-line-through">
-              {{ formatMoney(
-      getPriceByVariant(
-        productSelected?.colorId as number,
-        productSelected?.memoryId as number,
-        product?.productVariants,
-        product?.basePrice
-      )
-    ) }}
-            </span>
-
-            <!-- Giá sau giảm (màu đỏ) -->
+            <!-- Giá sau giảm (màu đỏ) - Hiển thị trước -->
             <span class="base-price tw-text-red tw-font-medium">
               {{ formatMoney(
       getPriceByVariant(
@@ -143,7 +131,24 @@
         productSelected?.memoryId as number,
         product?.productVariants,
         product?.basePrice
-      ) * (1 - (product?.discountPercentage as number) / 100)
+      ) * (1 - ((product?.discountPercentage as number) || 0) / 100)
+    ) }}
+            </span>
+
+            <!-- Giá gốc (bị gạch ngang) - Chỉ hiển thị nếu có giảm giá -->
+            <span
+              v-if="
+                product?.discountPercentage && product.discountPercentage > 0
+              "
+              class="disc-price tw-text-gray-500 tw-line-through"
+            >
+              {{ formatMoney(
+      getPriceByVariant(
+        productSelected?.colorId as number,
+        productSelected?.memoryId as number,
+        product?.productVariants,
+        product?.basePrice
+      )
     ) }}
             </span>
           </div>
@@ -390,15 +395,7 @@ const productFullName = computed(() => {
   }
   return name;
 });
-// const filteredImages = computed(() => {
-//   if (!product.value?.images) return [];
-//   if (!productSelected.colorId) return product.value.images;
-//   // Lọc ảnh theo colorId đã chọn
-//   return product.value.images.filter(
-//     (img: any) =>
-//       img.colorId?.toString() === productSelected.colorId?.toString()
-//   );
-// });
+
 const filteredImages = computed(() => {
   if (!product.value?.images) return [];
   if (!productSelected.colorId) return product.value.images;
@@ -408,6 +405,7 @@ const filteredImages = computed(() => {
     return String(imgCid) === String(productSelected.colorId);
   });
 });
+
 const thumbsSwiper = ref<any>(null);
 
 const setThumbsSwiper = (swiper: any) => {

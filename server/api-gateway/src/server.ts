@@ -13,7 +13,28 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 
 app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 10000, max: 10000 }));
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: true }));
+
+// Cho phép nhiều origins
+const allowedOrigins = [
+  'http://localhost',
+  'http://localhost:80',
+  'http://localhost:5173',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({ 
+  origin: (origin, callback) => {
+    // Cho phép requests không có origin (như mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Tạm thời cho phép tất cả để test
+    }
+  },
+  credentials: true 
+}));
 app.use(morgan('combined'));
 
 // ⚠️ Chỉ parse JSON/urlencoded cho NON-multipart requests

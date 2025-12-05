@@ -21,8 +21,9 @@ module.exports = {
     },
     production: {
       url:
+        process.env.DB_URL ||
         process.env.DB_PROD_URL ||
-        "mongodb+srv://user:pass@cluster.mongodb.net/smartbuy_db_cart",
+        "mongodb://localhost:27017/smartbuy_db_cart",
       options: {
         useNewUrlParser: true,
         useUnifiedTopology: true,

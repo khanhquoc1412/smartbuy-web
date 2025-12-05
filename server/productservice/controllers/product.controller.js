@@ -973,7 +973,7 @@ const getProductBySlug = async (req, res) => {
 
     // Thêm images vào product
     productData.images = images.map((img) => ({
-      _id: img._id, // Thêm dòng này
+      _id: img._id,
       colorId: img.colorId,
       imageUrl: img.imageUrl,
       name: img.name || img.originalName || "Product Image",

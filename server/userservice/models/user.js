@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { hashPassword } = require("../../src/utils");
+const { hashPassword } = require("../utils");
 // vẫn dùng hàm hashPassword của bạn
 
 const UserSchema = new mongoose.Schema(
