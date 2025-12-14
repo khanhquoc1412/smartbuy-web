@@ -1,0 +1,28 @@
+# Railway configuration for SmartBuy multi-service deployment
+
+# Deploy client service (frontend)
+[[services]]
+name = "smartbuy-client"
+source = "client"
+dockerfile = "client/Dockerfile"
+
+[services.env]
+NODE_ENV = "production"
+
+[[services.healthcheck]]
+path = "/"
+interval = 30
+timeout = 10
+
+# Deploy API Gateway
+[[services]]
+name = "smartbuy-api-gateway"
+source = "server/api-gateway"
+dockerfile = "server/api-gateway/Dockerfile"
+
+[services.env]
+NODE_ENV = "production"
+PORT = "3000"
+
+# Deploy other services...
+# Note: Railway $5 free tier may not support all 12 services
