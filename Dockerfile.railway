@@ -1,0 +1,59 @@
+# Multi-stage build for Railway deployment
+FROM node:18-alpine AS base
+
+# Install PM2 globally to manage multiple Node processes
+RUN npm install -g pm2
+
+WORKDIR /app
+
+# Copy all source code
+COPY . .
+
+# Install dependencies for all services
+RUN cd server/api-gateway && npm install && \
+    cd ../userservice && npm install && \
+    cd ../productservice && npm install && \
+    cd ../cartservice && npm install && \
+    cd ../orderservice && npm install && \
+    cd ../paymentservice && npm install && \
+    cd ../product-manager-service && npm install && \
+    cd ../order-manager-service && npm install && \
+    cd ../user-manager-service && npm install && \
+    cd ../review-service && npm install && \
+    cd ../chatbox-service && npm install
+
+# Build client
+RUN cd client && npm install && npm run build
+
+# Create PM2 ecosystem file
+RUN echo 'module.exports = { \
+  apps: [ \
+    { name: "api-gateway", cwd: "/app/server/api-gateway/src", script: "server.ts", interpreter: "node", env: { PORT: 3000 } }, \
+    { name: "userservice", cwd: "/app/server/userservice", script: "index.js", env: { PORT: 3005 } }, \
+    { name: "productservice", cwd: "/app/server/productservice", script: "index.js", env: { PORT: 3001 } }, \
+    { name: "cartservice", cwd: "/app/server/cartservice", script: "index.js", env: { PORT: 3003 } }, \
+    { name: "orderservice", cwd: "/app/server/orderservice", script: "index.js", env: { PORT: 3002 } }, \
+    { name: "paymentservice", cwd: "/app/server/paymentservice", script: "index.js", env: { PORT: 3004 } }, \
+    { name: "product-manager", cwd: "/app/server/product-manager-service/src", script: "server.js", env: { PORT: 5002 } }, \
+    { name: "order-manager", cwd: "/app/server/order-manager-service/src", script: "server.js", env: { PORT: 5003 } }, \
+    { name: "user-manager", cwd: "/app/server/user-manager-service", script: "index.js", env: { PORT: 3006 } }, \
+    { name: "review-service", cwd: "/app/server/review-service/src", script: "server.js", env: { PORT: 5006 } }, \
+    { name: "chatbox-service", cwd: "/app/server/chatbox-service/src", script: "server.js", env: { PORT: 5008 } } \
+  ] \
+}' > /app/ecosystem.config.js
+
+# Install nginx for serving frontend
+RUN apk add --no-cache nginx
+
+# Copy nginx config
+COPY client/nginx.conf /etc/nginx/http.d/default.conf
+
+# Copy built frontend to nginx
+RUN mkdir -p /usr/share/nginx/html && \
+    cp -r client/dist/* /usr/share/nginx/html/ && \
+    cp -r client/src/assets /usr/share/nginx/html/src/
+
+EXPOSE 80 3000 3001 3002 3003 3004 3005 3006 5002 5003 5006 5008
+
+# Start script
+CMD ["sh", "-c", "nginx && pm2-runtime start /app/ecosystem.config.js"]
