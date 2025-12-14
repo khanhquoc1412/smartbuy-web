@@ -27,7 +27,7 @@ RUN cd client && npm install && npm run build
 
 # Create PM2 ecosystem file
 RUN echo 'module.exports = { \
-  apps: [ \
+    apps: [ \
     { name: "api-gateway", cwd: "/app/server/api-gateway/src", script: "server.ts", interpreter: "node", env: { PORT: 3000 } }, \
     { name: "userservice", cwd: "/app/server/userservice", script: "index.js", env: { PORT: 3005 } }, \
     { name: "productservice", cwd: "/app/server/productservice", script: "index.js", env: { PORT: 3001 } }, \
@@ -39,8 +39,8 @@ RUN echo 'module.exports = { \
     { name: "user-manager", cwd: "/app/server/user-manager-service", script: "index.js", env: { PORT: 3006 } }, \
     { name: "review-service", cwd: "/app/server/review-service/src", script: "server.js", env: { PORT: 5006 } }, \
     { name: "chatbox-service", cwd: "/app/server/chatbox-service/src", script: "server.js", env: { PORT: 5008 } } \
-  ] \
-}' > /app/ecosystem.config.js
+    ] \
+    }' > /app/ecosystem.config.js
 
 # Install nginx for serving frontend
 RUN apk add --no-cache nginx
