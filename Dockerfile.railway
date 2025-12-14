@@ -35,6 +35,9 @@ RUN cd server/api-gateway && npm install && \
 COPY server ./server
 COPY client ./client
 
+# Build api-gateway TypeScript to JavaScript
+RUN cd server/api-gateway && npm run build
+
 # Build client
 RUN cd client && npm install && npm run build
 
@@ -56,7 +59,7 @@ COPY client/nginx.conf /etc/nginx/http.d/default.conf
 # Create PM2 ecosystem config
 RUN echo 'module.exports = {' > /app/ecosystem.config.js && \
   echo '  apps: [' >> /app/ecosystem.config.js && \
-  echo '    { name: "api-gateway", cwd: "/app/server/api-gateway", script: "src/server.ts", interpreter: "ts-node", env: { PORT: 3000, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "api-gateway", cwd: "/app/server/api-gateway", script: "dist/server.js", env: { PORT: 3000, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
   echo '    { name: "userservice", cwd: "/app/server/userservice", script: "index.js", env: { PORT: 3005, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
   echo '    { name: "productservice", cwd: "/app/server/productservice", script: "index.js", env: { PORT: 3001, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
   echo '    { name: "cartservice", cwd: "/app/server/cartservice", script: "index.js", env: { PORT: 3003, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
