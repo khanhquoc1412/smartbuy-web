@@ -19,16 +19,16 @@ COPY client/package*.json ./client/
 
 # Install dependencies for all services
 RUN cd server/api-gateway && npm ci --only=production && \
-    cd ../userservice && npm ci --only=production && \
-    cd ../productservice && npm ci --only=production && \
-    cd ../cartservice && npm ci --only=production && \
-    cd ../orderservice && npm ci --only=production && \
-    cd ../paymentservice && npm ci --only=production && \
-    cd ../product-manager-service && npm ci --only=production && \
-    cd ../order-manager-service && npm ci --only=production && \
-    cd ../user-manager-service && npm ci --only=production && \
-    cd ../review-service && npm ci --only=production && \
-    cd ../chatbox-service && npm ci --only=production
+  cd ../userservice && npm ci --only=production && \
+  cd ../productservice && npm ci --only=production && \
+  cd ../cartservice && npm ci --only=production && \
+  cd ../orderservice && npm ci --only=production && \
+  cd ../paymentservice && npm ci --only=production && \
+  cd ../product-manager-service && npm ci --only=production && \
+  cd ../order-manager-service && npm ci --only=production && \
+  cd ../user-manager-service && npm ci --only=production && \
+  cd ../review-service && npm ci --only=production && \
+  cd ../chatbox-service && npm ci --only=production
 
 # Copy source code
 COPY server ./server
@@ -42,7 +42,7 @@ FROM node:18-alpine
 
 # Install PM2, nginx, and ts-node
 RUN apk add --no-cache nginx && \
-    npm install -g pm2 ts-node typescript
+  npm install -g pm2 ts-node typescript
 
 WORKDIR /app
 
@@ -53,23 +53,21 @@ COPY client/src/assets /usr/share/nginx/html/src/assets
 COPY client/nginx.conf /etc/nginx/http.d/default.conf
 
 # Create PM2 ecosystem config
-RUN cat > /app/ecosystem.config.js << 'EOF'
-module.exports = {
-  apps: [
-    { name: 'api-gateway', cwd: '/app/server/api-gateway', script: 'src/server.ts', interpreter: 'ts-node', env: { PORT: 3000, NODE_ENV: 'production' } },
-    { name: 'userservice', cwd: '/app/server/userservice', script: 'index.js', env: { PORT: 3005, NODE_ENV: 'production' } },
-    { name: 'productservice', cwd: '/app/server/productservice', script: 'index.js', env: { PORT: 3001, NODE_ENV: 'production' } },
-    { name: 'cartservice', cwd: '/app/server/cartservice', script: 'index.js', env: { PORT: 3003, NODE_ENV: 'production' } },
-    { name: 'orderservice', cwd: '/app/server/orderservice', script: 'index.js', env: { PORT: 3002, NODE_ENV: 'production' } },
-    { name: 'paymentservice', cwd: '/app/server/paymentservice', script: 'index.js', env: { PORT: 3004, NODE_ENV: 'production' } },
-    { name: 'product-manager', cwd: '/app/server/product-manager-service', script: 'src/server.js', env: { PORT: 5002, NODE_ENV: 'production' } },
-    { name: 'order-manager', cwd: '/app/server/order-manager-service', script: 'src/server.js', env: { PORT: 5003, NODE_ENV: 'production' } },
-    { name: 'user-manager', cwd: '/app/server/user-manager-service', script: 'index.js', env: { PORT: 3006, NODE_ENV: 'production' } },
-    { name: 'review-service', cwd: '/app/server/review-service', script: 'src/server.js', env: { PORT: 5006, NODE_ENV: 'production' } },
-    { name: 'chatbox-service', cwd: '/app/server/chatbox-service', script: 'src/server.js', env: { PORT: 5008, NODE_ENV: 'production' } }
-  ]
-};
-EOF
+RUN echo 'module.exports = {' > /app/ecosystem.config.js && \
+  echo '  apps: [' >> /app/ecosystem.config.js && \
+  echo '    { name: "api-gateway", cwd: "/app/server/api-gateway", script: "src/server.ts", interpreter: "ts-node", env: { PORT: 3000, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "userservice", cwd: "/app/server/userservice", script: "index.js", env: { PORT: 3005, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "productservice", cwd: "/app/server/productservice", script: "index.js", env: { PORT: 3001, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "cartservice", cwd: "/app/server/cartservice", script: "index.js", env: { PORT: 3003, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "orderservice", cwd: "/app/server/orderservice", script: "index.js", env: { PORT: 3002, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "paymentservice", cwd: "/app/server/paymentservice", script: "index.js", env: { PORT: 3004, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "product-manager", cwd: "/app/server/product-manager-service", script: "src/server.js", env: { PORT: 5002, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "order-manager", cwd: "/app/server/order-manager-service", script: "src/server.js", env: { PORT: 5003, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "user-manager", cwd: "/app/server/user-manager-service", script: "index.js", env: { PORT: 3006, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "review-service", cwd: "/app/server/review-service", script: "src/server.js", env: { PORT: 5006, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
+  echo '    { name: "chatbox-service", cwd: "/app/server/chatbox-service", script: "src/server.js", env: { PORT: 5008, NODE_ENV: "production" } }' >> /app/ecosystem.config.js && \
+  echo '  ]' >> /app/ecosystem.config.js && \
+  echo '};' >> /app/ecosystem.config.js
 
 EXPOSE 80 3000 3001 3002 3003 3004 3005 3006 5002 5003 5006 5008
 
