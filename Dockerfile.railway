@@ -73,10 +73,16 @@ EXPOSE 80 3000 3001 3002 3003 3004 3005 3006 5002 5003 5006 5008
 
 # Create startup script to run nginx in background and PM2 in foreground
 RUN echo '#!/bin/sh' > /app/start.sh && \
+  echo 'set -e' >> /app/start.sh && \
+  echo 'echo "=== Starting SmartBuy Application ==="' >> /app/start.sh && \
   echo '# Use Railway PORT or default to 80' >> /app/start.sh && \
   echo 'PORT=${PORT:-80}' >> /app/start.sh && \
+  echo 'echo "Using PORT: $PORT"' >> /app/start.sh && \
   echo 'sed -i "s/listen 80;/listen $PORT;/" /etc/nginx/http.d/default.conf' >> /app/start.sh && \
-  echo 'nginx' >> /app/start.sh && \
+  echo 'echo "Starting Nginx..."' >> /app/start.sh && \
+  echo 'nginx -t && nginx' >> /app/start.sh && \
+  echo 'echo "Nginx started successfully"' >> /app/start.sh && \
+  echo 'echo "Starting PM2 with all services..."' >> /app/start.sh && \
   echo 'exec pm2-runtime start /app/ecosystem.config.js' >> /app/start.sh && \
   chmod +x /app/start.sh
 
