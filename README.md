@@ -32,7 +32,7 @@ https://github.com/khanhquoc1412/smartbuy-web.git
 then
 
 ```
-cd tech-shop
+cd smartbuy-web
 npm install
 ```
 
