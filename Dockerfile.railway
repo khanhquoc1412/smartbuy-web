@@ -19,16 +19,18 @@ COPY client/package*.json ./client/
 
 # Install dependencies for all services
 RUN cd server/api-gateway && npm install --production && \
-    cd ../userservice && npm install --production && \
-    cd ../productservice && npm install --production && \
-    cd ../cartservice && npm install --production && \
-    cd ../orderservice && npm install --production && \
-    cd ../paymentservice && npm install --production && \
-    cd ../product-manager-service && npm install --production && \
-    cd ../order-manager-service && npm install --production && \
-    cd ../user-manager-service && npm install --production && \
-    cd ../review-service && npm install --production && \
-    cd ../chatbox-service && npm install --production# Copy source code
+  cd ../userservice && npm install --production && \
+  cd ../productservice && npm install --production && \
+  cd ../cartservice && npm install --production && \
+  cd ../orderservice && npm install --production && \
+  cd ../paymentservice && npm install --production && \
+  cd ../product-manager-service && npm install --production && \
+  cd ../order-manager-service && npm install --production && \
+  cd ../user-manager-service && npm install --production && \
+  cd ../review-service && npm install --production && \
+  cd ../chatbox-service && npm install --production
+
+# Copy source code
 COPY server ./server
 COPY client ./client
 
