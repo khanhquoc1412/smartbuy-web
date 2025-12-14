@@ -33,7 +33,7 @@ services:
       NODE_ENV: production
       PORT: 3000
       # API Gateway không cần MongoDB, chỉ routing requests
-      FRONTEND_URL: https://quockhanh1412.id.vn
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
       USER_SERVICE_URL: http://userservice:3005
       USER_MANAGER_SERVICE_URL: http://user-manager:3006
       PRODUCT_SERVICE_URL: http://productservice:3001
@@ -81,7 +81,7 @@ services:
       PORT: 5002
       MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
       DB_PROD_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
-      BASE_URL: https://quockhanh1412.id.vn
+      BASE_URL: ${FRONTEND_URL:-http://localhost}
     networks:
       - smartbuy-network
     volumes:
@@ -124,7 +124,7 @@ services:
       MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_order?retryWrites=true&w=majority
       USER_MANAGER_SERVICE_URL: http://user-manager:3006
       PRODUCT_MANAGER_SERVICE_URL: http://product-manager:5002
-      FRONTEND_URL: https://quockhanh1412.id.vn
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
     networks:
       - smartbuy-network
 
@@ -145,7 +145,7 @@ services:
       REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
       PRODUCT_SERVICE_URL: http://productservice:3001
       USER_SERVICE_URL: http://userservice:3005
-      CLIENT_URL: https://quockhanh1412.id.vn
+      CLIENT_URL: ${FRONTEND_URL:-http://localhost}
     networks:
       - smartbuy-network
 
@@ -164,7 +164,7 @@ services:
       MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_payment?retryWrites=true&w=majority
       JWT_SECRET: supersecret123
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
-      CLIENT_URL: https://quockhanh1412.id.vn
+      CLIENT_URL: ${FRONTEND_URL:-http://localhost}
       ORDER_SERVICE_URL: http://orderservice:3002
     networks:
       - smartbuy-network
@@ -185,7 +185,7 @@ services:
       MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
       REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
-      CLIENT_URL: https://quockhanh1412.id.vn
+      CLIENT_URL: ${FRONTEND_URL:-http://localhost}
     networks:
       - smartbuy-network
     volumes:
