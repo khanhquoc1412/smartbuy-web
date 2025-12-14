@@ -9,6 +9,9 @@ COPY package*.json ./
 # Install dependencies quickly
 RUN npm install --legacy-peer-deps --no-audit --prefer-offline
 
+# Break cache to ensure fresh build
+ARG CACHEBUST=1
+
 # Copy source code
 COPY . .
 

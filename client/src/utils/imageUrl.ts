@@ -8,23 +8,13 @@
  * @param imageUrl - Image URL (can be relative or absolute)
  * @returns Full URL for displaying image
  * 
- * @example
- * getImageUrl('/uploads/1761119443683-914560194.png')
- * // => '/uploads/1761119443683-914560194.png' (Vite proxy will handle it)
- * 
- * getImageUrl('http://example.com/image.png')
- * // => 'http://example.com/image.png' (unchanged)
+ * ✅ UPDATED: No transformation needed - Docker volume mapping handles /src/assets/
+ * Images are now served directly from mounted source directory
  */
 export const getImageUrl = (imageUrl: string | undefined | null): string => {
   if (!imageUrl) return ''
   
-  // If already absolute URL, return as is
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-    return imageUrl
-  }
-  
-  // For relative paths (including /uploads/), return as is
-  // Vite dev server proxy will forward /uploads/* to localhost:5002
+  // Return as-is - Docker volume mapping serves /src/assets/ directly
   return imageUrl
 }
 

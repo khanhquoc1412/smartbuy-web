@@ -67,7 +67,7 @@ class WebhookService {
    */
   async retryFailedWebhooks() {
     try {
-      const Payment = require('../models/Payment');
+      const Payment = require('../models/payment');
 
       const failedWebhooks = await Payment.find({
         webhookSent: false,

@@ -32,8 +32,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
-      FRONTEND_URL: http://localhost
+      # API Gateway không cần MongoDB, chỉ routing requests
+      FRONTEND_URL: https://quockhanh1412.id.vn
       USER_SERVICE_URL: http://userservice:3005
       USER_MANAGER_SERVICE_URL: http://user-manager:3006
       PRODUCT_SERVICE_URL: http://productservice:3001
@@ -44,7 +44,6 @@ services:
       ORDER_MANAGER_SERVICE_URL: http://order-manager:5003
       REVIEW_SERVICE_URL: http://review-service:5006
       CHATBOT_SERVICE_URL: http://chatbox-service:5008
-    # depends_on MongoDB removed
     networks:
       - smartbuy-network
 
@@ -60,10 +59,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db_product
+      DB_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
+      DB_PROD_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
+      MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
       REVIEW_SERVICE_URL: http://review-service:5006
       ORDER_SERVICE_URL: http://orderservice:3002
-    # depends_on MongoDB removed
     networks:
       - smartbuy-network
 
@@ -79,12 +79,15 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5002
-      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
-    # depends_on MongoDB removed
+      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
+      DB_PROD_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
+      BASE_URL: https://quockhanh1412.id.vn
     networks:
       - smartbuy-network
     volumes:
-      - product_uploads:/app/uploads
+      # Mount client source images to serve via /uploads/images/ endpoint
+      - ./client/src/assets/images:/app/uploads/images:ro
+      - ./client/src/assets/images:/app/uploads/images:ro
 
   # Order Service (Legacy)
   orderservice:
@@ -98,8 +101,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3002
-      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_order
-    # depends_on MongoDB removed
+      MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_order?retryWrites=true&w=majority
+      CART_SERVICE_URL: http://cartservice:3003
+      PRODUCT_SERVICE_URL: http://productservice:3001
+      PAYMENT_SERVICE_URL: http://paymentservice:3004
+      REVIEW_SERVICE_URL: http://review-service:5006
     networks:
       - smartbuy-network
 
@@ -115,11 +121,10 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5003
-      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_order?retryWrites=true&w=majority
       USER_MANAGER_SERVICE_URL: http://user-manager:3006
       PRODUCT_MANAGER_SERVICE_URL: http://product-manager:5002
-      FRONTEND_URL: http://client
-    # depends_on MongoDB removed
+      FRONTEND_URL: https://quockhanh1412.id.vn
     networks:
       - smartbuy-network
 
@@ -135,13 +140,12 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3003
-      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db_cart
+      DB_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_cart?retryWrites=true&w=majority
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
       REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
       PRODUCT_SERVICE_URL: http://productservice:3001
       USER_SERVICE_URL: http://userservice:3005
-      CLIENT_URL: http://client
-    # depends_on MongoDB removed
+      CLIENT_URL: https://quockhanh1412.id.vn
     networks:
       - smartbuy-network
 
@@ -157,12 +161,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3004
-      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_payment
+      MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_payment?retryWrites=true&w=majority
       JWT_SECRET: supersecret123
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
-      CLIENT_URL: http://client
+      CLIENT_URL: https://quockhanh1412.id.vn
       ORDER_SERVICE_URL: http://orderservice:3002
-    # depends_on MongoDB removed
     networks:
       - smartbuy-network
 
@@ -178,11 +181,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3005
-      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db
+      DB_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
+      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
       REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
-      CLIENT_URL: http://client
-    # depends_on MongoDB removed
+      CLIENT_URL: https://quockhanh1412.id.vn
     networks:
       - smartbuy-network
     volumes:
@@ -200,9 +203,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3006
-      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
       JWT_SECRET: supersecret123
-    # depends_on MongoDB removed
     networks:
       - smartbuy-network
 
@@ -218,9 +220,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5006
-      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy?authSource=admin
+      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_review?retryWrites=true&w=majority
       JWT_SECRET: supersecret123
-    # depends_on MongoDB removed
     networks:
       - smartbuy-network
 
@@ -255,6 +256,9 @@ services:
       - api-gateway
     networks:
       - smartbuy-network
+    volumes:
+      # Mount source images to nginx to serve /src/assets/images/ directly
+      - ./client/src/assets:/usr/share/nginx/html/src/assets:ro
 
 networks:
   smartbuy-network:

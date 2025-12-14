@@ -231,7 +231,8 @@ const mainImage = computed(() => {
 });
 
 const displayImage = computed(() => {
-  return mainImage.value?.imageUrl || product?.thumbUrl || "";
+  const rawUrl = mainImage.value?.imageUrl || product?.thumbUrl || "";
+  return rawUrl;
 });
 
 const defaultVariant = computed(() => {

@@ -1,4 +1,4 @@
-const Address = require('../models/address');
+const Address = require("../models/Address");
 
 class AddressService {
   /**
@@ -6,18 +6,20 @@ class AddressService {
    */
   async getUserAddresses(userId) {
     if (!userId) {
-      const error = new Error('User ID là bắt buộc');
+      const error = new Error("User ID là bắt buộc");
       error.statusCode = 400;
       throw error;
     }
 
-    const addresses = await Address.find({ userId })
-      .sort({ isDefault: -1, createdAt: -1 }); // Default address first
+    const addresses = await Address.find({ userId }).sort({
+      isDefault: -1,
+      createdAt: -1,
+    }); // Default address first
 
     return {
       success: true,
       data: addresses,
-      message: 'Lấy danh sách địa chỉ thành công'
+      message: "Lấy danh sách địa chỉ thành công",
     };
   }
 
@@ -28,7 +30,7 @@ class AddressService {
     const address = await Address.findById(addressId);
 
     if (!address) {
-      const error = new Error('Không tìm thấy địa chỉ');
+      const error = new Error("Không tìm thấy địa chỉ");
       error.statusCode = 404;
       throw error;
     }
@@ -36,7 +38,7 @@ class AddressService {
     return {
       success: true,
       data: address,
-      message: 'Lấy thông tin địa chỉ thành công'
+      message: "Lấy thông tin địa chỉ thành công",
     };
   }
 
@@ -44,11 +46,29 @@ class AddressService {
    * Create new address
    */
   async createAddress(addressData) {
-    const { userId, label, fullName, phone, province, district, ward, address, isDefault } = addressData;
+    const {
+      userId,
+      label,
+      fullName,
+      phone,
+      province,
+      district,
+      ward,
+      address,
+      isDefault,
+    } = addressData;
 
     // Validate required fields
-    if (!userId || !fullName || !phone || !province || !district || !ward || !address) {
-      const error = new Error('Vui lòng điền đầy đủ thông tin địa chỉ');
+    if (
+      !userId ||
+      !fullName ||
+      !phone ||
+      !province ||
+      !district ||
+      !ward ||
+      !address
+    ) {
+      const error = new Error("Vui lòng điền đầy đủ thông tin địa chỉ");
       error.statusCode = 400;
       throw error;
     }
@@ -64,14 +84,14 @@ class AddressService {
     // Create new address
     const newAddress = new Address({
       userId,
-      label: label || 'Nhà riêng',
+      label: label || "Nhà riêng",
       fullName,
       phone,
       province,
       district,
       ward,
       address,
-      isDefault: isDefault || false
+      isDefault: isDefault || false,
     });
 
     await newAddress.save();
@@ -79,7 +99,7 @@ class AddressService {
     return {
       success: true,
       data: newAddress,
-      message: 'Thêm địa chỉ thành công'
+      message: "Thêm địa chỉ thành công",
     };
   }
 
@@ -90,7 +110,7 @@ class AddressService {
     const address = await Address.findById(addressId);
 
     if (!address) {
-      const error = new Error('Không tìm thấy địa chỉ');
+      const error = new Error("Không tìm thấy địa chỉ");
       error.statusCode = 404;
       throw error;
     }
@@ -104,8 +124,17 @@ class AddressService {
     }
 
     // Update fields
-    const allowedFields = ['label', 'fullName', 'phone', 'province', 'district', 'ward', 'address', 'isDefault'];
-    allowedFields.forEach(field => {
+    const allowedFields = [
+      "label",
+      "fullName",
+      "phone",
+      "province",
+      "district",
+      "ward",
+      "address",
+      "isDefault",
+    ];
+    allowedFields.forEach((field) => {
       if (updateData[field] !== undefined) {
         address[field] = updateData[field];
       }
@@ -116,7 +145,7 @@ class AddressService {
     return {
       success: true,
       data: address,
-      message: 'Cập nhật địa chỉ thành công'
+      message: "Cập nhật địa chỉ thành công",
     };
   }
 
@@ -127,7 +156,7 @@ class AddressService {
     const address = await Address.findById(addressId);
 
     if (!address) {
-      const error = new Error('Không tìm thấy địa chỉ');
+      const error = new Error("Không tìm thấy địa chỉ");
       error.statusCode = 404;
       throw error;
     }
@@ -145,7 +174,7 @@ class AddressService {
     return {
       success: true,
       data: address,
-      message: 'Đã đặt địa chỉ mặc định'
+      message: "Đã đặt địa chỉ mặc định",
     };
   }
 
@@ -156,7 +185,7 @@ class AddressService {
     const address = await Address.findById(addressId);
 
     if (!address) {
-      const error = new Error('Không tìm thấy địa chỉ');
+      const error = new Error("Không tìm thấy địa chỉ");
       error.statusCode = 404;
       throw error;
     }
@@ -165,7 +194,7 @@ class AddressService {
     if (address.isDefault) {
       const anotherAddress = await Address.findOne({
         userId: address.userId,
-        _id: { $ne: addressId }
+        _id: { $ne: addressId },
       }).sort({ createdAt: -1 });
 
       if (anotherAddress) {
@@ -178,7 +207,7 @@ class AddressService {
 
     return {
       success: true,
-      message: 'Xóa địa chỉ thành công'
+      message: "Xóa địa chỉ thành công",
     };
   }
 
@@ -187,7 +216,7 @@ class AddressService {
    */
   async bulkDeleteAddresses(addressIds) {
     if (!addressIds || !Array.isArray(addressIds) || addressIds.length === 0) {
-      const error = new Error('Vui lòng cung cấp danh sách ID địa chỉ');
+      const error = new Error("Vui lòng cung cấp danh sách ID địa chỉ");
       error.statusCode = 400;
       throw error;
     }
@@ -197,7 +226,7 @@ class AddressService {
     return {
       success: true,
       data: { deletedCount: result.deletedCount },
-      message: `Đã xóa ${result.deletedCount} địa chỉ`
+      message: `Đã xóa ${result.deletedCount} địa chỉ`,
     };
   }
 }

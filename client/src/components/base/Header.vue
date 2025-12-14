@@ -174,6 +174,7 @@ import { ICategory, IHeaderItem } from "@/types/category.types";
 import { useAuth } from "@composables/useAuth";
 import { onClickOutside } from "@vueuse/core";
 import { formatMoney } from "@/utils/formatMoney";
+import { getImageUrl } from "@/utils/imageUrl";
 
 const { loggedIn, user } = useAuth();
 const { totalItems } = useCart();

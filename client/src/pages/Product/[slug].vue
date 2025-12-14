@@ -67,7 +67,7 @@
               v-for="image in filteredImages"
               :key="image._id"
             >
-              <img :src="image.imageUrl" :alt="image.name" />
+              <img :src="getImageUrl(image.imageUrl)" :alt="image.name" />
             </swiper-slide>
           </swiper>
           <swiper
@@ -85,7 +85,7 @@
               v-for="image in filteredImages"
               :key="image._id"
             >
-              <img :src="image.imageUrl" :alt="image.name" />
+              <img :src="getImageUrl(image.imageUrl)" :alt="image.name" />
             </swiper-slide>
           </swiper>
         </div>
@@ -344,6 +344,7 @@ import { breakpoints } from "@utils/breackpoints";
 import ProductItem from "@/components/product/ProductItem.vue";
 import ProductReviews from "@/components/product/ProductReviews.vue";
 import Heading from "@/components/base/Heading.vue";
+import { getImageUrl } from "@utils/imageUrl";
 // // Thay dòng này
 // import { useAddProductToCartMutation, useGetProductDetails, useListProductsSale } from "@/api/product/query";
 import { useGetProductDetails, useListProductsSale } from "@/api/product/query";

@@ -20,4 +20,4 @@ RUN npm prune --production
 
 EXPOSE 5006
 
-CMD ["node", "src/index.js"]
+CMD ["node", "src/server.js"]

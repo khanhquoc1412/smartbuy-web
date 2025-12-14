@@ -1,8 +1,21 @@
 import axios, { AxiosInstance } from "axios";
 import interceptors from "./interceptors";
 
-// 🔥 API Gateway URL - Điểm vào duy nhất cho tất cả microservices
-const API_GATEWAY_URL = import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:3000';
+// 🔥 API Gateway URL - Tự động phát hiện hostname
+const getApiGatewayUrl = () => {
+  // Nếu có env variable thì dùng
+  if (import.meta.env.VITE_API_GATEWAY_URL) {
+    return import.meta.env.VITE_API_GATEWAY_URL;
+  }
+  
+  // Tự động lấy từ window.location (cho phép truy cập từ máy khác)
+  // Khi truy cập từ 192.168.1.139 → API Gateway cũng ở 192.168.1.139:3000
+  const protocol = window.location.protocol; // http: hoặc https:
+  const hostname = window.location.hostname; // localhost hoặc 192.168.1.139
+  return `${protocol}//${hostname}:3000`;
+};
+
+const API_GATEWAY_URL = getApiGatewayUrl();
 
 /**
  * MỘT axios instance duy nhất qua API Gateway

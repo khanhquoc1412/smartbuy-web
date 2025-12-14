@@ -3,27 +3,43 @@
     <BreadScrumb name-page="Giỏ hàng" />
     <Container class="cart-section tw-flex tw-gap-8 tw-flex-col">
       <div class="cart-title">Giỏ hàng của bạn</div>
-      
+
       <!-- Loading State -->
-      <div v-if="isLoadingCart || isUpdating || isRemoving" class="cart-main tw-py-20 tw-flex tw-justify-center">
-        <p>{{ isUpdating ? 'Đang cập nhật...' : isRemoving ? 'Đang xóa...' : 'Đang tải giỏ hàng...' }}</p>
+      <div
+        v-if="isLoadingCart || isUpdating || isRemoving"
+        class="cart-main tw-py-20 tw-flex tw-justify-center"
+      >
+        <p>
+          {{
+            isUpdating
+              ? "Đang cập nhật..."
+              : isRemoving
+              ? "Đang xóa..."
+              : "Đang tải giỏ hàng..."
+          }}
+        </p>
       </div>
-      
+
       <!-- Cart Items -->
       <div
         v-else-if="cartItems.length > 0"
         class="cart-main tw-flex tw-flex-col tw-gap-5 tw-pb-20"
       >
         <!-- Select All Header -->
-        <div class="select-all-section tw-flex tw-items-center tw-gap-3 tw-p-3 tw-bg-gray-50 tw-rounded">
-          <input 
-            type="checkbox" 
+        <div
+          class="select-all-section tw-flex tw-items-center tw-gap-3 tw-p-3 tw-bg-gray-50 tw-rounded"
+        >
+          <input
+            type="checkbox"
             id="selectAll"
             class="tw-w-5 tw-h-5 tw-cursor-pointer accent-red-600"
             :checked="isAllSelected"
             @change="toggleSelectAll"
           />
-          <label for="selectAll" class="tw-cursor-pointer tw-select-none tw-font-medium tw-text-sm">
+          <label
+            for="selectAll"
+            class="tw-cursor-pointer tw-select-none tw-font-medium tw-text-sm"
+          >
             Chọn tất cả ({{ cartItems.length }} sản phẩm)
           </label>
         </div>
@@ -36,8 +52,8 @@
         >
           <!-- Checkbox Column -->
           <div class="cart-product__checkbox tw-flex tw-items-center tw-pl-2">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               :id="`item-${cartItem._id}`"
               class="tw-w-5 tw-h-5 tw-cursor-pointer accent-red-600"
               :checked="isItemSelected(cartItem._id)"
@@ -49,7 +65,10 @@
             <div class="product-img">
               <img
                 class="tw-w-full tw-h-full tw-object-cover"
-                :src="cartItem.thumbUrl || cartItem.productVariant?.product?.thumbUrl"
+                :src="
+                  cartItem.thumbUrl ||
+                  cartItem.productVariant?.product?.thumbUrl
+                "
                 alt=""
               />
             </div>
@@ -64,7 +83,7 @@
               </router-link>
               <div class="product-desc--option tw-justify-self-start">
                 <span>
-                  {{ cartItem.productVariant?.memory?.ram}}/{{
+                  {{ cartItem.productVariant?.memory?.ram }}/{{
                     cartItem.productVariant?.memory?.rom
                   }}
                 </span>
@@ -77,7 +96,7 @@
                 <div class="product-desc__price--show">
                   {{ formatMoney(cartItem.productVariant?.price || 0) }}
                 </div>
-                <div 
+                <div
                   class="product-desc__price--throw"
                   v-if="cartItem.productVariant?.product?.discountPercentage"
                 >
@@ -133,7 +152,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Empty Cart -->
       <div
         v-else
@@ -151,7 +170,7 @@
           <span>Hãy chọn thêm sản phẩm để mua sắm nhé</span>
         </div>
       </div>
-      
+
       <!-- Sticky Bottom Bar -->
       <div id="stickyBottomBar" class="tw-fixed">
         <div
@@ -167,7 +186,10 @@
           <router-link
             to="/cart/checkout"
             class="btn-checkout tw-self-start tw-justify-self-start hover:tw-opacity-75 tw-transition-all tw-cursor-pointer"
-            :class="{ 'tw-opacity-50 tw-pointer-events-none': selectedItems.length === 0 }"
+            :class="{
+              'tw-opacity-50 tw-pointer-events-none':
+                selectedItems.length === 0,
+            }"
             @click.native="handleCheckout"
           >
             <span> Mua ngay </span>
@@ -183,7 +205,7 @@
         </router-link>
       </div>
     </Container>
-    
+
     <!-- Modal Delete (Outside Loop) -->
     <Modal
       :content="`Xóa sản phẩm khỏi giỏ hàng?`"
@@ -204,8 +226,8 @@ import { useCart } from "@/composables/useCart";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import Modal from "@/components/common/Modal.vue";
 import router from "@/router";
-import { ref, onMounted, watch, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, watch, computed } from "vue";
+import { useRoute } from "vue-router";
 
 const { userId } = useAuth();
 const {
@@ -222,7 +244,7 @@ const {
 } = useCart();
 
 const activeModalDeleteProductToCart = ref<boolean>(false);
-const currentCartItemId = ref<string>('');
+const currentCartItemId = ref<string>("");
 
 // ✅ Selection state
 const selectedItems = ref<string[]>([]);
@@ -237,23 +259,29 @@ const closeModal = (value: boolean) => {
 };
 
 // Hàm tăng số lượng
-const handleIncreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
+const handleIncreaseQuantity = async (
+  cartItemId: string,
+  currentQuantity: number
+) => {
   if (isUpdating.value) return;
   try {
     await updateQuantity(cartItemId, currentQuantity + 1);
   } catch (error) {
-    console.error('Error increasing quantity:', error);
+    console.error("Error increasing quantity:", error);
   }
 };
 
 // Hàm giảm số lượng
-const handleDecreaseQuantity = async (cartItemId: string, currentQuantity: number) => {
+const handleDecreaseQuantity = async (
+  cartItemId: string,
+  currentQuantity: number
+) => {
   if (isUpdating.value || currentQuantity <= 1) return;
   if (currentQuantity > 1) {
     try {
       await updateQuantity(cartItemId, currentQuantity - 1);
     } catch (error) {
-      console.error('Error decreasing quantity:', error);
+      console.error("Error decreasing quantity:", error);
     }
   }
 };
@@ -263,10 +291,10 @@ const handleRemoveItem = async () => {
   if (isRemoving.value) return;
   try {
     await removeItem(currentCartItemId.value);
-    showToast('Xóa sản phẩm khỏi giỏ hàng thành công', 'success');
+    showToast("Xóa sản phẩm khỏi giỏ hàng thành công", "success");
     closeModal(false);
   } catch (error) {
-    console.error('Error removing item:', error);
+    console.error("Error removing item:", error);
   }
 };
 
@@ -276,7 +304,10 @@ const isItemSelected = (cartItemId: string) => {
 };
 
 const isAllSelected = computed(() => {
-  return cartItems.value.length > 0 && selectedItems.value.length === cartItems.value.length;
+  return (
+    cartItems.value.length > 0 &&
+    selectedItems.value.length === cartItems.value.length
+  );
 });
 
 const toggleSelectItem = (cartItemId: string) => {
@@ -292,73 +323,76 @@ const toggleSelectAll = () => {
   if (isAllSelected.value) {
     selectedItems.value = [];
   } else {
-    selectedItems.value = cartItems.value.map(item => item._id);
+    selectedItems.value = cartItems.value.map((item) => item._id);
   }
 };
 
 // ✅ Calculate total for selected items only
 const selectedTotal = computed(() => {
-  const selected = cartItems.value.filter(item => selectedItems.value.includes(item._id));
+  const selected = cartItems.value.filter((item) =>
+    selectedItems.value.includes(item._id)
+  );
   return getTotalAmount(selected);
 });
 
 const handleCheckout = (e: Event) => {
   if (selectedItems.value.length === 0) {
     e.preventDefault();
-    showToast('Vui lòng chọn ít nhất một sản phẩm để mua');
+    showToast("Vui lòng chọn ít nhất một sản phẩm để mua");
   } else {
     // Store selected items in sessionStorage for checkout page
-    sessionStorage.setItem('selectedCartItems', JSON.stringify(selectedItems.value));
+    sessionStorage.setItem(
+      "selectedCartItems",
+      JSON.stringify(selectedItems.value)
+    );
   }
 };
 
 onMounted(async () => {
-  console.log('🔄 Cart page mounted, fetching cart...');
-  
+  console.log("🔄 Cart page mounted, fetching cart...");
+
   // Force refetch cart data
-  await Promise.all([
-    refetchCart(),
-    refetchCartCount(),
-  ]);
-  
+  await Promise.all([refetchCart(), refetchCartCount()]);
+
   // ✅ Select all items by default
-  selectedItems.value = cartItems.value.map(item => item._id);
+  selectedItems.value = cartItems.value.map((item) => item._id);
 });
 
 const route = useRoute();
-watch(() => route.path, async (newPath) => {
-  if (newPath === '/cart' || newPath.startsWith('/cart/')) {
-    console.log('🔄 Navigated to cart, refetching...');
-    await Promise.all([
-      refetchCart(),
-      refetchCartCount(),
-    ]);
-    
-    // ✅ Re-select all items after refetch
-    selectedItems.value = cartItems.value.map(item => item._id);
-  }
-}, { immediate: true });
+watch(
+  () => route.path,
+  async (newPath) => {
+    if (newPath === "/cart" || newPath.startsWith("/cart/")) {
+      console.log("🔄 Navigated to cart, refetching...");
+      await Promise.all([refetchCart(), refetchCartCount()]);
+
+      // ✅ Re-select all items after refetch
+      selectedItems.value = cartItems.value.map((item) => item._id);
+    }
+  },
+  { immediate: true }
+);
 
 // ✅ Watch cart items to auto-select new items
 watch(cartItems, (newItems) => {
   // Auto-select new items that aren't already selected
-  const newIds = newItems.map(item => item._id);
-  selectedItems.value = selectedItems.value.filter(id => newIds.includes(id));
-  
+  const newIds = newItems.map((item) => item._id);
+  selectedItems.value = selectedItems.value.filter((id) => newIds.includes(id));
+
   // Select all by default if selection is empty
   if (selectedItems.value.length === 0 && newItems.length > 0) {
     selectedItems.value = newIds;
   }
 });
 
-const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-  const toast = document.createElement('div');
+const showToast = (message: string, type: "success" | "error" = "success") => {
+  const toast = document.createElement("div");
   toast.textContent = message;
   toast.style.cssText = `
     position: fixed;
     top: 100px;
     right: 20px;
-    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    background: ${type === "success" ? "#4CAF50" : "#f44336"};
     color: white;
     padding: 16px 24px;
     border-radius: 4px;
@@ -367,11 +401,11 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     font-size: 14px;
     animation: slideIn 0.3s ease;
   `;
-  
+
   document.body.appendChild(toast);
-  
+
   setTimeout(() => {
-    toast.style.animation = 'slideOut 0.3s ease';
+    toast.style.animation = "slideOut 0.3s ease";
     setTimeout(() => document.body.removeChild(toast), 300);
   }, 3000);
 };
