@@ -25,7 +25,7 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 app.use(cors({ 
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Cho phép requests không có origin (như mobile apps, curl, Postman)
     if (!origin) return callback(null, true);
     

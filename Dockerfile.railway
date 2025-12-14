@@ -18,7 +18,8 @@ COPY server/chatbox-service/package*.json ./server/chatbox-service/
 COPY client/package*.json ./client/
 
 # Install dependencies for all services
-RUN cd server/api-gateway && npm install --production && \
+# api-gateway needs dev dependencies for TypeScript + ts-node
+RUN cd server/api-gateway && npm install && \
   cd ../userservice && npm install --production && \
   cd ../productservice && npm install --production && \
   cd ../cartservice && npm install --production && \
