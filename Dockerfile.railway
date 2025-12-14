@@ -65,7 +65,7 @@ RUN echo 'module.exports = {' > /app/ecosystem.config.js && \
   echo '    { name: "order-manager", cwd: "/app/server/order-manager-service", script: "src/server.js", env: { PORT: 5003, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
   echo '    { name: "user-manager", cwd: "/app/server/user-manager-service", script: "index.js", env: { PORT: 3006, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
   echo '    { name: "review-service", cwd: "/app/server/review-service", script: "src/server.js", env: { PORT: 5006, NODE_ENV: "production" } },' >> /app/ecosystem.config.js && \
-  echo '    { name: "chatbox-service", cwd: "/app/server/chatbox-service", script: "src/server.js", env: { PORT: 5008, NODE_ENV: "production" } }' >> /app/ecosystem.config.js && \
+  echo '    { name: "chatbox-service", cwd: "/app/server/chatbox-service", script: "src/index.js", env: { PORT: 5008, NODE_ENV: "production" } }' >> /app/ecosystem.config.js && \
   echo '  ]' >> /app/ecosystem.config.js && \
   echo '};' >> /app/ecosystem.config.js
 
