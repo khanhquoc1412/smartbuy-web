@@ -1,59 +1,77 @@
-# Multi-stage build for Railway deployment
-FROM node:18-alpine AS base
-
-# Install PM2 globally to manage multiple Node processes
-RUN npm install -g pm2
+# Multi-stage build for Railway/Render deployment
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy all source code
-COPY . .
+# Copy package files for all services
+COPY server/api-gateway/package*.json ./server/api-gateway/
+COPY server/userservice/package*.json ./server/userservice/
+COPY server/productservice/package*.json ./server/productservice/
+COPY server/cartservice/package*.json ./server/cartservice/
+COPY server/orderservice/package*.json ./server/orderservice/
+COPY server/paymentservice/package*.json ./server/paymentservice/
+COPY server/product-manager-service/package*.json ./server/product-manager-service/
+COPY server/order-manager-service/package*.json ./server/order-manager-service/
+COPY server/user-manager-service/package*.json ./server/user-manager-service/
+COPY server/review-service/package*.json ./server/review-service/
+COPY server/chatbox-service/package*.json ./server/chatbox-service/
+COPY client/package*.json ./client/
 
 # Install dependencies for all services
-RUN cd server/api-gateway && npm install && \
-    cd ../userservice && npm install && \
-    cd ../productservice && npm install && \
-    cd ../cartservice && npm install && \
-    cd ../orderservice && npm install && \
-    cd ../paymentservice && npm install && \
-    cd ../product-manager-service && npm install && \
-    cd ../order-manager-service && npm install && \
-    cd ../user-manager-service && npm install && \
-    cd ../review-service && npm install && \
-    cd ../chatbox-service && npm install
+RUN cd server/api-gateway && npm ci --only=production && \
+    cd ../userservice && npm ci --only=production && \
+    cd ../productservice && npm ci --only=production && \
+    cd ../cartservice && npm ci --only=production && \
+    cd ../orderservice && npm ci --only=production && \
+    cd ../paymentservice && npm ci --only=production && \
+    cd ../product-manager-service && npm ci --only=production && \
+    cd ../order-manager-service && npm ci --only=production && \
+    cd ../user-manager-service && npm ci --only=production && \
+    cd ../review-service && npm ci --only=production && \
+    cd ../chatbox-service && npm ci --only=production
+
+# Copy source code
+COPY server ./server
+COPY client ./client
 
 # Build client
-RUN cd client && npm install && npm run build
+RUN cd client && npm ci && npm run build
 
-# Create PM2 ecosystem file
-RUN echo 'module.exports = { \
-    apps: [ \
-    { name: "api-gateway", cwd: "/app/server/api-gateway/src", script: "server.ts", interpreter: "node", env: { PORT: 3000 } }, \
-    { name: "userservice", cwd: "/app/server/userservice", script: "index.js", env: { PORT: 3005 } }, \
-    { name: "productservice", cwd: "/app/server/productservice", script: "index.js", env: { PORT: 3001 } }, \
-    { name: "cartservice", cwd: "/app/server/cartservice", script: "index.js", env: { PORT: 3003 } }, \
-    { name: "orderservice", cwd: "/app/server/orderservice", script: "index.js", env: { PORT: 3002 } }, \
-    { name: "paymentservice", cwd: "/app/server/paymentservice", script: "index.js", env: { PORT: 3004 } }, \
-    { name: "product-manager", cwd: "/app/server/product-manager-service/src", script: "server.js", env: { PORT: 5002 } }, \
-    { name: "order-manager", cwd: "/app/server/order-manager-service/src", script: "server.js", env: { PORT: 5003 } }, \
-    { name: "user-manager", cwd: "/app/server/user-manager-service", script: "index.js", env: { PORT: 3006 } }, \
-    { name: "review-service", cwd: "/app/server/review-service/src", script: "server.js", env: { PORT: 5006 } }, \
-    { name: "chatbox-service", cwd: "/app/server/chatbox-service/src", script: "server.js", env: { PORT: 5008 } } \
-    ] \
-    }' > /app/ecosystem.config.js
+# Production stage
+FROM node:18-alpine
 
-# Install nginx for serving frontend
-RUN apk add --no-cache nginx
+# Install PM2, nginx, and ts-node
+RUN apk add --no-cache nginx && \
+    npm install -g pm2 ts-node typescript
 
-# Copy nginx config
+WORKDIR /app
+
+# Copy built artifacts and node_modules from builder
+COPY --from=builder /app/server ./server
+COPY --from=builder /app/client/dist /usr/share/nginx/html
+COPY client/src/assets /usr/share/nginx/html/src/assets
 COPY client/nginx.conf /etc/nginx/http.d/default.conf
 
-# Copy built frontend to nginx
-RUN mkdir -p /usr/share/nginx/html && \
-    cp -r client/dist/* /usr/share/nginx/html/ && \
-    cp -r client/src/assets /usr/share/nginx/html/src/
+# Create PM2 ecosystem config
+RUN cat > /app/ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [
+    { name: 'api-gateway', cwd: '/app/server/api-gateway', script: 'src/server.ts', interpreter: 'ts-node', env: { PORT: 3000, NODE_ENV: 'production' } },
+    { name: 'userservice', cwd: '/app/server/userservice', script: 'index.js', env: { PORT: 3005, NODE_ENV: 'production' } },
+    { name: 'productservice', cwd: '/app/server/productservice', script: 'index.js', env: { PORT: 3001, NODE_ENV: 'production' } },
+    { name: 'cartservice', cwd: '/app/server/cartservice', script: 'index.js', env: { PORT: 3003, NODE_ENV: 'production' } },
+    { name: 'orderservice', cwd: '/app/server/orderservice', script: 'index.js', env: { PORT: 3002, NODE_ENV: 'production' } },
+    { name: 'paymentservice', cwd: '/app/server/paymentservice', script: 'index.js', env: { PORT: 3004, NODE_ENV: 'production' } },
+    { name: 'product-manager', cwd: '/app/server/product-manager-service', script: 'src/server.js', env: { PORT: 5002, NODE_ENV: 'production' } },
+    { name: 'order-manager', cwd: '/app/server/order-manager-service', script: 'src/server.js', env: { PORT: 5003, NODE_ENV: 'production' } },
+    { name: 'user-manager', cwd: '/app/server/user-manager-service', script: 'index.js', env: { PORT: 3006, NODE_ENV: 'production' } },
+    { name: 'review-service', cwd: '/app/server/review-service', script: 'src/server.js', env: { PORT: 5006, NODE_ENV: 'production' } },
+    { name: 'chatbox-service', cwd: '/app/server/chatbox-service', script: 'src/server.js', env: { PORT: 5008, NODE_ENV: 'production' } }
+  ]
+};
+EOF
 
 EXPOSE 80 3000 3001 3002 3003 3004 3005 3006 5002 5003 5006 5008
 
-# Start script
+# Start nginx and all services with PM2
 CMD ["sh", "-c", "nginx && pm2-runtime start /app/ecosystem.config.js"]
