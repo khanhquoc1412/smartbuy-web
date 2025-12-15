@@ -9,16 +9,21 @@ const getApiGatewayUrl = () => {
   }
   
   const hostname = window.location.hostname;
+  console.log('🔍 [axios.ts] Detecting hostname:', hostname);
   
   // Nếu KHÔNG phải localhost/127.0.0.1 → đang ở production (Railway/hosting)
   // Dùng same origin (không thêm port)
   if (hostname !== 'localhost' && hostname !== '127.0.0.1' && !hostname.startsWith('192.168')) {
-    return window.location.origin; // https://zestful-spontaneity-production.up.railway.app
+    const apiUrl = window.location.origin;
+    console.log('✅ [axios.ts] Production detected, using:', apiUrl);
+    return apiUrl; // https://zestful-spontaneity-production.up.railway.app
   }
   
   // Development: localhost với port 3000
   const protocol = window.location.protocol;
-  return `${protocol}//${hostname}:3000`;
+  const devUrl = `${protocol}//${hostname}:3000`;
+  console.log('🏠 [axios.ts] Development detected, using:', devUrl);
+  return devUrl;
 };
 
 const API_GATEWAY_URL = getApiGatewayUrl();
