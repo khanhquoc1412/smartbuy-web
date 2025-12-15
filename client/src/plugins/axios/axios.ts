@@ -8,15 +8,16 @@ const getApiGatewayUrl = () => {
     return import.meta.env.VITE_API_GATEWAY_URL;
   }
   
-  // Nếu đang ở production (Railway/hosting), dùng same origin
-  if (import.meta.env.PROD) {
+  const hostname = window.location.hostname;
+  
+  // Nếu KHÔNG phải localhost/127.0.0.1 → đang ở production (Railway/hosting)
+  // Dùng same origin (không thêm port)
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1' && !hostname.startsWith('192.168')) {
     return window.location.origin; // https://zestful-spontaneity-production.up.railway.app
   }
   
-  // Development: Tự động lấy từ window.location với port 3000
-  // Khi truy cập từ 192.168.1.139 → API Gateway cũng ở 192.168.1.139:3000
-  const protocol = window.location.protocol; // http: hoặc https:
-  const hostname = window.location.hostname; // localhost hoặc 192.168.1.139
+  // Development: localhost với port 3000
+  const protocol = window.location.protocol;
   return `${protocol}//${hostname}:3000`;
 };
 
