@@ -113,7 +113,15 @@
                 </div>
 
                 <!-- Price -->
-                <div class="tw-flex tw-items-baseline tw-gap-2">
+                <div class="tw-flex tw-items-baseline tw-gap-2 tw-flex-wrap">
+                  <!-- Giá gốc (gạch ngang) nếu có discount -->
+                  <span
+                    v-if="productInfo.originalPrice"
+                    class="tw-text-base tw-font-normal tw-text-gray-400 tw-line-through"
+                  >
+                    {{ formatMoney(productInfo.originalPrice) }}
+                  </span>
+                  <!-- Giá giảm hoặc giá bán (màu đỏ) -->
                   <span class="tw-text-2xl tw-font-bold tw-text-red-600">
                     {{ formatMoney(productInfo.price) }}
                   </span>
@@ -274,6 +282,8 @@ interface ProductInfo {
   memory?: string;
   maxStock?: number;
   cartItemId?: string;
+  originalPrice?: number; // Giá gốc trước khi giảm
+  discountPercentage?: number; // % giảm giá
 }
 
 interface Props {

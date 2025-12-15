@@ -19,8 +19,9 @@ COPY . .
 # Build if needed (check if build script exists)
 RUN npm run build || true
 
-# Remove devDependencies
-RUN npm prune --production
+# Remove devDependencies but keep build artifacts
+RUN npm prune --production && \
+    npm rebuild bcrypt --build-from-source
 
 EXPOSE 3006
 

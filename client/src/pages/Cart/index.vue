@@ -93,19 +93,23 @@
                 </span>
               </div>
               <div class="product-desc__price tw-flex tw-gap-2">
-                <div class="product-desc__price--show">
-                  {{ formatMoney(cartItem.productVariant?.price || 0) }}
-                </div>
+                <!-- Giá gốc (gạch ngang) -->
                 <div
                   class="product-desc__price--throw"
                   v-if="cartItem.productVariant?.product?.discountPercentage"
                 >
+                  {{ formatMoney(cartItem.productVariant.price) }}
+                </div>
+                <!-- Giá giảm (màu đỏ) -->
+                <div class="product-desc__price--show">
                   {{
                     formatMoney(
-                      getRealPrice(
-                        cartItem.productVariant.price,
-                        cartItem.productVariant.product.discountPercentage
-                      )
+                      cartItem.productVariant?.product?.discountPercentage
+                        ? getDiscountedPrice(
+                            cartItem.productVariant.price,
+                            cartItem.productVariant.product.discountPercentage
+                          )
+                        : cartItem.productVariant?.price || 0
                     )
                   }}
                 </div>
@@ -221,7 +225,7 @@ import Container from "@components/base/Container.vue";
 import BreadScrumb from "@/components/base/BreadScrumb.vue";
 import { useAuth } from "@/composables/useAuth";
 import { formatMoney } from "@/utils/formatMoney";
-import { getRealPrice } from "@/utils/product/getPriceAfterDiscount";
+import { getDiscountedPrice } from "@/utils/product/getDiscountedPrice";
 import { useCart } from "@/composables/useCart";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import Modal from "@/components/common/Modal.vue";

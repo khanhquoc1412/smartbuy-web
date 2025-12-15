@@ -36,13 +36,25 @@
               {{ cartItem.productVariant.color?.name }}
             </router-link>
             <div class="product-desc__price tw-flex tw-gap-2">
-              <div class="product-desc__price--show">
+              <!-- Giá gốc (gạch ngang) -->
+              <div
+                class="product-desc__price--throw"
+                v-if="cartItem.productVariant.product?.discountPercentage"
+              >
                 {{ formatMoney(cartItem.productVariant.price) }}
               </div>
-              <div class="product-desc__price--throw">
+              <!-- Giá giảm (màu đỏ) -->
+              <div class="product-desc__price--show">
                 {{
-                  formatMoney(getRealPrice(cartItem.productVariant.price,
-                    cartItem.productVariant.product?.discountPercentage as number)) }}
+                  formatMoney(
+                    cartItem.productVariant.product?.discountPercentage
+                      ? getDiscountedPrice(
+                          cartItem.productVariant.price,
+                          cartItem.productVariant.product.discountPercentage
+                        )
+                      : cartItem.productVariant.price
+                  )
+                }}
               </div>
             </div>
           </div>
@@ -82,13 +94,25 @@
               {{ productGuest.color?.name }}
             </router-link>
             <div class="product-desc__price tw-flex tw-gap-2">
-              <div class="product-desc__price--show">
+              <!-- Giá gốc (gạch ngang) -->
+              <div
+                class="product-desc__price--throw"
+                v-if="productGuest.product?.discountPercentage"
+              >
                 {{ formatMoney(productGuest.price as number) }}
               </div>
-              <div class="product-desc__price--throw">
+              <!-- Giá giảm (màu đỏ) -->
+              <div class="product-desc__price--show">
                 {{
-                  formatMoney(getRealPrice(productGuest.price as number,
-                    productGuest.product?.discountPercentage as number)) }}
+                  formatMoney(
+                    productGuest.product?.discountPercentage
+                      ? getDiscountedPrice(
+                          productGuest.price as number,
+                          productGuest.product.discountPercentage
+                        )
+                      : productGuest.price as number
+                  )
+                }}
               </div>
             </div>
           </div>
@@ -385,7 +409,7 @@ import { usePayment } from "@/composables/usePayment";
 import { useAuth } from "@/composables/useAuth";
 import { useDefaultAddressQuery, useAddressesQuery } from "@/api/address/query";
 import { formatMoney } from "@/utils/formatMoney";
-import { getRealPrice } from "@/utils/product/getPriceAfterDiscount";
+import { getDiscountedPrice } from "@/utils/product/getDiscountedPrice";
 import { getImageUrl } from "@/utils/imageUrl";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
 import { IProductVariant } from "@/types/product.types";
@@ -654,22 +678,31 @@ const handleOrder = async () => {
     // Build orderItems to match OrderSchema
     const orderItems = cartItems.value
       .filter((ci: any) => cartItemIds.includes(ci._id)) // ✅ Only include selected items
-      .map((ci: any) => ({
-        product: (ci.productVariant.product?._id ||
-          ci.productVariant._id) as string,
-        name: ci.productVariant.product?.name || "",
-        qty: ci.quantity,
-        price: ci.productVariant.price,
-        image: ci.productVariant.product?.thumbUrl || "",
-        variant: {
-          color: ci.productVariant.color?.name || "",
-          memory:
-            ci.productVariant.memory?.ram && ci.productVariant.memory?.rom
-              ? `${ci.productVariant.memory.ram}/${ci.productVariant.memory.rom}`
-              : "",
-          variantId: ci.productVariant._id,
-        },
-      }));
+      .map((ci: any) => {
+        const originalPrice = ci.productVariant.price;
+        const discount = ci.productVariant.product?.discountPercentage || 0;
+        const finalPrice =
+          discount > 0 ? originalPrice * (1 - discount / 100) : originalPrice;
+
+        return {
+          product: (ci.productVariant.product?._id ||
+            ci.productVariant._id) as string,
+          name: ci.productVariant.product?.name || "",
+          qty: ci.quantity,
+          price: finalPrice, // Lưu giá đã giảm
+          originalPrice: originalPrice, // Lưu giá gốc để tham khảo
+          discountPercentage: discount, // Lưu % giảm giá
+          image: ci.productVariant.product?.thumbUrl || "",
+          variant: {
+            color: ci.productVariant.color?.name || "",
+            memory:
+              ci.productVariant.memory?.ram && ci.productVariant.memory?.rom
+                ? `${ci.productVariant.memory.ram}/${ci.productVariant.memory.rom}`
+                : "",
+            variantId: ci.productVariant._id,
+          },
+        };
+      });
 
     const itemsPrice = orderItems.reduce(
       (s: number, it: any) => s + Number(it.price || 0) * Number(it.qty || 1),

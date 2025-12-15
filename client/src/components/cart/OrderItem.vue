@@ -17,6 +17,14 @@
         </router-link>
         <div class="product-desc__price tw-flex tw-gap-2">
           <div class="product-desc__price--show">
+             <!-- Giá gốc (gạch ngang) nếu có discount -->
+          <div
+            class="product-desc__price--throw"
+            v-if="item.originalPrice && item.discountPercentage"
+          >
+            {{ formatMoney(item.originalPrice) }}
+          </div>
+          <!-- Giá bán (đỏ) -->
             {{ formatMoney(item.price) }}
           </div>
         </div>

@@ -604,6 +604,8 @@ const addedProductInfo = ref<{
   memory?: string;
   maxStock?: number;
   cartItemId?: string;
+  originalPrice?: number;
+  discountPercentage?: number;
 } | null>(null);
 
 // ✅ Get cart data
@@ -815,10 +817,20 @@ const handleAddToCart = async () => {
     }
 
     // ✅ STEP 4: Save product info with cartItemId
+    const variantPrice = selectedVariant.value.price || 0; // Giá gốc từ database
+    const hasDiscount =
+      product.value.discountPercentage && product.value.discountPercentage > 0;
+
     addedProductInfo.value = {
       name: product.value.name,
       image: displayImage,
-      price: selectedVariant.value.price || 0,
+      price: hasDiscount
+        ? variantPrice * (1 - product.value.discountPercentage! / 100)
+        : variantPrice, // Giá giảm nếu có discount, ngược lại là giá gốc
+      originalPrice: hasDiscount ? variantPrice : undefined, // Giá gốc nếu có discount
+      discountPercentage: hasDiscount
+        ? product.value.discountPercentage
+        : undefined,
       quantity: 1,
       color: selectedVariant.value.color?.name,
       memory: `${selectedVariant.value.memory?.ram}/${selectedVariant.value.memory?.rom}`,
