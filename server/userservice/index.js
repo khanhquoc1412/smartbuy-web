@@ -1,4 +1,7 @@
-require("dotenv").config();
+// Load .env only in development (Railway injects env vars directly)
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 const express = require("express");
 const connectDB = require("./config/connectDB");
@@ -15,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static avatars
-app.use('/avatars', express.static(path.join(__dirname, 'avarta')));
+app.use("/avatars", express.static(path.join(__dirname, "avarta")));
 
 // ===== ROUTES =====
 const authRouter = require("./routes/auth.router");
@@ -33,7 +36,7 @@ app.get("/health", (req, res) => {
     message: "User service is running",
     port: PORT,
     database: "smartbuy_db",
-    routes: ["/api/auth", "/api/user/addresses", "/api/user/wishlist"]
+    routes: ["/api/auth", "/api/user/addresses", "/api/user/wishlist"],
   });
 });
 
@@ -42,7 +45,7 @@ app.use((err, req, res, next) => {
   console.error("❌ Error:", err);
   res.status(err.statusCode || 500).json({
     success: false,
-    message: err.message || "Something went wrong!"
+    message: err.message || "Something went wrong!",
   });
 });
 

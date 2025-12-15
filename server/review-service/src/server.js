@@ -1,4 +1,7 @@
-require("dotenv").config();
+// Load .env only in development (Railway injects env vars directly)
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -11,8 +14,8 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(helmet());
-app.use(express.json({ limit: '50mb' })); // ✅ Tăng limit lên 50MB cho base64 images
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: "50mb" })); // ✅ Tăng limit lên 50MB cho base64 images
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(morgan("dev"));
 
 // Rate limiting
@@ -27,10 +30,10 @@ app.use("/api/reviews", require("./routes/reviews"));
 
 // Health check
 app.get("/", (req, res) => {
-  res.json({ 
-    success: true, 
+  res.json({
+    success: true,
     message: "Review Service OK",
-    version: "1.0.0"
+    version: "1.0.0",
   });
 });
 
@@ -53,7 +56,8 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5006;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/smartbuy_db_review";
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost:27017/smartbuy_db_review";
 
 connectDB(MONGODB_URI).then(() => {
   app.listen(PORT, () => {
