@@ -39,7 +39,7 @@ COPY client ./client
 RUN cd server/api-gateway && npm run build
 
 # Build client
-RUN cd client && npm install && npm run build
+RUN cd client && npm install && npm run build -- --mode production
 
 # Production stage
 FROM node:18-alpine
