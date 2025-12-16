@@ -11,6 +11,9 @@ import proxyRoutes from './routes/proxyRoutes';
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
+// ✅ Trust proxy để hoạt động đúng với Railway/reverse proxies
+app.set('trust proxy', true);
+
 app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 10000, max: 10000 }));
 
@@ -24,18 +27,18 @@ const allowedOrigins = [
   process.env.CLIENT_URL
 ].filter(Boolean);
 
-app.use(cors({ 
+app.use(cors({
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Cho phép requests không có origin (như mobile apps, curl, Postman)
     if (!origin) return callback(null, true);
-    
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(null, true); // Tạm thời cho phép tất cả để test
     }
   },
-  credentials: true 
+  credentials: true
 }));
 app.use(morgan('combined'));
 

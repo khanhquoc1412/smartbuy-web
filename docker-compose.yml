@@ -59,9 +59,10 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      DB_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
-      DB_PROD_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
-      MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
+      # ✅ Connect to MongoDB Compass on Windows host (not container)
+      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db_product
+      DB_PROD_URL: mongodb://host.docker.internal:27017/smartbuy_db_product
+      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_product
       REVIEW_SERVICE_URL: http://review-service:5006
       ORDER_SERVICE_URL: http://orderservice:3002
     networks:
@@ -79,8 +80,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5002
-      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
-      DB_PROD_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db_product
+      DB_PROD_URL: mongodb://host.docker.internal:27017/smartbuy_db_product
       BASE_URL: ${FRONTEND_URL:-http://localhost}
     networks:
       - smartbuy-network
@@ -101,7 +102,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3002
-      MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_order?retryWrites=true&w=majority
+      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_order
       CART_SERVICE_URL: http://cartservice:3003
       PRODUCT_SERVICE_URL: http://productservice:3001
       PAYMENT_SERVICE_URL: http://paymentservice:3004
@@ -121,7 +122,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5003
-      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_order?retryWrites=true&w=majority
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db_order
       USER_MANAGER_SERVICE_URL: http://user-manager:3006
       PRODUCT_MANAGER_SERVICE_URL: http://product-manager:5002
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
@@ -140,7 +141,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3003
-      DB_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_cart?retryWrites=true&w=majority
+      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db_cart
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
       REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
       PRODUCT_SERVICE_URL: http://productservice:3001
@@ -161,7 +162,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3004
-      MONGO_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_payment?retryWrites=true&w=majority
+      MONGO_URI: mongodb://host.docker.internal:27017/smartbuy_db_payment
       JWT_SECRET: supersecret123
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
       CLIENT_URL: ${FRONTEND_URL:-http://localhost}
@@ -181,8 +182,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3005
-      DB_URL: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
-      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
+      DB_URL: mongodb://host.docker.internal:27017/smartbuy_db
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db
       ACCESS_TOKEN_PRIVATE_KEY: supersecret123
       REFRESH_TOKEN_PRIVATE_KEY: refreshsecret456
       CLIENT_URL: ${FRONTEND_URL:-http://localhost}
@@ -203,7 +204,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3006
-      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db?retryWrites=true&w=majority
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db
       JWT_SECRET: supersecret123
     networks:
       - smartbuy-network
@@ -220,7 +221,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5006
-      MONGODB_URI: mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_review?retryWrites=true&w=majority
+      MONGODB_URI: mongodb://host.docker.internal:27017/smartbuy_db_review
       JWT_SECRET: supersecret123
     networks:
       - smartbuy-network
@@ -271,4 +272,3 @@ volumes:
     driver: local
   user_avatars:
     driver: local
-
