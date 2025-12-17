@@ -1405,7 +1405,7 @@ async function fetchRatingDistribution() {
 
 async function fetchTopReviewedProducts() {
   try {
-    const res: any = await getTopReviewedProducts({ limit: 5 })
+    const res: any = await getTopReviewedProducts({ limit: 10 })
     if (res?.success && res.data) {
       topReviewedProducts.value = res.data
     }

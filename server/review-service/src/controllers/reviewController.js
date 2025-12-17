@@ -358,6 +358,48 @@ exports.markHelpful = async (req, res) => {
   }
 };
 
+// Admin phản hồi đánh giá
+exports.replyReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { adminReply, adminId } = req.body;
+
+    if (!adminReply || !adminReply.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Nội dung phản hồi không được để trống",
+      });
+    }
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy đánh giá",
+      });
+    }
+
+    review.adminReply = adminReply.trim();
+    review.adminReplyBy = adminId || "admin";
+    review.adminReplyAt = new Date();
+
+    await review.save();
+
+    res.json({
+      success: true,
+      message: "Phản hồi đánh giá thành công",
+      data: review,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi khi phản hồi đánh giá",
+      error: error.message,
+    });
+  }
+};
+
 // Ẩn/hiện review (admin)
 exports.toggleVisibility = async (req, res) => {
   try {

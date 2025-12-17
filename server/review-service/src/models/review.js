@@ -58,6 +58,18 @@ const reviewSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    adminReply: {
+      type: String,
+      default: null,
+    },
+    adminReplyBy: {
+      type: String,
+      default: null,
+    },
+    adminReplyAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

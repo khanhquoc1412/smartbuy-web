@@ -13,7 +13,30 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 
 app.use(helmet());
 app.use(rateLimit({ windowMs: 15 * 60 * 10000, max: 10000 }));
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: true }));
+
+// CORS configuration - Allow multiple origins
+const allowedOrigins = [
+  'http://localhost:8080',      // Docker production (Nginx)
+  'http://localhost:5173',      // Vite dev server
+  'http://localhost',           // Direct access
+  'http://127.0.0.1:8080',      // Alternative localhost
+  process.env.FRONTEND_URL      // Environment variable
+].filter(Boolean);
+
+app.use(cors({ 
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true 
+}));
+
 app.use(morgan('combined'));
 
 // ⚠️ Chỉ parse JSON/urlencoded cho NON-multipart requests

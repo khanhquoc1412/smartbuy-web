@@ -123,19 +123,7 @@
             </span>
           </div> -->
           <div class="product-price tw-flex tw-gap-4 tw-items-center">
-            <!-- Giá gốc (bị gạch ngang) -->
-            <span class="disc-price tw-text-gray-500 tw-line-through">
-              {{ formatMoney(
-      getPriceByVariant(
-        productSelected?.colorId as number,
-        productSelected?.memoryId as number,
-        product?.productVariants,
-        product?.basePrice
-      )
-    ) }}
-            </span>
-
-            <!-- Giá sau giảm (màu đỏ) -->
+            <!-- Giá sau giảm (màu đỏ) - hiển thị đầu tiên -->
             <span class="base-price tw-text-red tw-font-medium">
               {{ formatMoney(
       getPriceByVariant(
@@ -143,7 +131,22 @@
         productSelected?.memoryId as number,
         product?.productVariants,
         product?.basePrice
-      ) * (1 - (product?.discountPercentage as number) / 100)
+      ) * (1 - ((product?.discountPercentage as number) || 0) / 100)
+    ) }}
+            </span>
+
+            <!-- Giá gốc (bị gạch ngang) - chỉ hiển thị khi có giảm giá -->
+            <span 
+              v-if="product?.discountPercentage && product.discountPercentage > 0"
+              class="disc-price tw-text-gray-500 tw-line-through"
+            >
+              {{ formatMoney(
+      getPriceByVariant(
+        productSelected?.colorId as number,
+        productSelected?.memoryId as number,
+        product?.productVariants,
+        product?.basePrice
+      )
     ) }}
             </span>
           </div>

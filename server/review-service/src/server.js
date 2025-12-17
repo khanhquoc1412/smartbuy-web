@@ -26,6 +26,10 @@ app.use(limiter);
 app.use("/api/reviews", require("./routes/reviews"));
 
 // Health check
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", service: "review-service" });
+});
+
 app.get("/", (req, res) => {
   res.json({ 
     success: true, 

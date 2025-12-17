@@ -1,4 +1,4 @@
-const Payment = require("../models/Payment");
+const Payment = require("../models/payment");
 const webhookService = require("./webhook.service");
 const { PAYMENT_STATUS, PAYMENT_METHODS } = require("../utils/constants");
 const PaymentHelpers = require("../utils/helpers");

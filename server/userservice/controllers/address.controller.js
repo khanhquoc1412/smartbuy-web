@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const Address = require("../models/address");
-const { NotFoundError, BadRequestError } = require("../../src/errors");
+const { NotFoundError, BadRequestError } = require("../src/errors");
 
 /**
  * @desc    Get all addresses of user

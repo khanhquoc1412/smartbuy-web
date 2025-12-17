@@ -2,7 +2,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 const { NotFoundError,
     BadRequestError,
     UnauthorizedError,
-    ConflictError } = require('../../src/errors')
+    ConflictError } = require('../src/errors')
 const winston = require('winston')
 const validator = require('validator')
 

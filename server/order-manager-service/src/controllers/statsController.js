@@ -579,10 +579,8 @@ exports.getTopSellingProducts = async (req, res) => {
       },
       {
         $group: {
-          // Group theo variant ID (nếu có), fallback về product ID
-          _id: {
-            $ifNull: ['$orderItems.variant.variantId', '$orderItems.product']
-          },
+          // Group theo product ID để tính tổng stock của tất cả variants
+          _id: '$orderItems.product',
           productName: { $first: '$orderItems.name' },
           totalSold: { $sum: '$orderItems.qty' },
           totalRevenue: { $sum: { $multiply: ['$orderItems.price', '$orderItems.qty'] } },
@@ -613,22 +611,28 @@ exports.getTopSellingProducts = async (req, res) => {
     const axios = require('axios');
     const productServiceUrl = process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002';
 
-    // Enrich với thông tin stock
+    // Enrich với thông tin stock - tính tổng stock của tất cả variants
     const enrichedProducts = await Promise.all(
       topProducts.map(async (product) => {
         try {
+          // Lấy tất cả variants của sản phẩm
           const response = await axios.get(
-            `${productServiceUrl}/api/products/variants/${product.productId}`
+            `${productServiceUrl}/api/products/${product.productId}/variants`
           );
 
-          if (response.data.success && response.data.data) {
+          if (response.data.success && response.data.items) {
+            // Tính tổng stock của tất cả variants
+            const totalStock = response.data.items.reduce((sum, variant) => {
+              return sum + (variant.stock || 0);
+            }, 0);
+
             return {
               ...product,
-              stock: response.data.data.stock || 0
+              stock: totalStock
             };
           }
         } catch (error) {
-          console.error(`Error fetching stock for variant ${product.productId}:`, error.message);
+          console.error(`Error fetching variants for product ${product.productId}:`, error.message);
         }
 
         return {

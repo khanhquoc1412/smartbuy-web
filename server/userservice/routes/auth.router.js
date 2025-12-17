@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
-const authValidation = require("../../src/validations/authValidation");
+const authValidation = require("../src/validations/authValidation");
 const authController = require("../controllers/auth.controller");
 const { auth } = require("../middleware/auth"); // Middleware JWT verify
 

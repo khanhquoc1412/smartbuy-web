@@ -25,6 +25,11 @@ app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
 // Serve static files từ thư mục uploads
 app.use('/uploads', express.static(uploadsDir));
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', service: 'product-manager' });
+});
+
 app.use('/api/products', require('./routes/products'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/brands', require('./routes/brands'));

@@ -27,6 +27,14 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy',
+    service: 'order-manager',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // 404 Handler
 app.use('*', (req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });

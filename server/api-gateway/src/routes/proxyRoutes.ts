@@ -49,6 +49,9 @@ const services = {
   // ===== REVIEW SERVICE (port 5006) - Microservice quản lý đánh giá =====
   reviews: { url: process.env.REVIEW_SERVICE_URL || 'http://localhost:5006', path: '/api/reviews' },
 
+  // ===== STATIC FILES =====
+  // Uploads from product-manager (uploaded images)
+  uploads: { url: process.env.PRODUCT_MANAGER_SERVICE_URL || 'http://localhost:5002', path: '/uploads' },
 
   // ===== MICROSERVICES KHÁC =====
   // location: { url: process.env.LOCATION_SERVICE_URL || 'http://localhost:5004', path: '/api/locations' },

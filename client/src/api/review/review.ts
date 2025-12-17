@@ -15,6 +15,9 @@ export interface Review {
   hiddenReason?: string;
   hiddenBy?: string;
   hiddenAt?: Date;
+  adminReply?: string;
+  adminReplyBy?: string;
+  adminReplyAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -170,4 +173,21 @@ export const createReview = async (data: {
   images?: string[];
 }) => {
   return await $axios.post('/reviews', data) as any;
+};
+
+// Cập nhật review
+export const updateReview = async (reviewId: string, data: {
+  rating?: number;
+  comment?: string;
+  images?: string[];
+}) => {
+  return await $axios.put(`/reviews/${reviewId}`, data) as any;
+};
+
+// Admin phản hồi đánh giá
+export const replyReview = async (reviewId: string, data: {
+  adminReply: string;
+  adminId?: string;
+}) => {
+  return await $axios.post(`/reviews/${reviewId}/reply`, data) as any;
 };

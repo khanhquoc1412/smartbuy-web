@@ -1,0 +1,347 @@
+version: '3.8'
+
+services:
+  # ==================== BACKEND SERVICES ====================
+  
+  api-gateway:
+    build:
+      context: ./server/api-gateway
+      dockerfile: Dockerfile
+    container_name: smartbuy-api-gateway
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - FRONTEND_URL=http://localhost
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - REFRESH_TOKEN_PRIVATE_KEY=${REFRESH_TOKEN_PRIVATE_KEY:-refreshsecret456}
+      - USER_SERVICE_URL=http://user-service:3005
+      - PRODUCT_SERVICE_URL=http://product-service:3001
+      - CART_SERVICE_URL=http://cart-service:3002
+      - ORDER_SERVICE_URL=http://order-service:3002
+      - PAYMENT_SERVICE_URL=http://payment-service:3004
+      - USER_MANAGER_SERVICE_URL=http://user-manager:3006
+      - PRODUCT_MANAGER_SERVICE_URL=http://product-manager:5002
+      - ORDER_MANAGER_SERVICE_URL=http://order-manager:5003
+      - REVIEW_SERVICE_URL=http://review-service:5006
+      - CHATBOX_SERVICE_URL=http://chatbox-service:3007
+    networks:
+      - smartbuy-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ===== BACKEND SERVICES CŨ (MONOLITHIC) =====
+  
+  user-service:
+    build:
+      context: ./server
+      dockerfile: userservice/Dockerfile
+    container_name: smartbuy-user-service
+    restart: unless-stopped
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=production
+      - PORT=3005
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db
+      - CLIENT_URL=http://localhost:8080
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - REFRESH_TOKEN_PRIVATE_KEY=${REFRESH_TOKEN_PRIVATE_KEY:-refreshsecret456}
+      # Google OAuth
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - CALLBACK_GOOGLE_URL=${CALLBACK_GOOGLE_URL:-http://localhost:3005/api/auth/google/callback}
+      # Facebook OAuth
+      - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
+      - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
+      - CALLBACK_FACEBOOK_URL=${CALLBACK_FACEBOOK_URL:-http://localhost:3005/api/auth/facebook/callback}
+      # Email
+      - EMAIL_HOST=${EMAIL_HOST:-smtp.gmail.com}
+      - EMAIL_PORT=${EMAIL_PORT:-587}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+    volumes:
+      - user_avatars:/app/avarta
+    networks:
+      - smartbuy-network
+
+  product-service:
+    build:
+      context: ./server/productservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-product-service
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - DB_URL=mongodb://host.docker.internal:27017/smartbuy_db_product
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_product
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_product
+      - REVIEW_SERVICE_URL=http://review-service:5006
+      - ORDER_SERVICE_URL=http://order-service:3002
+    networks:
+      - smartbuy-network
+
+  cart-service:
+    build:
+      context: ./server/cartservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-cart-service
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - DB_URL=mongodb://host.docker.internal:27017/smartbuy_db_cart
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_cart
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_cart
+      - CLIENT_URL=http://localhost:8080
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - REFRESH_TOKEN_PRIVATE_KEY=${REFRESH_TOKEN_PRIVATE_KEY:-refreshsecret456}
+      - PRODUCT_SERVICE_URL=http://product-service:3001
+      - USER_SERVICE_URL=http://user-service:3005
+    depends_on:
+      product-service:
+        condition: service_started
+      user-service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3002/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - smartbuy-network
+
+  order-service:
+    build:
+      context: ./server/orderservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-order-service
+    restart: unless-stopped
+    ports:
+      - "3003:3002"
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - MONGO_URI=mongodb://host.docker.internal:27017/smartbuy_db_order
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_order
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_order
+      - JWT_SECRET=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - REFRESH_TOKEN_PRIVATE_KEY=${REFRESH_TOKEN_PRIVATE_KEY:-refreshsecret456}
+      - PAYMENT_SERVICE_URL=http://payment-service:3004
+      - CART_SERVICE_URL=http://cart-service:3002
+      - PRODUCT_SERVICE_URL=http://product-service:3001
+      - USER_SERVICE_URL=http://user-service:3005
+    depends_on:
+      cart-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      user-service:
+        condition: service_started
+    networks:
+      - smartbuy-network
+
+  payment-service:
+    build:
+      context: ./server/paymentservice
+      dockerfile: Dockerfile
+    container_name: smartbuy-payment-service
+    restart: unless-stopped
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=production
+      - PORT=3004
+      - MONGO_URI=mongodb://host.docker.internal:27017/smartbuy_db_payment
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_payment
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_payment
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - JWT_SECRET=${JWT_SECRET:-supersecret123}
+      - CLIENT_URL=http://localhost:8080
+      - ORDER_SERVICE_URL=http://order-service:3002
+      - VNPAY_TMN_CODE=${VNPAY_TMN_CODE}
+      - VNPAY_HASH_SECRET=${VNPAY_HASH_SECRET}
+      - VNPAY_URL=${VNPAY_URL:-https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
+      - VNPAY_RETURN_URL=${VNPAY_RETURN_URL:-http://localhost:8080/payment/success}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET:-webhook_secret_smartbuy_2024_abc123xyz}
+    depends_on:
+      order-service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3004/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - smartbuy-network
+
+  # ===== MICROSERVICES MỚI =====
+
+  user-manager:
+    build:
+      context: ./server/user-manager-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-user-manager
+    restart: unless-stopped
+    ports:
+      - "3006:3006"
+    environment:
+      - NODE_ENV=production
+      - PORT=3006
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db
+      - ORDER_DB_URI=mongodb://host.docker.internal:27017/smartbuy_db_order
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+      - JWT_EXPIRES_IN=7d
+    volumes:
+      - user_avatars:/app/avarta
+    networks:
+      - smartbuy-network
+
+  product-manager:
+    build:
+      context: ./server/product-manager-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-product-manager
+    restart: unless-stopped
+    ports:
+      - "5002:5002"
+    environment:
+      - NODE_ENV=production
+      - PORT=5002
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_product
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_product
+      - BASE_URL=http://localhost:5002
+    volumes:
+      - product_uploads:/app/uploads
+      # Mount client images directly from source (read-only)
+      - ./client/src/assets/images:/app/uploads/images:ro
+    networks:
+      - smartbuy-network
+
+  order-manager:
+    build:
+      context: ./server/order-manager-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-order-manager
+    restart: unless-stopped
+    ports:
+      - "5003:5003"
+    environment:
+      - NODE_ENV=production
+      - PORT=5003
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_order
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_order
+      - USER_MANAGER_SERVICE_URL=http://user-manager:3006
+      - PRODUCT_MANAGER_SERVICE_URL=http://product-manager:5002
+      - FRONTEND_URL=http://localhost:8080
+      - EMAIL_HOST=${EMAIL_HOST:-smtp.gmail.com}
+      - EMAIL_PORT=${EMAIL_PORT:-587}
+      - EMAIL_SECURE=false
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_FROM_NAME=${EMAIL_FROM_NAME:-SmartBuy}
+      - EMAIL_FROM_ADDRESS=${EMAIL_FROM_ADDRESS}
+    depends_on:
+      user-manager:
+        condition: service_started
+      product-manager:
+        condition: service_started
+    networks:
+      - smartbuy-network
+
+  review-service:
+    build:
+      context: ./server/review-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-review-service
+    restart: unless-stopped
+    ports:
+      - "5006:5006"
+    environment:
+      - NODE_ENV=production
+      - PORT=5006
+      - MONGODB_URI=mongodb://host.docker.internal:27017/smartbuy_db_review
+      - DB_PROD_URL=mongodb://host.docker.internal:27017/smartbuy_db_review
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY:-supersecret123}
+    networks:
+      - smartbuy-network
+
+  chatbox-service:
+    build:
+      context: ./server/chatbox-service
+      dockerfile: Dockerfile
+    container_name: smartbuy-chatbox-service
+    restart: unless-stopped
+    ports:
+      - "3007:3007"
+    environment:
+      - NODE_ENV=production
+      - PORT=3007
+      - GOOGLE_PROJECT_ID=${GOOGLE_PROJECT_ID:-smartbuy-chatbot}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/config/dialogflow-key.json
+      - PRODUCT_SERVICE_URL=http://product-manager:5002
+      - ORDER_SERVICE_URL=http://order-manager:5003
+      - USER_SERVICE_URL=http://api-gateway:3000
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:8080}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+    volumes:
+      - ./server/chatbox-service/config/dialogflow-key.json:/app/config/dialogflow-key.json:ro
+    depends_on:
+      - api-gateway
+      - product-manager
+      - order-manager
+    networks:
+      - smartbuy-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3007/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ==================== FRONTEND ====================
+  
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: smartbuy-client
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - smartbuy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# ==================== VOLUMES ====================
+volumes:
+  user_avatars:
+    name: smartbuy_user_avatars
+  product_uploads:
+    name: smartbuy_product_uploads
+
+# ==================== NETWORKS ====================
+networks:
+  smartbuy-network:
+    name: smartbuy-network
+    driver: bridge

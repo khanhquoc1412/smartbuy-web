@@ -15,7 +15,9 @@ const adminAuth = (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Use ACCESS_TOKEN_PRIVATE_KEY to match user-service token generation
+    const secret = process.env.ACCESS_TOKEN_PRIVATE_KEY || process.env.JWT_SECRET;
+    const decoded = jwt.verify(token, secret);
     
     // Attach user info to request
     req.user = decoded;

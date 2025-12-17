@@ -76,6 +76,7 @@ export default function interceptors(axios: AxiosInstance) {
         }
 
         if (error.response.status === 401 && !originalConfig?._retry) {
+
           originalConfig._retry = true; // 🔥 Đánh dấu đã retry để tránh loop vô tận
           
           const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);

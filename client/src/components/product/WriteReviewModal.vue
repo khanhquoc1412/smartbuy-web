@@ -17,7 +17,7 @@
           />
           <div>
             <h2 class="tw-text-xl tw-font-bold tw-text-gray-900">
-              Đánh giá & nhận xét
+              {{ editMode ? 'Chỉnh sửa đánh giá' : 'Đánh giá & nhận xét' }}
             </h2>
             <p class="tw-text-sm tw-text-gray-600 tw-mt-1">
               {{ productName }}
@@ -186,7 +186,7 @@
               :disabled="isSubmitting"
               class="tw-flex-1 tw-px-6 tw-py-3 tw-bg-crimson-600 tw-text-white tw-rounded-lg tw-font-semibold hover:tw-bg-crimson-700 tw-transition disabled:tw-opacity-50 disabled:tw-cursor-not-allowed"
             >
-              {{ isSubmitting ? 'Đang gửi...' : 'GỬI ĐÁNH GIÁ' }}
+              {{ isSubmitting ? (editMode ? 'Đang cập nhật...' : 'Đang gửi...') : (editMode ? 'CẬP NHẬT' : 'GỬI ĐÁNH GIÁ') }}
             </button>
           </div>
         </form>
@@ -234,12 +234,19 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
-import { createReview } from '@/api/review/review';
+import { createReview, updateReview } from '@/api/review/review';
 import { useAuth } from '@/composables/useAuth';
 
 interface Props {
   productId: string;
   productName: string;
+  editMode?: boolean;
+  existingReview?: {
+    _id: string;
+    rating: number;
+    comment: string;
+    images: string[];
+  };
 }
 
 const props = defineProps<Props>();
@@ -324,8 +331,8 @@ const submitReview = async () => {
     return;
   }
 
-  // Ensure user info is loaded
-  if (!user.value || !user.value.userName) {
+  // Ensure user info is loaded (only for create mode)
+  if (!props.editMode && (!user.value || !user.value.userName)) {
     showToastNotification('Đang tải thông tin người dùng, vui lòng thử lại', 'error');
     return;
   }
@@ -333,26 +340,42 @@ const submitReview = async () => {
   try {
     isSubmitting.value = true;
 
-    const reviewData = {
-      userId: userId.value,
-      productId: props.productId,
-      productName: props.productName,
-      rating: rating.value,
-      comment: comment.value.trim(),
-      userName: user.value.userName,
-      images: images.value,
-    };
+    if (props.editMode && props.existingReview) {
+      // Update existing review
+      const updateData = {
+        rating: rating.value,
+        comment: comment.value.trim(),
+        images: images.value,
+      };
 
-    await createReview(reviewData);
+      await updateReview(props.existingReview._id, updateData);
+      showToastNotification('Cập nhật đánh giá thành công!', 'success', 1500);
+    } else {
+      // Create new review
+      const reviewData = {
+        userId: userId.value,
+        productId: props.productId,
+        productName: props.productName,
+        rating: rating.value,
+        comment: comment.value.trim(),
+        userName: user.value.userName,
+        images: images.value,
+      };
+
+      await createReview(reviewData);
+      showToastNotification('Gửi đánh giá thành công!', 'success', 1500);
+    }
     
-    showToastNotification('Gửi đánh giá thành công!', 'success', 1500);
     setTimeout(() => {
       emit('success');
       closeModal();
     }, 1500);
   } catch (error: any) {
     console.error('Error submitting review:', error);
-    showToastNotification(error.response?.data?.message || 'Mỗi tài khoản chỉ được gửi một đánh giá cho mỗi sản phẩm', 'error');
+    const defaultMessage = props.editMode 
+      ? 'Có lỗi xảy ra khi cập nhật đánh giá' 
+      : 'Mỗi tài khoản chỉ được gửi một đánh giá cho mỗi sản phẩm';
+    showToastNotification(error.response?.data?.message || defaultMessage, 'error');
   } finally {
     isSubmitting.value = false;
   }
@@ -372,7 +395,7 @@ const closeModal = () => {
   emit('close');
 };
 
-// Load user info when modal opens
+// Load user info and existing review data when modal opens
 onMounted(async () => {
   if (userId.value && (!user.value || !user.value.userName)) {
     try {
@@ -380,6 +403,14 @@ onMounted(async () => {
     } catch (error) {
       console.error('Error loading user info:', error);
     }
+  }
+
+  // Pre-fill form if editing
+  if (props.editMode && props.existingReview) {
+    rating.value = props.existingReview.rating;
+    comment.value = props.existingReview.comment;
+    images.value = [...props.existingReview.images];
+    imagePreview.value = [...props.existingReview.images];
   }
 });
 </script>
