@@ -491,7 +491,10 @@ const sameId = (a: any, b: any) => {
 const findVariantByQuery = (
   qVariantId?: string,
   qColorId?: string,
-  qMemoryId?: string
+  qMemoryId?: string,
+  qColorName?: string,
+  qRam?: string,
+  qRom?: string
 ) => {
   const variants = product.value?.productVariants ?? [];
   if (!variants.length) return null;
@@ -500,6 +503,24 @@ const findVariantByQuery = (
     const v = variants.find(
       (vv: any) =>
         sameId(vv._id ?? vv.id, qVariantId) || sameId(vv.id, qVariantId)
+    );  
+    if (v) return v;
+  }
+  
+  // ✅ Search by color name and ram/rom (text-based)
+  if (qColorName && (qRam || qRom)) {
+    const v = variants.find((vv: any) => {
+      const colorMatch = vv.color?.name?.toLowerCase() === qColorName.toLowerCase();
+      const ramMatch = qRam ? vv.memory?.ram === qRam : true;
+      const romMatch = qRom ? vv.memory?.rom === qRom : true;
+      return colorMatch && ramMatch && romMatch;
+    });
+    if (v) return v;
+  }
+  
+  if (qColorName) {
+    const v = variants.find((vv: any) => 
+      vv.color?.name?.toLowerCase() === qColorName.toLowerCase()
     );
     if (v) return v;
   }
@@ -527,11 +548,19 @@ const setProductSelectedValues = () => {
   const qVariantId = q.variantId ? String(q.variantId) : "";
   const qColorId = q.colorId ? String(q.colorId) : "";
   const qMemoryId = q.memoryId ? String(q.memoryId) : "";
+  
+  // ✅ Get text-based params
+  const qColorName = q.color ? String(q.color) : "";
+  const qRam = q.ram ? String(q.ram) : "";
+  const qRom = q.rom ? String(q.rom) : "";
 
   const picked = findVariantByQuery(
     qVariantId || undefined,
     qColorId || undefined,
-    qMemoryId || undefined
+    qMemoryId || undefined,
+    qColorName || undefined,
+    qRam || undefined,
+    qRom || undefined
   );
 
   if (picked) {

@@ -492,10 +492,16 @@ const getAll = async (req, res, next) => {
 
     const productCondition = {};
 
-    // ✅ Keyword filter
+    // ✅ Keyword filter with variant parsing
     const keyword = req.params?.keyword || req.query?.keyword;
+    let parsedKeyword = { productName: null, colorFilter: null, memoryFilter: null };
+
     if (keyword) {
-      const regex = new RegExp(escapeRegex(String(keyword)), "i");
+      // Parse keyword to extract color/memory
+      parsedKeyword = parseSearchKeyword(keyword);
+      console.log("🔍 Parsed keyword:", parsedKeyword);
+
+      const regex = new RegExp(escapeRegex(String(parsedKeyword.productName)), "i");
 
       // 🔍 Tìm brand khớp với keyword
       const brandMatch = await Brand.findOne({
@@ -620,10 +626,34 @@ const getAll = async (req, res, next) => {
     const productsWithVariants = [];
     for (const p of products) {
       const images = await ProductImage.find({ productId: p._id }).lean();
-      const variants = await ProductVariant.find({ productId: p._id })
+      let variants = await ProductVariant.find({ productId: p._id })
         .populate({ path: "colorId", select: "name" })
         .populate({ path: "memoryId", select: "ram rom" })
         .lean();
+
+      // ✅ Filter variants by color if specified in keyword
+      if (parsedKeyword.colorFilter) {
+        const colorRegex = new RegExp(parsedKeyword.colorFilter, "i");
+        variants = variants.filter((v) => {
+          const colorName = v.colorId?.name || "";
+          return colorRegex.test(colorName);
+        });
+      }
+
+      // ✅ Filter variants by memory if specified in keyword
+      if (parsedKeyword.memoryFilter) {
+        const memRegex = new RegExp(parsedKeyword.memoryFilter, "i");
+        variants = variants.filter((v) => {
+          if (!v.memoryId) return false;
+          const memStr = `${v.memoryId.ram || ''}${v.memoryId.rom || ''}`.toLowerCase();
+          return memRegex.test(memStr);
+        });
+      }
+
+      // ✅ Skip products with no matching variants (when color/memory filter is active)
+      if ((parsedKeyword.colorFilter || parsedKeyword.memoryFilter) && variants.length === 0) {
+        continue;
+      }
 
       productsWithVariants.push({
         id: String(p._id),
@@ -649,10 +679,10 @@ const getAll = async (req, res, next) => {
             : null,
           memory: v.memoryId
             ? {
-                id: String(v.memoryId._id),
-                ram: v.memoryId.ram,
-                rom: v.memoryId.rom,
-              }
+              id: String(v.memoryId._id),
+              ram: v.memoryId.ram,
+              rom: v.memoryId.rom,
+            }
             : null,
         })),
         images: images.map((img) => ({
@@ -1191,6 +1221,52 @@ const getProductById = async (req, res) => {
 //   }
 // };
 
+// ✅ Helper function to parse search keyword and extract color/memory
+function parseSearchKeyword(keyword) {
+  // Vietnamese and English color keywords
+  const colorTerms = [
+    'đen', 'đỏ', 'xanh', 'vàng', 'hồng', 'tím', 'trắng', 'bạc',
+    'vàng đồng', 'xám', 'titan', 'gold', 'black', 'white', 'blue',
+    'red', 'pink', 'silver', 'gray', 'grey', 'purple',
+    'titan tự nhiên', 'titan xanh', 'titan trắng', 'titan đen',
+    'xanh dương', 'xanh lá', 'cam', 'nâu', 'be'
+  ];
+
+  // Memory/Storage keywords
+  const memoryTerms = [
+    '64gb', '128gb', '256gb', '512gb', '1tb', '2tb',
+    '4gb', '6gb', '8gb', '12gb', '16gb', '18gb'
+  ];
+
+  let productName = keyword.toLowerCase();
+  let colorFilter = null;
+  let memoryFilter = null;
+
+  // Extract color (match longest first to avoid partial matches)
+  const sortedColors = colorTerms.sort((a, b) => b.length - a.length);
+  for (const color of sortedColors) {
+    if (productName.includes(color)) {
+      colorFilter = color;
+      productName = productName.replace(new RegExp(color, 'gi'), '').trim();
+      break; // Only match first color
+    }
+  }
+
+  // Extract memory
+  for (const mem of memoryTerms) {
+    if (productName.includes(mem)) {
+      memoryFilter = mem;
+      productName = productName.replace(new RegExp(mem, 'gi'), '').trim();
+      break; // Only match first memory
+    }
+  }
+
+  // Clean up extra spaces
+  productName = productName.replace(/\s+/g, ' ').trim();
+
+  return { productName, colorFilter, memoryFilter };
+}
+
 const getSuggestions = async (req, res) => {
   try {
     const { keyword } = req.query;
@@ -1202,7 +1278,11 @@ const getSuggestions = async (req, res) => {
       });
     }
 
-    const regex = new RegExp(keyword, "i");
+    // ✅ Parse keyword to extract product name, color, memory
+    const parsedKeyword = parseSearchKeyword(keyword);
+    console.log("🔍 Parsed keyword:", parsedKeyword);
+
+    const regex = new RegExp(parsedKeyword.productName, "i");
 
     // 1. Tìm keywords (Brand & Category)
     const [brands, categories] = await Promise.all([
@@ -1223,25 +1303,83 @@ const getSuggestions = async (req, res) => {
       ...categories.map((c) => c.name),
     ];
 
-    // 2. Tìm products
+    // 2. Tìm products matching product name
     const products = await Product.find({
       name: regex,
     })
+      .populate("brand")
       .select("_id name thumbUrl basePrice slug discountPercentage")
-      .limit(5)
+      .limit(10) // Increased to filter later
       .lean();
+
+    // ✅ 3. For each product, fetch variants and filter by color/memory
+    const productsWithMatchingVariants = [];
+
+    for (const product of products) {
+      let variants = await ProductVariant.find({ productId: product._id })
+        .populate({ path: "colorId", select: "name code" })
+        .populate({ path: "memoryId", select: "ram rom" })
+        .lean();
+
+      // Filter by color if specified
+      if (parsedKeyword.colorFilter) {
+        const colorRegex = new RegExp(parsedKeyword.colorFilter, "i");
+        variants = variants.filter(v =>
+          v.colorId && colorRegex.test(v.colorId.name)
+        );
+      }
+
+      // Filter by memory if specified
+      if (parsedKeyword.memoryFilter) {
+        const memRegex = new RegExp(parsedKeyword.memoryFilter, "i");
+        variants = variants.filter(v => {
+          if (!v.memoryId) return false;
+          const memStr = `${v.memoryId.ram || ''}${v.memoryId.rom || ''}`.toLowerCase();
+          return memRegex.test(memStr);
+        });
+      }
+
+      // Only include products with matching variants
+      if (variants.length > 0) {
+        // Take first matching variant as suggestion
+        const variant = variants[0];
+
+        productsWithMatchingVariants.push({
+          id: product._id,
+          name: product.name,
+          thumbUrl: product.thumbUrl,
+          price: variant.price || product.basePrice,
+          slug: product.slug,
+          discountPercentage: product.discountPercentage,
+          // ✅ Add variant details
+          variant: {
+            color: variant.colorId ? {
+              name: variant.colorId.name,
+              code: variant.colorId.code,
+            } : null,
+            memory: variant.memoryId ? {
+              ram: variant.memoryId.ram,
+              rom: variant.memoryId.rom,
+            } : null,
+          },
+        });
+      } else if (!parsedKeyword.colorFilter && !parsedKeyword.memoryFilter) {
+        // If no color/memory filter, include product anyway (for general search)
+        productsWithMatchingVariants.push({
+          id: product._id,
+          name: product.name,
+          thumbUrl: product.thumbUrl,
+          price: product.basePrice,
+          slug: product.slug,
+          discountPercentage: product.discountPercentage,
+        });
+      }
+    }
 
     return res.status(StatusCodes.OK).json({
       success: true,
-      keywords: [...new Set(keywords)], // Remove duplicates
-      products: products.map((p) => ({
-        id: p._id,
-        name: p.name,
-        thumbUrl: p.thumbUrl,
-        price: p.basePrice,
-        slug: p.slug,
-        discountPercentage: p.discountPercentage,
-      })),
+      keywords: [...new Set(keywords)],
+      products: productsWithMatchingVariants.slice(0, 5), // Limit to 5
     });
   } catch (error) {
     console.error("❌ getSuggestions error:", error);

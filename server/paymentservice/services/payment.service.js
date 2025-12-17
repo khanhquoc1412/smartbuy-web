@@ -259,8 +259,8 @@ class PaymentService {
           responseCode,
         });
 
-        // Gửi webhook tới OrderService - REMOVED as per user request
-        // await webhookService.notifyOrderService(payment, "paid");
+        // Gửi webhook tới OrderService
+        await webhookService.notifyOrderService(payment, "paid");
       } else {
         payment.status = PAYMENT_STATUS.FAILED;
         payment.responseCode = responseCode;
@@ -273,8 +273,8 @@ class PaymentService {
           responseCode,
         });
 
-        // Gửi webhook tới OrderService - REMOVED as per user request
-        // await webhookService.notifyOrderService(payment, "failed");
+        // Gửi webhook tới OrderService
+        await webhookService.notifyOrderService(payment, "failed");
       }
 
       await payment.save();

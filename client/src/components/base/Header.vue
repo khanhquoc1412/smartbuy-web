@@ -66,12 +66,12 @@
                 v-for="product in suggestions.products"
                 :key="product.id"
                 class="tw-flex tw-gap-3 tw-p-2 hover:tw-bg-gray-100 tw-cursor-pointer tw-rounded tw-items-center"
-                @click="handleProductClick(product.slug)"
+                @click="handleProductClick(product)"
               >
                 <img
                   :src="product.thumbUrl"
                   :alt="product.name"
-                  class="tw-w-10 tw-h-10 tw-object-cover tw-rounded"
+                  class="tw-w-12 tw-h-12 tw-object-cover tw-rounded"
                 />
                 <div class="tw-flex-1">
                   <div
@@ -79,7 +79,29 @@
                   >
                     {{ product.name }}
                   </div>
-                  <div class="tw-flex tw-gap-2 tw-items-center">
+                  
+                  <!-- ✅ Show variant details if available -->
+                  <div v-if="product.variant" class="tw-flex tw-gap-2 tw-items-center tw-mt-1">
+                    <span 
+                      v-if="product.variant.color" 
+                      class="tw-text-xs tw-px-2 tw-py-0.5 tw-rounded tw-bg-gray-100 tw-text-gray-700 tw-font-medium"
+                    >
+                      {{ product.variant.color.name }}
+                    </span>
+                    <span 
+                      v-if="product.variant.memory && (product.variant.memory.ram || product.variant.memory.rom)" 
+                      class="tw-text-xs tw-px-2 tw-py-0.5 tw-rounded tw-bg-blue-100 tw-text-blue-700 tw-font-medium"
+                    >
+                      <template v-if="product.variant.memory.ram && product.variant.memory.rom">
+                        {{ product.variant.memory.ram }}/{{ product.variant.memory.rom }}
+                      </template>
+                      <template v-else>
+                        {{ product.variant.memory.ram || product.variant.memory.rom }}
+                      </template>
+                    </span>
+                  </div>
+                  
+                  <div class="tw-flex tw-gap-2 tw-items-center tw-mt-1">
                     <span class="tw-text-red-500 tw-text-sm tw-font-bold">{{
                       formatMoney(product.price)
                     }}</span>
@@ -232,10 +254,26 @@ const handleKeywordClick = (item: string) => {
   handleSearch();
 };
 
-const handleProductClick = (slug: string) => {
+const handleProductClick = (product: any) => {
   showSuggestions.value = false;
   keyword.value = "";
-  router.push(`/product/${slug}`);
+  
+  // ✅ Build URL with variant query params
+  const query: any = {};
+  if (product.variant) {
+    if (product.variant.color?.name) {
+      query.color = product.variant.color.name;
+    }
+    if (product.variant.memory) {
+      if (product.variant.memory.ram) query.ram = product.variant.memory.ram;
+      if (product.variant.memory.rom) query.rom = product.variant.memory.rom;
+    }
+  }
+  
+  router.push({
+    path: `/product/${product.slug}`,
+    query: Object.keys(query).length > 0 ? query : undefined,
+  });
 };
 // const handleSearch = () => {
 //   router.push(`/search/${keyword.value}`);
