@@ -770,7 +770,8 @@ const handleOrder = async () => {
         await createVNPayPayment(
           createdOrder._id || createdOrder.id,
           userId.value,
-          getTotalAmount(cartItems.value),
+          // getTotalAmount(cartItems.value),
+          selectedTotal.value,
           { name: baseInfor.value.userName, phone: baseInfor.value.phoneNumber }
         );
       }

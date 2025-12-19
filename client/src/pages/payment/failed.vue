@@ -136,6 +136,47 @@ onMounted(async () => {
 
     paymentTime.value = new Date().toLocaleString('vi-VN');
 
+    // ✅ NEW: Call API to cancel order
+    if (orderId) {
+      try {
+        const apiUrl = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/order/payment-callback`;
+        
+        console.log('🔄 [FAILED PAGE] Cancelling order...');
+        console.log('📤 [FAILED PAGE] API URL:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            paymentStatus: 'failed',
+            transactionData: {
+              responseCode: code || '99',
+              responseMessage: errorMessage.value
+            }
+          })
+        });
+
+        console.log('📥 [FAILED PAGE] Response status:', response.status);
+        const responseData = await response.json();
+        console.log('📥 [FAILED PAGE] Response data:', responseData);
+
+        if (response.ok) {
+          console.log('✅ [FAILED PAGE] Order cancelled successfully');
+          // ✅ Show toast notification to user
+          setTimeout(() => {
+            alert('⚠️ Đơn hàng đã được hủy do thanh toán thất bại. Vui lòng đặt lại đơn hàng khác!');
+          }, 500);
+        } else {
+          console.error('❌ [FAILED PAGE] Failed to cancel order', responseData);
+        }
+      } catch (err) {
+        console.error('❌ [FAILED PAGE] Error cancelling order:', err);
+      }
+    }
+
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000));
   } catch (error) {

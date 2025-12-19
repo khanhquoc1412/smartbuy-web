@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { unref } from "vue";
+import { unref, toValue, type MaybeRefOrGetter } from "vue";
 import {
     createOrder,
     createOrderGuest,
@@ -41,13 +41,23 @@ export const useCancelOrderMutation = () => {
     });
 };
 
-export const useListOrderUser = (params?: IOrderParams) => {
+// Type supporting reactive refs
+type MaybeRefOrderParams = {
+    page?: MaybeRefOrGetter<number | undefined>;
+    limit?: MaybeRefOrGetter<number | undefined>;
+    status?: MaybeRefOrGetter<string | string[] | undefined>;
+    paymentStatus?: MaybeRefOrGetter<string | undefined>;
+    startDate?: MaybeRefOrGetter<string | undefined>;
+    endDate?: MaybeRefOrGetter<string | undefined>;
+};
+
+export const useListOrderUser = (params?: MaybeRefOrderParams) => {
     return useQuery({
-        queryKey: ["list-orders-user", params?.page, params?.status],
+        queryKey: ["list-orders-user", () => toValue(params?.page), () => toValue(params?.status)],
         queryFn: () => {
-            const statusVal = unref(params?.status);
-            const pageVal = unref(params?.page) || 1;
-            const limitVal = unref(params?.limit) || 10;
+            const statusVal = toValue(params?.status);
+            const pageVal = toValue(params?.page) || 1;
+            const limitVal = toValue(params?.limit) || 10;
 
             return fetchUserOrders({
                 limit: limitVal,

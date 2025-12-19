@@ -7,7 +7,7 @@ const jwtCreate = (id) => {
     });
     const resetPasswordToken = jwt.sign(
       { id },
-      process.env.ACCESS_TOKEN_PRIVATE_KEY,
+      process.env.RESET_PASSWORD_TOKEN_PRIVATE_KEY,
       {
         expiresIn: "60m",
       }
@@ -15,7 +15,7 @@ const jwtCreate = (id) => {
     const refreshToken = jwt.sign(
       { id },
       process.env.REFRESH_TOKEN_PRIVATE_KEY,
-      { expiresIn: "15d" }
+      { expiresIn: "7d" }
     );
 
     return { accessToken, refreshToken, resetPasswordToken };

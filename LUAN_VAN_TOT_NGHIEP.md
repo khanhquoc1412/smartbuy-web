@@ -686,6 +686,33 @@ Bố cục trên đảm bảo tính logic, mạch lạc và toàn diện, từ l
 
 ---
 
+## DANH MỤC TỪ NGỮ CHUYÊN NGÀNH
+
+Bảng dưới đây liệt kê các thuật ngữ chuyên ngành được sử dụng trong luận văn. Các thuật ngữ này phải được dùng nhất quán trong toàn bộ báo cáo.
+
+| Thuật ngữ (Tiếng Việt) | English Term | Định nghĩa ngắn |
+| ---------------------- | ------------ | --------------- |
+| Kiến trúc Microservices | Microservices Architecture | Mô hình chia ứng dụng thành nhiều dịch vụ nhỏ, độc lập, mỗi dịch vụ thực hiện một chức năng nghiệp vụ riêng. |
+| API Gateway | API Gateway | Điểm truy cập duy nhất (single entry point) cho client, chịu trách nhiệm routing, authentication và rate limiting. |
+| RESTful API | RESTful API | Kiến trúc API tuân thủ các nguyên tắc REST, giao tiếp bằng HTTP/JSON. |
+| JWT (Token) | JSON Web Token | Chuẩn token để xác thực và phân quyền, truyền thông tin an toàn giữa client và server. |
+| Docker | Docker | Nền tảng containerization để đóng gói và chạy ứng dụng một cách nhất quán. |
+| Docker Compose | Docker Compose | Công cụ để cấu hình và chạy nhiều container Docker cùng lúc. |
+| MongoDB | MongoDB | Cơ sở dữ liệu NoSQL dạng document (JSON-like) dùng cho từng microservice. |
+| Dialogflow | Dialogflow (Google) | Nền tảng NLP của Google dùng để xây dựng chatbot và xử lý intent/entity. |
+| Webhook | Webhook | Endpoint HTTP để nhận callback hoặc fulfillment từ hệ thống bên ngoài (ví dụ Dialogflow). |
+| VNPay | VNPay | Cổng thanh toán trực tuyến dùng trong bài toán thanh toán của hệ thống. |
+| Chatbox / Chatbot | Chatbot / Chatbox | Hệ thống trả lời tự động, hỗ trợ tư vấn sản phẩm và tra cứu thông tin qua hội thoại. |
+| Vue.js 3 | Vue.js 3 | Frontend framework dùng để xây dựng SPA trong luận văn. |
+| TypeScript | TypeScript | Superset của JavaScript hỗ trợ kiểu tĩnh, dùng trên frontend và một số backend. |
+| Pinia | Pinia | State management library cho Vue 3 (thay thế Vuex). |
+| Tailwind CSS | Tailwind CSS | Utility-first CSS framework dùng để thiết kế giao diện. |
+| NLP | Natural Language Processing | Xử lý ngôn ngữ tự nhiên, gồm intent recognition, entity extraction, context management. |
+| Web Client | Frontend / Client | Ứng dụng giao diện người dùng (SPA) truy cập API Gateway. |
+| CI/CD | Continuous Integration / Continuous Deployment | Quy trình tự động build/test/deploy mã nguồn (khuyến nghị áp dụng). |
+
+---
+
 ## CHƯƠNG 2: CƠ SỞ LÝ THUYẾT
 
 ### 2.1. Tổng quan về thương mại điện tử

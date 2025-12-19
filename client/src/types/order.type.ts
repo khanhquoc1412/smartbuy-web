@@ -88,6 +88,7 @@ export interface IOrderListResponse {
     limit: number;
     total: number;
     totalPages: number;
+    totalAmount?: number; // Sum of all orders matching filter
   };
 }
 

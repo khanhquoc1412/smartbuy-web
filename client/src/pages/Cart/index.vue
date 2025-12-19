@@ -42,6 +42,29 @@
           >
             Chọn tất cả ({{ cartItems.length }} sản phẩm)
           </label>
+
+          <!-- ✅ NEW: Delete selected items button -->
+          <button
+            v-if="selectedItems.length > 0"
+            class="tw-ml-auto tw-text-sm tw-text-red-600 tw-font-medium hover:tw-underline tw-flex tw-items-center tw-gap-1"
+            @click="activeBulkDeleteModal"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="tw-w-4 tw-h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+            {{ isAllSelected ? "Xóa tất cả" : `Xóa (${selectedItems.length})` }}
+          </button>
         </div>
 
         <!-- Cart Product Items -->
@@ -217,6 +240,16 @@
       @updateIsActive="closeModal"
       @confirmAction="handleRemoveItem"
     />
+
+    <!-- ✅ Modal Bulk Delete -->
+    <Modal
+      :content="`Xóa ${
+        isAllSelected ? 'tất cả' : selectedItems.length
+      } sản phẩm đã chọn khỏi giỏ hàng?`"
+      :is-active="activeModalBulkDelete"
+      @updateIsActive="closeBulkModal"
+      @confirmAction="handleRemoveMultiple"
+    />
   </div>
 </template>
 
@@ -243,12 +276,14 @@ const {
   getUserCarts,
   updateQuantity,
   removeItem,
+  removeMultipleItems,
   refetchCart,
   refetchCartCount,
 } = useCart();
 
 const activeModalDeleteProductToCart = ref<boolean>(false);
 const currentCartItemId = ref<string>("");
+const activeModalBulkDelete = ref<boolean>(false);
 
 // ✅ Selection state
 const selectedItems = ref<string[]>([]);
@@ -299,6 +334,27 @@ const handleRemoveItem = async () => {
     closeModal(false);
   } catch (error) {
     console.error("Error removing item:", error);
+  }
+};
+
+const activeBulkDeleteModal = () => {
+  activeModalBulkDelete.value = true;
+};
+
+const closeBulkModal = (value: boolean) => {
+  activeModalBulkDelete.value = value;
+};
+
+const handleRemoveMultiple = async () => {
+  if (isRemoving.value || selectedItems.value.length === 0) return;
+  try {
+    const itemsToDelete = [...selectedItems.value];
+    await removeMultipleItems(itemsToDelete);
+    showToast(`Đã xóa ${itemsToDelete.length} sản phẩm thành công`, "success");
+    selectedItems.value = []; // Clear selection
+    closeBulkModal(false);
+  } catch (error) {
+    console.error("Error removing multiple items:", error);
   }
 };
 

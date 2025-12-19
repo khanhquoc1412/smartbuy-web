@@ -168,8 +168,22 @@ class PaymentController {
       const verifyResult = await this.vnpay.verifyReturnUrl(vnpParams);
 
       if (!verifyResult || !verifyResult.isSuccess) {
+        // Try to extract orderId from vnp_TxnRef (transactionId)
+        const transactionId = vnpParams.vnp_TxnRef;
+        let orderId = '';
+
+        if (transactionId) {
+          try {
+            // Get payment by transactionId to find orderId
+            const payment = await paymentService.getPaymentByTransactionId(transactionId);
+            orderId = payment.orderId;
+          } catch (err) {
+            console.error('❌ Could not find payment for transactionId:', transactionId);
+          }
+        }
+
         return res.redirect(
-          `${process.env.CLIENT_URL}/payment/failed?message=Invalid signature`
+          `${process.env.CLIENT_URL}/payment/failed?message=Invalid signature&orderId=${orderId}`
         );
       }
 
@@ -215,8 +229,10 @@ class PaymentController {
           responseCode: verifyResult.vnp_ResponseCode,
         };
 
-        await paymentService.updatePaymentStatusFromVNPay(paymentData);
+        const updatedPayment = await paymentService.updatePaymentStatusFromVNPay(paymentData);
 
+        // ✅ Use real orderId from payment record
+        queryParams.set('orderId', updatedPayment.orderId);
         queryParams.append('code', responseCode);
 
         res.redirect(
@@ -225,7 +241,9 @@ class PaymentController {
       }
     } catch (error) {
       console.error("❌ VNPAY return error:", error);
-      res.redirect(`${process.env.CLIENT_URL}/payment/failed?message=Error`);
+      // Try to get orderId from query params
+      const orderId = req.query.vnp_TxnRef || '';
+      res.redirect(`${process.env.CLIENT_URL}/payment/failed?message=Error&orderId=${orderId}`);
     }
   }
 

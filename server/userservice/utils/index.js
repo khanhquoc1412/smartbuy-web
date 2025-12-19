@@ -3,6 +3,7 @@ const {
   jwtCreate,
   jwtVerify,
   jwtVerifyRefreshToken,
+  jwtVerifyResetPasswordToken,  // ✅ Thêm export
   jwtDecodeToken,
 } = require("./jwt");
 
@@ -14,6 +15,7 @@ module.exports = {
   jwtCreate,
   jwtVerify,
   jwtVerifyRefreshToken,
+  jwtVerifyResetPasswordToken,  // ✅ Thêm export
   jwtDecodeToken,
   createCryptoString,
 };

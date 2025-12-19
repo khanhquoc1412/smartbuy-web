@@ -453,6 +453,24 @@ class PaymentService {
       throw error;
     }
   }
+
+  /**
+   * ✅ Lấy payment theo transactionId
+   */
+  async getPaymentByTransactionId(transactionId) {
+    try {
+      const payment = await Payment.findOne({ transactionId });
+
+      if (!payment) {
+        throw new Error("Payment not found for this transaction");
+      }
+
+      return payment;
+    } catch (error) {
+      console.error("❌ Get payment by transactionId error:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = new PaymentService();

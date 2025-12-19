@@ -144,6 +144,17 @@
             </div>
           </div>
         </transition-group>
+
+        <!-- Pagination -->
+        <div v-if="orderUser?.pagination && totalPages > 1" class="pagination-wrapper">
+          <VPagination
+            v-model="currentPage"
+            :pages="totalPages"
+            :range-size="1"
+            active-color="#dc2626"
+            @update:modelValue="handlePageChange"
+          />
+        </div>
       </div>
     </div>
     <!-- Cancel Order Modal -->
@@ -222,6 +233,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-cube";
 import { SwiperModule } from "swiper/types";
 import OrderItem from "@/components/cart/OrderItem.vue";
+import VPagination from "@/components/base/VPagination.vue";
 import { useListOrderUser, useCancelOrderMutation } from "@/api/order/query";
 import { formatTime } from "@utils/formatTime";
 import { getTotalAmount } from "@/utils/product/getTotalPrice";
@@ -269,6 +281,7 @@ const listOrderStatus: IOrderStatus[] = [
 ];
 
 const currentTab = ref(0);
+const currentPage = ref(1); // ✅ Pagination state
 
 const currentStatus = computed(() => {
   const tab = listOrderStatus.find(t => t.id === currentTab.value);
@@ -276,9 +289,9 @@ const currentStatus = computed(() => {
 });
 
 const { data: orderUser, refetch, isLoading, isFetching } = useListOrderUser({
-  page: 1,
+  page: currentPage,
   limit: 10,
-  status: currentStatus as any // Pass computed status
+  status: currentStatus
 });
 
 const { mutate: cancelOrderMutate } = useCancelOrderMutation();
@@ -331,13 +344,30 @@ const totalOrders = computed(() => {
 });
 
 const totalAmount = computed(() => {
+  // Use totalAmount from pagination if available (sum of ALL orders matching filter)
+  if (orderUser.value?.pagination?.totalAmount) {
+    return orderUser.value.pagination.totalAmount;
+  }
+  // Fallback: sum current page only (not accurate for total stats)
   if (!orderUser.value?.data) return 0;
   return orderUser.value.data.reduce((sum, order) => sum + (order.totalPrice || 0), 0);
 });
 
+const totalPages = computed(() => {
+  if (!orderUser.value?.pagination) return 1;
+  return Math.ceil(orderUser.value.pagination.total / orderUser.value.pagination.limit);
+});
+
 const handleTabChange = (item: IOrderStatus) => {
   currentTab.value = item.id;
+  currentPage.value = 1; // Reset to page 1 when changing tabs
   // useQuery is reactive, it will refetch automatically when params change
+};
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page;
+  // Scroll to top when page changes
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 // Helper to get status text
@@ -518,6 +548,7 @@ meta:
         font-weight: 500;
         color: #6b7280;
         border: 1px solid transparent;
+        white-space: nowrap;
 
         &:hover {
           background-color: #e5e7eb;
@@ -764,6 +795,15 @@ meta:
       }
     }
   }
+}
+
+/* Pagination Wrapper */
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
 }
 
 /* List Transition */

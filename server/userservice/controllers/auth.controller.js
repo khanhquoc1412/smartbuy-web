@@ -7,6 +7,7 @@ const {
   jwtCreate,
   jwtVerify,
   jwtVerifyRefreshToken,
+  jwtVerifyResetPasswordToken,  // ✅ Import function mới
   hashPassword,
 } = require("../utils");
 const {
@@ -560,7 +561,7 @@ const resetPasswordForm = async (req, res) => {
       throw new BadRequestError("Không tìm thấy user");
     }
 
-    const decoded = jwtVerify(token);
+    const decoded = jwtVerifyResetPasswordToken(token); // ✅ Dùng reset password verify
     if (
       !decoded ||
       user.passwordToken !== token ||
@@ -599,7 +600,7 @@ const resetPassword = async (req, res) => {
       throw new NotFoundError("Không tìm thấy user");
     }
 
-    const decoded = jwtVerify(token);
+    const decoded = jwtVerifyResetPasswordToken(token); // ✅ Dùng reset password verify
     if (
       !decoded ||
       user.passwordToken !== token ||
