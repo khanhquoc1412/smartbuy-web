@@ -13,7 +13,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
+// app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
 
 // Routes
 app.use('/api/orders', require('./routes/orders'));

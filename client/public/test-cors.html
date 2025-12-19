@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CORS - SmartBuy API Gateway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .info-box strong {
+            color: #333;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .result h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .result p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .result strong {
+            font-weight: 600;
+        }
+
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-error {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge-info {
+            background: #17a2b8;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Test CORS - API Gateway</h1>
+        <p class="subtitle">Kiểm tra Cross-Origin Resource Sharing của SmartBuy API Gateway</p>
+
+        <div class="info-box">
+            <p><strong>Current Origin:</strong> <span id="currentOrigin"></span></p>
+            <p><strong>API Gateway:</strong> http://localhost:3000</p>
+            <p><strong>Allowed Origins:</strong> localhost:5173, localhost:8080, localhost, 127.0.0.1:8080</p>
+        </div>
+
+        <div class="button-group">
+            <button onclick="testValidOrigin()">✅ Test Valid Origin</button>
+            <button onclick="testHealthCheck()">❤️ Test Health Check</button>
+            <button onclick="testAPIInfo()">ℹ️ Test API Info</button>
+            <button onclick="testProducts()">📦 Test Products API</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        // Hiển thị origin hiện tại
+        document.getElementById('currentOrigin').textContent = window.location.origin;
+
+        const resultsDiv = document.getElementById('results');
+
+        function showLoading() {
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Đang test CORS...</p>
+                </div>
+            `;
+        }
+
+        async function testValidOrigin() {
+            showLoading();
+
+            try {
+                const response = await fetch('http://localhost:3000/api/products', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // Lấy CORS headers
+                const allowOrigin = response.headers.get('Access-Control-Allow-Origin');
+                const allowCredentials = response.headers.get('Access-Control-Allow-Credentials');
+                const vary = response.headers.get('Vary');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    resultsDiv.innerHTML = `
+                        <div class="result success">
+                            <h3><span class="badge badge-success">✅ SUCCESS</span> CORS Test Passed</h3>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                            <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                            <div class="code">Response Data (first 300 chars):\n${JSON.stringify(data, null, 2).substring(0, 300)}...</div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3><span class="badge badge-error">❌ FAILED</span> CORS Test Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Current Origin:</strong> ${window.location.origin}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testHealthCheck() {
+            showLoading();
+
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                
+                const allowOrigin = response.headers.get('Access-Control-Allow-Origin');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    resultsDiv.innerHTML = `
+                        <div class="result success">
+                            <h3><span class="badge badge-success">✅ SUCCESS</span> Health Check Passed</h3>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                            <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                            <div class="code">${JSON.stringify(data, null, 2)}</div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3><span class="badge badge-error">❌ FAILED</span> Health Check Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testAPIInfo() {
+            showLoading();
+
+            try {
+                const response = await fetch('http://localhost:3000/api/info');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    resultsDiv.innerHTML = `
+                        <div class="result success">
+                            <h3><span class="badge badge-success">✅ SUCCESS</span> API Info Retrieved</h3>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                            <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                            <p><strong>Gateway Version:</strong> ${data.version}</p>
+                            <p><strong>Services Available:</strong> ${Object.keys(data.services).length}</p>
+                            <div class="code">${JSON.stringify(data, null, 2)}</div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3><span class="badge badge-error">❌ FAILED</span> Cannot Get API Info</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testProducts() {
+            showLoading();
+
+            try {
+                const response = await fetch('http://localhost:3000/api/products?limit=5');
+                
+                const allowOrigin = response.headers.get('Access-Control-Allow-Origin');
+                const contentType = response.headers.get('Content-Type');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    resultsDiv.innerHTML = `
+                        <div class="result success">
+                            <h3><span class="badge badge-success">✅ SUCCESS</span> Products API Test Passed</h3>
+                            <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                            <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                            <p><strong>Content-Type:</strong> ${contentType}</p>
+                            <div class="code">${JSON.stringify(data, null, 2).substring(0, 500)}...</div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        <h3><span class="badge badge-error">❌ FAILED</span> Products API Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Request Origin:</strong> ${window.location.origin}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-run health check on load
+        window.addEventListener('load', () => {
+            resultsDiv.innerHTML = `
+                <div class="result info">
+                    <h3><span class="badge badge-info">ℹ️ INFO</span> Sẵn sàng test CORS</h3>
+                    <p>Click vào các button phía trên để test CORS với API Gateway.</p>
+                    <p><strong>Lưu ý:</strong> Đảm bảo API Gateway đang chạy ở http://localhost:3000</p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

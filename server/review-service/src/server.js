@@ -20,7 +20,7 @@ const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 phút
   max: 100, // giới hạn 100 requests mỗi phút
 });
-app.use(limiter);
+// app.use(limiter);
 
 // Routes
 app.use("/api/reviews", require("./routes/reviews"));

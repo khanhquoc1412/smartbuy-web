@@ -20,7 +20,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
+// app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
 
 // Serve static files từ thư mục uploads
 app.use('/uploads', express.static(uploadsDir));

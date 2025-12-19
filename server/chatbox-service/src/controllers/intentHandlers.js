@@ -681,7 +681,7 @@ exports.handleOrderTrack = async (parameters, queryResult, session) => {
       [{ type: 'chips', options: [
         { 
           text: '🌐 Quản lý đơn hàng',
-          link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/orders`
+          link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/order`
         },
         { text: '📞 Liên hệ hỗ trợ' },
       ]}]
