@@ -15,7 +15,7 @@ exports.search = async (req, res) => {
   try {
     const { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit = 10 } = req.query;
 
-    console.log('🔍 Chatbot search params:', { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword, limit });
+    console.log('🤖 [DEBUG] Chatbot Context:', { brand, priceRange, category, color, memory, minPrice, maxPrice, keyword });
 
     // Build filter
     const filter = {};

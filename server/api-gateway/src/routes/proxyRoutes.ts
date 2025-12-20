@@ -54,7 +54,7 @@ const services = {
   // location: { url: process.env.LOCATION_SERVICE_URL || 'http://localhost:5004', path: '/api/locations' },
   // promotion: { url: process.env.PROMOTION_SERVICE_URL || 'http://localhost:5005', path: '/api/promotions' },
   // search: { url: process.env.SEARCH_SERVICE_URL || 'http://localhost:5007', path: '/api/search' },
-  // chatbot: { url: process.env.CHATBOT_SERVICE_URL || 'http://localhost:5008', path: '/api/chatbot' }
+  chatbot: { url: process.env.CHATBOT_SERVICE_URL || 'http://localhost:3007', path: '/api/chatbot' }
 } as const;
 
 Object.values(services).forEach(service => {

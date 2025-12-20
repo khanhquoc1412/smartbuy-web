@@ -3,10 +3,22 @@ const mongoose = require("mongoose");
 
 // Tạo connection đến order database
 const orderDbUri =
-  process.env.DB_PROD_URL ||
   process.env.ORDER_DB_URI ||
-  "mongodb://localhost:27017/smartbuy_db_order";
+  process.env.DB_PROD_URL ||
+  (process.env.MONGODB_URI && process.env.MONGODB_URI.includes('smartbuy_db')
+    ? process.env.MONGODB_URI.replace('smartbuy_db', 'smartbuy_db_order')
+    : "mongodb://localhost:27017/smartbuy_db_order");
+
+console.log(`📡 Connecting to Order DB at: ${orderDbUri.replace(/:([^:@]+)@/, ':****@')}`);
 const orderConnection = mongoose.createConnection(orderDbUri);
+
+orderConnection.on('connected', () => {
+  console.log('✅ Connected to Order Database from User Manager Stats');
+});
+
+orderConnection.on('error', (err) => {
+  console.error('❌ Order Database Connection Error in Stats Controller:', err.message);
+});
 
 // Define Order schema inline (giống với order-manager-service)
 const orderSchema = new mongoose.Schema(
