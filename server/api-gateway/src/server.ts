@@ -16,7 +16,7 @@ app.use(helmet());
 // Tăng lên 300 requests/phút vì Admin Dashboard cần ~20-25 requests khi load
 app.use(rateLimit({ 
   windowMs: 60 * 1000,  // 1 phút (60,000ms)
-  max: 100,             // Tối đa 300 requests (5 requests/giây, phù hợp với admin dashboard)
+  max: 500,             // Tối đa 300 requests (5 requests/giây, phù hợp với admin dashboard)
   standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
   legacyHeaders: false,  // Disable `X-RateLimit-*` headers
   message: 'Too many requests from this IP, please try again after a minute',
