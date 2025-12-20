@@ -945,6 +945,32 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
       };
     }
 
+    // Lấy rating cho sản phẩm 1
+    let rating1Text = 'N/A';
+    try {
+      const axios = require('axios');
+      const reviewRes1 = await axios.get(`http://localhost:3000/api/reviews/product/${product1._id}`);
+      const stats1 = reviewRes1.data.data.stats;
+      if (stats1 && stats1.averageRating) {
+        rating1Text = stats1.averageRating.toFixed(1) + '/5';
+      }
+    } catch (err) {
+      console.error('Không lấy được rating cho product1:', err?.message || err);
+    }
+
+    // Lấy rating cho sản phẩm 2
+    let rating2Text = 'N/A';
+    try {
+      const axios = require('axios');
+      const reviewRes2 = await axios.get(`http://localhost:3000/api/reviews/product/${product2._id}`);
+      const stats2 = reviewRes2.data.data.stats;
+      if (stats2 && stats2.averageRating) {
+        rating2Text = stats2.averageRating.toFixed(1) + '/5';
+      }
+    } catch (err) {
+      console.error('Không lấy được rating cho product2:', err?.message || err);
+    }
+
     const priceDiff = Math.abs(product1.price - product2.price);
     const cheaper = product1.price < product2.price ? product1 : product2;
     const moreExpensive = product1.price < product2.price ? product2 : product1;
@@ -952,9 +978,9 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
     const headerParts = ['⚖️ **SO SÁNH SẢN PHẨM** ⚖️'];
     const headerText = headerParts.join('\n');
 
-    const product1Details = `📱 **${product1.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product1.price)}<br/>⭐ Đánh giá: ${product1.rating || 'N/A'}/5<br/>📦 Tình trạng: ${product1.inStock ? 'Còn hàng' : 'Hết hàng'}`;
+    const product1Details = `📱 **${product1.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product1.price)}<br/>⭐ Đánh giá: ${rating1Text}<br/>📦 Tình trạng: ${product1.inStock ? 'Còn hàng' : 'Hết hàng'}`;
     
-    const product2Details = `📱 **${product2.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product2.price)}<br/>⭐ Đánh giá: ${product2.rating || 'N/A'}/5<br/>📦 Tình trạng: ${product2.inStock ? 'Còn hàng' : 'Hết hàng'}`;
+    const product2Details = `📱 **${product2.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product2.price)}<br/>⭐ Đánh giá: ${rating2Text}<br/>📦 Tình trạng: ${product2.inStock ? 'Còn hàng' : 'Hết hàng'}`;
 
     return {
       fulfillmentText: headerText,
