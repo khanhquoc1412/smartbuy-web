@@ -75,7 +75,12 @@ Object.values(services).forEach(service => {
         const bodyData = JSON.stringify(req.body);
         proxyReq.setHeader('Content-Type', 'application/json');
         proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-        proxyReq.write(bodyData);
+        try {
+          proxyReq.write(bodyData);
+        } finally {
+          // Ensure the proxied request is ended so the target receives the body
+          try { proxyReq.end(); } catch (e) { /* ignore */ }
+        }
       }
     },
     onProxyRes: (proxyRes: any, req: any, res: any) => {

@@ -1,9 +1,9 @@
-const { UnauthorizedError } = require("../src/errors");
-const { jwtVerify } = require("../src/utils/jwt"); // ❓ Nếu có file jwt.js
+const { UnauthorizedError } = require("../errors");
+const { jwtVerify } = require("../utils/jwt");
 // HOẶC
 const jwt = require("jsonwebtoken"); // ❓ Nếu không có file jwt.js
 
-const { getAccessTokenFromHeaders } = require("../src/utils/header");
+const { getAccessTokenFromHeaders } = require("../utils/header");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user"); // ✅ Import User model
 

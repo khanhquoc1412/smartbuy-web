@@ -4,24 +4,44 @@
     <div class="wishlist-header">
       <div class="header-content">
         <div class="header-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"
+            />
           </svg>
         </div>
         <div class="header-text">
           <h1 class="header-title">Danh sách yêu thích</h1>
-          <p class="header-subtitle">Lưu những sản phẩm bạn yêu thích để mua sau</p>
+          <p class="header-subtitle">
+            Lưu những sản phẩm bạn yêu thích để mua sau
+          </p>
         </div>
       </div>
     </div>
 
-    <div class="cart-section tw-flex tw-gap-8 tw-flex-col tw-mx-auto tw-w-full" style="max-width: 800px;">
+    <div
+      class="cart-section tw-flex tw-gap-8 tw-flex-col tw-mx-auto tw-w-full"
+      style="max-width: 800px"
+    >
       <!-- Loading State -->
-      <div v-if="isLoading" class="cart-main tw-py-20 tw-flex tw-justify-center">
+      <div
+        v-if="isLoading"
+        class="cart-main tw-py-20 tw-flex tw-justify-center"
+      >
         <div class="loading-spinner">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" opacity="0.25"/>
-            <path d="M12 2a10 10 0 0 1 10 10" opacity="0.75"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" opacity="0.25" />
+            <path d="M12 2a10 10 0 0 1 10 10" opacity="0.75" />
           </svg>
         </div>
         <p class="tw-ml-3">Đang tải danh sách yêu thích...</p>
@@ -39,14 +59,16 @@
         >
           <div class="cart-product__left tw-flex tw-gap-3">
             <div class="product-img">
-              <router-link :to="{ 
-                path: `/product/${item.product?.slug || item.product?._id}`,
-                query: { 
-                  variantId: item.variantId,
-                  colorId: item.colorId,
-                  memoryId: item.memoryId
-                }
-              }">
+              <router-link
+                :to="{
+                  path: `/product/${item.product?.slug || item.product?._id}`,
+                  query: {
+                    variantId: item.variantId,
+                    colorId: item.colorId,
+                    memoryId: item.memoryId,
+                  },
+                }"
+              >
                 <img
                   class="tw-w-full tw-h-full tw-object-cover"
                   :src="getVariantImage(item)"
@@ -58,13 +80,13 @@
               class="product-desc tw-py-2 tw-flex tw-flex-col tw-justify-between"
             >
               <router-link
-                :to="{ 
+                :to="{
                   path: `/product/${item.product?.slug || item.product?._id}`,
-                  query: { 
+                  query: {
                     variantId: item.variantId,
                     colorId: item.colorId,
-                    memoryId: item.memoryId
-                  }
+                    memoryId: item.memoryId,
+                  },
                 }"
                 class="product-desc--name tw-cursor-pointer hover:tw-text-red tw-transition-all"
               >
@@ -78,16 +100,19 @@
                   {{ formatMoney(item.product?.price || 0) }}
                 </div>
                 <!-- Base price if discounted (optional, if data available) -->
-                <div 
+                <div
                   class="product-desc__price--throw"
-                  v-if="item.product?.basePrice && item.product?.basePrice > item.product?.price"
+                  v-if="
+                    item.product?.basePrice &&
+                    item.product?.basePrice > item.product?.price
+                  "
                 >
                   {{ formatMoney(item.product?.basePrice) }}
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div
             class="cart-product__right tw-flex tw-flex-col tw-justify-between tw-items-end"
           >
@@ -109,14 +134,23 @@
                 ></path>
               </svg>
             </div>
-            
+
             <!-- Add to Cart Button -->
-            <button 
-              @click="handleAddToCart(item.product)" 
+            <button
+              @click="handleAddToCart(item.product)"
               class="btn-add-cart tw-mt-auto tw-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-red-600 tw-text-white hover:tw-bg-red-700 tw-transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tw-w-4 tw-h-4">
-                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                class="tw-w-4 tw-h-4"
+              >
+                <path
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               <span class="tw-text-sm tw-font-medium">Thêm vào giỏ</span>
             </button>
@@ -182,27 +216,30 @@ const totalWishlistValue = computed(() => {
 });
 
 const getVariantName = (item: WishlistItem) => {
-  if (!item.product?.productVariants) return '';
+  if (!item.product?.productVariants) return "";
 
-  const variant = item.product.productVariants.find((v: any) => 
-    String(v._id || v.id) === String(item.variantId) ||
-    (String(v.colorId?._id || v.colorId?.id || v.color?.id) === String(item.colorId) && 
-     String(v.memoryId?._id || v.memoryId?.id || v.memory?.id) === String(item.memoryId))
+  const variant = item.product.productVariants.find(
+    (v: any) =>
+      String(v._id || v.id) === String(item.variantId) ||
+      (String(v.colorId?._id || v.colorId?.id || v.color?.id) ===
+        String(item.colorId) &&
+        String(v.memoryId?._id || v.memoryId?.id || v.memory?.id) ===
+          String(item.memoryId))
   );
 
   if (variant) {
     // Handle both populated object and direct property structure if necessary
-    const colorName = variant.colorId?.name || variant.color?.name || '';
-    const ram = variant.memoryId?.ram || variant.memory?.ram || '';
-    const rom = variant.memoryId?.rom || variant.memory?.rom || '';
-    
+    const colorName = variant.colorId?.name || variant.color?.name || "";
+    const ram = variant.memoryId?.ram || variant.memory?.ram || "";
+    const rom = variant.memoryId?.rom || variant.memory?.rom || "";
+
     const parts = [];
     if (ram || rom) parts.push(`${ram}/${rom}`);
     if (colorName) parts.push(colorName);
-    
-    return parts.length > 0 ? parts.join(' ') : '';
+
+    return parts.length > 0 ? parts.join(" ") : "";
   }
-  return ''; 
+  return "";
 };
 
 const getVariantImage = (item: WishlistItem) => {
@@ -218,60 +255,72 @@ const getVariantImage = (item: WishlistItem) => {
 const fetchWishlist = async () => {
   isLoading.value = true;
   try {
-    const wishlistResponse = await $axios.get('/user/wishlist');
+    const wishlistResponse = await $axios.get("/user/wishlist");
     const wishlistData = wishlistResponse.data.data || wishlistResponse.data;
-    
-    console.log('📋 Wishlist data:', wishlistData);
-    
-    if (!wishlistData || !wishlistData.items || wishlistData.items.length === 0) {
+
+    console.log("📋 Wishlist data:", wishlistData);
+
+    if (
+      !wishlistData ||
+      !wishlistData.items ||
+      wishlistData.items.length === 0
+    ) {
       wishlistItems.value = [];
       return;
     }
-    
+
     // Fetch product details for each item from productservice
     const productPromises = wishlistData.items.map(async (item: any) => {
       try {
         // ✅ Fix: Use /product/id/:id endpoint to avoid matching /product/:slug
         const productResponse = await $axios.get(`/product/id/${item.product}`);
         const productData = productResponse.data.data || productResponse.data;
-        
+
         // If item has variant info, find the specific variant details
         let variantInfo: any = null;
         if (item.variantId && productData.productVariants) {
-          variantInfo = productData.productVariants.find((v: any) => 
-            String(v._id || v.id) === String(item.variantId)
+          variantInfo = productData.productVariants.find(
+            (v: any) => String(v._id || v.id) === String(item.variantId)
           );
-        } else if (item.colorId && item.memoryId && productData.productVariants) {
-          variantInfo = productData.productVariants.find((v: any) => 
-            String(v.color?.id || v.color?._id) === String(item.colorId) &&
-            String(v.memory?.id || v.memory?._id) === String(item.memoryId)
+        } else if (
+          item.colorId &&
+          item.memoryId &&
+          productData.productVariants
+        ) {
+          variantInfo = productData.productVariants.find(
+            (v: any) =>
+              String(v.color?.id || v.color?._id) === String(item.colorId) &&
+              String(v.memory?.id || v.memory?._id) === String(item.memoryId)
           );
         }
-        
+
         // Construct product with variant details
         const productWithVariant = {
           ...productData,
-          price: variantInfo?.price || productData.price || productData.basePrice,
+          price:
+            variantInfo?.price || productData.price || productData.basePrice,
           images: variantInfo?.images || productData.images,
         };
-        
+
         return {
           _id: item._id,
           product: productWithVariant,
           variantId: item.variantId,
           colorId: item.colorId,
           memoryId: item.memoryId,
-          addedAt: item.addedAt
+          addedAt: item.addedAt,
         };
       } catch (error: any) {
         // ✅ Self-healing: Auto-remove invalid items (404)
-        const isNotFound = 
-          (error?.response?.status === 404) || 
-          (error?.message === 'Product not found') ||
-          (error?.status === 404);
+        const isNotFound =
+          error?.response?.status === 404 ||
+          error?.message === "Product not found" ||
+          error?.status === 404;
 
         if (isNotFound) {
-          console.warn(`⚠️ Product ${item.product} not found. Auto-removing from wishlist...`);
+          console.warn(
+            `⚠️ Product ${item.product} not found. Auto-removing from wishlist...`
+          );
           try {
             await $axios.delete(`/user/wishlist/${item.product}`);
           } catch (deleteError) {
@@ -283,13 +332,15 @@ const fetchWishlist = async () => {
         return null;
       }
     });
-    
+
     const products = await Promise.all(productPromises);
-    wishlistItems.value = products.filter(item => item !== null) as WishlistItem[];
-    
-    console.log('✅ Wishlist items with products:', wishlistItems.value);
+    wishlistItems.value = products.filter(
+      (item) => item !== null
+    ) as WishlistItem[];
+
+    console.log("✅ Wishlist items with products:", wishlistItems.value);
   } catch (error: any) {
-    console.error('❌ Lỗi khi tải wishlist:', error);
+    console.error("❌ Lỗi khi tải wishlist:", error);
   } finally {
     isLoading.value = false;
   }
@@ -297,46 +348,52 @@ const fetchWishlist = async () => {
 
 const handleRemoveFromWishlist = async (itemId: string) => {
   if (!itemId) return;
-  
-  if (!confirm('Bạn có chắc muốn xóa sản phẩm này khỏi danh sách yêu thích?')) {
+
+  if (!confirm("Bạn có chắc muốn xóa sản phẩm này khỏi danh sách yêu thích?")) {
     return;
   }
-  
+
   try {
     // Call delete with the specific Item ID
     await $axios.delete(`/user/wishlist/${itemId}`);
     await fetchWishlist();
-    showToast('Đã xóa khỏi danh sách yêu thích', 'success');
+    showToast("Đã xóa khỏi danh sách yêu thích", "success");
   } catch (error: any) {
-    console.error('❌ Lỗi khi xóa:', error);
-    showToast(error.response?.data?.message || 'Không thể xóa sản phẩm', 'error');
+    console.error("❌ Lỗi khi xóa:", error);
+    showToast(
+      error.response?.data?.message || "Không thể xóa sản phẩm",
+      "error"
+    );
   }
 };
 
 const handleAddToCart = async (product: Product) => {
   if (!product) return;
-  
+
   try {
-    await $axios.post('/cart', {
+    await $axios.post("/cart", {
       productId: product._id,
-      quantity: 1
+      quantity: 1,
     });
-    showToast('Đã thêm vào giỏ hàng!', 'success');
+    showToast("Đã thêm vào giỏ hàng!", "success");
   } catch (error: any) {
-    console.error('❌ Lỗi khi thêm vào giỏ:', error);
-    showToast(error.response?.data?.message || 'Không thể thêm vào giỏ hàng', 'error');
+    console.error("❌ Lỗi khi thêm vào giỏ:", error);
+    showToast(
+      error.response?.data?.message || "Không thể thêm vào giỏ hàng",
+      "error"
+    );
   }
 };
 
 // Toast notification function
-const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-  const toast = document.createElement('div');
+const showToast = (message: string, type: "success" | "error" = "success") => {
+  const toast = document.createElement("div");
   toast.textContent = message;
   toast.style.cssText = `
     position: fixed;
     top: 100px;
     right: 20px;
-    background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+    background: ${type === "success" ? "#4CAF50" : "#f44336"};
     color: white;
     padding: 16px 24px;
     border-radius: 4px;
@@ -345,11 +402,11 @@ const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     font-size: 14px;
     animation: slideIn 0.3s ease;
   `;
-  
+
   document.body.appendChild(toast);
-  
+
   setTimeout(() => {
-    toast.style.animation = 'slideOut 0.3s ease';
+    toast.style.animation = "slideOut 0.3s ease";
     setTimeout(() => document.body.removeChild(toast), 300);
   }, 3000);
 };
@@ -388,7 +445,7 @@ meta:
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         svg {
           width: 28px;
           height: 28px;
@@ -470,7 +527,7 @@ meta:
         .remove-btn {
           cursor: pointer;
           padding: 4px;
-          
+
           svg {
             height: 20px;
             width: 20px;
@@ -515,7 +572,11 @@ meta:
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

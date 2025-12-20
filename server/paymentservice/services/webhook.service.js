@@ -8,7 +8,7 @@ class WebhookService {
    */
   async notifyOrderService(payment, paymentStatus) {
     try {
-      const webhookUrl = `${config.ORDER_SERVICE_URL}/api/orders/payment-callback`;
+      const webhookUrl = `${config.ORDER_SERVICE_URL}/api/order/payment-callback`;
 
       const payload = {
         paymentId: payment._id.toString(),

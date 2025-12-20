@@ -11,6 +11,9 @@ import proxyRoutes from './routes/proxyRoutes';
 const app = express();
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
+// ✅ Trust proxy để hoạt động đúng với Railway/reverse proxies
+app.set('trust proxy', true);
+
 app.use(helmet());
 // Rate Limiting: Giới hạn requests để chống DDoS
 // Tăng lên 300 requests/phút vì Admin Dashboard cần ~20-25 requests khi load

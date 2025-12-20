@@ -63,6 +63,7 @@ import {
   addToCart as addToCartApi,
   updateCartItemAPI,
   removeCartItemAPI,
+  removeMultipleItemsAPI,
 } from '@/api/cart/cart';
 import type {
   IAddToCartPayload,
@@ -485,6 +486,90 @@ export const useCart = () => {
       throw error;
     }
   };
+
+  const removeMultipleItems = async (itemIds: string[]) => {
+    if (!requireAuth() || !itemIds.length) return;
+
+    isRemoving.value = true;
+
+    const previousCart = cart.value;
+    const previousCount = cartCount.value;
+
+    try {
+      // ✅ Calculate total quantity to remove for optimistic update
+      const itemsToRemove = cart.value?.items?.filter((item: any) => itemIds.includes(item._id)) || [];
+      const totalQuantityToRemove = itemsToRemove.reduce((sum: number, item: any) => sum + item.quantity, 0);
+
+      console.log('🗑️ Removing multiple items:', { itemIds, totalQuantity: totalQuantityToRemove });
+
+      // ✅ OPTIMISTIC UPDATE 1: Remove items from cart
+      queryClient.setQueryData(['cart'], (old: any) => {
+        if (!old || !old.items) return old;
+
+        const newItems = old.items.filter((item: any) => !itemIds.includes(item._id));
+
+        const newTotalPrice = newItems.reduce((sum: number, item: any) => {
+          return sum + (item.quantity * item.priceAtAdd * (1 - (item.discountPercentage || 0) / 100));
+        }, 0);
+
+        const newItemCount = newItems.reduce((sum: number, item: any) => sum + item.quantity, 0);
+
+        return {
+          ...old,
+          items: newItems,
+          totalItems: newItems.length,
+          itemCount: newItemCount,
+          totalPrice: newTotalPrice,
+          finalTotal: newTotalPrice,
+        };
+      });
+
+      // ✅ OPTIMISTIC UPDATE 2: Update cart count
+      queryClient.setQueryData(['cartCount'], (old: any) => {
+        if (!old) return old;
+
+        const currentCount = old.data?.count || 0;
+        const newCount = Math.max(0, currentCount - totalQuantityToRemove);
+
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            count: newCount,
+          },
+        };
+      });
+
+      // ✅ Call API
+      const response = await removeMultipleItemsAPI(itemIds);
+      console.log('✅ API confirmed multiple removal:', response);
+
+      // ✅ Invalidate và refetch
+      await queryClient.invalidateQueries({ queryKey: ['cart'] });
+      await queryClient.invalidateQueries({ queryKey: ['cartCount'] });
+
+      await Promise.all([
+        refetchCart(),
+        refetchCartCount(),
+      ]);
+
+      isRemoving.value = false;
+      return response;
+
+    } catch (error: any) {
+      console.error('❌ Error removing multiple items, rolling back:', error);
+
+      // ✅ ROLLBACK
+      queryClient.setQueryData(['cart'], previousCart);
+      queryClient.setQueryData(['cartCount'], previousCount);
+
+      isRemoving.value = false;
+
+      const errorMessage = error?.response?.data?.message || 'Có lỗi xảy ra khi xóa sản phẩm';
+      showToast(`❌ ${errorMessage}`, 'error');
+      throw error;
+    }
+  };
   // ========== COMPUTED ==========
 
   const totalItems = computed(() => {
@@ -581,6 +666,7 @@ export const useCart = () => {
     getUserCarts,
     updateQuantity,
     removeItem,
+    removeMultipleItems,
     refetchCart,
     refetchCartCount,
 

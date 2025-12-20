@@ -17,7 +17,11 @@
             <img :src="Logo" alt="" class="tw-w-auto tw-h-full" />
           </router-link>
         </div>
-        <form class="header-search tw-flex-1 tw-relative" @submit.prevent="handleSearch" ref="searchContainer">
+        <form
+          class="header-search tw-flex-1 tw-relative"
+          @submit.prevent="handleSearch"
+          ref="searchContainer"
+        >
           <input
             type="text"
             placeholder="Tìm kiếm sản phẩm"
@@ -25,17 +29,26 @@
             @focus="showSuggestions = true"
             class="tw-h-11 tw-rounded tw-transition-all tw-w-full tw-px-3 focus:tw-border-none tw-bg-white/20 tw-border tw-border-white/30 tw-placeholder-white tw-outline-none"
           />
-          
+
           <!-- Search Suggestions Dropdown -->
-          <div 
-            v-if="showSuggestions && (suggestions.keywords.length > 0 || suggestions.products.length > 0)"
+          <div
+            v-if="
+              showSuggestions &&
+              (suggestions.keywords.length > 0 ||
+                suggestions.products.length > 0)
+            "
             class="search-suggestions tw-absolute tw-top-full tw-left-0 tw-w-full tw-bg-white tw-rounded-b-md tw-shadow-lg tw-z-50 tw-mt-1 tw-overflow-hidden"
           >
             <!-- Keywords Section -->
-            <div v-if="suggestions.keywords.length > 0" class="tw-bg-gray-50 tw-p-2">
-              <div class="tw-text-xs tw-text-gray-500 tw-mb-2 tw-px-2">Có phải bạn muốn tìm</div>
-              <div 
-                v-for="(item, index) in suggestions.keywords" 
+            <div
+              v-if="suggestions.keywords.length > 0"
+              class="tw-bg-gray-50 tw-p-2"
+            >
+              <div class="tw-text-xs tw-text-gray-500 tw-mb-2 tw-px-2">
+                Có phải bạn muốn tìm
+              </div>
+              <div
+                v-for="(item, index) in suggestions.keywords"
                 :key="index"
                 class="tw-px-2 tw-py-1.5 tw-text-sm tw-text-gray-700 hover:tw-bg-gray-200 tw-cursor-pointer tw-rounded"
                 @click="handleKeywordClick(item)"
@@ -46,20 +59,65 @@
 
             <!-- Products Section -->
             <div v-if="suggestions.products.length > 0" class="tw-p-2">
-              <div class="tw-text-xs tw-text-gray-500 tw-mb-2 tw-px-2">Sản phẩm gợi ý</div>
-              <div 
-                v-for="product in suggestions.products" 
+              <div class="tw-text-xs tw-text-gray-500 tw-mb-2 tw-px-2">
+                Sản phẩm gợi ý
+              </div>
+              <div
+                v-for="product in suggestions.products"
                 :key="product.id"
                 class="tw-flex tw-gap-3 tw-p-2 hover:tw-bg-gray-100 tw-cursor-pointer tw-rounded tw-items-center"
-                @click="handleProductClick(product.slug)"
+                @click="handleProductClick(product)"
               >
-                <img :src="product.thumbUrl" :alt="product.name" class="tw-w-10 tw-h-10 tw-object-cover tw-rounded" />
+                <img
+                  :src="product.thumbUrl"
+                  :alt="product.name"
+                  class="tw-w-12 tw-h-12 tw-object-cover tw-rounded"
+                />
                 <div class="tw-flex-1">
-                  <div class="tw-text-sm tw-font-medium tw-text-gray-800 tw-line-clamp-1">{{ product.name }}</div>
-                  <div class="tw-flex tw-gap-2 tw-items-center">
-                    <span class="tw-text-red-500 tw-text-sm tw-font-bold">{{ formatMoney(product.price) }}</span>
-                    <span v-if="product.discountPercentage > 0" class="tw-text-xs tw-text-gray-400 tw-line-through">
-                      {{ formatMoney(product.price * (100 + product.discountPercentage) / 100) }}
+                  <div
+                    class="tw-text-sm tw-font-medium tw-text-gray-800 tw-line-clamp-1"
+                  >
+                    {{ product.name }}
+                  </div>
+                  
+                  <!-- ✅ Show variant details if available -->
+                  <div v-if="product.variant" class="tw-flex tw-gap-2 tw-items-center tw-mt-1">
+                    <span 
+                      v-if="product.variant.color" 
+                      class="tw-text-xs tw-px-2 tw-py-0.5 tw-rounded tw-bg-gray-100 tw-text-gray-700 tw-font-medium"
+                    >
+                      {{ product.variant.color.name }}
+                    </span>
+                    <span 
+                      v-if="product.variant.memory && (product.variant.memory.ram || product.variant.memory.rom)" 
+                      class="tw-text-xs tw-px-2 tw-py-0.5 tw-rounded tw-bg-blue-100 tw-text-blue-700 tw-font-medium"
+                    >
+                      <template v-if="product.variant.memory.ram && product.variant.memory.rom">
+                        {{ product.variant.memory.ram }}/{{ product.variant.memory.rom }}
+                      </template>
+                      <template v-else>
+                        {{ product.variant.memory.ram || product.variant.memory.rom }}
+                      </template>
+                    </span>
+                  </div>
+                  
+                  <div class="tw-flex tw-gap-2 tw-items-center tw-mt-1">
+                    <span class="tw-text-red-500 tw-text-sm tw-font-bold">{{
+                      formatMoney(product.price)
+                    }}</span>
+                    <span
+                      v-if="
+                        product.discountPercentage &&
+                        product.discountPercentage > 0
+                      "
+                      class="tw-text-xs tw-text-gray-400 tw-line-through"
+                    >
+                      {{
+                        formatMoney(
+                          (product.price * (100 + product.discountPercentage)) /
+                            100
+                        )
+                      }}
                     </span>
                   </div>
                 </div>
@@ -86,7 +144,9 @@
             >
               <div class="box-icon tw-relative">
                 <font-awesome-icon icon="cart-plus" />
-                <span class="cart-badge tw-absolute tw--top-4 tw--right-3 tw-bg-yellow-500 tw-text-white tw-text-[14px] tw-font-bold tw-rounded-full tw-h-5 tw-w-5 tw-flex tw-items-center tw-justify-center">
+                <span
+                  class="cart-badge tw-absolute tw--top-4 tw--right-3 tw-bg-yellow-500 tw-text-white tw-text-[14px] tw-font-bold tw-rounded-full tw-h-5 tw-w-5 tw-flex tw-items-center tw-justify-center"
+                >
                   {{ totalItems }}
                 </span>
               </div>
@@ -136,6 +196,7 @@ import { ICategory, IHeaderItem } from "@/types/category.types";
 import { useAuth } from "@composables/useAuth";
 import { onClickOutside } from "@vueuse/core";
 import { formatMoney } from "@/utils/formatMoney";
+import { getImageUrl } from "@/utils/imageUrl";
 
 const { loggedIn, user } = useAuth();
 const { totalItems } = useCart();
@@ -160,7 +221,7 @@ onClickOutside(searchContainer, () => {
 // Watch keyword for suggestions
 watch(keyword, (newVal) => {
   if (debounceTimeout) clearTimeout(debounceTimeout);
-  
+
   if (!newVal || newVal.trim().length < 2) {
     suggestions.value = { keywords: [], products: [] };
     return;
@@ -168,7 +229,11 @@ watch(keyword, (newVal) => {
 
   debounceTimeout = setTimeout(async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/product/suggestions?keyword=${encodeURIComponent(newVal)}`);
+      const response = await fetch(
+        `http://localhost:3000/api/product/suggestions?keyword=${encodeURIComponent(
+          newVal
+        )}`
+      );
       const data = await response.json();
       if (data.success) {
         suggestions.value = {
@@ -189,16 +254,30 @@ const handleKeywordClick = (item: string) => {
   handleSearch();
 };
 
-const handleProductClick = (slug: string) => {
+const handleProductClick = (product: any) => {
   showSuggestions.value = false;
   keyword.value = "";
-  router.push(`/product/${slug}`);
+  
+  // ✅ Build URL with variant query params
+  const query: any = {};
+  if (product.variant) {
+    if (product.variant.color?.name) {
+      query.color = product.variant.color.name;
+    }
+    if (product.variant.memory) {
+      if (product.variant.memory.ram) query.ram = product.variant.memory.ram;
+      if (product.variant.memory.rom) query.rom = product.variant.memory.rom;
+    }
+  }
+  
+  router.push({
+    path: `/product/${product.slug}`,
+    query: Object.keys(query).length > 0 ? query : undefined,
+  });
 };
 // const handleSearch = () => {
 //   router.push(`/search/${keyword.value}`);
 // };
-
-
 
 // ✅ Handle search submission
 const handleSearch = () => {

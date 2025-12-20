@@ -35,6 +35,7 @@ const OrderSchema = new mongoose.Schema(
     shippingAddress: {
       fullName: { type: String, required: true },
       phone: { type: String, required: true },
+      email: { type: String }, // ✅ Email for notifications
       province: { type: String, required: true },
       district: { type: String, required: true },
       ward: { type: String, required: true },
@@ -73,6 +74,7 @@ const OrderSchema = new mongoose.Schema(
     discountAmount: { type: Number, default: 0, min: 0 },     // giảm giá
     couponCode: { type: String, uppercase: true, trim: true }, // mã giảm giá
     totalPrice: { type: Number, required: true, min: 0 },     // tổng cuối cùng
+
 
     // ============ TRẠNG THÁI ĐƠN HÀNG ============
     status: {

@@ -259,8 +259,8 @@ class PaymentService {
           responseCode,
         });
 
-        // Gửi webhook tới OrderService - REMOVED as per user request
-        // await webhookService.notifyOrderService(payment, "paid");
+        // Gửi webhook tới OrderService
+        await webhookService.notifyOrderService(payment, "paid");
       } else {
         payment.status = PAYMENT_STATUS.FAILED;
         payment.responseCode = responseCode;
@@ -273,8 +273,8 @@ class PaymentService {
           responseCode,
         });
 
-        // Gửi webhook tới OrderService - REMOVED as per user request
-        // await webhookService.notifyOrderService(payment, "failed");
+        // Gửi webhook tới OrderService
+        await webhookService.notifyOrderService(payment, "failed");
       }
 
       await payment.save();
@@ -450,6 +450,24 @@ class PaymentService {
       };
     } catch (error) {
       console.error("❌ Get payment stats error:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * ✅ Lấy payment theo transactionId
+   */
+  async getPaymentByTransactionId(transactionId) {
+    try {
+      const payment = await Payment.findOne({ transactionId });
+
+      if (!payment) {
+        throw new Error("Payment not found for this transaction");
+      }
+
+      return payment;
+    } catch (error) {
+      console.error("❌ Get payment by transactionId error:", error);
       throw error;
     }
   }

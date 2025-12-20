@@ -1,0 +1,32 @@
+# Multi-stage build for Vue.js client
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies quickly
+RUN npm install --legacy-peer-deps --no-audit --prefer-offline
+
+# Break cache to ensure fresh build
+ARG CACHEBUST=1
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN npm run build
+
+# Production stage with nginx
+FROM nginx:alpine
+
+# Copy built files from builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

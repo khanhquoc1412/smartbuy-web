@@ -3,11 +3,16 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, watch } from 'vue';
+import { onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 import useAuthStore from '@/store/auth';
 
+const route = useRoute();
 const { loggedIn: isLoggedIn } = storeToRefs(useAuthStore());
+
+// Kiểm tra xem có đang ở trang admin không
+const isAdminPage = computed(() => route.path.startsWith('/admin'));
 
 let dfMessenger = null;
 let scriptElement = null;
@@ -97,15 +102,23 @@ onMounted(() => {
 // Watch trạng thái đăng nhập 
 watch(isLoggedIn, (newValue) => {
   if (newValue) {
-    // Đăng nhập → Hiển thị chatbox
+    // Đăng nhập → Hiển thị chatbox (nhưng ẩn nếu ở trang admin)
     if (!dfMessenger && scriptLoaded) {
       createMessenger();
     } else if (dfMessenger) {
-      toggleMessenger(true);
+      toggleMessenger(!isAdminPage.value);
     }
   } else {
     // Đăng xuất → Ẩn chatbox (không xóa để giữ lịch sử)
     toggleMessenger(false);
+  }
+});
+
+// Watch route để ẩn/hiện chatbox khi chuyển trang
+watch(() => route.path, (newPath) => {
+  if (dfMessenger && isLoggedIn.value) {
+    // Ẩn chatbox ở trang admin, hiện ở các trang khác
+    toggleMessenger(!newPath.startsWith('/admin'));
   }
 });
 

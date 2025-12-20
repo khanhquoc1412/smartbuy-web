@@ -150,10 +150,10 @@ onMounted(async () => {
         const responseData = await response.json();
         console.log('📥 [SUCCESS PAGE] Response data:', responseData);
 
-        if (!response.ok) {
-             console.error('❌ [SUCCESS PAGE] Failed to update order status', responseData);
-             showToast('Cảnh báo: Không thể cập nhật trạng thái đơn hàng. Vui lòng kiểm tra lại sau.', 'error');
-        } else {
+         if (!response.ok) {
+              console.error('❌ [SUCCESS PAGE] Failed to update order status', responseData);
+              // Note: Order status update failed but payment was successful
+         } else {
              console.log('✅ [SUCCESS PAGE] Order status updated to PAID');
         }
 

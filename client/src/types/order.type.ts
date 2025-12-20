@@ -15,7 +15,9 @@ export interface IOrderItem {
   name: string;
   sku?: string;
   qty: number;
-  price: number;
+  price: number; // Giá đã giảm (hoặc giá gốc nếu không có discount)
+  originalPrice?: number; // Giá gốc trước khi giảm
+  discountPercentage?: number; // % giảm giá
   image?: string;
   variant?: {
     color?: string;
@@ -86,6 +88,7 @@ export interface IOrderListResponse {
     limit: number;
     total: number;
     totalPages: number;
+    totalAmount?: number; // Sum of all orders matching filter
   };
 }
 

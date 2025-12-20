@@ -1,8 +1,32 @@
 import axios, { AxiosInstance } from "axios";
 import interceptors from "./interceptors";
 
-// 🔥 API Gateway URL - Điểm vào duy nhất cho tất cả microservices
-const API_GATEWAY_URL = import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:3000';
+// 🔥 API Gateway URL - Tự động phát hiện hostname
+const getApiGatewayUrl = () => {
+  // Nếu có env variable thì dùng
+  if (import.meta.env.VITE_API_GATEWAY_URL) {
+    return import.meta.env.VITE_API_GATEWAY_URL;
+  }
+  
+  const hostname = window.location.hostname;
+  console.log('🔍 [axios.ts] Detecting hostname:', hostname);
+  
+  // Nếu KHÔNG phải localhost/127.0.0.1 → đang ở production (Railway/hosting)
+  // Dùng same origin (không thêm port)
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1' && !hostname.startsWith('192.168')) {
+    const apiUrl = window.location.origin;
+    console.log('✅ [axios.ts] Production detected, using:', apiUrl);
+    return apiUrl; // https://zestful-spontaneity-production.up.railway.app
+  }
+  
+  // Development: localhost với port 3000
+  const protocol = window.location.protocol;
+  const devUrl = `${protocol}//${hostname}:3000`;
+  console.log('🏠 [axios.ts] Development detected, using:', devUrl);
+  return devUrl;
+};
+
+const API_GATEWAY_URL = getApiGatewayUrl();
 
 /**
  * MỘT axios instance duy nhất qua API Gateway

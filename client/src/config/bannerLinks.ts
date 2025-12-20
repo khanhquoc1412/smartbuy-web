@@ -10,7 +10,7 @@ export const bannerLinks: Record<string, BannerLink> = {
     homeBanner5: { type: 'product', slug: 'nubia-neo-3-4g' },
     homeBanner6: { type: 'product', slug: 'poco-f8-pro' },
     iphoneBanner: { type: 'search', keyword: 'iphone' },
-    banner1: { type: 'product', slug: 'iPhone-17-Pro' },
+    banner1: { type: 'product', slug: 'iphone-17-pro-max' },
     banner2: { type: 'product', slug: 'samsung-galaxy-s25-ultra' },
 
     // Right side banners

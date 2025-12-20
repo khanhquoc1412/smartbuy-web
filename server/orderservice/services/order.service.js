@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
 const axios = require("axios");
 const config = require("../config/config");
+const mongoose = require("mongoose");
 
 class OrderService {
   /**
@@ -294,6 +295,41 @@ class OrderService {
 
       const skip = (page - 1) * limit;
 
+      // ✅ Calculate total amount of ALL orders EXCEPT cancelled/returned
+      // Use ObjectId conversion for aggregation
+      const totalAmountQuery = {
+        user: new mongoose.Types.ObjectId(userId), // ✅ MUST convert to ObjectId for aggregate
+        status: { $nin: ['cancelled', 'returned'] }
+      };
+
+      // If there's a specific status filter, apply it to totalAmount too
+      if (filters.status) {
+        if (Array.isArray(filters.status)) {
+          const filteredStatuses = filters.status.filter(s => !['cancelled', 'returned'].includes(s));
+          if (filteredStatuses.length > 0) {
+            totalAmountQuery.status = { $in: filteredStatuses };
+          } else {
+            totalAmountQuery.status = { $in: [] };
+          }
+        } else if (!['cancelled', 'returned'].includes(filters.status)) {
+          totalAmountQuery.status = filters.status;
+        } else {
+          totalAmountQuery.status = { $in: [] };
+        }
+      }
+
+      const totalAmountResult = await Order.aggregate([
+        { $match: totalAmountQuery },
+        {
+          $group: {
+            _id: null,
+            totalAmount: { $sum: "$totalPrice" }
+          }
+        }
+      ]);
+
+      const totalAmount = totalAmountResult.length > 0 ? totalAmountResult[0].totalAmount : 0;
+
       const [orders, total] = await Promise.all([
         Order.find(query)
           .sort({ createdAt: -1 })
@@ -310,6 +346,7 @@ class OrderService {
           limit,
           total,
           totalPages: Math.ceil(total / limit),
+          totalAmount, // ✅ Sum of ALL orders matching filter
         },
       };
     } catch (error) {
@@ -555,16 +592,61 @@ class OrderService {
 
         console.log(`✅ Payment success for order ${order.orderNumber}`);
       } else if (paymentStatus === "failed") {
-        // Thanh toán thất bại
-        order.status = "payment_failed";
+        // Thanh toán thất bại → Tự động HỦY đơn hàng
+        order.paymentStatus = "failed";
+        order.status = "cancelled";
+        order.cancelReason = "Khách hàng thanh toán thất bại, yêu cầu đặt lại đơn hàng khác";
+
         order.addStatusHistory(
-          "payment_failed",
+          "cancelled",
           null,
           "system",
-          "Thanh toán thất bại"
+          "Đơn hàng tự động hủy do thanh toán thất bại"
         );
 
-        console.log(`⚠️ Payment failed for order ${order.orderNumber}`);
+        console.log(`⚠️ Payment failed for order ${order.orderNumber} - Order auto-cancelled`);
+
+        // ✅ Send email notification to customer
+        try {
+          const emailService = require('./email.service');
+          await emailService.sendOrderStatusEmail(
+            order,
+            'cancelled',
+            order.shippingAddress.email || order.shippingAddress.phone + '@temp.com', // Fallback if no email
+            order.shippingAddress.fullName
+          );
+          console.log(`📧 Cancellation email sent for order ${order.orderNumber}`);
+        } catch (emailError) {
+          console.error('❌ Failed to send cancellation email:', emailError.message);
+          // Don't fail the whole operation if email fails
+        }
+
+        // ✅ Release stock back to inventory
+        if (order.stockReserved) {
+          try {
+            // Call ProductService to release stock
+            for (const item of order.orderItems) {
+              if (item.variant?.variantId) {
+                // Release stock for variant
+                await axios.patch(
+                  `${config.PRODUCT_SERVICE_URL}/api/products/variants/${item.variant.variantId}/stock/release`,
+                  { quantity: item.qty }
+                );
+              } else if (item.product) {
+                // Release stock for main product
+                await axios.patch(
+                  `${config.PRODUCT_SERVICE_URL}/api/products/${item.product}/stock/release`,
+                  { quantity: item.qty }
+                );
+              }
+            }
+            order.stockReleased = true;
+            console.log(`📦 Stock released for cancelled order ${order.orderNumber}`);
+          } catch (stockError) {
+            console.error('❌ Failed to release stock:', stockError.message);
+            // Don't fail the whole operation if stock release fails
+          }
+        }
       }
 
       await order.save();

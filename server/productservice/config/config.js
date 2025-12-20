@@ -20,7 +20,7 @@ module.exports = {
   production: {
     url:
       process.env.DB_PROD_URL ||
-      "mongodb+srv://user:pass@cluster.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority",
+      "mongodb+srv://smartbuy_admin:KQ1412%40g@smartbuy-cluster.tz9okzm.mongodb.net/smartbuy_db_product?retryWrites=true&w=majority",
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true,

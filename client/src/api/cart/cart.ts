@@ -1,5 +1,5 @@
 import { cartAxios } from '@/plugins/axios/axios';
-import type { 
+import type {
   IAddToCartPayload,
   ICartResponse,
   ICartCountResponse,
@@ -29,6 +29,10 @@ export const updateCartItemAPI = async (cartItemId: string, quantity: number) =>
 export const removeCartItemAPI = async (cartItemId: string) => {
   // ✅ Sửa route từ /remove/:id -> /item/:id
   return cartAxios.delete(`/cart/item/${cartItemId}`);
+};
+
+export const removeMultipleItemsAPI = async (itemIds: string[]) => {
+  return cartAxios.delete('/cart/items', { data: { itemIds } });
 };
 
 export const validateCart = async (): Promise<ICartResponse> => {
@@ -61,9 +65,9 @@ export const addToCart = async (data: IAddToCartPayload): Promise<ICartResponse>
     });
 
     const response = await cartAxios.post<ICartResponse>('/cart/add', data);
-    
+
     console.log('🟢 [API] Backend response:', response.data);
-    
+
     return response.data;
   } catch (error: any) {
     console.error('🔴 [API] Backend error:', {
@@ -71,7 +75,7 @@ export const addToCart = async (data: IAddToCartPayload): Promise<ICartResponse>
       data: error.response?.data,
       message: error.message,
     });
-    
+
     throw error;
   }
 };
@@ -110,7 +114,7 @@ export const addProductToCart = async (
   productVariantId: string | number
 ): Promise<ICartResponse> => {
   console.warn('⚠️ addProductToCart is deprecated, use addToCart instead');
-  
+
   return addToCart({
     productId: String(productVariantId),
     variantId: String(productVariantId),
@@ -131,7 +135,7 @@ export const removeProductInCart = async (cartItemId: string | number): Promise<
  */
 export const decreaseQuantity = async (cartItemId: string | number): Promise<ICartResponse> => {
   console.warn('⚠️ decreaseQuantity is deprecated, use updateQuantity instead');
-  
+
   const response = await cartAxios.patch<ICartResponse>(`/cart/item/${cartItemId}`, {
     quantity: -1,
   });
@@ -143,7 +147,7 @@ export const decreaseQuantity = async (cartItemId: string | number): Promise<ICa
  */
 export const fetchUserCarts = async (userId: string | number, params?: any): Promise<ICartResponse> => {
   console.warn('⚠️ fetchUserCarts is deprecated, use getCart instead');
-  
+
   const response = await cartAxios.get<ICartResponse>('/cart', { params });
   return response.data;
 };
@@ -163,7 +167,8 @@ const cartApi = {
   validateCart,
   updateCartItemAPI,
   removeCartItemAPI,
-  
+  removeMultipleItemsAPI,
+
   // Deprecated
   addProductToCart,
   removeProductInCart,
