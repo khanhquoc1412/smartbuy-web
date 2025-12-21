@@ -15,8 +15,8 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
-app.use(morgan("dev"));
-app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
+app.use(morgan('dev'));
+// app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
 
 // Routes
 app.use("/api/orders", require("./routes/orders"));
@@ -27,6 +27,14 @@ app.get("/", (req, res) => {
     success: true,
     message: "Order Manager Service is running",
     version: "1.0.0",
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy',
+    service: 'order-manager',
+    timestamp: new Date().toISOString()
   });
 });
 

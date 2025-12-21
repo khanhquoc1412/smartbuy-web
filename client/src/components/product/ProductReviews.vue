@@ -169,22 +169,72 @@
             />
           </div>
 
+          <!-- Admin Reply -->
+          <div v-if="review.adminReply" class="tw-ml-12 tw-mb-4 tw-bg-blue-50 tw-border-l-4 tw-border-blue-500 tw-p-4 tw-rounded-r-lg">
+            <div class="tw-flex tw-items-start tw-gap-3">
+              <div class="tw-flex-shrink-0 tw-w-10 tw-h-10 tw-rounded-full tw-bg-gradient-to-br tw-from-orange-500 tw-to-red-600 tw-flex tw-items-center tw-justify-center tw-text-white tw-font-bold">
+                <svg class="tw-w-6 tw-h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="tw-flex-1">
+                <div class="tw-flex tw-items-center tw-gap-2 tw-mb-2">
+                  <span class="tw-font-semibold tw-text-blue-900">Phản hồi từ người bán</span>
+                  <span class="tw-px-2 tw-py-0.5 tw-bg-blue-200 tw-text-blue-800 tw-text-xs tw-rounded-full tw-font-medium">
+                    SmartBuy
+                  </span>
+                </div>
+                <p class="tw-text-gray-700 tw-leading-relaxed tw-whitespace-pre-wrap">{{ review.adminReply }}</p>
+                <p v-if="review.adminReplyAt" class="tw-text-xs tw-text-gray-500 tw-mt-2">
+                  {{ formatDate(review.adminReplyAt) }}
+                </p>
+              </div>
+            </div>
+          </div>
+
           <!-- Footer -->
-          <div class="tw-flex tw-items-center tw-justify-between tw-text-sm tw-text-gray-500">
+          <div class="tw-flex tw-items-center tw-justify-between tw-text-sm tw-text-gray-500 tw-flex-wrap tw-gap-3">
             <span>Đánh giá đã đăng vào {{ formatDate(review.createdAt) }}</span>
-            <button
-              @click="markHelpful(review._id)"
-              class="tw-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition"
-              :class="hasMarkedHelpful(review._id) 
-                ? 'tw-bg-blue-50 tw-border-blue-500 tw-text-blue-600 hover:tw-bg-blue-100' 
-                : 'tw-border-gray-300 tw-text-gray-700 hover:tw-bg-gray-50 hover:tw-border-gray-400'"
-            >
-              <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-              </svg>
-              <span>{{ hasMarkedHelpful(review._id) ? 'Đã thích' : 'Thích' }}</span>
-              <span class="tw-font-semibold">({{ review.helpfulCount || 0 }})</span>
-            </button>
+            <div class="tw-flex tw-items-center tw-gap-2">
+              <!-- Edit & Delete buttons (only for review owner) -->
+              <template v-if="userId && review.userId === userId">
+                <button
+                  @click="openEditModal(review)"
+                  class="tw-flex tw-items-center tw-gap-1 tw-px-3 tw-py-1.5 tw-rounded-lg tw-border tw-border-blue-300 tw-text-blue-600 hover:tw-bg-blue-50 hover:tw-border-blue-400 tw-transition"
+                  title="Chỉnh sửa đánh giá"
+                >
+                  <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  <span>Sửa</span>
+                </button>
+                <button
+                  @click="confirmDeleteReview(review._id)"
+                  class="tw-flex tw-items-center tw-gap-1 tw-px-3 tw-py-1.5 tw-rounded-lg tw-border tw-border-crimson-300 tw-text-crimson-600 hover:tw-bg-crimson-50 hover:tw-border-crimson-400 tw-transition"
+                  title="Xóa đánh giá"
+                >
+                  <svg class="tw-w-4 tw-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  <span>Xóa</span>
+                </button>
+              </template>
+
+              <!-- Helpful button -->
+              <button
+                @click="markHelpful(review._id)"
+                class="tw-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-border tw-transition"
+                :class="hasMarkedHelpful(review._id) 
+                  ? 'tw-bg-blue-50 tw-border-blue-500 tw-text-blue-600 hover:tw-bg-blue-100' 
+                  : 'tw-border-gray-300 tw-text-gray-700 hover:tw-bg-gray-50 hover:tw-border-gray-400'"
+              >
+                <svg class="tw-w-5 tw-h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                </svg>
+                <span>{{ hasMarkedHelpful(review._id) ? 'Đã thích' : 'Thích' }}</span>
+                <span class="tw-font-semibold">({{ review.helpfulCount || 0 }})</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -217,12 +267,19 @@
       </div>
     </Container>
 
-    <!-- Write Review Modal -->
+    <!-- Write/Edit Review Modal -->
     <WriteReviewModal
       v-if="showWriteReviewModal"
       :product-id="productId"
       :product-name="productName"
-      @close="showWriteReviewModal = false"
+      :edit-mode="!!editingReview"
+      :existing-review="editingReview ? {
+        _id: editingReview._id,
+        rating: editingReview.rating,
+        comment: editingReview.comment,
+        images: editingReview.images
+      } : undefined"
+      @close="closeReviewModal"
       @success="handleReviewSuccess"
     />
 
@@ -254,7 +311,7 @@ import { useRouter } from 'vue-router';
 import Container from '@/components/base/Container.vue';
 import LoadIcon from '@/components/common/LoadIcon.vue';
 import WriteReviewModal from './WriteReviewModal.vue';
-import { getReviewsByProduct, markReviewHelpful, type Review, type ReviewStats } from '@/api/review/review';
+import { getReviewsByProduct, markReviewHelpful, deleteReview, type Review, type ReviewStats } from '@/api/review/review';
 import { useAuth } from '@/composables/useAuth';
 
 interface Props {
@@ -278,6 +335,7 @@ const currentPage = ref(1);
 const totalPages = ref(1);
 const limit = 5;
 const helpfulReviews = ref<Set<string>>(new Set());
+const editingReview = ref<Review | null>(null);
 
 const loadReviews = async () => {
   try {
@@ -393,7 +451,36 @@ const viewAllReviews = () => {
 
 const handleReviewSuccess = () => {
   showWriteReviewModal.value = false;
+  editingReview.value = null;
   loadReviews();
+};
+
+const closeReviewModal = () => {
+  showWriteReviewModal.value = false;
+  editingReview.value = null;
+};
+
+const openEditModal = (review: Review) => {
+  editingReview.value = review;
+  showWriteReviewModal.value = true;
+};
+
+const confirmDeleteReview = async (reviewId: string) => {
+  if (!confirm('Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này không thể hoàn tác.')) {
+    return;
+  }
+
+  try {
+    const response = await deleteReview(reviewId);
+    
+    if (response.success) {
+      alert('Xóa đánh giá thành công!');
+      loadReviews();
+    }
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    alert('Có lỗi xảy ra khi xóa đánh giá, vui lòng thử lại');
+  }
 };
 
 const markHelpful = async (reviewId: string) => {

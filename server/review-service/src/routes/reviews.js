@@ -10,6 +10,7 @@ router.get("/stats/top-products", reviewController.getTopReviewedProducts);
 router.get("/stats/trends", reviewController.getReviewTrends);
 router.get("/stats/images", reviewController.getImageStats);
 router.patch("/:id/visibility", reviewController.toggleVisibility);
+router.post("/:id/reply", reviewController.replyReview);
 
 // Public routes
 router.get("/", reviewController.getAllReviews);

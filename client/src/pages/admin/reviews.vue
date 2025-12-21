@@ -419,6 +419,38 @@
               </p>
             </div>
 
+            <!-- Admin Reply Section -->
+            <div class="tw-border-t tw-pt-4">
+              <h3 class="tw-font-semibold tw-mb-2 tw-flex tw-items-center tw-gap-2">
+                <svg class="tw-w-5 tw-h-5 tw-text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+                Phản hồi của người bán
+              </h3>
+              
+              <div v-if="selectedReview.adminReply" class="tw-bg-blue-50 tw-p-4 tw-rounded-lg tw-mb-3">
+                <p class="tw-text-stone-700 tw-whitespace-pre-wrap">{{ selectedReview.adminReply }}</p>
+                <div class="tw-flex tw-justify-between tw-items-center tw-mt-2 tw-text-xs tw-text-stone-500">
+                  <span>Bởi: {{ selectedReview.adminReplyBy || 'Admin' }}</span>
+                  <span v-if="selectedReview.adminReplyAt">{{ formatDate(selectedReview.adminReplyAt) }}</span>
+                </div>
+              </div>
+
+              <textarea
+                v-model="adminReplyText"
+                rows="3"
+                :placeholder="selectedReview.adminReply ? 'Cập nhật phản hồi...' : 'Nhập phản hồi cho khách hàng...'"
+                class="tw-w-full tw-px-3 tw-py-2 tw-border tw-border-stone-300 tw-rounded-lg focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500 tw-resize-none"
+              ></textarea>
+              
+              <button 
+                @click="submitReply"
+                :disabled="!adminReplyText.trim()"
+                class="tw-mt-2 tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-rounded-lg hover:tw-bg-blue-700 tw-transition-colors disabled:tw-opacity-50 disabled:tw-cursor-not-allowed">
+                {{ selectedReview.adminReply ? 'Cập nhật phản hồi' : 'Gửi phản hồi' }}
+              </button>
+            </div>
+
             <div class="tw-border-t tw-pt-4 tw-flex tw-gap-2 tw-justify-end">
               <button 
                 v-if="selectedReview.isVisible"
@@ -562,6 +594,7 @@ import {
   toggleReviewVisibility, 
   deleteReview, 
   getReviewsStats,
+  replyReview,
   type Review 
 } from '@/api/review/review';
 
@@ -597,6 +630,7 @@ const hideReason = ref('');
 const showToast = ref(false);
 const toastMessage = ref('');
 const toastType = ref<'success' | 'error'>('success');
+const adminReplyText = ref('');
 
 // Computed
 const visibleCount = computed(() => {
@@ -742,7 +776,26 @@ const debouncedSearch = () => {
 
 const viewReviewDetail = (review: Review) => {
   selectedReview.value = review;
+  adminReplyText.value = review.adminReply || '';
   showDetailModal.value = true;
+};
+
+const submitReply = async () => {
+  if (!selectedReview.value || !adminReplyText.value.trim()) return;
+
+  try {
+    await replyReview(selectedReview.value._id, {
+      adminReply: adminReplyText.value.trim(),
+      adminId: 'admin' // TODO: Lấy từ auth
+    });
+
+    showToastNotification('Phản hồi thành công!', 'success', 1500);
+    showDetailModal.value = false;
+    refreshData();
+  } catch (error) {
+    console.error('Error replying to review:', error);
+    showToastNotification('Có lỗi khi gửi phản hồi', 'error');
+  }
 };
 
 const hideReview = (review: Review) => {

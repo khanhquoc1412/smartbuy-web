@@ -1,22 +1,40 @@
 <template>
-  <div class="chatbox-widget" v-if="isLoggedIn">
-    <!-- Dialogflow Messenger chỉ hiển thị khi đã đăng nhập -->
-  </div>
+  <!-- Component không cần render gì vì df-messenger được thêm vào body -->
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, watch } from 'vue';
+import { onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 import useAuthStore from '@/store/auth';
 
+const route = useRoute();
 const { loggedIn: isLoggedIn } = storeToRefs(useAuthStore());
+
+// Kiểm tra xem có đang ở trang admin không
+const isAdminPage = computed(() => route.path.startsWith('/admin'));
 
 let dfMessenger = null;
 let scriptElement = null;
+let scriptLoaded = false;
 
-// Function để tạo Dialogflow Messenger
+// Function để tạo hoặc lấy lại Dialogflow Messenger
 const createMessenger = () => {
+  // Kiểm tra xem đã có df-messenger trong DOM chưa
+  const existing = document.querySelector('df-messenger');
+  if (existing) {
+    console.log('♻️ Reusing existing Dialogflow Messenger');
+    dfMessenger = existing;
+    dfMessenger.style.display = 'block';
+    return;
+  }
+  
   if (dfMessenger) return; // Tránh tạo duplicate
+  
+  if (!scriptLoaded) {
+    console.log('⏳ Waiting for script to load...');
+    return;
+  }
   
   dfMessenger = document.createElement('df-messenger');
   
@@ -39,16 +57,27 @@ const createMessenger = () => {
   console.log('✅ Dialogflow Messenger created');
 };
 
-// Function để xóa Dialogflow Messenger
-const removeMessenger = () => {
-  if (dfMessenger && document.body.contains(dfMessenger)) {
-    document.body.removeChild(dfMessenger);
-    dfMessenger = null;
-    console.log('🗑️ Dialogflow Messenger removed');
+// Function để ẩn/hiện Dialogflow Messenger
+const toggleMessenger = (show) => {
+  if (dfMessenger) {
+    dfMessenger.style.display = show ? 'block' : 'none';
+    console.log(show ? '👁️ Chatbox shown' : '🙈 Chatbox hidden');
   }
 };
 
 onMounted(() => {
+  // Kiểm tra xem script đã load chưa
+  const existingScript = document.querySelector('script[src*="dialogflow-console"]');
+  if (existingScript) {
+    console.log('♻️ Script already loaded');
+    scriptLoaded = true;
+    scriptElement = existingScript;
+    if (isLoggedIn.value) {
+      createMessenger();
+    }
+    return;
+  }
+  
   // Load Dialogflow Messenger script
   scriptElement = document.createElement('script');
   scriptElement.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
@@ -57,6 +86,7 @@ onMounted(() => {
 
   scriptElement.onload = () => {
     console.log('✅ Dialogflow Messenger script loaded');
+    scriptLoaded = true;
     
     // Chỉ tạo messenger nếu đã đăng nhập
     if (isLoggedIn.value) {
@@ -69,25 +99,32 @@ onMounted(() => {
   };
 });
 
-// Watch trạng thái đăng nhập
+// Watch trạng thái đăng nhập 
 watch(isLoggedIn, (newValue) => {
   if (newValue) {
-    // Đăng nhập → Hiển thị chatbox
-    if (scriptElement && !dfMessenger) {
+    // Đăng nhập → Hiển thị chatbox (nhưng ẩn nếu ở trang admin)
+    if (!dfMessenger && scriptLoaded) {
       createMessenger();
+    } else if (dfMessenger) {
+      toggleMessenger(!isAdminPage.value);
     }
   } else {
-    // Đăng xuất → Ẩn chatbox
-    removeMessenger();
+    // Đăng xuất → Ẩn chatbox (không xóa để giữ lịch sử)
+    toggleMessenger(false);
+  }
+});
+
+// Watch route để ẩn/hiện chatbox khi chuyển trang
+watch(() => route.path, (newPath) => {
+  if (dfMessenger && isLoggedIn.value) {
+    // Ẩn chatbox ở trang admin, hiện ở các trang khác
+    toggleMessenger(!newPath.startsWith('/admin'));
   }
 });
 
 onBeforeUnmount(() => {
-  // Clean up khi component bị destroy
-  removeMessenger();
-  if (scriptElement && document.head.contains(scriptElement)) {
-    document.head.removeChild(scriptElement);
-  }
+  // Không xóa messenger để giữ lịch sử chat khi chuyển route
+  // Script cũng giữ lại để tránh load lại nhiều lần
 });
 </script>
 

@@ -27,7 +27,7 @@ const PendingUpdateSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
-
+    
 // TTL index to automatically delete expired records
 PendingUpdateSchema.index({ verificationExpires: 1 }, { expireAfterSeconds: 0 });
 

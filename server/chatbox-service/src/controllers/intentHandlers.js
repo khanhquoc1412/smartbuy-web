@@ -49,13 +49,13 @@ exports.handleProductSearch = async (parameters, queryResult) => {
     if (minPrice || maxPrice) {
       if (minPrice) minPrice = minPrice * 1000000;
       if (maxPrice) maxPrice = maxPrice * 1000000;
-      
+
       // Fix: Dialogflow đôi khi extract sai thứ tự (VD: "10-20 triệu" → min=20, max=10)
       if (minPrice && maxPrice && minPrice > maxPrice) {
         console.log(`⚠️ Swapping min/max: ${minPrice} <-> ${maxPrice}`);
         [minPrice, maxPrice] = [maxPrice, minPrice];
       }
-      
+
       useNumericPrice = true;
       console.log(`💰 Using numeric price: ${minPrice || 0} - ${maxPrice || 'unlimited'} VND`);
     }
@@ -66,7 +66,7 @@ exports.handleProductSearch = async (parameters, queryResult) => {
       // Use numeric price API
       if (!minPrice) minPrice = 0;
       if (!maxPrice) maxPrice = 100000000;
-      
+
       products = await productService.searchProductsByPrice({
         minPrice,
         maxPrice,
@@ -96,12 +96,14 @@ exports.handleProductSearch = async (parameters, queryResult) => {
           {
             payload: {
               richContent: [
-                [{ type: 'chips', options: [
-                  { text: 'Điện thoại iPhone' },
-                  { text: 'Điện thoại Samsung' },
-                  { text: 'Điện thoại Oppo' },
-                  { text: 'Điện thoại Xiaomi' }
-                ]}]
+                [{
+                  type: 'chips', options: [
+                    { text: 'Điện thoại iPhone' },
+                    { text: 'Điện thoại Samsung' },
+                    { text: 'Điện thoại Oppo' },
+                    { text: 'Điện thoại Xiaomi' }
+                  ]
+                }]
               ]
             }
           }
@@ -146,12 +148,14 @@ exports.handleProductSearch = async (parameters, queryResult) => {
 
     // Suggestion chips
     const suggestionChips = [
-      { type: 'chips', options: [
-        { text: 'Điện thoại iPhone' },
-        { text: 'Điện thoại Samsung' },
-        { text: 'Điện thoại dưới 5 triệu' },
-        { text: 'Khuyến mãi' }
-      ]}
+      {
+        type: 'chips', options: [
+          { text: 'Điện thoại iPhone' },
+          { text: 'Điện thoại Samsung' },
+          { text: 'Điện thoại dưới 5 triệu' },
+          { text: 'Khuyến mãi' }
+        ]
+      }
     ];
 
     return {
@@ -245,17 +249,19 @@ exports.handleProductSearchByBrand = async (parameters, queryResult) => {
             richContent: [
               productCards,
               [{ type: 'divider' }],
-              [{ type: 'chips', options: [
-                { text: 'Tìm thương hiệu khác' },
-                { text: 'Lọc theo giá' },
-                { text: 'Chính sách mua hàng' }
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: 'Tìm thương hiệu khác' },
+                  { text: 'Lọc theo giá' },
+                  { text: 'Chính sách mua hàng' }
+                ]
+              }]
             ]
           }
         }
       ]
     };
-  
+
   } catch (error) {
     console.error('Error in handleProductSearchByBrand:', error);
     return {
@@ -375,12 +381,14 @@ exports.handleProductSearchByPrice = async (parameters, queryResult) => {
                 richContent: [
                   productCards,
                   [{ type: 'divider' }],
-                  [{ type: 'chips', options: [
-                    { text: 'Dưới 5 triệu' },
-                    { text: '5-10 triệu' },
-                    { text: '10-20 triệu' },
-                    { text: 'Trên 20 triệu' }
-                  ]}]
+                  [{
+                    type: 'chips', options: [
+                      { text: 'Dưới 5 triệu' },
+                      { text: '5-10 triệu' },
+                      { text: '10-20 triệu' },
+                      { text: 'Trên 20 triệu' }
+                    ]
+                  }]
                 ]
               }
             }
@@ -452,12 +460,14 @@ exports.handleProductSearchByPrice = async (parameters, queryResult) => {
             richContent: [
               productCards,
               [{ type: 'divider' }],
-              [{ type: 'chips', options: [
-                { text: 'Dưới 5 triệu' },
-                { text: '5-10 triệu' },
-                { text: '10-20 triệu' },
-                { text: 'Trên 20 triệu' }
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: 'Dưới 5 triệu' },
+                  { text: '5-10 triệu' },
+                  { text: '10-20 triệu' },
+                  { text: 'Trên 20 triệu' }
+                ]
+              }]
             ]
           }
         }
@@ -507,9 +517,9 @@ exports.handleProductDetail = async (parameters, queryResult) => {
       const axios = require('axios');
       const reviewRes = await axios.get(`http://localhost:3000/api/reviews/product/${product._id}`);
       const stats = reviewRes.data.data.stats;
-      
-        ratingText = stats.averageRating.toFixed(1) + ' sao từ ' + stats.totalReviews + ' đánh giá';
-       
+
+      ratingText = stats.averageRating.toFixed(1) + ' sao từ ' + stats.totalReviews + ' đánh giá';
+
     } catch (err) {
       console.error('Không lấy được rating từ review-service:', err?.message || err);
     }
@@ -518,8 +528,8 @@ exports.handleProductDetail = async (parameters, queryResult) => {
     const priceInfo = `💰 **Giá bán:** ${formatters.formatPrice(product.price)}`;
     const stockInfo = `📦 **Tình trạng:** ${product.inStock ? 'Còn hàng ✅' : 'Hết hàng ❌'}`;
     const ratingInfo = `⭐ **Đánh giá:** ${ratingText}`;
-    const discountInfo = product.discount 
-      ? `🔥 **Khuyến mãi:** Giảm ${product.discount}%` 
+    const discountInfo = product.discount
+      ? `🔥 **Khuyến mãi:** Giảm ${product.discount}%`
       : `💎 **Giá gốc:** Không có chương trình giảm giá`;
 
     const fulfillmentText = `🔥 Thông tin chi tiết về sản phẩm 🔥`;
@@ -577,10 +587,12 @@ exports.handleProductDetail = async (parameters, queryResult) => {
                 }
               ],
               [{ type: 'divider' }],
-              [{ type: 'chips', options: [
-                { text: '📱 Tìm sản phẩm khác' },
-                { text: '🎁 Xem khuyến mãi' }
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: '📱 Tìm sản phẩm khác' },
+                  { text: '🎁 Xem khuyến mãi' }
+                ]
+              }]
             ]
           }
         }
@@ -637,10 +649,10 @@ exports.handleOrderTrack = async (parameters, queryResult, session) => {
 
     const statusText = formatters.formatOrderStatus(order.status);
     const orderNumber = order.orderNumber || orderId;
-    
+
     // Format order items for accordion
     const orderItems = order.orderItems || [];
-    const itemsList = orderItems.map((item, index) => 
+    const itemsList = orderItems.map((item, index) =>
       `${index + 1}. ${item.name}<br/>   • Số lượng: ${item.qty}<br/>   • Giá: ${formatters.formatPrice(item.price)}`
     ).join('<br/><br/>');
 
@@ -678,13 +690,15 @@ exports.handleOrderTrack = async (parameters, queryResult, session) => {
 
     richContent.push(
       [{ type: 'divider' }],
-      [{ type: 'chips', options: [
-        { 
-          text: '🌐 Quản lý đơn hàng',
-          link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/order`
-        },
-        { text: '📞 Liên hệ hỗ trợ' },
-      ]}]
+      [{
+        type: 'chips', options: [
+          {
+            text: '🌐 Quản lý đơn hàng',
+            link: `${process.env.CORS_ORIGIN?.split(',')[0]}/account/order`
+          },
+          { text: '📞 Liên hệ hỗ trợ' },
+        ]
+      }]
     );
 
     return {
@@ -876,10 +890,12 @@ exports.handlePromotionCheck = async (parameters, queryResult) => {
                 title: '💡 Cách sử dụng mã',
                 subtitle: 'Nhập mã tại trang thanh toán để nhận ưu đãi'
               }],
-              [{ type: 'chips', options: [
-                { text: 'Chính sách giao hàng' },
-                { text: 'Xem thêm điện thoại' }
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: 'Chính sách giao hàng' },
+                  { text: 'Xem thêm điện thoại' }
+                ]
+              }]
             ]
           }
         }
@@ -923,7 +939,7 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
     // Extract product parameters (Dialogflow uses product_1 and product_2)
     const product1Param = parameters['product_1'] || parameters['product-name-1'];
     const product2Param = parameters['product_2'] || parameters['product-name-2'];
-    
+
     // Handle array format from Dialogflow
     const product1Name = Array.isArray(product1Param) ? product1Param[0] : product1Param;
     const product2Name = Array.isArray(product2Param) ? product2Param[0] : product2Param;
@@ -945,6 +961,32 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
       };
     }
 
+    // Lấy rating cho sản phẩm 1
+    let rating1Text = 'N/A';
+    try {
+      const axios = require('axios');
+      const reviewRes1 = await axios.get(`http://localhost:3000/api/reviews/product/${product1._id}`);
+      const stats1 = reviewRes1.data.data.stats;
+      if (stats1 && stats1.averageRating) {
+        rating1Text = stats1.averageRating.toFixed(1) + '/5';
+      }
+    } catch (err) {
+      console.error('Không lấy được rating cho product1:', err?.message || err);
+    }
+
+    // Lấy rating cho sản phẩm 2
+    let rating2Text = 'N/A';
+    try {
+      const axios = require('axios');
+      const reviewRes2 = await axios.get(`http://localhost:3000/api/reviews/product/${product2._id}`);
+      const stats2 = reviewRes2.data.data.stats;
+      if (stats2 && stats2.averageRating) {
+        rating2Text = stats2.averageRating.toFixed(1) + '/5';
+      }
+    } catch (err) {
+      console.error('Không lấy được rating cho product2:', err?.message || err);
+    }
+
     const priceDiff = Math.abs(product1.price - product2.price);
     const cheaper = product1.price < product2.price ? product1 : product2;
     const moreExpensive = product1.price < product2.price ? product2 : product1;
@@ -952,9 +994,9 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
     const headerParts = ['⚖️ **SO SÁNH SẢN PHẨM** ⚖️'];
     const headerText = headerParts.join('\n');
 
-    const product1Details = `📱 **${product1.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product1.price)}<br/>⭐ Đánh giá: ${product1.rating || 'N/A'}/5<br/>📦 Tình trạng: ${product1.inStock ? 'Còn hàng' : 'Hết hàng'}`;
-    
-    const product2Details = `📱 **${product2.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product2.price)}<br/>⭐ Đánh giá: ${product2.rating || 'N/A'}/5<br/>📦 Tình trạng: ${product2.inStock ? 'Còn hàng' : 'Hết hàng'}`;
+    const product1Details = `📱 **${product1.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product1.price)}<br/>⭐ Đánh giá: ${rating1Text}<br/>📦 Tình trạng: ${product1.inStock ? 'Còn hàng' : 'Hết hàng'}`;
+
+    const product2Details = `📱 **${product2.name}**<br/><br/>💰 Giá: ${formatters.formatPrice(product2.price)}<br/>⭐ Đánh giá: ${rating2Text}<br/>📦 Tình trạng: ${product2.inStock ? 'Còn hàng' : 'Hết hàng'}`;
 
     return {
       fulfillmentText: headerText,
@@ -985,10 +1027,12 @@ exports.handlePriceCompare = async (parameters, queryResult) => {
                 title: '💰 Kết luận',
                 subtitle: `${cheaper.name} rẻ hơn ${formatters.formatPrice(priceDiff)}`
               }],
-              [{ type: 'chips', options: [
-                { text: `Xem ${product1.name}`, link: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product1.slug || product1._id}` },
-                { text: `Xem ${product2.name}`, link: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product2.slug || product2._id}` }
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: `Xem ${product1.name}`, link: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product1.slug || product1._id}` },
+                  { text: `Xem ${product2.name}`, link: `${process.env.CORS_ORIGIN?.split(',')[0]}/product/${product2.slug || product2._id}` }
+                ]
+              }]
             ]
           }
         }
@@ -1029,7 +1073,7 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
     const colors = parameters['color-name'];
     const brand = parameters['brand-name'];
     const priceRange = parameters['price-range'];
-    
+
     console.log(`🎨 Searching products - Color: ${colors}, Brand: ${brand}, PriceRange: ${priceRange}`);
 
     // Call product service with color parameter
@@ -1055,12 +1099,14 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
           {
             payload: {
               richContent: [
-                [{ type: 'chips', options: [
-                  { text: '⚫ Màu đen' },
-                  { text: '⚪ Màu trắng' },
-                  { text: '🔵 Màu xanh' },
-                  { text: '🌸 Màu hồng' }
-                ]}]
+                [{
+                  type: 'chips', options: [
+                    { text: '⚫ Màu đen' },
+                    { text: '⚪ Màu trắng' },
+                    { text: '🔵 Màu xanh' },
+                    { text: '🌸 Màu hồng' }
+                  ]
+                }]
               ]
             }
           }
@@ -1097,11 +1143,13 @@ exports.handleProductSearchByColor = async (parameters, queryResult) => {
             richContent: [
               productCards,
               [{ type: 'divider' }],
-              [{ type: 'chips', options: [
-                { text: '⚫ Xem màu đen' },
-                { text: '⚪ Xem màu trắng' },
-                { text: '🔵 Xem màu xanh' },
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: '⚫ Xem màu đen' },
+                  { text: '⚪ Xem màu trắng' },
+                  { text: '🔵 Xem màu xanh' },
+                ]
+              }]
             ]
           }
         }
@@ -1136,7 +1184,7 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
   try {
     const memory = parameters['memory-capacity'];
     const brand = parameters['brand-name'];
-    
+
     console.log(`💾 Searching products - Memory: ${memory}, Brand: ${brand}`);
 
     // Call specialized memory search service
@@ -1159,12 +1207,14 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
           {
             payload: {
               richContent: [
-                [{ type: 'chips', options: [
-                  { text: '💾 128GB' },
-                  { text: '💾 256GB' },
-                  { text: '💾 512GB' },
-                  { text: '💾 1TB' }
-                ]}]
+                [{
+                  type: 'chips', options: [
+                    { text: '💾 128GB' },
+                    { text: '💾 256GB' },
+                    { text: '💾 512GB' },
+                    { text: '💾 1TB' }
+                  ]
+                }]
               ]
             }
           }
@@ -1176,7 +1226,7 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
     const isRamSearch = memory.toLowerCase().includes('ram');
     const displayMemory = memory.toUpperCase();
     const memoryEmoji = isRamSearch ? '🧠' : '💾';
-    
+
     const productCards = products.map(product => ({
       type: 'info',
       title: product.name,
@@ -1206,14 +1256,16 @@ exports.handleProductSearchByMemory = async (parameters, queryResult) => {
             richContent: [
               productCards,
               [{ type: 'divider' }],
-              [{ type: 'chips', options: [
-                { text: '128GB Rom' },
-                { text: '256GB Rom' },
-                { text: '512GB Rom' },
-                { text: '4GB Ram' },
-                { text: '8GB Ram' },
-                { text: '12GB Ram' }
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: '128GB Rom' },
+                  { text: '256GB Rom' },
+                  { text: '512GB Rom' },
+                  { text: '4GB Ram' },
+                  { text: '8GB Ram' },
+                  { text: '12GB Ram' }
+                ]
+              }]
             ]
           }
         }
@@ -1350,10 +1402,12 @@ exports.handlePolicyQuestions = async (intentName, parameters, queryResult) => {
                 title: '📞 Cần hỗ trợ thêm?',
                 subtitle: `Hotline: ${policy.hotline} (24/7)`
               }],
-              [{ type: 'chips', options: [
-                { text: '📞 Gọi hotline' },
-                { text: '💬 Chat với tư vấn viên' },
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: '📞 Gọi hotline' },
+                  { text: '💬 Chat với tư vấn viên' },
+                ]
+              }]
             ]
           }
         }
@@ -1427,13 +1481,16 @@ exports.handleContactSupport = async (parameters, queryResult) => {
                 text: '• 123 Đường ABC, Quận 1, TP.HCM<br/>• 456 Đường XYZ, Quận Hai Bà Trưng, Hà Nội<br/>• Mở cửa: 8h - 22h (Hằng ngày)'
               }],
               [{ type: 'divider' }],
-              [{ type: 'chips', options: [
-                { text: '📞 Gọi ngay 1900-xxxx' },
-                { text: '💬 Chat Facebook',
-                  link: 'https://www.facebook.com/nguyen.van.phap.648220'
-                },
-                { text: '💬 Chat Zalo' },
-              ]}]
+              [{
+                type: 'chips', options: [
+                  { text: '📞 Gọi ngay 1900-xxxx' },
+                  {
+                    text: '💬 Chat Facebook',
+                    link: 'https://www.facebook.com/nguyen.van.phap.648220'
+                  },
+                  { text: '💬 Chat Zalo' },
+                ]
+              }]
             ]
           }
         }

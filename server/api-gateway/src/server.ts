@@ -15,31 +15,41 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 app.set('trust proxy', true);
 
 app.use(helmet());
-app.use(rateLimit({ windowMs: 15 * 60 * 10000, max: 10000 }));
+// Rate Limiting: Giới hạn requests để chống DDoS
+// Tăng lên 300 requests/phút vì Admin Dashboard cần ~20-25 requests khi load
+app.use(rateLimit({ 
+  windowMs: 60 * 1000,  // 1 phút (60,000ms)
+  max: 500,             // Tối đa 300 requests (5 requests/giây, phù hợp với admin dashboard)
+  standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
+  legacyHeaders: false,  // Disable `X-RateLimit-*` headers
+  message: 'Too many requests from this IP, please try again after a minute',
+  // Skip rate limit cho health check endpoint
+  skip: (req) => req.path === '/health'
+}));
 
-// Cho phép nhiều origins
+// CORS configuration - Allow multiple origins
 const allowedOrigins = [
-  'http://localhost',
-  'http://localhost:80',
-  'http://localhost:5173',
-  'https://zestful-spontaneity-production.up.railway.app',
-  process.env.FRONTEND_URL,
-  process.env.CLIENT_URL
+  'http://localhost:8080',      // Docker production (Nginx)
+  'http://localhost:5173',      // Vite dev server
+  'http://localhost',           // Direct access
+  'http://127.0.0.1:8080',      // Alternative localhost
+  process.env.FRONTEND_URL      // Environment variable
 ].filter(Boolean);
 
-app.use(cors({
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    // Cho phép requests không có origin (như mobile apps, curl, Postman)
+app.use(cors({ 
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, Postman)
     if (!origin) return callback(null, true);
-
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(null, true); // Tạm thời cho phép tất cả để test
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true 
 }));
+
 app.use(morgan('combined'));
 
 // ⚠️ Chỉ parse JSON/urlencoded cho NON-multipart requests

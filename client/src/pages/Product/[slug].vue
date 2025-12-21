@@ -123,7 +123,7 @@
             </span>
           </div> -->
           <div class="product-price tw-flex tw-gap-4 tw-items-center">
-            <!-- Giá sau giảm (màu đỏ) - Hiển thị trước -->
+            <!-- Giá sau giảm (màu đỏ) - hiển thị đầu tiên -->
             <span class="base-price tw-text-red tw-font-medium">
               {{ formatMoney(
       getPriceByVariant(
@@ -135,11 +135,9 @@
     ) }}
             </span>
 
-            <!-- Giá gốc (bị gạch ngang) - Chỉ hiển thị nếu có giảm giá -->
-            <span
-              v-if="
-                product?.discountPercentage && product.discountPercentage > 0
-              "
+            <!-- Giá gốc (bị gạch ngang) - chỉ hiển thị khi có giảm giá -->
+            <span 
+              v-if="product?.discountPercentage && product.discountPercentage > 0"
               class="disc-price tw-text-gray-500 tw-line-through"
             >
               {{ formatMoney(

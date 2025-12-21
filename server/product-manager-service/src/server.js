@@ -22,21 +22,24 @@ if (!fs.existsSync(uploadsDir)) {
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
-app.use(morgan("dev"));
-app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
+app.use(morgan('dev'));
+// app.use(rateLimit({ windowMs: 60 * 1000, max: 300 }));
 
 // Serve static files từ thư mục uploads
 app.use("/uploads", express.static(uploadsDir));
 
-app.use("/api/products", require("./routes/products"));
-app.use("/api/categories", require("./routes/categories"));
-app.use("/api/brands", require("./routes/brands"));
-app.use("/api/colors", require("./routes/colors"));
-app.use("/api/memories", require("./routes/memories"));
-app.use("/api/specifications", require("./routes/specifications"));
-app.get("/", (req, res) =>
-  res.json({ success: true, message: "Product Service OK" })
-);
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', service: 'product-manager' });
+});
+
+app.use('/api/products', require('./routes/products'));
+app.use('/api/categories', require('./routes/categories'));
+app.use('/api/brands', require('./routes/brands'));
+app.use('/api/colors', require('./routes/colors'));
+app.use('/api/memories', require('./routes/memories'));
+app.use('/api/specifications', require('./routes/specifications'));
+app.get('/', (req, res) => res.json({ success: true, message: 'Product Service OK' }));
 
 const PORT = process.env.PORT || 5002;
 connectDB(

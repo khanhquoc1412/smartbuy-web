@@ -3,12 +3,14 @@
     <router-view></router-view>
     <loading-page />
     <ToastContainer />
+    <ChatboxWidget />
   </div>
 </template>
   
 <script lang="ts" setup>
 import LoadingPage from "@components/base/LoadingPage.vue";
 import ToastContainer from "@components/common/ToastContainer.vue";
+import ChatboxWidget from "@components/common/ChatboxWidget.vue";
 
 </script>
 

@@ -26,6 +26,11 @@ app.use(
 
 app.use(express.json());
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", service: "product-service" });
+});
+
 // routes
 const productRouter = require("./routes/product.router");
 app.use("/api/product", productRouter);
