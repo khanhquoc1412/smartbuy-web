@@ -235,12 +235,18 @@ services:
     container_name: smartbuy-chatbox-service
     restart: unless-stopped
     ports:
-      - "5008:5008"
+      - "3007:3007"
     environment:
       NODE_ENV: production
-      PORT: 5008
-      PRODUCT_SERVICE_URL: http://productservice:3001
-      ORDER_SERVICE_URL: http://orderservice:3002
+      PORT: 3007
+      # Service URLs for chatbot to query data
+      PRODUCT_SERVICE_URL: http://product-manager:5002
+      PRODUCT_MANAGER_SERVICE_URL: http://product-manager:5002
+      ORDER_SERVICE_URL: http://order-manager:5003
+      ORDER_MANAGER_SERVICE_URL: http://order-manager:5003
+      REVIEW_SERVICE_URL: http://review-service:5006
+      # Frontend URL for constructing absolute image paths
+      CORS_ORIGIN: ${FRONTEND_URL:-http://localhost:5173}
     # depends_on MongoDB removed
     networks:
       - smartbuy-network
